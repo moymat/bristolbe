@@ -15,7 +15,7 @@ Nous nous sommes mis d'accord sur les outils que nous utiliseront pour notre sui
 
 ## 22/10/2032 - Sprint 0
 
-Hier, deuxieme journée d'apothéose, nous avons commencé par faire reflechir aux principal techno qui seront utilisées côté front et côté back, nous avont retenu :  
+Hier, deuxieme journée d'apothéose, nous avons commencé à faire reflechir aux principal techno qui seront utilisées côté front et côté back, nous avont retenu :  
 ### Front
 
 - React Redux
