@@ -15,7 +15,7 @@ Nous nous sommes mis d'accord sur les outils que nous utiliseront pour notre sui
 
 ## 22/10/2032 - Sprint 0
 
-Hier, deuxieme journée d'apothéose, nous avons commencé à faire reflechir aux principal techno qui seront utilisées côté front et côté back, nous avont retenu :  
+Hier, deuxieme journée d'apothéose, nous avons commencé à reflechir aux techno qui seront utilisées côté front et côté back, nous avont retenu :  
 ### Front
 
 - React Redux
@@ -34,8 +34,8 @@ Hier, deuxieme journée d'apothéose, nous avons commencé à faire reflechir au
 - Joi, AJV, Yup ?
   
 Puis nous avons commencé à rédiger les users stories où on a eu quelques difficultés à "visualiser" le projet.  
-Nous avons ensuite passé l'apres midi à faire les wireframes. Ce qui nous a permis de nous mettre d'accord sur le découpage de notre application.  
-En fin d'après-midi, nous avons commencé a rédiger le cahier des charges.
+Nous avons ensuite passé l'après-midi à faire les wireframes. Ce qui nous a permis de nous mettre d'accord sur le découpage de notre application.  
+En fin d'après-midi, nous avons commencé à rédiger le cahier des charges.
 
 ### Infos individuelles
 
