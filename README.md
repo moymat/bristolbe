@@ -14,7 +14,7 @@
 [Google Drive](https://drive.google.com/drive/u/0/folders/1Ba-Q8_Z_vk6C8-oc9J79TO6lZZoXPbcH)  
 ~~[Trello](https://trello.com/b/16udhjpa/bristol)~~  
 [Github project](https://github.com/O-clock-Valhalla/projet-13-bristol/projects/1)  
-[Whimsical](https://whimsical.com/bristol-NUWNKkwzQkDMLJePVYFqam)  (password : *oclock* )  
+[Whimsical](https://whimsical.com/bristol-NUWNKkwzQkDMLJePVYFqam) (password : _oclock_ )  
 [Figma](https://www.figma.com/proto/RWjc9Vhz3Su1K86ob0HhMt/BE-apoth%C3%A9ose?node-id=218%3A142&starting-point-node-id=60%3A121)
 
 ## Stack
@@ -31,7 +31,7 @@
 
 - Express
 - postgreSQL
-- pg-node
+- pg
 - sanitize-html
 - sQitch
 - Joi, AJV, Yup ?

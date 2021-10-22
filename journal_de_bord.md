@@ -29,7 +29,7 @@ Deuxieme journée d'apothéose, nous avons commencé à réfléchir aux techno q
 
 - Express
 - postgreSQL
-- pg-node
+- pg
 - sanitize-html
 - sQitch
 - Joi, AJV, Yup ?
