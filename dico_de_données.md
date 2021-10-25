@@ -29,9 +29,9 @@
 
 # ROLE
 
-| Name       | Type                  | Specificities                   | Description        | Comments                                                                   |
-| ---------- | --------------------- | ------------------------------- | ------------------ | -------------------------------------------------------------------------- |
-| bristol_id | UUID                  | NOT NULL REFERENCES bristol(id) | bristol's id       |                                                                            |
-| user_id    | UUID                  | NOT NULL REFERENCES user(id)    | user's id          |                                                                            |
-| type       | ROLE_TYPE             | NOT NULL                        | password's id      | new ROLE_TYPE domain created as ENUM, value is either "editor" or "viewer" |
-| CONSTRAINT | (bristol_id, user_id) | PRIMARY KEY                     | role's primary key | ensure that a user can only have one role for a bristol                    |
+| Name       | Type       | Specificities                     | Description        | Comments                                                                   |
+| ---------- | ---------- | --------------------------------- | ------------------ | -------------------------------------------------------------------------- |
+| bristol_id | UUID       | NOT NULL REFERENCES bristol(id)   | bristol's id       |                                                                            |
+| user_id    | UUID       | NOT NULL REFERENCES user(id)      | user's id          |                                                                            |
+| type       | ROLE_TYPE  | NOT NULL                          | password's id      | new ROLE_TYPE domain created as ENUM, value is either "editor" or "viewer" |
+| CONSTRAINT | birstol_pk | PRIMARY KEY (bristol_id, user_id) | role's primary key | ensure that a user can only have one role for a bristol                    |
