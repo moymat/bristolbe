@@ -2,3 +2,4 @@
 %project=bristol
 
 01_init 2021-10-25T20:39:48Z Moymat,,, <moymat@moymat-PC> # initialisation du schema et des tables
+02_add_functions 2021-10-25T21:09:43Z Moymat,,, <moymat@moymat-PC> # creating functions to add user and bristols
