@@ -1,0 +1,4 @@
+%syntax-version=1.0.0
+%project=bristol
+
+01_init 2021-10-25T20:39:48Z Moymat,,, <moymat@moymat-PC> # initialisation du schema et des tables

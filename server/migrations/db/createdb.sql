@@ -1,0 +1,5 @@
+DROP DATABASE IF EXISTS bristol;
+
+CREATE ROLE bristol LOGIN PASSWORD 'bristol';
+
+CREATE DATABASE bristol OWNER bristol;
