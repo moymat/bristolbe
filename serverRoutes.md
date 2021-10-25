@@ -11,7 +11,7 @@
 | **PATCH**  | \*/api/v1/users/:id                                | mettre à jour un user                                                                           |
 | **DELETE** | \*/api/v1/users/:id                                | supprimer un user                                                                               |
 | **GET**    | \*/api/v1/users/:id/bristols                       | récupérer toutes l'arborésence des bristols auxquels le user a accès (+ query pour des filtres) |
-| **GET**    | \*/api/v1/bristols                                 | récupérer toures l'arborésence des bristols (+ query pour des filtres)                          |
+| **GET**    | \*/api/v1/bristols                                 | récupérer toutes l'arborésence des bristols (+ query pour des filtres)                          |
 | **POST**   | \*/api/v1/bristols                                 | créer un bristol                                                                                |
 | **GET**    | \*/api/v1/bristols/:id                             | récupérer un bristol et ses éventuels enfants                                                   |
 | **PATCH**  | \*/api/v1/bristols/:id                             | mettre à jour un bristol et ses éventuels enfants                                               |
