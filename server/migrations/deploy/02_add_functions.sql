@@ -32,4 +32,39 @@ AS $$
 	END;
 $$ LANGUAGE plpgsql;
 
+-- Function to create a bristol
+CREATE OR REPLACE FUNCTION bristol.create_bristol (jsonb) RETURNS UUID
+AS $$
+	DECLARE
+		bid UUID;
+	BEGIN
+    -- Insert the new bristol in the table
+		WITH created_bristol AS
+		(
+			INSERT INTO bristol.bristol (title, content, position, highest_parent_id)
+			VALUES (
+				$1::jsonb->>'title',
+				$1::jsonb->>'content',
+				($1::jsonb->>'position')::INT,
+				($1::jsonb->>'highest_parent_id')::UUID
+			)
+			RETURNING id
+		)
+		
+    -- Add new bristol id into function variable
+		SELECT id FROM created_bristol INTO bid;
+		
+    -- Add creator as the bristol's editor
+		INSERT INTO bristol.role (bristol_id, user_id, type)
+		VALUES(
+			bid,
+			($1::jsonb->>'user_id')::UUID,
+			'editor'
+		);
+		
+    -- Return the new bristol id
+		RETURN bid;
+	END;
+$$ LANGUAGE plpgsql;
+
 COMMIT;
