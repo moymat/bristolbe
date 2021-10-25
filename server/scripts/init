@@ -6,14 +6,12 @@ cd ../migrations/db
 
 psql -f createdb.sql
 
-unset PGUSER
-
-export SQITCH_USERNAME=bristol
+export PGUSER=bristol
 export SQITCH_PASSWORD=bristol
 
 cd ..
 
 bash sqitch_deploy
 
-unset SQITCH_USERNAME
+unset PGUSER
 unset SQITCH_PASSWORD
