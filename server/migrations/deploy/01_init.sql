@@ -6,6 +6,7 @@ CREATE SCHEMA bristol;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+-- Email domain checking if value has email format
 CREATE DOMAIN EMAIL AS TEXT CHECK (
   value ~* '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'
 );
