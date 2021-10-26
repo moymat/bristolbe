@@ -41,7 +41,7 @@ AS $$
     -- Insert the new bristol in the table
 		WITH created_bristol AS
 		(
-			INSERT INTO bristol.bristol (title, content, position, parent_id)
+			INSERT INTO bristol.bristol (title, content, parent_id)
 			VALUES (
 				$1::jsonb->>'title',
 				$1::jsonb->>'content',
