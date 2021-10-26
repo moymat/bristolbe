@@ -1,5 +1,26 @@
 POST http://localhost:4000/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "first_name": "Bob",
+  "last_name": "Leponge",
+  "email": "bobleponge@gmail.com",
+  "password": "1234",
+  "confirm": "1234"
+}
 
 ###
 
 POST http://localhost:4000/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "bobleponge@gmail.com",
+  "password": "1234"
+}
+
+###
+
+GET http://localhost:4000/protected
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiaWF0IjoxNjM1Mjc0OTMxLCJleHAiOjE2MzUyNzQ5NjF9.9npqcmIC94x_rkFQc1FQA2-DiUM07AqtOsEBVHBQkBw
