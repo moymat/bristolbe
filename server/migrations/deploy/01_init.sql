@@ -32,7 +32,7 @@ CREATE TABLE bristol.bristol (
   content TEXT,
   position INT NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  highest_parent_id UUID DEFAULT NULL REFERENCES bristol.bristol (id)
+  parent_id UUID DEFAULT NULL REFERENCES bristol.bristol (id)
 );
 
 CREATE TABLE bristol.role (
