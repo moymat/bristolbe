@@ -1,4 +1,4 @@
-.log{
+.reset{
     &-rightpage {
         width: 25%;
         padding: 10% 0 0 5%;
@@ -9,24 +9,20 @@
     &-form {
         width: 85%;
         display: flex;
-        justify-content: center;
         flex-direction: column;
-    }
-    &-text{
-        display: flex;
-        justify-content: space-between;
-        margin-top: 1rem;
-    }
-    &-forgot{
-        margin-top: 4%;
+        justify-content: center;
     }
     &-submit{
         margin-top: 1rem !important;
         background-color: violet !important;
     }
     &-create{
-        margin-top: 2rem !important;
+        margin-top: 5% !important;
         display: flex !important;
-        justify-content: space-evenly
+        margin: 30%;
     }
+    &-instructions{
+        width: 85%;
+    }
+    
 }

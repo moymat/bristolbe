@@ -1,6 +1,6 @@
 import './style.scss';
 import { Link } from 'react-router-dom';
-import { TextField, Button, Checkbox, FormControlLabel } from '@mui/material';
+import { TextField, Button} from '@mui/material';
 
 export default function Register() {
     const specialCharacter = "<";
