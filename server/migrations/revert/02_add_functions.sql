@@ -2,6 +2,7 @@
 
 BEGIN;
 
--- XXX Add DDLs here.
+DROP FUNCTION bristol.create_user;
+DROP FUNCTION bristol.create_bristol;
 
 COMMIT;
