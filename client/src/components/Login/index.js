@@ -12,13 +12,13 @@ export default function Login() {
                 <TextField 
                     type="email" 
                     name="email" 
-                    placeholder="E-mail" 
+                    placeholder="toto@example.com" 
                     className="log-email"
                     size="small"
                 />
                     <div className="log-text">
                         <p>Password</p>
-                        <Link to="#" className="log-forgot">Forgot password ?</Link>
+                        <Link to="/forgot-password" className="log-forgot">Forgot password ?</Link>
                     </div>
                 <TextField
                     type="password"

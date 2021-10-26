@@ -19,7 +19,7 @@ export default function Register() {
                 <TextField 
                     type="email" 
                     name="email" 
-                    placeholder="E-mail" 
+                    placeholder="toto@example.com" 
                     className="reg-email"
                     size="small"
                 />
