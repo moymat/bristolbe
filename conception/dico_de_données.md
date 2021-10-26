@@ -18,14 +18,14 @@
 
 # BRISTOL
 
-| Name       | Type        | Specificities                          | Description                                           | Comments |
-| ---------- | ----------- | -------------------------------------- | ----------------------------------------------------- | -------- |
-| id         | UUID        | DEFAULT generate_uuid_v4() PRIMARY KEY | bristol's id                                          |          |
-| title      | TEXT        | NOT NULL                               | title of the bristol                                  |          |
-| content    | TEXT        |                                        | content if the bristol                                |          |
-| position   | INT         | NOT NULL DEFAULT 0                     | bristol's position in parent                          |          |
-| created_at | TIMESTAMPTZ | NOT NULL DEFAULT NOW()                 | bristol's date of creation                            |          |
-| parent_id  | UUID        | REFERENCES bristol(id) DEFAULT NULL    | bristol's parent (null if the bristol is the highest) |          |
+| Name       | Type        | Specificities                          | Description                                                   | Comments |
+| ---------- | ----------- | -------------------------------------- | ------------------------------------------------------------- | -------- |
+| id         | UUID        | DEFAULT generate_uuid_v4() PRIMARY KEY | bristol's id                                                  |          |
+| title      | TEXT        | NOT NULL                               | title of the bristol                                          |          |
+| content    | TEXT        |                                        | content if the bristol                                        |          |
+| position   | INT         | NOT NULL DEFAULT 0                     | bristol's position in parent                                  |          |
+| created_at | TIMESTAMPTZ | NOT NULL DEFAULT NOW()                 | bristol's date of creation                                    |          |
+| parent_id  | UUID        | REFERENCES bristol(id) DEFAULT NULL    | bristol's highest parent (null if the bristol is the highest) |          |
 
 # ROLE
 
