@@ -14,11 +14,14 @@
     }
     &-submit{
         margin-top: 1rem !important;
-        background-color: violet !important;
     }
     &-create{
         margin-top: 2rem !important;
         display: flex !important;
         justify-content: space-evenly
+    }
+    &__error-message{
+        color: red;
+        font-size: 0.9rem;
     }
 }
