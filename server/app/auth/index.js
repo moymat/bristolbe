@@ -18,7 +18,7 @@ const decodeToken = (token, refresh = false) => {
 };
 
 const isAuth = async (req, res, next) => {
-	// Retrieve tokens from cookie & header
+	// Retrieve tokens from cookie & headers
 	const refresh = req.headers.authorization.split("Bearer ")[1];
 	const { access_token: token } = req.cookies;
 
@@ -26,7 +26,7 @@ const isAuth = async (req, res, next) => {
 
 	try {
 		decodedRefresh = jwt.verify(refresh, process.env.SECRET_REFRESH_KEY);
-		jwt.verify(token, process.env.SECRET_TOKEN_KEY);
+		const decodedToken = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
 
 		if (decodedToken.id !== decodedRefresh.id) throw Error("not logged in");
 
