@@ -1,14 +1,48 @@
 import "./style.scss";
 import { Link } from "react-router-dom";
 import { TextField, Button, Checkbox, FormControlLabel } from "@mui/material";
+import { useState } from "react";
+
 
 
 export default function Login() {
+    const [input, setInput] = useState({
+        email: "",
+        password: "",
+      });
+    const [passwordError, setPasswordError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        if(name === "email") {
+            setEmailError(false)
+        }
+        if(name === "password") {
+            setPasswordError(false)
+        }
+        setInput({
+          ...input,
+          [name]: value,
+        });
+      };
+      const handleSubmit = (event) => {
+        event.preventDefault();
+        const { email, password} = input;
+    
+        if (!email) {
+          setEmailError(true);
+        }
+    
+        if (!password) {
+          setPasswordError(true);
+        }
+      }; 
   return (
     <div className="log-rightpage">
       <h1 className="log-title">Welcome to Bristol! 👋</h1>
       <p>Please sign-in to your account</p>
-      <form className="log-form">
+      <form className="log-form" onSubmit={handleSubmit}>
         <p>Email</p>
         <TextField
           type="email"
@@ -16,6 +50,10 @@ export default function Login() {
           placeholder="toto@example.com"
           className="log-email"
           size="small"
+          onChange={handleChange}
+          value={input.email}
+          helperText={emailError ? 'Your Email is invalid' : ""}
+          error={emailError}
         />
         <div className="log-text">
           <p>Password</p>
@@ -29,9 +67,13 @@ export default function Login() {
           placeholder="Password"
           className="log-password"
           size="small"
+          onChange={handleChange}
+          value={input.password}
+          helperText={passwordError ? 'Your password is invalid' : ""}
+          error={passwordError}
         />
         <FormControlLabel control={<Checkbox />} label="Remember me" />
-        <Button type="submit" variant="contained" className="log-submit">
+        <Button type="submit" variant="contained" className="log-submit" onSubmit={handleSubmit}>
           Sign in
         </Button>
       </form>
