@@ -1,9 +1,9 @@
-import './style.scss'
+import "./style.scss";
 
 export default function Logo() {
-    return(
-        <div className="app-leftpage">
-            <div className="app-logo">LOGO</div>
-        </div>
-    )
+	return (
+		<div className="input-layout-leftpage">
+			<div className="logo">LOGO</div>
+		</div>
+	);
 }

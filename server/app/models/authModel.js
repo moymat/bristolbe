@@ -6,8 +6,6 @@ const redisClient = require("../db/redis")();
 
 const register = async body => {
 	try {
-		console.log(body);
-
 		const { errors } = await validateRegister(body);
 
 		if (errors) return { validationErrors: errors };
@@ -65,8 +63,6 @@ const login = async body => {
 
 		const compare = await bcrypt.compare(password, hash);
 
-		console.log(compare);
-
 		if (!compare) throw Error("wrong password");
 
 		const token = auth.signToken({ id });
@@ -95,8 +91,11 @@ const logout = async ({ access_token }) => {
 	}
 };
 
+const isAuth = async ({ refresh }, { access_token }) => {};
+
 module.exports = {
 	register,
 	login,
 	logout,
+	isAuth,
 };
