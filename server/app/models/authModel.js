@@ -4,8 +4,6 @@ const { validateRegister, validateLogin } = require("../validation");
 const pgClient = require("../db/pg");
 const redisClient = require("../db/redis")();
 
-let users = [];
-
 const register = async body => {
 	try {
 		const { errors } = await validateRegister(body);
