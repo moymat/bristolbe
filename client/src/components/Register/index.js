@@ -43,7 +43,7 @@ export default function Register() {
       [name]: value,
     });
   };
-  
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const { email, password } = input;
@@ -78,6 +78,7 @@ export default function Register() {
         />
         <p>Last name</p>
         <TextField
+            
           type="text"
           name="lastName"
           placeholder="doe"
@@ -106,6 +107,7 @@ export default function Register() {
           onChange={handleChange}
           value={input.password}
           onClick={handleTouch}
+          helperText={passwordError ? 'Your password is invalid' : ""}
         />
         {touch ?  
         <div>
@@ -120,7 +122,7 @@ export default function Register() {
                     1 lower letter 
                   </li>
                   <li className= {`${hasNumber ? "reg--one-li" : ''}`}>
-                    1 digit : Has a Number
+                    1 digit 
                   </li>
               </ul>
           </div>
@@ -145,7 +147,7 @@ export default function Register() {
           Sign up
         </Button>
       </form>
-      <p className="reg-create">
+      <p className="reg-sign">
         Already hava an account?
         <Link to="/">Sign in instead</Link>
       </p>

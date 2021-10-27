@@ -15,20 +15,21 @@
     &-submit{
         margin-top: 1rem !important;
     }
-    &-create{
+    &-sign{
         margin-top: 2rem !important;
         display: flex !important;
         justify-content: space-evenly
     }
-    &__error-message{
-        color: red;
-        font-size: 0.9rem;
-    }
     &-list{
         font-size: 0.9rem;
-        color: #5d5d5d
+        color: #5d5d5d;
+        list-style-type: "\1F44D";
     }
     &--one-li{
-        color: green;
+        color: #259c08;
     }
+}
+
+.MuiFormHelperText-root{
+    color: red !important;
 }
