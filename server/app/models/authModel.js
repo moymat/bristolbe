@@ -6,6 +6,8 @@ const redisClient = require("../db/redis")();
 
 const register = async body => {
 	try {
+		console.log(body);
+
 		const { errors } = await validateRegister(body);
 
 		if (errors) return { validationErrors: errors };
