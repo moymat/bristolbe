@@ -1,12 +1,23 @@
 import "./style.scss";
 import { Link } from "react-router-dom";
-import { TextField, Button, Checkbox, FormControlLabel,FormHelperText } from "@mui/material";
-import { useState } from "react";
+import { usePasswordValidation } from "../hooks/usePasswordValidation";
+import {
+  TextField,
+  Button,
+  Checkbox,
+  FormControlLabel,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { ClassNames } from "@emotion/react";
 
-const emailValidator = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+const emailValidator = new RegExp(
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+);
 
-const passwordValidator = new RegExp(/^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d).{8,30}$/);
+const passwordValidator = new RegExp(
+  /^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d).{8,30}$/
+);
 
 export default function Register() {
   const [input, setInput] = useState({
@@ -14,55 +25,42 @@ export default function Register() {
     password: "",
     firstName: "",
     lastName: "",
-    numberErrorMessage: "",
-    upperErrorMessage: "",
-    lowerErrorMessage: "",
-    moreErrorMessage: "",
   });
+
+  const [validLength, hasNumber, upperCase, lowerCase] = usePasswordValidation({
+      firstPassword: input.password,
+  })
+
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
-  
+  const [touch, setTouch] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
-    let oneUpperCaseError = '';
-    let oneLowerCaseError = '';
-    let oneNumberError = '';
-    let moreThanError = '';
-        
-    
-    if(name === 'password' && passwordValidator.test(value)){
-        oneUpperCaseError = 'Une majuscule'
-        oneLowerCaseError = 'Une minuscule'
-        oneNumberError = 'Un nombre'
-        moreThanError = 'Plus de 8 caractères'
-    }
-
+ 
     setInput({
       ...input,
       [name]: value,
-      numberErrorMessage: oneNumberError,
-      upperErrorMessage: oneUpperCaseError,
-      lowerErrorMessage: oneLowerCaseError,
-      moreErrorMessage: moreThanError,
     });
   };
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const { email, password } = input;
 
-    if(!emailValidator.test(email)) {
-        setEmailError(true)
+    if (!emailValidator.test(email)) {
+      setEmailError(true);
     }
 
-    if(!passwordValidator.test(password)) {
-        setPasswordError(true)
+    if (!passwordValidator.test(password)) {
+      setPasswordError(true);
     }
     console.log(input.lastName, input.firstName);
   };
-
-
+  const handleTouch = () => {
+      setTouch(true);
+  }
+  console.log(touch)
   return (
     <div className="reg-rightpage">
       <h1 className="reg-title">Adventure starts here 🚀</h1>
@@ -76,6 +74,7 @@ export default function Register() {
           size="small"
           onChange={handleChange}
           value={input.firstName}
+        
         />
         <p>Last name</p>
         <TextField
@@ -95,8 +94,8 @@ export default function Register() {
           size="small"
           onChange={handleChange}
           value={input.email}
+          helperText={emailError ? 'Your Email is invalid' : ""}
         />
-        {emailError && <p className="reg__error-message">Your Email is invalid</p>}
         <p>Password</p>
         <TextField
           type="password"
@@ -106,8 +105,28 @@ export default function Register() {
           size="small"
           onChange={handleChange}
           value={input.password}
+          onClick={handleTouch}
         />
-        {passwordError && <p className="reg__error-message">Your password is invalid</p>}
+        {touch ?  
+        <div>
+              <ul className="reg-list">
+                  <li className= {`${validLength ? "reg--one-li" : ''}`}>
+                  8 characters (max.30)
+                  </li>
+                  <li className= {`${upperCase ? "reg--one-li" : ''}`}>
+                    1 capital letter
+                  </li>
+                  <li className= {`${lowerCase ? "reg--one-li" : ''}`}>
+                    1 lower letter 
+                  </li>
+                  <li className= {`${hasNumber ? "reg--one-li" : ''}`}>
+                    1 digit : Has a Number
+                  </li>
+              </ul>
+          </div>
+          :
+           <div></div> }
+          
         <FormControlLabel
           control={<Checkbox />}
           label={

@@ -1,7 +1,7 @@
 .reg{
     &-rightpage {
         width: 25%;
-        padding: 7% 0 0 5%;
+        padding: 3% 0 0 5%;
         flex-direction: column;
         overflow: auto;
     }
@@ -23,5 +23,12 @@
     &__error-message{
         color: red;
         font-size: 0.9rem;
+    }
+    &-list{
+        font-size: 0.9rem;
+        color: #5d5d5d
+    }
+    &--one-li{
+        color: green;
     }
 }
