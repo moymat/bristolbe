@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sqitch deploy 01_init
