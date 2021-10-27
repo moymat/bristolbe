@@ -17,7 +17,7 @@ CREATE TABLE bristol."user" (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
-  email EMAIL NOT NULL,
+  email EMAIL UNIQUE NOT NULL,
   picture_url TEXT
 );
 
