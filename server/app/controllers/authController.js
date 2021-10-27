@@ -3,6 +3,7 @@ const { authModel } = require("../models");
 const register = async (req, res, next) => {
 	const { validationErrors, error, data } = await authModel.register(req.body);
 
+	// If validation failed, send why it failed
 	if (validationErrors) {
 		return res
 			.status(403)
@@ -17,11 +18,13 @@ const register = async (req, res, next) => {
 	const { refresh, token, user } = data;
 
 	res
+		// Sending of the access_token in the cookie
 		.cookie("access_token", token, {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
 			maxAge: process.env.REFRESH_EXP,
 		})
+		// Sending of the user info and the refresh token as JSON
 		.json({
 			status: "registered",
 			data: { refresh, user },
@@ -31,6 +34,7 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
 	const { validationErrors, error, data } = await authModel.login(req.body);
 
+	// If validation failed, send why it failed
 	if (validationErrors) {
 		return res
 			.status(403)
@@ -45,11 +49,13 @@ const login = async (req, res, next) => {
 	const { refresh, token, user } = data;
 
 	res
+		// Sending of the access_token in the cookie
 		.cookie("access_token", token, {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
 			maxAge: process.env.REFRESH_EXP,
 		})
+		// Sending of the user info and the refresh token as JSON
 		.json({
 			status: "logged in",
 			data: { refresh, user },
@@ -65,6 +71,7 @@ const logout = async (req, res, next) => {
 	}
 
 	res
+		// Deletion of the access_token from the cookie
 		.cookie("access_token", "", {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
