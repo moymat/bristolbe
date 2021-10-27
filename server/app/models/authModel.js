@@ -6,12 +6,14 @@ const redisClient = require("../db/redis")();
 
 const register = async body => {
 	try {
+		// Validate the body with ajv
 		const { errors } = await validateRegister(body);
 
 		if (errors) return { validationErrors: errors };
 
 		const { first_name, last_name, email, password } = body;
 
+		// Hash of the password
 		const hash = await bcrypt.hash(
 			password,
 			await bcrypt.genSalt(+process.env.PWD_SALT_ROUND)
@@ -19,17 +21,21 @@ const register = async body => {
 
 		const data = { first_name, last_name, email, hash };
 
+		// Insertiion of the new user in the db
 		const { rows } = await pgClient.query("SELECT * FROM create_user($1)", [
 			JSON.stringify(data),
 		]);
 
+		// If no user, there was an error
 		if (!rows.length) throw Error("failed registration");
 
 		const { create_user: id } = rows[0];
 
+		// Creation of the access token and refresh token
 		const token = auth.signToken({ id });
 		const refresh = auth.signToken({ id }, true);
 
+		// Storage of the refresh token in the cache with the user id as its key
 		await redisClient.setAsync(id, refresh, "EX", process.env.REFRESH_EXP);
 
 		return {
@@ -46,30 +52,34 @@ const register = async body => {
 
 const login = async body => {
 	try {
+		// Validate the body with ajv
 		const { errors } = await validateLogin(body);
 
 		if (errors) return { validationErrors: errors };
 
 		const { email, password } = body;
 
+		// Check if a user with this email exists in the db and returning his and info and hash
 		const { rows } = await pgClient.query(
 			'SELECT "user".id, first_name, last_name, picture_url, hash FROM "user" JOIN password ON "user".id = user_id WHERE email=$1',
 			[email]
 		);
 
+		// If no user, send error
 		if (!rows.length) throw Error(`no user found with email ${email}`);
 
 		const { id, first_name, last_name, picture_url, hash } = rows[0];
 
+		// Comparison of the hash and the password
 		const compare = await bcrypt.compare(password, hash);
-
-		console.log(compare);
 
 		if (!compare) throw Error("wrong password");
 
+		// Creation of the access token and refresh token
 		const token = auth.signToken({ id });
 		const refresh = auth.signToken({ id }, true);
 
+		// Storage of the refresh token in the cache with the user id as its key
 		await redisClient.setAsync(id, refresh, "EX", process.env.REFRESH_EXP);
 
 		return {
@@ -86,7 +96,9 @@ const login = async body => {
 
 const logout = async ({ access_token }) => {
 	try {
+		// Recovery of the user's id in the access_token from the cookie
 		const { id } = auth.decodeToken(access_token);
+		// Deletion of the corresponding key in the cache (deletion of the refresh token)
 		return await redisClient.delAsync(id);
 	} catch (error) {
 		return { error };
