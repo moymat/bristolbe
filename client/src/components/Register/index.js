@@ -7,9 +7,9 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { ClassNames } from "@emotion/react";
+
 
 const emailValidator = new RegExp(
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -25,19 +25,33 @@ export default function Register() {
     password: "",
     firstName: "",
     lastName: "",
+    confirmPassword: "",
   });
-
-  const [validLength, hasNumber, upperCase, lowerCase] = usePasswordValidation({
+  
+  const [validLength, hasNumber, upperCase, lowerCase, match] = usePasswordValidation({
       firstPassword: input.password,
-  })
-
+      secondPassword: input.confirmPassword,
+  });
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState(false);
   const [touch, setTouch] = useState(false);
 
   const handleChange = (event) => {
+
     const { name, value } = event.target;
- 
+    
+    if(name === "email") {
+        setEmailError(false)
+    }
+    if(name === "password") {
+        setPasswordError(false)
+    }
+    if(name === "confirmPassword" && value === input.password) {
+        setConfirmPassword(false)
+    }else {
+        setConfirmPassword(false)
+    }
     setInput({
       ...input,
       [name]: value,
@@ -46,7 +60,7 @@ export default function Register() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { email, password } = input;
+    const { email, password, confirmPassword } = input;
 
     if (!emailValidator.test(email)) {
       setEmailError(true);
@@ -55,12 +69,17 @@ export default function Register() {
     if (!passwordValidator.test(password)) {
       setPasswordError(true);
     }
-    console.log(input.lastName, input.firstName);
+    
+    if(password !== confirmPassword){
+        setConfirmPassword(true);
+    }
+    if(!confirmPassword){
+        setConfirmPassword(true);
+    }
   };
   const handleTouch = () => {
       setTouch(true);
   }
-  console.log(touch)
   return (
     <div className="reg-rightpage">
       <h1 className="reg-title">Adventure starts here 🚀</h1>
@@ -74,7 +93,6 @@ export default function Register() {
           size="small"
           onChange={handleChange}
           value={input.firstName}
-        
         />
         <p>Last name</p>
         <TextField
@@ -96,6 +114,7 @@ export default function Register() {
           onChange={handleChange}
           value={input.email}
           helperText={emailError ? 'Your Email is invalid' : ""}
+          error={emailError}
         />
         <p>Password</p>
         <TextField
@@ -108,6 +127,19 @@ export default function Register() {
           value={input.password}
           onClick={handleTouch}
           helperText={passwordError ? 'Your password is invalid' : ""}
+          error={passwordError}
+        />
+        <p>Confirm Password</p>
+        <TextField
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          className="reg-password"
+          size="small"
+          onChange={handleChange}
+          value={input.confirmPassword}
+          helperText={confirmPassword ? 'Your confirm password is invalid' : ""}
+          error={confirmPassword}
         />
         {touch ?  
         <div>
@@ -124,6 +156,7 @@ export default function Register() {
                   <li className= {`${hasNumber ? "reg--one-li" : ''}`}>
                     1 digit 
                   </li>
+                  <li className= {`${match ? "reg--one-li" : ''}`}>Match</li>
               </ul>
           </div>
           :
