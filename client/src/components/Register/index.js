@@ -36,6 +36,7 @@ export default function Register() {
   const [emailError, setEmailError] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState(false);
   const [touch, setTouch] = useState(false);
+  const [fullName, setFullName] = useState(false);
 
   const handleChange = (event) => {
 
@@ -44,13 +45,16 @@ export default function Register() {
     if(name === "email") {
         setEmailError(false)
     }
+    if(name === "lastName" || name === "firstName") {
+      setFullName(false)
+    }
     if(name === "password") {
         setPasswordError(false)
     }
     if(name === "confirmPassword" && value === input.password) {
         setConfirmPassword(false)
     }else {
-        setConfirmPassword(false)
+        setConfirmPassword(true)
     }
     setInput({
       ...input,
@@ -60,7 +64,11 @@ export default function Register() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { email, password, confirmPassword } = input;
+    const { email, password, confirmPassword, firstName, lastName } = input;
+
+    if(!lastName || !firstName ) {
+      setFullName(true);
+    }
 
     if (!emailValidator.test(email)) {
       setEmailError(true);
@@ -93,6 +101,8 @@ export default function Register() {
           size="small"
           onChange={handleChange}
           value={input.firstName}
+          helperText={fullName ? 'Your first name is required' : ""}
+          error={fullName}
         />
         <p>Last name</p>
         <TextField
@@ -103,6 +113,8 @@ export default function Register() {
           size="small"
           onChange={handleChange}
           value={input.lastName}
+          helperText={fullName ? 'Your last name is required' : ""}
+          error={fullName}
         />
         <p>Email</p>
         <TextField
