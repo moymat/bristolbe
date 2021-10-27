@@ -4,13 +4,13 @@ const register = async (req, res, next) => {
 	const { validationErrors, error, data } = await authModel.register(req.body);
 
 	if (validationErrors) {
-		return res
-			.status(403)
-			.json({ status: "registration failed", errors: validationErrors });
+		return res.json({
+			status: "registration failed",
+			errors: validationErrors,
+		});
 	}
 
 	if (error) {
-		res.status(403);
 		return next(Error(error));
 	}
 
@@ -24,21 +24,22 @@ const register = async (req, res, next) => {
 		})
 		.json({
 			status: "registered",
-			data: { refresh, user },
+			refresh,
+			user,
 		});
 };
 
 const login = async (req, res, next) => {
-	const { validationErrors, error, data } = await authModel.login(req.body);
+	const { error, data, validationErrors } = await authModel.login(req.body);
 
 	if (validationErrors) {
-		return res
-			.status(403)
-			.json({ status: "registration failed", errors: validationErrors });
+		return res.json({
+			status: "registration failed",
+			errors: validationErrors,
+		});
 	}
 
 	if (error) {
-		res.status(403);
 		return next(Error(error));
 	}
 
@@ -52,7 +53,8 @@ const login = async (req, res, next) => {
 		})
 		.json({
 			status: "logged in",
-			data: { refresh, user },
+			refresh,
+			user,
 		});
 };
 
@@ -73,8 +75,14 @@ const logout = async (req, res, next) => {
 		.json({ status: "logged out" });
 };
 
+const isAuth = async (req, res, next) => {
+	console.log(res.cookies);
+	res.json({ status: "ok" });
+};
+
 module.exports = {
 	register,
 	login,
 	logout,
+	isAuth,
 };

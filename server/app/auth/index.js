@@ -22,6 +22,8 @@ const isAuth = async (req, res, next) => {
 	const refresh = req.headers.authorization.split("Bearer ")[1];
 	const { access_token: token } = req.cookies;
 
+	console.log(refresh, token);
+
 	let decodedRefresh;
 
 	try {
