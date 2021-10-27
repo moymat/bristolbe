@@ -10,12 +10,11 @@ AS $$
 	BEGIN
     -- Create new user
 		WITH created_user AS (
-			INSERT INTO bristol."user" (first_name, last_name, email, picture_url)
+			INSERT INTO bristol."user" (first_name, last_name, email)
 			VALUES (
 				$1::jsonb->>'first_name',
 				$1::jsonb->>'last_name',
-				$1::jsonb->>'email',
-				$1::jsonb->>'picture_url'
+				$1::jsonb->>'email'
 			)
 			RETURNING id
 		)

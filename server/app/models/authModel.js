@@ -1,53 +1,89 @@
+const bcrypt = require("bcryptjs");
 const auth = require("../auth");
 const { validateRegister, validateLogin } = require("../validation");
+const pgClient = require("../db/pg");
 const redisClient = require("../db/redis")();
 
 let users = [];
 
 const register = async body => {
-	const { errors } = await validateRegister(body);
+	try {
+		const { errors } = await validateRegister(body);
 
-	if (errors) {
-		return { validationErrors: errors };
+		if (errors) return { validationErrors: errors };
+
+		const { first_name, last_name, email, password } = body;
+
+		const hash = await bcrypt.hash(
+			password,
+			await bcrypt.genSalt(+process.env.PWD_SALT_ROUND)
+		);
+
+		const data = { first_name, last_name, email, hash };
+
+		const { rows } = await pgClient.query("SELECT * FROM create_user($1)", [
+			JSON.stringify(data),
+		]);
+
+		if (!rows.length) throw Error("failed registration");
+
+		const { create_user: id } = rows[0];
+
+		const token = auth.signToken({ id });
+		const refresh = auth.signToken({ id }, true);
+
+		await redisClient.setAsync(id, refresh, "EX", process.env.REFRESH_EXP);
+
+		return {
+			data: {
+				user: { id, first_name, last_name, email, picture_url: null },
+				token,
+				refresh,
+			},
+		};
+	} catch (error) {
+		return { error };
 	}
-
-	const { first_name, last_name, email, password } = body;
-
-	if (users.some(user => user.email === email))
-		return { error: "email address already in use" };
-
-	const id = users.length;
-	users.push({ id, first_name, last_name, email, password });
-
-	const token = auth.signToken({ id });
-	const refresh = auth.signToken({ id }, true);
-
-	await redisClient.setAsync(id, refresh, "EX", process.env.REFRESH_EXP);
-
-	return { token, refresh };
 };
 
 const login = async body => {
-	const { errors } = await validateLogin(body);
+	try {
+		const { errors } = await validateLogin(body);
 
-	if (errors) {
-		return { validationErrors: errors };
+		if (errors) return { validationErrors: errors };
+
+		const { email, password } = body;
+
+		const { rows } = await pgClient.query(
+			'SELECT "user".id, first_name, last_name, picture_url, hash FROM "user" JOIN password ON "user".id = user_id WHERE email=$1',
+			[email]
+		);
+
+		if (!rows.length) throw Error(`no user found with email ${email}`);
+
+		const { id, first_name, last_name, picture_url, hash } = rows[0];
+
+		const compare = await bcrypt.compare(password, hash);
+
+		console.log(compare);
+
+		if (!compare) throw Error("wrong password");
+
+		const token = auth.signToken({ id });
+		const refresh = auth.signToken({ id }, true);
+
+		await redisClient.setAsync(id, refresh, "EX", process.env.REFRESH_EXP);
+
+		return {
+			data: {
+				user: { id, first_name, last_name, email, picture_url },
+				token,
+				refresh,
+			},
+		};
+	} catch (error) {
+		return { error };
 	}
-
-	const { email, password } = body;
-
-	const user = users.find(user => user.email === email);
-
-	if (!user) return { error: "no user with this email address" };
-
-	if (user.password !== password) return { error: "wrong password" };
-
-	const token = auth.signToken({ id: user.id });
-	const refresh = auth.signToken({ id: user.id }, true);
-
-	await redisClient.setAsync(user.id, refresh, "EX", process.env.REFRESH_EXP);
-
-	return { token, refresh };
 };
 
 const logout = async ({ access_token }) => {
