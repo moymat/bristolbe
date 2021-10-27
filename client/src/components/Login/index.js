@@ -3,13 +3,7 @@ import { Link } from "react-router-dom";
 import { TextField, Button, Checkbox, FormControlLabel } from "@mui/material";
 import { useState } from "react";
 
-const emailValidator = new RegExp(
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  );
-  
-const passwordValidator = new RegExp(
-    /^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d).{8,30}$/
-  );
+
 
 export default function Login() {
     const [input, setInput] = useState({
@@ -36,11 +30,11 @@ export default function Login() {
         event.preventDefault();
         const { email, password} = input;
     
-        if (!emailValidator.test(email)) {
+        if (!email) {
           setEmailError(true);
         }
     
-        if (!passwordValidator.test(password)) {
+        if (!password) {
           setPasswordError(true);
         }
       }; 
