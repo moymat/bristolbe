@@ -6,8 +6,9 @@ const redisClient = (prefix = "refresh_token_") => {
 
 	const getAsync = promisify(client.get).bind(client);
 	const setAsync = promisify(client.set).bind(client);
+	const delAsync = promisify(client.del).bind(client);
 
-	return { getAsync, setAsync };
+	return { getAsync, setAsync, delAsync };
 };
 
 module.exports = redisClient;

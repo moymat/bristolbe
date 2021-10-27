@@ -1,4 +1,4 @@
-const jwt = require("../auth");
+const auth = require("../auth");
 const redisClient = require("../db/redis")();
 
 let users = [];
@@ -15,8 +15,8 @@ const register = async body => {
 	const id = users.length;
 	users.push({ id, first_name, last_name, email, password });
 
-	const token = jwt.sign({ id });
-	const refresh = jwt.sign({ id }, true);
+	const token = auth.signToken({ id });
+	const refresh = auth.signToken({ id }, true);
 
 	await redisClient.setAsync(id, refresh, "EX", process.env.REFRESH_EXP);
 
@@ -32,15 +32,25 @@ const login = async body => {
 
 	if (user.password !== password) return { error: "wrong password" };
 
-	const token = jwt.sign({ id: user.id });
-	const refresh = jwt.sign({ id: user.id }, true);
+	const token = auth.signToken({ id: user.id });
+	const refresh = auth.signToken({ id: user.id }, true);
 
 	await redisClient.setAsync(user.id, refresh, "EX", process.env.REFRESH_EXP);
 
 	return { token, refresh };
 };
 
+const logout = async ({ access_token }) => {
+	try {
+		const { id } = auth.decodeToken(access_token);
+		return await redisClient.delAsync(id);
+	} catch (error) {
+		return { error };
+	}
+};
+
 module.exports = {
-	login,
 	register,
+	login,
+	logout,
 };

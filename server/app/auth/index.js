@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const redisClient = require("../db/redis")();
 
-const sign = (payload, refresh = false) => {
+const signToken = (payload, refresh = false) => {
 	return refresh
 		? jwt.sign(payload, process.env.SECRET_REFRESH_KEY, {
 				expiresIn: process.env.REFRESH_EXP,
@@ -9,6 +9,12 @@ const sign = (payload, refresh = false) => {
 		: jwt.sign(payload, process.env.SECRET_TOKEN_KEY, {
 				expiresIn: process.env.TOKEN_EXP,
 		  });
+};
+
+const decodeToken = (token, refresh = false) => {
+	return refresh
+		? jwt.decode(token, process.env.SECRET_REFRESH_KEY)
+		: jwt.decode(token, process.env.SECRET_TOKEN_KEY);
 };
 
 const isAuth = async (req, res, next) => {
@@ -55,13 +61,14 @@ const isAuth = async (req, res, next) => {
 	}
 
 	// Get a new access token and send it as a cookie
-	const newToken = sign({ id: decodedRefresh.id });
+	const newToken = signToken({ id: decodedRefresh.id });
 	res.cookie("access_token", newToken);
 
 	next();
 };
 
 module.exports = {
-	sign,
+	signToken,
+	decodeToken,
 	isAuth,
 };
