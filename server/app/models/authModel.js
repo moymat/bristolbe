@@ -1,13 +1,17 @@
 const auth = require("../auth");
+const { validateRegister, validateLogin } = require("../validation");
 const redisClient = require("../db/redis")();
 
 let users = [];
 
 const register = async body => {
-	const { first_name, last_name, email, password, confirm } = body;
+	const { errors } = await validateRegister(body);
 
-	if (password !== confirm)
-		return { error: "password and confirm don't match" };
+	if (errors) {
+		return { validationErrors: errors };
+	}
+
+	const { first_name, last_name, email, password } = body;
 
 	if (users.some(user => user.email === email))
 		return { error: "email address already in use" };
@@ -24,6 +28,12 @@ const register = async body => {
 };
 
 const login = async body => {
+	const { errors } = await validateLogin(body);
+
+	if (errors) {
+		return { validationErrors: errors };
+	}
+
 	const { email, password } = body;
 
 	const user = users.find(user => user.email === email);

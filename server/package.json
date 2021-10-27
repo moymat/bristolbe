@@ -10,6 +10,9 @@
 	"author": "Rémy Vieille - Tony Dai - Michel Deckert",
 	"license": "ISC",
 	"dependencies": {
+		"ajv": "^8.6.3",
+		"ajv-errors": "^3.0.0",
+		"ajv-formats": "^2.1.1",
 		"cookie-parser": "^1.4.5",
 		"cors": "^2.8.5",
 		"dotenv": "^10.0.0",
