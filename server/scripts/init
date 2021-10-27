@@ -1,0 +1,17 @@
+#!/bin/bash
+
+export PGUSER=postgres
+
+cd ../migrations/db
+
+psql -f createdb.sql
+
+export PGUSER=bristol
+export SQITCH_PASSWORD=bristol
+
+cd ..
+
+bash sqitch_deploy
+
+unset PGUSER
+unset SQITCH_PASSWORD
