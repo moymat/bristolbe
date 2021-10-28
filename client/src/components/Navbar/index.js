@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
 	styled,
 	useTheme,
@@ -38,6 +38,9 @@ import BELogo from "../../assets/img/BELogo.png";
 import DarkThemeSwitch from "./switchDarkMode";
 //react-router-dom import
 import { useHistory, Link } from "react-router-dom";
+
+import axios from "../../utils/axios";
+import { UserContext } from "../../App";
 
 const drawerWidth = 240;
 
@@ -116,6 +119,8 @@ export default function Navbar({ children }) {
 	const mainPrimaryColor = darkState ? orange[500] : lightBlue[500];
 	const mainSecondaryColor = darkState ? deepOrange[900] : deepPurple[500];
 
+	const { setUser } = useContext(UserContext);
+
 	const darkTheme = createTheme({
 		palette: {
 			mode: palletType,
@@ -149,13 +154,33 @@ export default function Navbar({ children }) {
 	const handleProfileMenuOpen = event => {
 		setAnchorEl(event.currentTarget);
 	};
-	const handleMobileMenuClose = () => {
-		setMobileMoreAnchorEl(null);
+
+	const logout = async () => {
+		await axios.get("/auth/logout");
+		localStorage.removeItem("refresh_token");
+		setUser({});
 	};
-	const handleMenuClose = () => {
-		setAnchorEl(null);
-		handleMobileMenuClose();
+
+	const handleMobileMenuClose = async () => {
+		try {
+			await logout();
+			setAnchorEl(null);
+			setMobileMoreAnchorEl(null);
+		} catch (err) {
+			console.error(err);
+		}
 	};
+
+	const handleMenuClose = async () => {
+		try {
+			await logout();
+			setAnchorEl(null);
+			handleMobileMenuClose();
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
 	const handleMobileMenuOpen = event => {
 		setMobileMoreAnchorEl(event.currentTarget);
 	};
@@ -212,7 +237,7 @@ export default function Navbar({ children }) {
 
 	let history = useHistory();
 	function handleBristolButtonClick() {
-		history.push("/Bristol");
+		history.push("/bristol");
 	}
 
 	return (
