@@ -1,9 +1,12 @@
 .forgot{
     &-rightpage {
-        width: 25%;
-        padding: 10% 0 0 5%;
+        position: fixed;
+        top: 25%;
+        right: 0;
+        width: 500px;
         flex-direction: column;
         overflow: auto;
+        font-size: 1rem;
     }
 
     &-form {
