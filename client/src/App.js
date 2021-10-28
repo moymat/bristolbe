@@ -46,15 +46,17 @@ function App() {
 						<Route exact path="/reset">
 							<Reset />
 						</Route>
-					</IsAuth>
-					<Navbar>
 						<Route exact path="/home">
-							<Home />
+							<Navbar>
+								<Home />
+							</Navbar>
 						</Route>
 						<Route exact path="/bristol">
-							<Bristol />
+							<Navbar>
+								<Bristol />
+							</Navbar>
 						</Route>
-					</Navbar>
+					</IsAuth>
 				</Switch>
 			</Router>
 		</UserContext.Provider>
