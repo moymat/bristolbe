@@ -5,13 +5,13 @@ const register = async (req, res, next) => {
 
 	// If validation failed, send why it failed
 	if (validationErrors) {
-		return res
-			.status(403)
-			.json({ status: "registration failed", errors: validationErrors });
+		return res.json({
+			status: "registration failed",
+			errors: validationErrors,
+		});
 	}
 
 	if (error) {
-		res.status(403);
 		return next(Error(error));
 	}
 
@@ -27,22 +27,23 @@ const register = async (req, res, next) => {
 		// Sending of the user info and the refresh token as JSON
 		.json({
 			status: "registered",
-			data: { refresh, user },
+			refresh,
+			user,
 		});
 };
 
 const login = async (req, res, next) => {
-	const { validationErrors, error, data } = await authModel.login(req.body);
+	const { error, data, validationErrors } = await authModel.login(req.body);
 
 	// If validation failed, send why it failed
 	if (validationErrors) {
-		return res
-			.status(403)
-			.json({ status: "registration failed", errors: validationErrors });
+		return res.json({
+			status: "registration failed",
+			errors: validationErrors,
+		});
 	}
 
 	if (error) {
-		res.status(403);
 		return next(Error(error));
 	}
 
@@ -58,30 +59,46 @@ const login = async (req, res, next) => {
 		// Sending of the user info and the refresh token as JSON
 		.json({
 			status: "logged in",
-			data: { refresh, user },
+			refresh,
+			user,
 		});
 };
 
 const logout = async (req, res, next) => {
-	const { error } = await authModel.logout(req.cookies);
+	const refresh = req.headers.authorization.split("Bearer ")[1];
+
+	const { error } = await authModel.logout(refresh);
 
 	if (error) {
 		res.status(500);
 		return next(Error(error));
 	}
 
+	res.clearCookie("access_token").json({ status: "logged out" });
+};
+
+const isAuth = async (req, res, next) => {
+	const headerRefresh = req.headers.authorization.split("Bearer ")[1];
+	const { error, data } = await authModel.isAuth(headerRefresh);
+
+	if (error) {
+		next(error);
+	}
+
+	const { token, refresh, user } = data;
+
 	res
-		// Deletion of the access_token from the cookie
-		.cookie("access_token", "", {
+		.cookie("access_token", token, {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
-			maxAge: 0,
+			maxAge: process.env.REFRESH_EXP,
 		})
-		.json({ status: "logged out" });
+		.json({ status: "logged in", user, refresh });
 };
 
 module.exports = {
 	register,
 	login,
 	logout,
+	isAuth,
 };
