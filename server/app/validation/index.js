@@ -11,6 +11,8 @@ const validateRegister = async data => {
 		const validate = ajv.compile(registerSchema);
 		const result = await validate(data);
 
+		console.log(validate.errors);
+
 		if (!result) {
 			const errors = validate.errors.map(({ instancePath, message }) => ({
 				field: instancePath.replace("/", ""),
