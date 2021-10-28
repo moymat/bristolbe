@@ -9,13 +9,17 @@ const Protected = () => {
 	const { user, setUser } = useContext(UserContext);
 
 	const handleClick = async () => {
-		await axios("/auth/logout");
-		setUser({});
+		try {
+			await axios.get("/auth/logout");
+			localStorage.removeItem("refresh_token");
+			setUser({});
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	useEffect(() => {
-		console.log("protected", user);
-		if (!user) {
+		if (!user.id) {
 			history.push("/");
 		}
 	}, [user, history]);

@@ -7,32 +7,24 @@ import Register from "../Register";
 import Forgot from "../Forgot";
 import Reset from "../Reset";
 import Protected from "../Protected";
-import InputLayout from "../InputLayout";
 
 export const UserContext = createContext({});
 
 export default function App() {
 	const [user, setUser] = useState({});
 
-	/* 	useEffect(() => {
+	useEffect(() => {
 		const checkAuth = async () => {
 			try {
-				const result = await (
-					await fetch("http://localhost:4000/auth/is_auth", {
-						headers: {
-							Accept: "application/json",
-							Authorization: `Bearer ${localStorage.getItem("refresh_token")}`,
-						},
-						credentials: "include",
-					})
-				).json();
-				console.log(result);
+				const { data } = await axios.get("http://localhost:4000/auth/is_auth");
+				localStorage.setItem("refresh_token", data.refresh);
+				setUser(data.user);
 			} catch (err) {
-				console.error(err);
+				console.error("Not logged in");
 			}
 		};
 		checkAuth();
-	}, []); */
+	}, []);
 
 	return (
 		<div className="app">
