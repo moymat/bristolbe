@@ -82,16 +82,44 @@ const login = async body => {
 	}
 };
 
-const logout = async ({ access_token }) => {
+const logout = async refresh => {
 	try {
-		const { id } = auth.decodeToken(access_token);
+		const { id } = auth.decodeToken(refresh);
 		return await redisClient.delAsync(id);
 	} catch (error) {
 		return { error };
 	}
 };
 
-const isAuth = async ({ refresh }, { access_token }) => {};
+const isAuth = async headerRefresh => {
+	try {
+		const { id: tokenId } = auth.decodeToken(headerRefresh);
+
+		const { rows } = await pgClient.query(
+			'SELECT "user".id, first_name, last_name, email, picture_url FROM "user" WHERE id=$1',
+			[tokenId]
+		);
+
+		if (!rows.length) throw Error(`No user found`);
+
+		const { id, first_name, email, last_name, picture_url } = rows[0];
+
+		const token = auth.signToken({ id });
+		const refresh = auth.signToken({ id }, true);
+
+		await redisClient.setAsync(id, refresh, "EX", process.env.REFRESH_EXP);
+
+		return {
+			data: {
+				user: { id, first_name, last_name, email, picture_url },
+				token,
+				refresh,
+			},
+		};
+	} catch (error) {
+		return { error };
+	}
+};
 
 module.exports = {
 	register,

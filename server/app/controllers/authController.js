@@ -59,26 +59,35 @@ const login = async (req, res, next) => {
 };
 
 const logout = async (req, res, next) => {
-	console.log(req.cookies);
-	const { error } = await authModel.logout(req.cookies);
+	const refresh = req.headers.authorization.split("Bearer ")[1];
+
+	const { error } = await authModel.logout(refresh);
 
 	if (error) {
 		res.status(500);
 		return next(Error(error));
 	}
 
-	res
-		.cookie("access_token", "", {
-			httpOnly: true,
-			secure: process.env.NODE_ENV === "production",
-			maxAge: 0,
-		})
-		.json({ status: "logged out" });
+	res.clearCookie("access_token").json({ status: "logged out" });
 };
 
 const isAuth = async (req, res, next) => {
-	console.log(res.cookies);
-	res.json({ status: "ok" });
+	const headerRefresh = req.headers.authorization.split("Bearer ")[1];
+	const { error, data } = await authModel.isAuth(headerRefresh);
+
+	if (error) {
+		next(error);
+	}
+
+	const { token, refresh, user } = data;
+
+	res
+		.cookie("access_token", token, {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === "production",
+			maxAge: process.env.REFRESH_EXP,
+		})
+		.json({ status: "logged in", user, refresh });
 };
 
 module.exports = {
