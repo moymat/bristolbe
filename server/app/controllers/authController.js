@@ -59,6 +59,7 @@ const login = async (req, res, next) => {
 };
 
 const logout = async (req, res, next) => {
+	console.log(req.cookies);
 	const { error } = await authModel.logout(req.cookies);
 
 	if (error) {

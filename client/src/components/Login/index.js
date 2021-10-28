@@ -4,7 +4,6 @@ import { TextField, Button, Checkbox, FormControlLabel } from "@mui/material";
 import axios from "../../utils/axios";
 import { UserContext } from "../App/App";
 import "./style.scss";
-import Logo from "../Logo";
 import InputLayout from "../InputLayout";
 
 export default function Login() {
@@ -55,7 +54,7 @@ export default function Login() {
 				return;
 			}
 
-			console.log(data.user);
+			localStorage.setItem("refresh_token", data.refresh);
 
 			setUser(data.user);
 		} catch (err) {
@@ -108,7 +107,7 @@ export default function Login() {
 					</Button>
 				</form>
 				<p className="log-create">
-					New on our platform ?<Link to="/register">Create an account</Link>
+					New on our platform? <Link to="/register">Create an account</Link>
 				</p>
 			</div>
 		</InputLayout>
