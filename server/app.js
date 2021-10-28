@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const router = require("./app/router");
 const cookieParser = require("cookie-parser");
-const errorMiddleware = require("./app/lib/errorMiddleware");
+const errorHandler = require("./app/lib/errorHandler");
 const PORT = process.env.PORT;
 const ENV = process.env.NODE_ENV;
 
@@ -24,7 +24,7 @@ app.use(
 );
 
 app.use(router);
-app.use(errorMiddleware);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT} on ${ENV} environement`);

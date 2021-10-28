@@ -22,8 +22,6 @@ const isAuth = async (req, res, next) => {
 	const refresh = req.headers.authorization.split("Bearer ")[1];
 	const { access_token: token } = req.cookies;
 
-	console.log(refresh, token);
-
 	let decodedRefresh;
 
 	try {
@@ -47,7 +45,8 @@ const isAuth = async (req, res, next) => {
 
 	if (cachedRefresh !== refresh) {
 		// If cached refresh token and sent refresh token are different, delete cookie and throw error
-		res.status(401).cookie("access_token", "");
+		console.log("diff", cachedRefresh, refresh);
+		res.status(401).clearCookie("access_token");
 		return next(Error("not logged in"));
 	}
 
@@ -58,7 +57,7 @@ const isAuth = async (req, res, next) => {
 			throw new Error("not logged in");
 	} catch (err) {
 		// Delete cookie and throw error
-		res.status(401).cookie("access_token", "");
+		res.status(401).clearCookie("access_token");
 		return next(err);
 	}
 
