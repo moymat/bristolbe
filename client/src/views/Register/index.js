@@ -1,13 +1,14 @@
 import "./style.scss";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { usePasswordValidation } from "../../hooks/usePasswordValidation";
 import { TextField, Button, Checkbox, FormControlLabel } from "@mui/material";
+import { UserContext } from "../../App";
 import InputLayout from "../../components/InputLayout";
 import axios from "axios";
 
 const emailValidator = new RegExp(
-	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 );
 
 const passwordValidator = new RegExp(
@@ -20,80 +21,99 @@ export default function Register() {
 		password: "",
 		firstName: "",
 		lastName: "",
-		confirmPassword: "",
+		confirm: "",
 	});
-
 	const [validLength, hasNumber, upperCase, lowerCase, match] =
 		usePasswordValidation({
 			firstPassword: input.password,
-			secondPassword: input.confirmPassword,
+			secondPassword: input.confirm,
 		});
 	const [passwordError, setPasswordError] = useState(false);
 	const [emailError, setEmailError] = useState(false);
-	const [confirmPassword, setConfirmPassword] = useState(false);
+	const [emailUsed, setEmailUsed] = useState(false);
+	const [confirmError, setConfirmError] = useState(false);
+	const [firstNameError, setFirstNameError] = useState(false);
+	const [lastNameError, setLastNameError] = useState(false);
 	const [touch, setTouch] = useState(false);
-	const [fullName, setFullName] = useState(false);
+	const { setUser } = useContext(UserContext);
 
 	const handleChange = event => {
 		const { name, value } = event.target;
 
 		switch (name) {
-			case "firstName":
-				setFullName(false);
-				break;
-			case "lastName":
-				setFullName(false);
-				break;
 			case "email":
-				setEmailError(false);
+				emailUsed && setEmailUsed(false);
+				setEmailError(!emailValidator.test(value));
 				break;
 			case "password":
-				setPasswordError(false);
+				setPasswordError(!passwordValidator.test(value));
+				break;
+			case "confirm":
+				setConfirmError(value !== input.password);
+				break;
+			case "firstName":
+				setFirstNameError(!value);
+				break;
+			case "lastName":
+				setLastNameError(!value);
 				break;
 			default:
-				break;
+				return;
 		}
-		if (name === "confirmPassword" && value === input.password) {
-			setConfirmPassword(false);
-		} else {
-			setConfirmPassword(true);
-		}
+
 		setInput({
 			...input,
 			[name]: value,
 		});
 	};
 
-	const handleSubmit = event => {
+	const handleSubmit = async event => {
 		event.preventDefault();
-		const { email, password, confirmPassword, firstName, lastName } = input;
 
-		if (!lastName || !firstName) {
-			setFullName(true);
+		if (
+			emailError ||
+			passwordError ||
+			confirmError ||
+			firstNameError ||
+			lastNameError
+		) {
+			return;
 		}
 
-		if (!emailValidator.test(email)) {
-			setEmailError(true);
-		}
+		const { email, password, firstName, lastName, confirm } = input;
 
-		if (!passwordValidator.test(password)) {
-			setPasswordError(true);
-		}
+		try {
+			const { data } = await axios.post("/auth/register", {
+				first_name: firstName,
+				last_name: lastName,
+				email,
+				password,
+				confirm,
+			});
 
-		if (password !== confirmPassword) {
-			setConfirmPassword(true);
-		}
-		if (!confirmPassword) {
-			setConfirmPassword(true);
+			if (data.errors) {
+				return;
+			}
+
+			if (data.error) {
+				setEmailError(true);
+				return setEmailUsed(true);
+			}
+
+			localStorage.setItem("refresh_token", data.refresh);
+			setUser(data.user);
+		} catch (err) {
+			console.error(err);
 		}
 	};
+
 	const handleTouch = () => {
 		setTouch(true);
 	};
 
 	return (
 		<InputLayout>
-			<div className="reg-rightpage">
+			<div style={{ flex: 1 }}>
 				<h1 className="reg-title">Adventure starts here 🚀</h1>
 				<p>Make your app management easy and fun!</p>
 				<form className="reg-form" onSubmit={handleSubmit}>
@@ -105,8 +125,8 @@ export default function Register() {
 						size="small"
 						onChange={handleChange}
 						value={input.firstName}
-						helperText={fullName ? "Your first name is required" : ""}
-						error={fullName}
+						helperText={firstNameError ? "Your first name is required" : ""}
+						error={firstNameError}
 					/>
 					<p>Last name</p>
 					<TextField
@@ -116,8 +136,8 @@ export default function Register() {
 						size="small"
 						onChange={handleChange}
 						value={input.lastName}
-						helperText={fullName ? "Your last name is required" : ""}
-						error={fullName}
+						helperText={lastNameError ? "Your last name is required" : ""}
+						error={lastNameError}
 					/>
 					<p>Email</p>
 					<TextField
@@ -128,7 +148,13 @@ export default function Register() {
 						size="small"
 						onChange={handleChange}
 						value={input.email}
-						helperText={emailError ? "Your Email is invalid" : ""}
+						helperText={
+							emailError
+								? emailUsed
+									? "Email address already in use"
+									: "Your Email is invalid"
+								: ""
+						}
 						error={emailError}
 					/>
 					<p>Password</p>
@@ -147,18 +173,16 @@ export default function Register() {
 					<p>Confirm Password</p>
 					<TextField
 						type="password"
-						name="confirmPassword"
+						name="confirm"
 						placeholder="Confirm Password"
 						className="reg-password"
 						size="small"
 						onChange={handleChange}
-						value={input.confirmPassword}
-						helperText={
-							confirmPassword ? "Your confirm password is invalid" : ""
-						}
-						error={confirmPassword}
+						value={input.confirm}
+						helperText={confirmError ? "Your confirm password is invalid" : ""}
+						error={confirmError}
 					/>
-					{touch ? (
+					{touch && (
 						<div>
 							<ul className="reg-list">
 								<li className={`${validLength ? "reg--one-li" : ""}`}>
@@ -174,8 +198,6 @@ export default function Register() {
 								<li className={`${match ? "reg--one-li" : ""}`}>Match</li>
 							</ul>
 						</div>
-					) : (
-						<div></div>
 					)}
 
 					<FormControlLabel

@@ -31,7 +31,7 @@ export default function Forgot() {
 	};
 	return (
 		<InputLayout>
-			<div className="forgot-rightpage">
+			<div style={{ flex: 1 }}>
 				<h1 className="forgot-title">Forgot password? 🔒</h1>
 				<p className="forgot-instructions">
 					Enter your email and we'll send you instructions to reset your

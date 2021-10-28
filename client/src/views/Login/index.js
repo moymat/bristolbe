@@ -1,8 +1,10 @@
-import "./style.scss";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { TextField, Button, Checkbox, FormControlLabel } from "@mui/material";
-import { useState } from "react";
 import InputLayout from "../../components/InputLayout";
+import axios from "../../utils/axios";
+import { UserContext } from "../../App";
+import "./style.scss";
 
 export default function Login() {
 	const [input, setInput] = useState({
@@ -11,33 +13,53 @@ export default function Login() {
 	});
 	const [passwordError, setPasswordError] = useState(false);
 	const [emailError, setEmailError] = useState(false);
+	const { setUser } = useContext(UserContext);
 
 	const handleChange = event => {
 		const { name, value } = event.target;
-		if (name === "email") {
-			setEmailError(false);
-		}
-		if (name === "password") {
-			setPasswordError(false);
-		}
+
 		setInput({
 			...input,
 			[name]: value,
 		});
 	};
-	const handleSubmit = event => {
+
+	const handleSubmit = async event => {
 		event.preventDefault();
 		const { email, password } = input;
-		if (!email) {
-			setEmailError(true);
+
+		if (!email || !password) {
+			!email && setEmailError(true);
+			!password && setPasswordError(true);
+			return;
 		}
-		if (!password) {
-			setPasswordError(true);
+
+		try {
+			const { data } = await axios.post("/auth/login", {
+				email,
+				password,
+			});
+
+			if (data.errors) {
+				console.log(data.errors);
+				return;
+			}
+
+			if (data.error) {
+				console.log(data.error);
+				return;
+			}
+
+			localStorage.setItem("refresh_token", data.refresh);
+
+			setUser(data.user);
+		} catch (err) {
+			console.error(err);
 		}
 	};
 	return (
 		<InputLayout>
-			<div className="log-rightpage">
+			<div style={{ flex: 1 }}>
 				<h1 className="log-title">Welcome to Bristol! 👋</h1>
 				<p>Please sign-in to your account</p>
 				<form className="log-form" onSubmit={handleSubmit}>
