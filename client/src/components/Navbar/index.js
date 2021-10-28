@@ -220,7 +220,6 @@ export default function Navbar({ children }) {
 			<Box sx={{ display: "flex" }}>
 				<CssBaseline />
 				<AppBar position="fixed" open={open}>
-					{" "}
 					{/* add props "enableColorOnDark" to use primary color with dark mode */}
 					<Toolbar>
 						<IconButton
@@ -234,11 +233,10 @@ export default function Navbar({ children }) {
 							}}>
 							<MenuIcon />
 						</IconButton>
-						<Link to="/">
+						<Link to="/home">
 							<img src={BELogo} alt="react logo" width="40" />
 						</Link>
 						<Box sx={{ flexGrow: 1 }} />
-						<Box></Box>
 						<Box sx={{ display: { xs: "none", md: "flex" } }}>
 							<IconButton
 								size="large"

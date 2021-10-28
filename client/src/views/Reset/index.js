@@ -8,7 +8,7 @@ export default function Reset() {
 
 	return (
 		<InputLayout>
-			<div className="reset-rightpage">
+			<div style={{ flex: 1 }}>
 				<h1 className="reset-title">Reset password 🔒</h1>
 				<p className="reset-instructions">
 					Your new password must be different from previously used passwords
