@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
+import InputLayout from "../InputLayout";
 
 
 const emailValidator = new RegExp(
@@ -42,14 +43,20 @@ export default function Register() {
 
     const { name, value } = event.target;
     
-    if(name === "email") {
-        setEmailError(false)
-    }
-    if(name === "lastName" || name === "firstName") {
-      setFullName(false)
-    }
-    if(name === "password") {
-        setPasswordError(false)
+    switch (name) {
+      case "firstName":
+        setFullName(false)
+        break;
+      case "lastName":
+        setFullName(false);
+        break;
+      case "email": 
+        setEmailError(false);
+        break;
+      case "password": 
+        setPasswordError(false);
+      break;
+      default: break;  
     }
     if(name === "confirmPassword" && value === input.password) {
         setConfirmPassword(false)
@@ -88,114 +95,117 @@ export default function Register() {
   const handleTouch = () => {
       setTouch(true);
   }
+
   return (
-    <div className="reg-rightpage">
-      <h1 className="reg-title">Adventure starts here 🚀</h1>
-      <p>Make your app management easy and fun!</p>
-      <form className="reg-form" onSubmit={handleSubmit}>
-        <p>First name</p>
-        <TextField
-          type="text"
-          name="firstName"
-          placeholder="john"
-          size="small"
-          onChange={handleChange}
-          value={input.firstName}
-          helperText={fullName ? 'Your first name is required' : ""}
-          error={fullName}
-        />
-        <p>Last name</p>
-        <TextField
-            
-          type="text"
-          name="lastName"
-          placeholder="doe"
-          size="small"
-          onChange={handleChange}
-          value={input.lastName}
-          helperText={fullName ? 'Your last name is required' : ""}
-          error={fullName}
-        />
-        <p>Email</p>
-        <TextField
-          type="email"
-          name="email"
-          placeholder="toto@example.com"
-          className="reg-email"
-          size="small"
-          onChange={handleChange}
-          value={input.email}
-          helperText={emailError ? 'Your Email is invalid' : ""}
-          error={emailError}
-        />
-        <p>Password</p>
-        <TextField
-          type="password"
-          name="password"
-          placeholder="Password"
-          className="reg-password"
-          size="small"
-          onChange={handleChange}
-          value={input.password}
-          onClick={handleTouch}
-          helperText={passwordError ? 'Your password is invalid' : ""}
-          error={passwordError}
-        />
-        <p>Confirm Password</p>
-        <TextField
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          className="reg-password"
-          size="small"
-          onChange={handleChange}
-          value={input.confirmPassword}
-          helperText={confirmPassword ? 'Your confirm password is invalid' : ""}
-          error={confirmPassword}
-        />
-        {touch ?  
-        <div>
-              <ul className="reg-list">
-                  <li className= {`${validLength ? "reg--one-li" : ''}`}>
-                  8 characters (max.30)
-                  </li>
-                  <li className= {`${upperCase ? "reg--one-li" : ''}`}>
-                    1 capital letter
-                  </li>
-                  <li className= {`${lowerCase ? "reg--one-li" : ''}`}>
-                    1 lower letter 
-                  </li>
-                  <li className= {`${hasNumber ? "reg--one-li" : ''}`}>
-                    1 digit 
-                  </li>
-                  <li className= {`${match ? "reg--one-li" : ''}`}>Match</li>
-              </ul>
-          </div>
-          :
-           <div></div> }
-          
-        <FormControlLabel
-          control={<Checkbox />}
-          label={
-            <div>
-              <span> I agree to </span>
-              <Link to="#">Privacy policy & terms</Link>
+    <InputLayout>
+      <div className="reg-rightpage">
+        <h1 className="reg-title">Adventure starts here 🚀</h1>
+        <p>Make your app management easy and fun!</p>
+        <form className="reg-form" onSubmit={handleSubmit}>
+          <p>First name</p>
+          <TextField
+            type="text"
+            name="firstName"
+            placeholder="john"
+            size="small"
+            onChange={handleChange}
+            value={input.firstName}
+            helperText={fullName ? 'Your first name is required' : ""}
+            error={fullName}
+          />
+          <p>Last name</p>
+          <TextField
+              
+            type="text"
+            name="lastName"
+            placeholder="doe"
+            size="small"
+            onChange={handleChange}
+            value={input.lastName}
+            helperText={fullName ? 'Your last name is required' : ""}
+            error={fullName}
+          />
+          <p>Email</p>
+          <TextField
+            type="email"
+            name="email"
+            placeholder="toto@example.com"
+            className="reg-email"
+            size="small"
+            onChange={handleChange}
+            value={input.email}
+            helperText={emailError ? 'Your Email is invalid' : ""}
+            error={emailError}
+          />
+          <p>Password</p>
+          <TextField
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="reg-password"
+            size="small"
+            onChange={handleChange}
+            value={input.password}
+            onClick={handleTouch}
+            helperText={passwordError ? 'Your password is invalid' : ""}
+            error={passwordError}
+          />
+          <p>Confirm Password</p>
+          <TextField
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            className="reg-password"
+            size="small"
+            onChange={handleChange}
+            value={input.confirmPassword}
+            helperText={confirmPassword ? 'Your confirm password is invalid' : ""}
+            error={confirmPassword}
+          />
+          {touch ?  
+          <div>
+                <ul className="reg-list">
+                    <li className= {`${validLength ? "reg--one-li" : ''}`}>
+                    8 characters (max.30)
+                    </li>
+                    <li className= {`${upperCase ? "reg--one-li" : ''}`}>
+                      1 capital letter
+                    </li>
+                    <li className= {`${lowerCase ? "reg--one-li" : ''}`}>
+                      1 lower letter 
+                    </li>
+                    <li className= {`${hasNumber ? "reg--one-li" : ''}`}>
+                      1 digit 
+                    </li>
+                    <li className= {`${match ? "reg--one-li" : ''}`}>Match</li>
+                </ul>
             </div>
-          }
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          className="reg-submit"
-          onSubmit={handleSubmit}
-        >
-          Sign up
-        </Button>
-      </form>
-      <p className="reg-sign">
-        Already hava an account?
-        <Link to="/">Sign in instead</Link>
-      </p>
-    </div>
+            :
+            <div></div> }
+            
+          <FormControlLabel
+            control={<Checkbox />}
+            label={
+              <div>
+                <span> I agree to </span>
+                <Link to="#">Privacy policy & terms</Link>
+              </div>
+            }
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            className="reg-submit"
+            onSubmit={handleSubmit}
+          >
+            Sign up
+          </Button>
+        </form>
+        <p className="reg-sign">
+          Already hava an account?
+          <Link to="/">Sign in instead</Link>
+        </p>
+      </div>
+    </InputLayout>
   );
 }
