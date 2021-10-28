@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../App/App";
 
-const AuthCheck = ({ children }) => {
+const IsAuth = () => {
 	const { user } = useContext(UserContext);
 	const history = useHistory();
 
@@ -10,7 +10,7 @@ const AuthCheck = ({ children }) => {
 		user?.id && history.push("/protected");
 	}, [history, user]);
 
-	return <div style={{ height: "100%" }}>{children}</div>;
+	return null;
 };
 
-export default AuthCheck;
+export default IsAuth;

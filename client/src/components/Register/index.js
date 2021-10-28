@@ -4,8 +4,8 @@ import { TextField, Button, Checkbox, FormControlLabel } from "@mui/material";
 import { usePasswordValidation } from "../hooks/usePasswordValidation";
 import { UserContext } from "../App/App";
 import axios from "../../utils/axios";
-import InputLayout from "../InputLayout";
 import "./style.scss";
+import InputLayout from "../InputLayout";
 
 const emailValidator = new RegExp(
 	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
