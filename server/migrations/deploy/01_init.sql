@@ -4,7 +4,7 @@ BEGIN;
 
 CREATE SCHEMA bristol;
 
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" ON bristol;
 
 -- Email domain checking if value has email format
 CREATE DOMAIN EMAIL AS TEXT CHECK (
