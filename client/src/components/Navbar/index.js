@@ -161,26 +161,24 @@ export default function Navbar({ children }) {
 		setUser({});
 	};
 
-	const handleMobileMenuClose = async () => {
+	const handleMobileMenuClose = () => {
+		setMobileMoreAnchorEl(null);
+	  };
+
+
+	const handleSignout = async () => {
+		handleMenuClose();
 		try {
 			await logout();
-			setAnchorEl(null);
-			setMobileMoreAnchorEl(null);
 		} catch (err) {
 			console.error(err);
 		}
 	};
 
-	const handleMenuClose = async () => {
-		try {
-			await logout();
-			setAnchorEl(null);
-			handleMobileMenuClose();
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
+	const handleMenuClose = () => {
+		setAnchorEl(null);
+		handleMobileMenuClose();
+	  };
 	const handleMobileMenuOpen = event => {
 		setMobileMoreAnchorEl(event.currentTarget);
 	};
@@ -201,7 +199,7 @@ export default function Navbar({ children }) {
 			}}
 			open={isMenuOpen}
 			onClose={handleMenuClose}>
-			<MenuItem onClick={handleMenuClose}>Sign out</MenuItem>
+			<MenuItem onClick={handleSignout}>Sign out</MenuItem>
 		</Menu>
 	);
 	const mobileMenuId = "primary-search-account-menu-mobile";
@@ -226,7 +224,7 @@ export default function Navbar({ children }) {
 				</IconButton>
 				<p>Thème</p>
 			</MenuItem>
-			<MenuItem onClick={handleMobileMenuClose}>
+			<MenuItem onClick={handleSignout}>
 				<IconButton size="large" aria-label="change theme" color="inherit">
 					<LogoutIcon />
 				</IconButton>
