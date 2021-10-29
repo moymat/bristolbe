@@ -95,6 +95,7 @@ const login = async body => {
 };
 
 const logout = async refresh => {
+	console.log(refresh);
 	try {
 		const { id } = auth.decodeToken(refresh);
 		return await redisClient.delAsync(id);
