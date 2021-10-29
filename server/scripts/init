@@ -4,7 +4,7 @@ export PGUSER=postgres
 
 cd ../migrations/db
 
-psql -f createdb.sql
+psql -U postgres -f createdb.sql
 
 export PGUSER=bristol
 export SQITCH_PASSWORD=bristol

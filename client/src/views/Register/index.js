@@ -84,9 +84,9 @@ export default function Register() {
 
 		try {
 			const { data } = await axios.post("/auth/register", {
-				first_name: firstName,
-				last_name: lastName,
-				email,
+				first_name: firstName.trim(),
+				last_name: lastName.trim(),
+				email: email.trim(),
 				password,
 				confirm,
 			});
@@ -108,7 +108,7 @@ export default function Register() {
 	};
 
 	const handleTouch = () => {
-		setTouch(true);
+		!touch && setTouch(true);
 	};
 
 	return (
