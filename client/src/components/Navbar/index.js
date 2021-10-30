@@ -9,6 +9,7 @@ import {
 	orange,
 	lightBlue,
 	deepPurple,
+	blue,
 	deepOrange,
 } from "@mui/material/colors";
 import Box from "@mui/material/Box";
@@ -36,6 +37,7 @@ import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import BELogo from "../../assets/img/BELogo.png";
 //internal import
 import DarkThemeSwitch from "./switchDarkMode";
+import stringAvatar from "../../utils/avatarsColors";
 //react-router-dom import
 import { useHistory, Link } from "react-router-dom";
 
@@ -119,8 +121,7 @@ export default function Navbar({ children }) {
 	const mainPrimaryColor = darkState ? orange[500] : lightBlue[500];
 	const mainSecondaryColor = darkState ? deepOrange[900] : deepPurple[500];
 
-	const { setUser } = useContext(UserContext);
-
+	const { setUser, user } = useContext(UserContext);
 	const darkTheme = createTheme({
 		palette: {
 			mode: palletType,
@@ -279,7 +280,7 @@ export default function Navbar({ children }) {
 								aria-haspopup="true"
 								onClick={handleProfileMenuOpen}
 								color="inherit">
-								<Avatar sx={{ width: 35, height: 35 }} alt="Remy Sharp" />
+								<Avatar sx={{ width: 35, height: 35 }} {...stringAvatar(`${user.first_name} ${user.last_name}`)} />
 							</IconButton>
 						</Box>
 						<Box sx={{ display: { xs: "flex", md: "none" } }}>
