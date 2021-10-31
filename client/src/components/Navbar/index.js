@@ -1,17 +1,9 @@
 import { useState, useContext } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import {
 	styled,
 	useTheme,
-	ThemeProvider,
-	createTheme,
 } from "@mui/material/styles";
-import {
-	orange,
-	lightBlue,
-	deepPurple,
-	blue,
-	deepOrange,
-} from "@mui/material/colors";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -112,31 +104,14 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function Navbar({ children }) {
+	const dispatch = useDispatch();
 	const theme = useTheme();
-	const [open, setOpen] = useState(false);
-	const [darkState, setDarkState] = useState(false);
+	const darkState = useSelector((state) => state.isDark);
 
-	// For Switch Theming
-	const palletType = darkState ? "dark" : "light";
-	const mainPrimaryColor = darkState ? orange[500] : lightBlue[500];
-	const mainSecondaryColor = darkState ? deepOrange[900] : deepPurple[500];
+	const [open, setOpen] = useState(false);
 
 	const { setUser, user } = useContext(UserContext);
-	const darkTheme = createTheme({
-		palette: {
-			mode: palletType,
-			primary: {
-				main: mainPrimaryColor,
-			},
-			secondary: {
-				main: mainSecondaryColor,
-			},
-		},
-	});
 
-	const handleThemeChange = () => {
-		setDarkState(!darkState);
-	};
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -219,7 +194,7 @@ export default function Navbar({ children }) {
 			}}
 			open={isMobileMenuOpen}
 			onClose={handleMobileMenuClose}>
-			<MenuItem onClick={handleThemeChange}>
+			<MenuItem onChange={() => dispatch({type: 'TOGGLE_DARK_MODE'})}>
 				<IconButton size="large" aria-label="change theme" color="inherit">
 					{darkState ? <Brightness7Icon /> : <DarkModeIcon />}
 				</IconButton>
@@ -240,7 +215,6 @@ export default function Navbar({ children }) {
 	}
 
 	return (
-		<ThemeProvider theme={darkTheme}>
 			<Box sx={{ display: "flex" }}>
 				<CssBaseline />
 				<AppBar position="fixed" open={open}>
@@ -269,7 +243,7 @@ export default function Navbar({ children }) {
 								color="inherit">
 								<DarkThemeSwitch
 									checked={darkState}
-									onChange={handleThemeChange}
+									onChange={() => dispatch({type: 'TOGGLE_DARK_MODE'})}
 								/>
 							</IconButton>
 							<IconButton
@@ -323,6 +297,5 @@ export default function Navbar({ children }) {
 					{children}
 				</Box>
 			</Box>
-		</ThemeProvider>
 	);
 }

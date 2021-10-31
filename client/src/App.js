@@ -10,7 +10,7 @@ import Reset from "./views/Reset";
 import IsAuth from "./components/IsAuth";
 import "./App.scss";
 import axios from "./utils/axios";
-
+import CustomTheme from "./theme"
 export const UserContext = createContext({});
 
 function App() {
@@ -46,6 +46,7 @@ function App() {
 						<Route exact path="/reset">
 							<Reset />
 						</Route>
+						<CustomTheme>
 						<Route exact path="/home">
 							<Navbar>
 								<Home />
@@ -56,6 +57,7 @@ function App() {
 								<Bristol />
 							</Navbar>
 						</Route>
+						</CustomTheme>
 					</IsAuth>
 				</Switch>
 			</Router>
