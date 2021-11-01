@@ -1,9 +1,6 @@
 import { useState, useContext } from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import {
-	styled,
-	useTheme,
-} from "@mui/material/styles";
+import { useSelector, useDispatch } from "react-redux";
+import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -109,16 +106,16 @@ export default function Navbar({ children }) {
 
 	const handleDrawerOpen = () => {
 		dispatch({
-			type: 'TOGGLE_DRAWER',
-			setOpen : true
-		})
+			type: "TOGGLE_DRAWER",
+			setOpen: true,
+		});
 	};
 
 	const handleDrawerClose = () => {
 		dispatch({
-			type: 'TOGGLE_DRAWER',
-			setOpen : false
-		})
+			type: "TOGGLE_DRAWER",
+			setOpen: false,
+		});
 	};
 
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -131,21 +128,20 @@ export default function Navbar({ children }) {
 	};
 
 	const logout = async () => {
-		await axios.get("/auth/logout");
+		await axios().get("/auth/logout");
 		localStorage.removeItem("refresh_token");
 		setUser({});
 	};
 
 	const handleMobileMenuClose = () => {
 		setMobileMoreAnchorEl(null);
-	  };
-
+	};
 
 	const handleSignout = async () => {
 		handleMenuClose();
 		try {
 			await logout();
-			dispatch({type: 'LOGOUT'});
+			dispatch({ type: "LOGOUT" });
 		} catch (err) {
 			console.error(err);
 		}
@@ -154,7 +150,7 @@ export default function Navbar({ children }) {
 	const handleMenuClose = () => {
 		setAnchorEl(null);
 		handleMobileMenuClose();
-	  };
+	};
 	const handleMobileMenuOpen = event => {
 		setMobileMoreAnchorEl(event.currentTarget);
 	};
@@ -194,9 +190,13 @@ export default function Navbar({ children }) {
 			}}
 			open={isMobileMenuOpen}
 			onClose={handleMobileMenuClose}>
-			<MenuItem onChange={() => dispatch({type: 'TOGGLE_DARK_MODE'})}>
+			<MenuItem onChange={() => dispatch({ type: "TOGGLE_DARK_MODE" })}>
 				<IconButton size="large" aria-label="change theme" color="inherit">
-					{useSelector((state) => state.core.isDark) ? <Brightness7Icon /> : <DarkModeIcon />}
+					{useSelector(state => state.core.isDark) ? (
+						<Brightness7Icon />
+					) : (
+						<DarkModeIcon />
+					)}
 				</IconButton>
 				<p>Thème</p>
 			</MenuItem>
@@ -215,86 +215,95 @@ export default function Navbar({ children }) {
 	}
 
 	return (
-			<Box sx={{ display: "flex" }}>
-				<CssBaseline />
-				<AppBar position="fixed" open={useSelector((state) => state.core.isDrawerOpen)}>
-					<Toolbar>
+		<Box sx={{ display: "flex" }}>
+			<CssBaseline />
+			<AppBar
+				position="fixed"
+				open={useSelector(state => state.core.isDrawerOpen)}>
+				<Toolbar>
+					<IconButton
+						color="inherit"
+						aria-label="open drawer"
+						onClick={handleDrawerOpen}
+						edge="start"
+						sx={{
+							marginRight: "36px",
+							...(useSelector(state => state.core.isDrawerOpen) && {
+								display: "none",
+							}),
+						}}>
+						<MenuIcon />
+					</IconButton>
+					<Link to="/home">
+						<img src={BELogo} alt="react logo" width="40" />
+					</Link>
+					<Box sx={{ flexGrow: 1 }} />
+					<Box sx={{ display: { xs: "none", md: "flex" } }}>
 						<IconButton
-							color="inherit"
-							aria-label="open drawer"
-							onClick={handleDrawerOpen}
-							edge="start"
-							sx={{
-								marginRight: "36px",
-								...(useSelector((state) => state.core.isDrawerOpen) && { display: "none" }),
-							}}>
-							<MenuIcon />
+							size="large"
+							edge="end"
+							aria-label="dark theme"
+							color="inherit">
+							<DarkThemeSwitch
+								checked={useSelector(state => state.core.isDark)}
+								onChange={() => dispatch({ type: "TOGGLE_DARK_MODE" })}
+							/>
 						</IconButton>
-						<Link to="/home">
-							<img src={BELogo} alt="react logo" width="40" />
-						</Link>
-						<Box sx={{ flexGrow: 1 }} />
-						<Box sx={{ display: { xs: "none", md: "flex" } }}>
-							<IconButton
-								size="large"
-								edge="end"
-								aria-label="dark theme"
-								color="inherit">
-								<DarkThemeSwitch
-									checked={useSelector((state) => state.core.isDark)}
-									onChange={() => dispatch({type: 'TOGGLE_DARK_MODE'})}
-								/>
-							</IconButton>
-							<IconButton
-								size="large"
-								edge="end"
-								aria-label="account of current user"
-								aria-controls={menuId}
-								aria-haspopup="true"
-								onClick={handleProfileMenuOpen}
-								color="inherit">
-								<Avatar sx={{ width: 35, height: 35 }} {...stringAvatar(`${user.first_name} ${user.last_name}`)} />
-							</IconButton>
-						</Box>
-						<Box sx={{ display: { xs: "flex", md: "none" } }}>
-							<IconButton
-								size="large"
-								aria-label="show more"
-								aria-controls={mobileMenuId}
-								aria-haspopup="true"
-								onClick={handleMobileMenuOpen}
-								color="inherit">
-								<MoreIcon />
-							</IconButton>
-						</Box>
-					</Toolbar>
-				</AppBar>
-				{renderMobileMenu}
-				{renderMenu}
-				<Drawer variant="permanent" open={useSelector((state) => state.core.isDrawerOpen)}>
-					<DrawerHeader>
-						<IconButton onClick={handleDrawerClose}>
-							{theme.direction === "rtl" ? (
-								<ChevronRightIcon />
-							) : (
-								<ChevronLeftIcon />
-							)}
+						<IconButton
+							size="large"
+							edge="end"
+							aria-label="account of current user"
+							aria-controls={menuId}
+							aria-haspopup="true"
+							onClick={handleProfileMenuOpen}
+							color="inherit">
+							<Avatar
+								sx={{ width: 35, height: 35 }}
+								{...stringAvatar(`${user.first_name} ${user.last_name}`)}
+							/>
 						</IconButton>
-					</DrawerHeader>
-					<Divider />
-					<List>
-						<ListItem button key="Bristol" onClick={handleBristolButtonClick}>
-							<ListItemIcon>
-								<LocalLibraryIcon />
-							</ListItemIcon>
-							<ListItemText primary="Bristol" />
-						</ListItem>
-					</List>
-				</Drawer>
-				<Box component="main" sx={{ flexGrow: 1, p: 3, width: "100%" }}>
-					<DrawerHeader />
-					{children}
-				</Box>
+					</Box>
+					<Box sx={{ display: { xs: "flex", md: "none" } }}>
+						<IconButton
+							size="large"
+							aria-label="show more"
+							aria-controls={mobileMenuId}
+							aria-haspopup="true"
+							onClick={handleMobileMenuOpen}
+							color="inherit">
+							<MoreIcon />
+						</IconButton>
+					</Box>
+				</Toolbar>
+			</AppBar>
+			{renderMobileMenu}
+			{renderMenu}
+			<Drawer
+				variant="permanent"
+				open={useSelector(state => state.core.isDrawerOpen)}>
+				<DrawerHeader>
+					<IconButton onClick={handleDrawerClose}>
+						{theme.direction === "rtl" ? (
+							<ChevronRightIcon />
+						) : (
+							<ChevronLeftIcon />
+						)}
+					</IconButton>
+				</DrawerHeader>
+				<Divider />
+				<List>
+					<ListItem button key="Bristol" onClick={handleBristolButtonClick}>
+						<ListItemIcon>
+							<LocalLibraryIcon />
+						</ListItemIcon>
+						<ListItemText primary="Bristol" />
+					</ListItem>
+				</List>
+			</Drawer>
+			<Box component="main" sx={{ flexGrow: 1, p: 3, width: "100%" }}>
+				<DrawerHeader />
+				{children}
 			</Box>
+		</Box>
 	);
 }
