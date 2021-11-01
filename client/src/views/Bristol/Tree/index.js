@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Nestable from "react-nestable";
 import "./styles.css";
-import { createNestedMenu, generateFlatMenu, menus } from "./helper.js";
-//material import
+import {
+  createNestedMenu,
+  generateFlatMenu,
+  menus,
+  menusReadOnly,
+} from "./helper.js";
 import Fab from "@mui/material/Fab";
 import Box from "@mui/material/Box";
 import AddIcon from "@mui/icons-material/Add";
@@ -12,22 +17,33 @@ import SaveIcon from "@mui/icons-material/Save";
 import Divider from "@mui/material/Divider";
 
 const BristolView = () => {
-  const [itemsTemp, setItemsTemp] = useState([]);
+  const dispatch = useDispatch();
 
+  //chargement initial
   useEffect(() => {
-    setItemsTemp(createNestedMenu(menus));
+    const ItemsWriteTemp = createNestedMenu(menus);
+    dispatch({ type: "SET_READ_WRITE_ITEMS", items: ItemsWriteTemp });
+    const ItemsReadTemp = createNestedMenu(menusReadOnly);
+    dispatch({ type: "SET_READ_ONLY_ITEMS", items: ItemsReadTemp });
   }, []);
 
-  const handleOnChangeSort = (items) => {
-    setItemsTemp(items);
-  };
-
-  const handleGenerate = () => {
-    //const { itemsTemp } = this.state;
-    const flatMenu = generateFlatMenu(itemsTemp);
-
+  //we update the state on change sort
+  const handleOnChangeSort = (items, dragItem) => {
+    const flatMenu = generateFlatMenu(items);
+    const movedItemId = dragItem.id;
+    const movedItem = flatMenu.find(item => item.id == movedItemId);
+    const movedParentId = movedItem.parent;
+    const movedOrderNo = movedItem.orderNo;
+    dispatch({ type: "SET_READ_WRITE_ITEMS", items, movedItemId, movedParentId, movedOrderNo  });
+    dispatch({ type: "GENERATE_FLAT_MENU", flatMenu: flatMenu });
     console.log(flatMenu);
   };
+
+  /*   const handleGenerate = () => {
+    const { itemsTemp } = this.state;
+    const flatMenu = generateFlatMenu(itemsTemp);
+    console.log(flatMenu);
+  }; */
 
   const handleOnClick = (event) => {
     const targetedEl = event.target.parentNode.parentNode;
@@ -43,7 +59,10 @@ const BristolView = () => {
         }
       });
       //action
-      console.log(+targetId);
+      dispatch({
+        type: "SHOW_BRISTOL_READER",
+        id: +targetId,
+      });
     }
   };
 
@@ -74,7 +93,7 @@ const BristolView = () => {
             groupe={1}
             collapsed={true}
             maxDepth={15}
-            items={itemsTemp}
+            items={useSelector((state) => state.bristol.itemsTempWrite)}
             renderItem={({ item, collapseIcon }) => (
               <div className="listMenu">
                 {collapseIcon}
@@ -99,7 +118,7 @@ const BristolView = () => {
             groupe={2}
             collapsed={true}
             maxDepth={15}
-            items={itemsTemp}
+            items={useSelector((state) => state.bristol.itemsTempRead)}
             renderItem={({ item, collapseIcon }) => (
               <div className="listMenuRead">
                 {collapseIcon}
@@ -118,7 +137,7 @@ const BristolView = () => {
         <Fab
           color="primary"
           aria-label="add"
-          onClick={handleGenerate}
+          onClick={() => dispatch({ type: "SHOW_BRISTOL_EDITOR" })}
           sx={{
             position: "fixed",
             bottom: 50,

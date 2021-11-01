@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import ReactQuill from "react-quill";
 import TextField from "@mui/material/TextField";
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -15,6 +16,7 @@ import "./styles.css";
 
 export const Editor = () => {
   //loading state used by submit button
+  const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(false);
   function handleClick() {
     setLoading(true);
@@ -42,7 +44,7 @@ export const Editor = () => {
           color="primary"
           size="small"
         />
-        <Button variant="outlined">CANCEL</Button>
+        <Button variant="outlined" onClick={() => dispatch({type: 'HIDE_BRISTOL_EDITOR'})}>CANCEL</Button>
 		<LoadingButton
           color="primary"
           onClick={handleSaveClick}

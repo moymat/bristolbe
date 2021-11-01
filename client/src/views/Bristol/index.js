@@ -1,5 +1,7 @@
+import { useSelector } from 'react-redux';
 import BristolTreeView from './Tree';
-import BristolEditorView from './Editor';
+import EditorView from './Editor';
+import ReaderView from './Reader';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
@@ -19,7 +21,7 @@ const BristolView = () => (
         {/* </Box> */}
       </Grid>
       <Grid item xs={9}>
-        {true && <BristolEditorView />}
+        {useSelector((state) => state.bristol.editionMode) ? <EditorView /> : <ReaderView />}
       </Grid>
     </Grid>
   </Box>
