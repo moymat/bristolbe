@@ -52,6 +52,8 @@ const getUsersBristols = async (req, res, next) => {
 		res.status(400);
 		return next(error);
 	}
+	console.log(data);
+
 	res.json({ data });
 };
 
