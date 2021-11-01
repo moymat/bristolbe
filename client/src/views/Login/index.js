@@ -35,7 +35,7 @@ export default function Login() {
 		}
 
 		try {
-			const { data } = await axios.post("/auth/login", {
+			const { data } = await axios().post("/auth/login", {
 				email,
 				password,
 			});

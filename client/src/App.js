@@ -10,7 +10,7 @@ import Reset from "./views/Reset";
 import IsAuth from "./components/IsAuth";
 import "./App.scss";
 import axios from "./utils/axios";
-import CustomTheme from "./theme"
+import CustomTheme from "./theme";
 export const UserContext = createContext({});
 
 function App() {
@@ -19,7 +19,9 @@ function App() {
 	useEffect(() => {
 		const checkAuth = async () => {
 			try {
-				const { data } = await axios.get("http://localhost:4000/auth/is_auth");
+				const { data } = await axios().get(
+					"http://localhost:4000/auth/is_auth"
+				);
 				localStorage.setItem("refresh_token", data.refresh);
 				setUser(data.user);
 			} catch (err) {
@@ -47,16 +49,16 @@ function App() {
 							<Reset />
 						</Route>
 						<CustomTheme>
-						<Route exact path="/home">
-							<Navbar>
-								<Home />
-							</Navbar>
-						</Route>
-						<Route exact path="/bristol">
-							<Navbar>
-								<Bristol />
-							</Navbar>
-						</Route>
+							<Route exact path="/home">
+								<Navbar>
+									<Home />
+								</Navbar>
+							</Route>
+							<Route exact path="/bristol">
+								<Navbar>
+									<Bristol />
+								</Navbar>
+							</Route>
 						</CustomTheme>
 					</IsAuth>
 				</Switch>

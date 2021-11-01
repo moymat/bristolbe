@@ -83,7 +83,7 @@ export default function Register() {
 		const { email, password, firstName, lastName, confirm } = input;
 
 		try {
-			const { data } = await axios.post("/auth/register", {
+			const { data } = await axios().post("/auth/register", {
 				first_name: firstName.trim(),
 				last_name: lastName.trim(),
 				email: email.trim(),
