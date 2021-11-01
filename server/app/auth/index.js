@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const redisClient = require("../db/redis")();
 
-const signToken = (payload, refresh = false) => {
-	return refresh
+const signToken = (payload, isRefresh = false) => {
+	return isRefresh
 		? jwt.sign(payload, process.env.SECRET_REFRESH_KEY, {
 				expiresIn: process.env.REFRESH_EXP,
 		  })
@@ -11,26 +11,36 @@ const signToken = (payload, refresh = false) => {
 		  });
 };
 
-const decodeToken = (token, refresh = false) => {
-	return refresh
+const decodeToken = (token, isRefresh = false) => {
+	return isRefresh
 		? jwt.decode(token, process.env.SECRET_REFRESH_KEY)
 		: jwt.decode(token, process.env.SECRET_TOKEN_KEY);
 };
 
+const verifyToken = (token, isRefresh = false) => {
+	return isRefresh
+		? jwt.verify(token, process.env.SECRET_REFRESH_KEY)
+		: jwt.verify(token, process.env.SECRET_TOKEN_KEY);
+};
+
 const isAuth = async (req, res, next) => {
-	// Retrieve tokens from cookie & headers
-	const refresh = req.headers.authorization.split("Bearer ")[1];
+	// Retrieve access_tokens from cookie & refresh_token and browser_id  from headers
+	const browserId = req.headers.browser_id;
+	const refresh = req.headers.authorization?.split("Bearer ")[1];
 	const { access_token: token } = req.cookies;
 
 	let decodedRefresh;
+	const notLoggedInError = new Error("not logged in");
 
 	try {
-		decodedRefresh = jwt.verify(refresh, process.env.SECRET_REFRESH_KEY);
-		const decodedToken = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
+		if (!browserId || !refresh || !token) throw notLoggedInError;
 
-		if (decodedToken.id !== decodedRefresh.id) throw Error("not logged in");
+		decodedRefresh = verifyToken(refresh, true);
+		const decodedToken = verifyToken(token);
 
-		// If both token valid, continue
+		if (decodedToken.id !== decodedRefresh.id) throw notLoggedInError;
+
+		// If both tokens valid, continue
 		return next();
 	} catch (err) {
 		if (!decodedRefresh) {
@@ -41,20 +51,18 @@ const isAuth = async (req, res, next) => {
 	}
 
 	// Retrieve stored refresh token
-	const cachedRefresh = await redisClient.getAsync(decodedRefresh.id);
+	const cachedRefresh = await redisClient.getAsync(browserId);
 
 	if (cachedRefresh !== refresh) {
 		// If cached refresh token and sent refresh token are different, delete cookie and throw error
-		console.log("diff", cachedRefresh, refresh);
 		res.status(401).clearCookie("access_token");
-		return next(Error("not logged in"));
+		return next(notLoggedInError);
 	}
 
 	try {
-		const decodedCached = jwt.decode(cachedRefresh, process.env.REFRESH_EXP);
+		const decodedCached = decodeToken(cachedRefresh, true);
 		// If cached refresh token id and sent refresh token id are different, throw error
-		if (decodedCached.id !== decodedRefresh.id)
-			throw new Error("not logged in");
+		if (decodedCached.id !== decodedRefresh.id) throw notLoggedInError;
 	} catch (err) {
 		// Delete cookie and throw error
 		res.status(401).clearCookie("access_token");
@@ -68,8 +76,29 @@ const isAuth = async (req, res, next) => {
 	next();
 };
 
+// Function to verify if the user making the request is authorize to do so
+const isUserAuthz = (req, res, next) => {
+	try {
+		// Retrieving access token from the cookies and decoding it
+		const { access_token: token } = req.cookies;
+		const { id } = decodeToken(token);
+		// Retrieving the user allowed by the query
+		const { userId } = req.params;
+
+		// If userId and if from token different, error
+		if (userId !== id)
+			throw Error("user doesn't have permission to access data");
+
+		next();
+	} catch (error) {
+		next(error);
+	}
+};
+
 module.exports = {
 	signToken,
 	decodeToken,
+	verifyToken,
 	isAuth,
+	isUserAuthz,
 };
