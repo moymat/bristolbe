@@ -26,6 +26,8 @@ const getAxiosInstance = () => {
 
 	instance.post["Content-Type"] = "application/json";
 
+	console.log(browserId, refresh);
+
 	return instance;
 };
 
