@@ -1,44 +1,14 @@
-// src/reducers/theme
-const initialState = {
-  isDark: false,
-  isDrawerOpen: false,
-  isBristolEditorVisible: true,
-};
+import { combineReducers } from 'redux';
+import coreReducer from './core';
+import bristolReducer from './bristol';
 
-const reducer = (state = initialState, action = {}) => {
-  switch (action.type) {
-    case "TOGGLE_DARK_MODE":
-      return {
-        ...state,
-        isDark: !state.isDark,
-      };
-    case "TOGGLE_DRAWER":
-      return {
-        ...state,
-        isDrawerOpen: action.setOpen,
-      };
-    case "LOGOUT":
-      return {
-        ...state,
-        isDark: false,
-        isDrawerOpen: false,
-      };
-    case "SHOW_BRISTOL_EDITOR":
-      return {
-        ...state,
-        isBristolEditorVisible: true,
-      };
-    case "HIDE_BRISTOL_EDITOR":
-      return {
-        ...state,
-        isBristolEditorVisible: false,
-      };
-    default:
-      return state;
-  }
-};
+const rootReducer = combineReducers({
+  core: coreReducer,
+  bristol: bristolReducer,
+});
 
-export default reducer;
+export default rootReducer;
 
-//onChange={() => dispatch({type: 'TOGGLE_DARK_MODE'})}
-//checked={useSelector((state) => state.isDark)}
+
+
+//combine reducer

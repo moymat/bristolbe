@@ -3,7 +3,7 @@ import BristolEditorView from './Editor';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
-// import SwipeableEdgeDrawer from '../SwipeableDrawer'
+// import SwipeableEdgeDrawer from './SwipeableDrawer'
 
 const BristolView = () => (
 

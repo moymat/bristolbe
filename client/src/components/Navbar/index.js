@@ -196,7 +196,7 @@ export default function Navbar({ children }) {
 			onClose={handleMobileMenuClose}>
 			<MenuItem onChange={() => dispatch({type: 'TOGGLE_DARK_MODE'})}>
 				<IconButton size="large" aria-label="change theme" color="inherit">
-					{useSelector((state) => state.isDark) ? <Brightness7Icon /> : <DarkModeIcon />}
+					{useSelector((state) => state.core.isDark) ? <Brightness7Icon /> : <DarkModeIcon />}
 				</IconButton>
 				<p>Thème</p>
 			</MenuItem>
@@ -217,7 +217,7 @@ export default function Navbar({ children }) {
 	return (
 			<Box sx={{ display: "flex" }}>
 				<CssBaseline />
-				<AppBar position="fixed" open={useSelector((state) => state.isDrawerOpen)}>
+				<AppBar position="fixed" open={useSelector((state) => state.core.isDrawerOpen)}>
 					<Toolbar>
 						<IconButton
 							color="inherit"
@@ -226,7 +226,7 @@ export default function Navbar({ children }) {
 							edge="start"
 							sx={{
 								marginRight: "36px",
-								...(useSelector((state) => state.isDrawerOpen) && { display: "none" }),
+								...(useSelector((state) => state.core.isDrawerOpen) && { display: "none" }),
 							}}>
 							<MenuIcon />
 						</IconButton>
@@ -241,7 +241,7 @@ export default function Navbar({ children }) {
 								aria-label="dark theme"
 								color="inherit">
 								<DarkThemeSwitch
-									checked={useSelector((state) => state.isDark)}
+									checked={useSelector((state) => state.core.isDark)}
 									onChange={() => dispatch({type: 'TOGGLE_DARK_MODE'})}
 								/>
 							</IconButton>
@@ -271,7 +271,7 @@ export default function Navbar({ children }) {
 				</AppBar>
 				{renderMobileMenu}
 				{renderMenu}
-				<Drawer variant="permanent" open={useSelector((state) => state.isDrawerOpen)}>
+				<Drawer variant="permanent" open={useSelector((state) => state.core.isDrawerOpen)}>
 					<DrawerHeader>
 						<IconButton onClick={handleDrawerClose}>
 							{theme.direction === "rtl" ? (

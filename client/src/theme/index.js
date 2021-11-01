@@ -9,7 +9,7 @@ import {
 import { ThemeProvider } from "@mui/material/styles";
 
 export const CustomTheme = ({ children }) => {
-  const darkState = useSelector((state) => state.isDark);
+  const darkState = useSelector((state) => state.core.isDark);
 
   const palletType = darkState ? "dark" : "light";
   const mainPrimaryColor = darkState ? orange[500] : lightBlue[500];
