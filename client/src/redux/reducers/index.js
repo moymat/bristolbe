@@ -2,10 +2,10 @@
 const initialState = {
   isDark: false,
   isDrawerOpen: false,
+  isBristolEditorVisible: true,
 };
 
 const reducer = (state = initialState, action = {}) => {
-  console.log("je tombe dans le reducer. action vaut : ", action);
   switch (action.type) {
     case "TOGGLE_DARK_MODE":
       return {
@@ -15,7 +15,23 @@ const reducer = (state = initialState, action = {}) => {
     case "TOGGLE_DRAWER":
       return {
         ...state,
-        isDrawerOpen: !state.isDrawerOpen,
+        isDrawerOpen: action.setOpen,
+      };
+    case "LOGOUT":
+      return {
+        ...state,
+        isDark: false,
+        isDrawerOpen: false,
+      };
+    case "SHOW_BRISTOL_EDITOR":
+      return {
+        ...state,
+        isBristolEditorVisible: true,
+      };
+    case "HIDE_BRISTOL_EDITOR":
+      return {
+        ...state,
+        isBristolEditorVisible: false,
       };
     default:
       return state;
@@ -23,3 +39,6 @@ const reducer = (state = initialState, action = {}) => {
 };
 
 export default reducer;
+
+//onChange={() => dispatch({type: 'TOGGLE_DARK_MODE'})}
+//checked={useSelector((state) => state.isDark)}
