@@ -2,7 +2,7 @@
 // on importe la fonction qui permet de créer un store
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import logOutMiddleware from '../middlewares/logOutMiddleware';
+import middleware from '../middlewares';
 
 import rootReducer from '../reducers';
 
@@ -14,7 +14,7 @@ const store = createStore(
     // on donne nos middlewares a nous avec applyMiddleware, séparés par des ,
     applyMiddleware(
       // nos middlewares
-      logOutMiddleware,
+      middleware,
     ),
   ),
 );

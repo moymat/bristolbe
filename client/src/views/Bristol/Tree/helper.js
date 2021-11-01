@@ -297,7 +297,56 @@ const menus = [
         parent: 5
     }
 ];
-
+const menusReadOnly = [
+    {
+        id: 35,
+        label: "La Data",
+        path: "/#",
+        descr: "Parent modul-modul yang berkaitan dengan sistem administrasi",
+        isActive: true,
+        orderNo: 0,
+        parent: 0
+    },
+    {
+        id: 36,
+        label: "Création de bases de données",
+        path: "/menu",
+        descr: "Pengelolaan Menu",
+        endPoint: "MenuGridContainer",
+        isActive: true,
+        orderNo: 0,
+        parent: 4
+    },
+    {
+        id: 37,
+        label: "Procédures stockées",
+        path: "/role",
+        descr: "Pengelolaan hak akses pengguna",
+        endPoint: "RoleGridContainer",
+        isActive: true,
+        orderNo: 0,
+        parent: 4
+    },
+    {
+        id: 38,
+        label: "Frameworks Node",
+        path: "/user",
+        descr: "Pengelolaan Pengguna Aplikasi",
+        endPoint: "UserGridContainer",
+        isActive: true,
+        orderNo: 0,
+        parent: 4
+    },
+    {
+        id: 39,
+        label: "NoSQL",
+        path: "/#",
+        descr: "Parent modul-modul yang berkaitan dengan sistem administrasi",
+        isActive: true,
+        orderNo: 0,
+        parent: 0
+    },
+];
 const createNestedMenu = (arr = [], parent = 0) => {
     let fix = [];
 
@@ -353,4 +402,4 @@ const generateFlatMenu = (arr = [], parent = 0, index = 0, recursive = 1) => {
     return fix;
 };
 
-export { createNestedMenu, generateFlatMenu, menus };
+export { createNestedMenu, generateFlatMenu, menusReadOnly, menus };
