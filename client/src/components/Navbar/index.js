@@ -27,10 +27,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import BELogo from "../../assets/img/BELogo.png";
-//internal import
 import DarkThemeSwitch from "./switchDarkMode";
 import stringAvatar from "../../utils/avatarsColors";
-//react-router-dom import
 import { useHistory, Link } from "react-router-dom";
 
 import axios from "../../utils/axios";
@@ -106,22 +104,23 @@ const Drawer = styled(MuiDrawer, {
 export default function Navbar({ children }) {
 	const dispatch = useDispatch();
 	const theme = useTheme();
-	const darkState = useSelector((state) => state.isDark);
-
-	const [open, setOpen] = useState(false);
 
 	const { setUser, user } = useContext(UserContext);
 
-
 	const handleDrawerOpen = () => {
-		setOpen(true);
+		dispatch({
+			type: 'TOGGLE_DRAWER',
+			setOpen : true
+		})
 	};
 
 	const handleDrawerClose = () => {
-		setOpen(false);
+		dispatch({
+			type: 'TOGGLE_DRAWER',
+			setOpen : false
+		})
 	};
 
-	// profil
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 	const isMenuOpen = Boolean(anchorEl);
@@ -146,6 +145,7 @@ export default function Navbar({ children }) {
 		handleMenuClose();
 		try {
 			await logout();
+			dispatch({type: 'LOGOUT'});
 		} catch (err) {
 			console.error(err);
 		}
@@ -196,7 +196,7 @@ export default function Navbar({ children }) {
 			onClose={handleMobileMenuClose}>
 			<MenuItem onChange={() => dispatch({type: 'TOGGLE_DARK_MODE'})}>
 				<IconButton size="large" aria-label="change theme" color="inherit">
-					{darkState ? <Brightness7Icon /> : <DarkModeIcon />}
+					{useSelector((state) => state.isDark) ? <Brightness7Icon /> : <DarkModeIcon />}
 				</IconButton>
 				<p>Thème</p>
 			</MenuItem>
@@ -217,8 +217,7 @@ export default function Navbar({ children }) {
 	return (
 			<Box sx={{ display: "flex" }}>
 				<CssBaseline />
-				<AppBar position="fixed" open={open}>
-					{/* add props "enableColorOnDark" to use primary color with dark mode */}
+				<AppBar position="fixed" open={useSelector((state) => state.isDrawerOpen)}>
 					<Toolbar>
 						<IconButton
 							color="inherit"
@@ -227,7 +226,7 @@ export default function Navbar({ children }) {
 							edge="start"
 							sx={{
 								marginRight: "36px",
-								...(open && { display: "none" }),
+								...(useSelector((state) => state.isDrawerOpen) && { display: "none" }),
 							}}>
 							<MenuIcon />
 						</IconButton>
@@ -242,7 +241,7 @@ export default function Navbar({ children }) {
 								aria-label="dark theme"
 								color="inherit">
 								<DarkThemeSwitch
-									checked={darkState}
+									checked={useSelector((state) => state.isDark)}
 									onChange={() => dispatch({type: 'TOGGLE_DARK_MODE'})}
 								/>
 							</IconButton>
@@ -272,7 +271,7 @@ export default function Navbar({ children }) {
 				</AppBar>
 				{renderMobileMenu}
 				{renderMenu}
-				<Drawer variant="permanent" open={open}>
+				<Drawer variant="permanent" open={useSelector((state) => state.isDrawerOpen)}>
 					<DrawerHeader>
 						<IconButton onClick={handleDrawerClose}>
 							{theme.direction === "rtl" ? (

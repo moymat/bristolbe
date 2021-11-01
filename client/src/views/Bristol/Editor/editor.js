@@ -5,8 +5,9 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import SaveIcon from '@mui/icons-material/Save';
 import Stack from "@mui/material/Stack";
-import EditorToolbar, { modules, formats } from "./EditorToolbar";
+import { modules, formats } from "./EditorToolbar";
 import Button from "@mui/material/Button";
+import CssBaseline from '@mui/material/CssBaseline';
 // import axios from "axios";
 // import { useSelector } from "react-redux";
 import "react-quill/dist/quill.snow.css";
@@ -26,10 +27,12 @@ export const Editor = () => {
 
   const handleSaveClick = (event) => {
     event.preventDefault();
+    console.log(content);
     setContent({ value: null });
   };
   return (
     <Box className="text-editor" sx={{ px: 5/* , maxWidth: "1086px" */}}>
+      <CssBaseline />
       <Stack direction="row" spacing={1} sx={{ mb: 1}}>
         <TextField
           fullWidth
@@ -51,12 +54,11 @@ export const Editor = () => {
           Save
         </LoadingButton>
       </Stack>
-      <EditorToolbar />
       <ReactQuill
         theme="snow"
         value={content.value}
         onChange={handleChange}
-        placeholder={"Write something awesome..."}
+        // placeholder={"Write something awesome..."}
         modules={modules}
         formats={formats}
       />
