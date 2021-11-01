@@ -1,7 +1,17 @@
 const { authModel } = require("../models");
 
 const register = async (req, res, next) => {
-	const { validationErrors, error, data } = await authModel.register(req.body);
+	const browserId = req.headers.browser_id;
+
+	if (!browserId) {
+		res.status(400);
+		return next(Error("need browser id"));
+	}
+
+	const { validationErrors, error, data } = await authModel.register(
+		req.body,
+		browserId
+	);
 
 	// If validation failed, send why it failed
 	if (validationErrors) {
@@ -12,6 +22,7 @@ const register = async (req, res, next) => {
 	}
 
 	if (error) {
+		res.status(400);
 		return next(Error(error));
 	}
 
@@ -33,7 +44,17 @@ const register = async (req, res, next) => {
 };
 
 const login = async (req, res, next) => {
-	const { error, data, validationErrors } = await authModel.login(req.body);
+	const browserId = req.headers.browser_id;
+
+	if (!browserId) {
+		res.status(400);
+		return next(Error("need browser id"));
+	}
+
+	const { error, data, validationErrors } = await authModel.login(
+		req.body,
+		browserId
+	);
 
 	// If validation failed, send why it failed
 	if (validationErrors) {
@@ -43,9 +64,7 @@ const login = async (req, res, next) => {
 		});
 	}
 
-	if (error) {
-		return next(Error(error));
-	}
+	if (error) return next(Error(error));
 
 	const { refresh, token, user } = data;
 
@@ -65,12 +84,17 @@ const login = async (req, res, next) => {
 };
 
 const logout = async (req, res, next) => {
-	const refresh = req.headers.authorization.split("Bearer ")[1];
+	const browserId = req.headers.browser_id;
 
-	const { error } = await authModel.logout(refresh);
+	if (!browserId) {
+		res.status(400);
+		return next(Error("need browser id"));
+	}
+
+	const { error } = await authModel.logout(browserId);
 
 	if (error) {
-		res.status(500);
+		res.status(400);
 		return next(Error(error));
 	}
 
@@ -78,11 +102,19 @@ const logout = async (req, res, next) => {
 };
 
 const isAuth = async (req, res, next) => {
-	const headerRefresh = req.headers.authorization.split("Bearer ")[1];
-	const { error, data } = await authModel.isAuth(headerRefresh);
+	const browserId = req.headers.browser_id;
+	const headerRefresh = req.headers.authorization?.split("Bearer ")[1];
+
+	if (!browserId || !headerRefresh) {
+		res.status(400);
+		return next(Error("need browser id and/or refresh token"));
+	}
+
+	const { error, data } = await authModel.isAuth(headerRefresh, browserId);
 
 	if (error) {
-		next(error);
+		res.status(400);
+		return next(error);
 	}
 
 	const { token, refresh, user } = data;

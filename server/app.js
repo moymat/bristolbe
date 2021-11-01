@@ -16,16 +16,15 @@ if (ENV === "development") {
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-	cors({
-		credentials: true,
-		origin: process.env.CLIENT_URL,
-	})
-);
-app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-	next();
-});
+
+const corsOptions = {
+	credentials: true,
+	origin: process.env.CLIENT_URL,
+};
+
+app.use(cors(corsOptions));
+
+app.options("/auth/logout", cors(corsOptions));
 
 app.use(router);
 app.use(errorHandler);

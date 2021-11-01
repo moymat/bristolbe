@@ -1,10 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const client = require("../../db/pg");
+const { userController } = require("../../controllers");
+const { isUserAuthz } = require("../../auth");
 
-router.use("/", async (req, res) => {
-	const { rows } = await client.query('SELECT * FROM "user"');
-	res.json({ rows });
-});
+router.get("/users", userController.getAllUsers);
+
+router.get("/users/:userId", userController.getUser);
+router.patch("/users/:userId", isUserAuthz, userController.patchUser);
+router.delete("/users/:userId", isUserAuthz, userController.deleteUser);
+
+router.get(
+	"/users/:userId/bristols",
+	isUserAuthz,
+	userController.getUsersBristols
+);
+
+//router.use("/bristols", bristolController);
 
 module.exports = router;

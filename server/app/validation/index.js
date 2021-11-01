@@ -1,17 +1,16 @@
-const Ajv = require("ajv");
 const registerSchema = require("./registerSchema");
 const loginSchema = require("./loginSchema");
+const userSchema = require("./userSchema");
+const Ajv = require("ajv");
 
 const ajv = new Ajv({ allErrors: true, removeAdditional: true, $data: true });
 require("ajv-formats")(ajv);
 require("ajv-errors")(ajv);
 
-const validateRegister = async data => {
+const validateSchema = async (schema, data) => {
 	try {
-		const validate = ajv.compile(registerSchema);
+		const validate = ajv.compile(schema);
 		const result = await validate(data);
-
-		console.log(validate.errors);
 
 		if (!result) {
 			const errors = validate.errors.map(({ instancePath, message }) => ({
@@ -21,32 +20,26 @@ const validateRegister = async data => {
 			return { errors };
 		}
 
-		return { errors: false };
+		return { data };
 	} catch (errors) {
 		return { errors };
 	}
 };
 
+const validateRegister = async data => {
+	return await validateSchema(registerSchema, data);
+};
+
 const validateLogin = async data => {
-	try {
-		const validate = ajv.compile(loginSchema);
-		const result = await validate(data);
+	return await validateSchema(loginSchema, data);
+};
 
-		if (!result) {
-			const errors = validate.errors.map(({ instancePath, message }) => ({
-				field: instancePath.replace("/", ""),
-				message,
-			}));
-			return { errors };
-		}
-
-		return { errors: false };
-	} catch (errors) {
-		return { errors };
-	}
+const validateUser = async data => {
+	return await validateSchema(userSchema, data);
 };
 
 module.exports = {
 	validateRegister,
 	validateLogin,
+	validateUser,
 };

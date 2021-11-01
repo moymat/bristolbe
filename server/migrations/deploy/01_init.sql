@@ -4,7 +4,7 @@ BEGIN;
 
 CREATE SCHEMA bristol;
 
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp" ON bristol;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Email domain checking if value has email format
 CREATE DOMAIN EMAIL AS TEXT CHECK (
@@ -31,7 +31,7 @@ CREATE TABLE bristol.bristol (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   title TEXT NOT NULL,
   content TEXT,
-  position INT NOT NULL DEFAULT 0,
+  position INT DEFAULT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   parent_id UUID DEFAULT NULL REFERENCES bristol.bristol (id)
 );
@@ -41,6 +41,13 @@ CREATE TABLE bristol.role (
   user_id UUID NOT NULL REFERENCES bristol."user" (id),
   type ROLE_TYPE NOT NULL,
   CONSTRAINT bristol_pk PRIMARY KEY (bristol_id, user_id)
+);
+
+CREATE TABLE bristol.root_position (
+  bristol_id UUID NOT NULL REFERENCES bristol.bristol (id),
+  user_id UUID NOT NULL REFERENCES bristol."user" (id),
+  position INT NOT NULL,
+  CONSTRAINT root_position_pk PRIMARY KEY (bristol_id, user_id)
 );
 
 COMMIT;
