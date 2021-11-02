@@ -29,7 +29,7 @@ const isAuth = async (req, res, next) => {
 	const refresh = req.headers.authorization?.split("Bearer ")[1];
 	const { access_token: token } = req.cookies;
 
-	console.log(req.cookies);
+	console.log(token);
 
 	let decodedRefresh;
 	const notLoggedInError = new Error("not logged in");
