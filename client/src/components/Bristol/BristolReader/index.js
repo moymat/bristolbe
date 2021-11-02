@@ -15,9 +15,19 @@ const BristolReader = () => {
 			<Typography>
 				Le bristol à l'id {useSelector(state => state.bristol.lastMovedItem.id)}{" "}
 				a été déplacé, son parent est maintenant{" "}
-				{useSelector(state => state.bristol.lastMovedItem.parent) || "root"} et
-				sa postion est{" "}
-				{useSelector(state => state.bristol.lastMovedItem.orderNo)}{" "}
+				{useSelector(state => state.bristol.lastMovedItem.parent_id) || "root"}{" "}
+				et sa postion est{" "}
+				{useSelector(state => state.bristol.lastMovedItem.position)}{" "}
+			</Typography>
+			<Divider sx={{ m: 1, mt: 2 }}>read-only</Divider>
+			<Typography>
+				Le bristol à l'id{" "}
+				{useSelector(state => state.bristol.lastMovedReadItem.id)} a été
+				déplacé, son parent est maintenant{" "}
+				{useSelector(state => state.bristol.lastMovedReadItem.parent_id) ||
+					"root"}{" "}
+				et sa postion est{" "}
+				{useSelector(state => state.bristol.lastMovedReadItem.position)}{" "}
 			</Typography>
 		</Box>
 	);

@@ -355,6 +355,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: null,
+		position: 0,
+		role: "editor",
 	},
 	{
 		id: 1,
@@ -362,6 +364,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: null,
+		position: 1,
+		role: "editor",
 	},
 	{
 		id: 2,
@@ -370,6 +374,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: null,
+		position: 3,
+		role: "editor",
 	},
 	{
 		id: 3,
@@ -377,6 +383,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: null,
+		position: 2,
+		role: "editor",
 	},
 	{
 		id: 4,
@@ -384,6 +392,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 0,
+		position: 0,
+		role: "editor",
 	},
 	{
 		id: 5,
@@ -392,6 +402,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 0,
+		position: 2,
+		role: "editor",
 	},
 	{
 		id: 6,
@@ -400,6 +412,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 0,
+		position: 1,
+		role: "editor",
 	},
 	{
 		id: 7,
@@ -408,6 +422,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 1,
+		position: 1,
+		role: "editor",
 	},
 	{
 		id: 8,
@@ -415,6 +431,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 1,
+		position: 0,
+		role: "editor",
 	},
 	{
 		id: 9,
@@ -423,6 +441,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 2,
+		position: 0,
+		role: "editor",
 	},
 	{
 		id: 10,
@@ -431,6 +451,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 2,
+		position: 1,
+		role: "editor",
 	},
 	{
 		id: 11,
@@ -439,6 +461,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 3,
+		position: 0,
+		role: "editor",
 	},
 	{
 		id: 12,
@@ -446,6 +470,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 5,
+		position: 1,
+		role: "editor",
 	},
 	{
 		id: 13,
@@ -454,6 +480,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 5,
+		position: 0,
+		role: "editor",
 	},
 	{
 		id: 14,
@@ -462,6 +490,8 @@ const menus = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 11,
+		position: 0,
+		role: "editor",
 	},
 ];
 
@@ -473,6 +503,8 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: null,
+		position: 0,
+		role: "viewer",
 	},
 	{
 		id: 16,
@@ -481,6 +513,8 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: null,
+		position: 2,
+		role: "viewer",
 	},
 	{
 		id: 17,
@@ -488,6 +522,8 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: null,
+		position: 1,
+		role: "viewer",
 	},
 	{
 		id: 18,
@@ -495,6 +531,8 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 15,
+		position: 0,
+		role: "viewer",
 	},
 	{
 		id: 19,
@@ -502,6 +540,8 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 15,
+		position: 1,
+		role: "viewer",
 	},
 	{
 		id: 20,
@@ -509,6 +549,8 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 16,
+		position: 0,
+		role: "viewer",
 	},
 	{
 		id: 21,
@@ -516,6 +558,8 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 17,
+		position: 0,
+		role: "viewer",
 	},
 	{
 		id: 22,
@@ -523,6 +567,8 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 21,
+		position: 0,
+		role: "viewer",
 	},
 	{
 		id: 23,
@@ -530,6 +576,8 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 21,
+		position: 1,
+		role: "viewer",
 	},
 	{
 		id: 24,
@@ -537,6 +585,8 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 23,
+		position: 0,
+		role: "viewer",
 	},
 	{
 		id: 25,
@@ -544,6 +594,8 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 23,
+		position: 1,
+		role: "viewer",
 	},
 	{
 		id: 26,
@@ -552,6 +604,8 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: null,
+		position: 5,
+		role: "viewer",
 	},
 	{
 		id: 27,
@@ -560,6 +614,8 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: null,
+		position: 4,
+		role: "viewer",
 	},
 	{
 		id: 28,
@@ -568,6 +624,8 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 27,
+		position: 0,
+		role: "viewer",
 	},
 	{
 		id: 29,
@@ -576,11 +634,15 @@ const menusReadOnly = [
 		content:
 			"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
 		parent_id: 27,
+		position: 1,
+		role: "viewer",
 	},
 ];
 
 const createNestedMenu = (arr = [], parent = null) => {
 	const fix = [];
+
+	arr.sort((a, b) => a.position - b.position);
 
 	for (let i in arr) {
 		if (arr[i].parent_id === parent) {
