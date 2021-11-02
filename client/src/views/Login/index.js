@@ -15,6 +15,7 @@ export default function Login() {
 	const [emailError, setEmailError] = useState(false);
 	const { setUser } = useContext(UserContext);
 
+	console.log(passwordError)
 	const handleChange = event => {
 		const { name, value } = event.target;
 

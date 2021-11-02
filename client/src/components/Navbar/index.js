@@ -38,12 +38,9 @@ import BELogo from "../../assets/img/BELogo.png";
 import DarkThemeSwitch from "./switchDarkMode";
 //react-router-dom import
 import { useHistory, Link } from "react-router-dom";
-
 import axios from "../../utils/axios";
 import { UserContext } from "../../App";
-
 const drawerWidth = 240;
-
 const openedMixin = theme => ({
 	width: drawerWidth,
 	transition: theme.transitions.create("width", {
@@ -52,7 +49,6 @@ const openedMixin = theme => ({
 	}),
 	overflowX: "hidden",
 });
-
 const closedMixin = theme => ({
 	transition: theme.transitions.create("width", {
 		easing: theme.transitions.easing.sharp,
@@ -64,7 +60,6 @@ const closedMixin = theme => ({
 		width: `calc(${theme.spacing(9)} + 1px)`,
 	},
 });
-
 const DrawerHeader = styled("div")(({ theme }) => ({
 	display: "flex",
 	alignItems: "center",
@@ -73,7 +68,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 	// necessary for content to be below app bar
 	...theme.mixins.toolbar,
 }));
-
 const AppBar = styled(MuiAppBar, {
 	shouldForwardProp: prop => prop !== "open", // "open" prop should not be forwarded to the Component (not added to the dom)
 })(({ theme, open }) => ({
@@ -91,7 +85,6 @@ const AppBar = styled(MuiAppBar, {
 		}),
 	}),
 }));
-
 const Drawer = styled(MuiDrawer, {
 	shouldForwardProp: prop => prop !== "open",
 })(({ theme, open }) => ({
@@ -108,19 +101,15 @@ const Drawer = styled(MuiDrawer, {
 		"& .MuiDrawer-paper": closedMixin(theme),
 	}),
 }));
-
 export default function Navbar({ children }) {
 	const theme = useTheme();
 	const [open, setOpen] = useState(false);
 	const [darkState, setDarkState] = useState(false);
-
 	// For Switch Theming
 	const palletType = darkState ? "dark" : "light";
 	const mainPrimaryColor = darkState ? orange[500] : lightBlue[500];
 	const mainSecondaryColor = darkState ? deepOrange[900] : deepPurple[500];
-
 	const { setUser } = useContext(UserContext);
-
 	const darkTheme = createTheme({
 		palette: {
 			mode: palletType,
@@ -132,36 +121,32 @@ export default function Navbar({ children }) {
 			},
 		},
 	});
-
 	const handleThemeChange = () => {
 		setDarkState(!darkState);
 	};
-
 	const handleDrawerOpen = () => {
 		setOpen(true);
 	};
-
 	const handleDrawerClose = () => {
 		setOpen(false);
 	};
-
 	// profil
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
 	const handleProfileMenuOpen = event => {
 		setAnchorEl(event.currentTarget);
 	};
-
 	const logout = async () => {
 		await axios.get("/auth/logout");
 		localStorage.removeItem("refresh_token");
 		setUser({});
 	};
-
-	const handleMobileMenuClose = async () => {
+	const handleMobileMenuClose = () => {
+		setMobileMoreAnchorEl(null);
+	  };
+	const handleMobilehandleMenuSignoutClose = async () => {
 		try {
 			await logout();
 			setAnchorEl(null);
@@ -170,21 +155,22 @@ export default function Navbar({ children }) {
 			console.error(err);
 		}
 	};
-
-	const handleMenuClose = async () => {
+	const handleMenuSignoutClose = async () => {
 		try {
 			await logout();
 			setAnchorEl(null);
-			handleMobileMenuClose();
+			handleMobilehandleMenuSignoutClose();
 		} catch (err) {
 			console.error(err);
 		}
 	};
-
+	const handleMenuClose = () => {
+		setAnchorEl(null);
+		handleMobileMenuClose();
+	  };
 	const handleMobileMenuOpen = event => {
 		setMobileMoreAnchorEl(event.currentTarget);
 	};
-
 	const menuId = "primary-search-account-menu";
 	const renderMenu = (
 		<Menu
@@ -201,7 +187,7 @@ export default function Navbar({ children }) {
 			}}
 			open={isMenuOpen}
 			onClose={handleMenuClose}>
-			<MenuItem onClick={handleMenuClose}>Sign out</MenuItem>
+			<MenuItem onClick={handleMenuSignoutClose}>Sign out</MenuItem>
 		</Menu>
 	);
 	const mobileMenuId = "primary-search-account-menu-mobile";
@@ -226,7 +212,7 @@ export default function Navbar({ children }) {
 				</IconButton>
 				<p>Thème</p>
 			</MenuItem>
-			<MenuItem onClick={handleMobileMenuClose}>
+			<MenuItem onClick={handleMenuSignoutClose}>
 				<IconButton size="large" aria-label="change theme" color="inherit">
 					<LogoutIcon />
 				</IconButton>
@@ -234,12 +220,10 @@ export default function Navbar({ children }) {
 			</MenuItem>
 		</Menu>
 	);
-
 	let history = useHistory();
 	function handleBristolButtonClick() {
 		history.push("/bristol");
 	}
-
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<Box sx={{ display: "flex" }}>

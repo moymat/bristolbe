@@ -7,7 +7,9 @@ import Login from "./views/Login";
 import Register from "./views/Register";
 import Forgot from "./views/Forgot";
 import Reset from "./views/Reset";
+import Profil from "./views/User/Profil"
 import IsAuth from "./components/IsAuth";
+import ProfilLayout from "./components/ProfilLayout";
 import "./App.scss";
 import axios from "./utils/axios";
 
@@ -54,6 +56,13 @@ function App() {
 						<Route exact path="/bristol">
 							<Navbar>
 								<Bristol />
+							</Navbar>
+						</Route>
+						<Route exact path="/user/profil">
+							<Navbar>
+								<ProfilLayout>
+									<Profil />
+								</ProfilLayout>
 							</Navbar>
 						</Route>
 					</IsAuth>
