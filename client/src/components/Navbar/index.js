@@ -27,7 +27,6 @@ import BELogo from "../../assets/img/BELogo.png";
 import DarkThemeSwitch from "./switchDarkMode";
 import stringAvatar from "../../utils/avatarsColors";
 import { useHistory, Link } from "react-router-dom";
-
 import axios from "../../utils/axios";
 import { UserContext } from "../../App";
 
@@ -99,10 +98,14 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function Navbar({ children }) {
+	const { setUser, user } = useContext(UserContext);
+	const [anchorEl, setAnchorEl] = useState(null);
+	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+	const history = useHistory();
 	const dispatch = useDispatch();
 	const theme = useTheme();
-
-	const { setUser, user } = useContext(UserContext);
+	const isMenuOpen = Boolean(anchorEl);
+	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
 	const handleDrawerOpen = () => {
 		dispatch({
@@ -117,11 +120,6 @@ export default function Navbar({ children }) {
 			setOpen: false,
 		});
 	};
-
-	const [anchorEl, setAnchorEl] = useState(null);
-	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-	const isMenuOpen = Boolean(anchorEl);
-	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
 	const handleProfileMenuOpen = event => {
 		setAnchorEl(event.currentTarget);
@@ -151,8 +149,13 @@ export default function Navbar({ children }) {
 		setAnchorEl(null);
 		handleMobileMenuClose();
 	};
+
 	const handleMobileMenuOpen = event => {
 		setMobileMoreAnchorEl(event.currentTarget);
+	};
+
+	const handleBristolButtonClick = () => {
+		history.push("/bristol");
 	};
 
 	const menuId = "primary-search-account-menu";
@@ -174,6 +177,7 @@ export default function Navbar({ children }) {
 			<MenuItem onClick={handleSignout}>Sign out</MenuItem>
 		</Menu>
 	);
+
 	const mobileMenuId = "primary-search-account-menu-mobile";
 	const renderMobileMenu = (
 		<Menu
@@ -208,11 +212,6 @@ export default function Navbar({ children }) {
 			</MenuItem>
 		</Menu>
 	);
-
-	let history = useHistory();
-	function handleBristolButtonClick() {
-		history.push("/bristol");
-	}
 
 	return (
 		<Box sx={{ display: "flex" }}>

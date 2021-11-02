@@ -11,6 +11,7 @@ const IsAuth = ({ children }) => {
 		if (user.id && !AUTH_ROUTES.includes(history.location.pathname)) {
 			history.push("/home");
 		} else if (!user.id && AUTH_ROUTES.includes(history.location.pathname)) {
+			console.log("not auth");
 			history.push("/");
 		}
 	}, [history, user]);

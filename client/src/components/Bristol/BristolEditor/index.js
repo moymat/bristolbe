@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import ReactQuill from "react-quill";
 import TextField from "@mui/material/TextField";
@@ -14,12 +14,12 @@ import "./styles.css";
 // import axios from "axios";
 // import { useSelector } from "react-redux";
 
-export const Editor = () => {
+export const BristolEditor = () => {
 	//loading state used by submit button
 	const dispatch = useDispatch();
-	const [loading, setLoading] = React.useState(false);
+	const [loading, setLoading] = useState(false);
 	//quill editor html content
-	const [content, setContent] = React.useState({ value: null });
+	const [content, setContent] = useState({ value: null });
 
 	function handleClick() {
 		setLoading(true);
@@ -87,4 +87,4 @@ export const Editor = () => {
 	);
 };
 
-export default Editor;
+export default BristolEditor;
