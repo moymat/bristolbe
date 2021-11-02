@@ -12,11 +12,15 @@ const initialState = {
 	},
 	itemsTempRead: [],
 	itemsTempWrite: [],
-	flatMenu: [],
 	lastMovedItem: {
 		id: null,
-		parent: null,
-		orderNo: null,
+		parent_id: null,
+		position: null,
+	},
+	lastMovedReadItem: {
+		id: null,
+		parent_id: null,
+		position: null,
 	},
 };
 
@@ -52,20 +56,20 @@ const reducer = (state = initialState, action = {}) => {
 				...state,
 				itemsTempWrite: action.items,
 				lastMovedItem: {
-					id: action.movedItemId,
-					parent: action.movedParentId,
-					orderNo: action.movedOrderNo,
+					id: action.id,
+					parent_id: action.parent_id,
+					position: action.position,
 				},
 			};
 		case "SET_READ_ONLY_ITEMS":
 			return {
 				...state,
 				itemsTempRead: action.items,
-			};
-		case "GENERATE_FLAT_MENU":
-			return {
-				...state,
-				flatMenu: action.flatMenu,
+				lastMovedReadItem: {
+					id: action.id,
+					parent_id: action.parent_id,
+					position: action.position,
+				},
 			};
 		default:
 			return state;

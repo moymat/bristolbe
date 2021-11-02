@@ -54,14 +54,16 @@ function App() {
 								<Reset />
 							</Route>
 							<CustomTheme>
-								<Navbar>
-									<Route exact path="/home">
-										<Home />
-									</Route>
-									<Route exact path="/bristol">
-										<Bristol />
-									</Route>
-								</Navbar>
+								{user.id && (
+									<Navbar>
+										<Route exact path="/home">
+											<Home />
+										</Route>
+										<Route exact path="/bristol">
+											<Bristol />
+										</Route>
+									</Navbar>
+								)}
 							</CustomTheme>
 						</IsAuth>
 					</Switch>

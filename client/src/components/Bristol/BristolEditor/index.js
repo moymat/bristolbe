@@ -14,7 +14,7 @@ import "./styles.css";
 // import axios from "axios";
 // import { useSelector } from "react-redux";
 
-export const BristolEditor = () => {
+export const BristolEditor = ({ setBristol }) => {
 	//loading state used by submit button
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);

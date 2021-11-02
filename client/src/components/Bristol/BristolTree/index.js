@@ -27,34 +27,42 @@ const BristolTree = () => {
 			const { data: axiosData } = await axios().get(
 				`/api/v1/users/${user.id}/bristols`
 			);
-			const ItemsWriteTemp = createNestedMenu(menus);
-			dispatch({ type: "SET_READ_WRITE_ITEMS", items: ItemsWriteTemp });
-			const ItemsReadTemp = createNestedMenu(menusReadOnly);
-			dispatch({ type: "SET_READ_ONLY_ITEMS", items: ItemsReadTemp });
+			const itemsWriteTemp = createNestedMenu(menus);
+			dispatch({ type: "SET_READ_WRITE_ITEMS", items: itemsWriteTemp });
+			const itemsReadTemp = createNestedMenu(menusReadOnly);
+			dispatch({ type: "SET_READ_ONLY_ITEMS", items: itemsReadTemp });
 		} catch (err) {
 			console.error(err);
 		}
 	}, [dispatch, user]);
 
-	const handleItemMove = ({ items, dragItem, targetPath }) => {
+	const handleWriteItemsMove = ({ items, dragItem, targetPath }) => {
 		dispatch({
 			type: "SET_READ_WRITE_ITEMS",
 			items,
-			movedItemId: dragItem.id,
-			movedParentId: getParentId(items, targetPath),
-			movedOrderNo: targetPath[targetPath.length - 1],
+			item_id: dragItem.id,
+			parent_id: getParentId(items, targetPath),
+			position: targetPath[targetPath.length - 1],
+		});
+	};
+
+	const handleReadItemsMove = ({ items, dragItem, targetPath }) => {
+		dispatch({
+			type: "SET_READ_ONLY_ITEMS",
+			items,
+			item_id: dragItem.id,
+			parent_id: getParentId(items, targetPath),
+			position: targetPath[targetPath.length - 1],
 		});
 	};
 
 	const handleConfirm = ({ dragItem, destinationParent }) => {
-		if (dragItem.parent || destinationParent) {
-			return false;
-		}
-		return true;
+		return !dragItem.parent_id && !destinationParent;
 	};
 
 	const handleItemClick = e => {
-		e.target.dataset.itemid && console.log(e.target.dataset.itemid);
+		const { itemid } = e.target.dataset;
+		itemid && console.log(itemid);
 	};
 
 	useEffect(() => {
@@ -82,9 +90,8 @@ const BristolTree = () => {
 				<Divider>read-write</Divider>
 				<Box sx={{ mt: 1, mb: 2 }}>
 					<NestedBristols
-						handleItemMove={handleItemMove}
+						handleItemMove={handleWriteItemsMove}
 						items={useSelector(state => state.bristol.itemsTempWrite)}
-						itemsClass={"listMenu"}
 					/>
 				</Box>
 				<Divider>read-only</Divider>
@@ -92,8 +99,8 @@ const BristolTree = () => {
 					<NestedBristols
 						handleItemClick={handleItemClick}
 						handleConfirm={handleConfirm}
+						handleItemMove={handleReadItemsMove}
 						items={useSelector(state => state.bristol.itemsTempRead)}
-						itemsClass={"listMenuRead"}
 					/>
 				</Box>
 				<Fab

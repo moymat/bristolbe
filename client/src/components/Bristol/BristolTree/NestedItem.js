@@ -1,8 +1,8 @@
-import React from "react";
-
-const NestedItem = ({ collapseIcon, item, itemsClass = "" }) => {
+const NestedItem = ({ collapseIcon, item }) => {
 	return (
-		<div className={itemsClass} data-itemid={item.id}>
+		<div
+			className={`listMenu${item.role === "editor" ? "" : "Read"}`}
+			data-itemid={item.id}>
 			{collapseIcon}
 			{item.title}
 		</div>

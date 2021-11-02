@@ -1,34 +1,46 @@
 import Nestable from "react-nestable";
 import NestedItem from "./NestedItem";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import "./nestedStyles.css";
 
-const NestedBristols = ({
-	handleItemMove = null,
-	items,
-	itemsClass,
-	handleConfirm,
-}) => {
+const NestedBristols = ({ handleItemMove = null, items, handleConfirm }) => {
 	return (
 		<Nestable
 			groupe={1}
 			collapsed={true}
 			maxDepth={15}
 			items={items}
-			confirmChange={handleConfirm}
 			renderItem={({ item, collapseIcon }) => (
-				<NestedItem
-					item={item}
-					collapseIcon={collapseIcon}
-					itemsClass={itemsClass}
-					key={item.id}
-				/>
+				<NestedItem item={item} collapseIcon={collapseIcon} key={item.id} />
 			)}
 			onChange={handleItemMove}
+			confirmChange={handleConfirm}
 			renderCollapseIcon={({ isCollapsed }) =>
 				isCollapsed ? (
-					<span className="iconCollapse">+</span>
+					// <span className="iconCollapse">+</span>
+					<KeyboardArrowDownIcon
+						sx={{
+							position: "relative",
+							top: "5px",
+							marginRight: "4px",
+							"&:hover": {
+								cursor: "pointer",
+							},
+						}}
+					/>
 				) : (
-					<span className="iconCollapse">-</span>
+					// <span className="iconCollapse">-</span>
+					<KeyboardArrowUpIcon
+						sx={{
+							position: "relative",
+							top: "5px",
+							marginRight: "4px",
+							"&:hover": {
+								cursor: "pointer",
+							},
+						}}
+					/>
 				)
 			}
 		/>
