@@ -25,7 +25,6 @@ const BristolView = () => {
 	const getBristols = useCallback(async () => {
 		try {
 			const { data } = await axios().get(`/api/v1/users/${user.id}/bristols`);
-			console.log(data);
 
 			const ItemsWriteTemp = createNestedMenu(menus);
 			dispatch({ type: "SET_READ_WRITE_ITEMS", items: ItemsWriteTemp });
