@@ -69,18 +69,24 @@ export default function Register() {
 
 	const handleSubmit = async event => {
 		event.preventDefault();
+		
+		const { email, password, firstName, lastName, confirm } = input;
 
 		if (
-			emailError ||
-			passwordError ||
-			confirmError ||
-			firstNameError ||
-			lastNameError
+			!email ||
+			!password ||
+			!confirm ||
+			!firstName ||
+			!lastName
 		) {
+			!email && setEmailError(true);
+			!password && setPasswordError(true);
+			!firstName && setFirstNameError(true);
+			!lastName && setLastNameError(true);
+			!confirm && setConfirmError(true)
 			return;
 		}
 
-		const { email, password, firstName, lastName, confirm } = input;
 
 		try {
 			const { data } = await axios().post("/auth/register", {
@@ -166,7 +172,7 @@ export default function Register() {
 						size="small"
 						onChange={handleChange}
 						value={input.password}
-						onClick={handleTouch}
+						onFocus={handleTouch}
 						helperText={passwordError ? "Your password is invalid" : ""}
 						error={passwordError}
 					/>

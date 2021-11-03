@@ -29,9 +29,7 @@ import stringAvatar from "../../utils/avatarsColors";
 import { useHistory, Link } from "react-router-dom";
 import axios from "../../utils/axios";
 import { UserContext } from "../../App";
-
 const drawerWidth = 240;
-
 const openedMixin = theme => ({
 	width: drawerWidth,
 	transition: theme.transitions.create("width", {
@@ -40,7 +38,6 @@ const openedMixin = theme => ({
 	}),
 	overflowX: "hidden",
 });
-
 const closedMixin = theme => ({
 	transition: theme.transitions.create("width", {
 		easing: theme.transitions.easing.sharp,
@@ -52,7 +49,6 @@ const closedMixin = theme => ({
 		width: `calc(${theme.spacing(9)} + 1px)`,
 	},
 });
-
 const DrawerHeader = styled("div")(({ theme }) => ({
 	display: "flex",
 	alignItems: "center",
@@ -61,7 +57,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 	// necessary for content to be below app bar
 	...theme.mixins.toolbar,
 }));
-
 const AppBar = styled(MuiAppBar, {
 	shouldForwardProp: prop => prop !== "open", // "open" prop should not be forwarded to the Component (not added to the dom)
 })(({ theme, open }) => ({
@@ -79,7 +74,6 @@ const AppBar = styled(MuiAppBar, {
 		}),
 	}),
 }));
-
 const Drawer = styled(MuiDrawer, {
 	shouldForwardProp: prop => prop !== "open",
 })(({ theme, open }) => ({
@@ -96,7 +90,6 @@ const Drawer = styled(MuiDrawer, {
 		"& .MuiDrawer-paper": closedMixin(theme),
 	}),
 }));
-
 export default function Navbar({ children }) {
 	const { setUser, user } = useContext(UserContext);
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -113,18 +106,15 @@ export default function Navbar({ children }) {
 			setOpen: true,
 		});
 	};
-
 	const handleDrawerClose = () => {
 		dispatch({
 			type: "TOGGLE_DRAWER",
 			setOpen: false,
 		});
 	};
-
 	const handleProfileMenuOpen = event => {
 		setAnchorEl(event.currentTarget);
 	};
-
 	const logout = async () => {
 		await axios().get("/auth/logout");
 		localStorage.removeItem("refresh_token");
@@ -212,7 +202,6 @@ export default function Navbar({ children }) {
 			</MenuItem>
 		</Menu>
 	);
-
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
