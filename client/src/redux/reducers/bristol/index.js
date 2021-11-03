@@ -10,14 +10,8 @@ const initialState = {
 		title: null,
 		content: null,
 	},
-	itemsTempRead: [],
-	itemsTempWrite: [],
-	lastMovedItem: {
-		id: null,
-		parent_id: null,
-		position: null,
-	},
-	lastMovedReadItem: {
+	bristols: [],
+	movedBristol: {
 		id: null,
 		parent_id: null,
 		position: null,
@@ -51,21 +45,15 @@ const reducer = (state = initialState, action = {}) => {
 					content: null,
 				},
 			};
-		case "SET_READ_WRITE_ITEMS":
+		case "SET_BRISTOLS":
 			return {
 				...state,
-				itemsTempWrite: action.items,
-				lastMovedItem: {
-					id: action.id,
-					parent_id: action.parent_id,
-					position: action.position,
-				},
+				bristols: action.bristols,
 			};
-		case "SET_READ_ONLY_ITEMS":
+		case "MOVE_BRISTOL":
 			return {
 				...state,
-				itemsTempRead: action.items,
-				lastMovedReadItem: {
+				movedBristol: {
 					id: action.id,
 					parent_id: action.parent_id,
 					position: action.position,

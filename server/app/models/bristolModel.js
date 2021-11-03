@@ -16,6 +16,7 @@ const getBristol = async (bristolId, userId) => {
 };
 
 const moveBristol = async (bristolMoved, userId) => {
+	console.log(userId);
 	try {
 		return await pgClient.query("SELECT bristol.move_bristol($1)", [
 			JSON.stringify({

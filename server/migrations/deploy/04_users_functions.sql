@@ -98,6 +98,7 @@ CREATE OR REPLACE FUNCTION bristol.get_users_bristols (UUID) RETURNS TABLE (
 		JOIN bristol.role ON role.bristol_id = id
 		JOIN bristol.root_position ON root_position.bristol_id = id
 		WHERE role.user_id = $1
+		AND root_position.user_id = $1
 		UNION (
 			SELECT b.id, b.title, b.position, b.created_at, b.parent_id, a.role
 			FROM bristol.bristol b
@@ -107,5 +108,42 @@ CREATE OR REPLACE FUNCTION bristol.get_users_bristols (UUID) RETURNS TABLE (
 	)
 	SELECT * FROM all_bristols;
 $$ LANGUAGE sql;
+
+CREATE OR REPLACE FUNCTION bristol.give_viewer_role (jsonb) RETURNS VOID
+AS $$
+	DECLARE
+		eid UUID = ($1::jsonb->>'editor_id')::UUID;
+		uid UUID = ($1::jsonb->>'user_id')::UUID;
+		bid UUID = ($1::jsonb->>'bristol_id')::UUID;
+		pid UUID;
+		auth BOOL;
+	BEGIN
+		SELECT *
+		FROM bristol.is_bristol_editor(
+			jsonb_build_object(
+				'user_id', eid,
+				'bristol_id', bid
+			)
+		) INTO auth;
+		
+		SELECT *
+		FROM get_highest_parent(bid)
+		INTO pid;
+		
+		IF auth IS NOT TRUE THEN
+			RAISE EXCEPTION 'user is not authorized';
+		END IF;
+		
+		INSERT INTO bristol.root_position(bristol_id, user_id, position)
+		(
+			SELECT pid, uid, COUNT(bristol_id)
+			FROM bristol.root_position
+			WHERE user_id = uid
+		);
+		
+		INSERT INTO bristol.role (bristol_id, user_id, type)
+		VALUES (pid, uid, 'viewer');		
+	END;
+$$ LANGUAGE plpgsql;
 
 COMMIT;

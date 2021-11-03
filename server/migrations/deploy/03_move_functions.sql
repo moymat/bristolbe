@@ -55,6 +55,59 @@ AS $$
 	END;
 $$ LANGUAGE plpgsql;
 
+-- Function to get the root bristol from a child bristol
+CREATE OR REPLACE FUNCTION bristol.get_highest_parent (UUID) RETURNS UUID
+AS $$
+	DECLARE
+		hid UUID;
+	BEGIN
+		-- Create a recursive table from the bottom to the root
+		WITH RECURSIVE highest AS (
+			SELECT id, parent_id
+			FROM bristol.bristol
+			WHERE id = $1
+			UNION (
+				SELECT b.id, b.parent_id
+				FROM bristol.bristol b
+				INNER JOIN highest h
+				ON h.parent_id = b.id
+			)
+		)
+		
+		-- Insert root id into function variable
+		SELECT id FROM highest
+		WHERE parent_id IS NULL
+		INTO hid;
+		
+		RETURN hid;
+	END;
+$$ LANGUAGE plpgsql;
+
+-- Function to check if user is an editor of a bristol
+CREATE OR REPLACE FUNCTION bristol.is_bristol_editor (jsonb) RETURNS BOOL
+AS $$
+	DECLARE
+		result BOOL;
+	BEGIN
+		WITH bristol_editor AS (
+		SELECT user_id
+			FROM bristol.role
+			WHERE bristol_id = ANY (
+				SELECT *
+				FROM bristol.get_highest_parent (($1::jsonb->>'bristol_id')::UUID)
+			)
+		AND user_id = ($1::jsonb->>'user_id')::UUID
+		AND type = 'editor'
+		)
+				
+		SELECT COUNT(user_id)::INT::BOOL
+		FROM bristol_editor
+		INTO result;
+		
+		RETURN result;		
+	END;
+$$ LANGUAGE plpgsql;
+
 -- Function to move a bristol in the tree
 CREATE OR REPLACE FUNCTION bristol.move_bristol (jsonb) RETURNS VOID
 AS $$
@@ -68,36 +121,6 @@ AS $$
     cpid UUID;
     cpos INT;
   BEGIN
-    -- Is user editor of the bristol
-    SELECT *
-    FROM bristol.is_bristol_editor (
-      jsonb_build_object(
-        'user_id', uid,
-        'bristol_id', bid
-      )
-    )
-    INTO is_editor_start;
-
-    -- Is user editor of the target bristol (true if null - root)
-    IF npid IS NOT NULL THEN
-      SELECT *
-      FROM bristol.is_bristol_editor (
-        jsonb_build_object(
-          'user_id', uid,
-          'bristol_id', npid
-        )
-      )
-      INTO is_editor_end;
-    ELSE
-      SELECT TRUE INTO is_editor_end;
-    END IF;
-
-    -- If user is not editor of current or target, error
-    IF is_editor_start IS NOT TRUE
-    OR is_editor_end IS NOT TRUE THEN
-      RAISE EXCEPTION 'user doesn''t have permission';
-    END IF;
-
     -- Store current parent_id (UUID or NULL)
     SELECT parent_id
     FROM bristol.bristol
@@ -109,11 +132,13 @@ AS $$
       SELECT position
       FROM bristol.root_position
       WHERE bristol_id = bid
+      AND user_id = uid
       INTO cpos;
     ELSE
       SELECT position
       FROM bristol.bristol
       WHERE id = bid
+      AND user_id = uid
       INTO cpos;
     END IF;
 
@@ -127,52 +152,84 @@ AS $$
           'bid', bid
         )
       );
-    -- If cpid = npid, bristol moved inside the same bristol
-    ELSIF cpid = npid THEN
-      PERFORM move_inside_bristol(
+    ELSE
+      -- Is user editor of the bristol
+      SELECT *
+      FROM bristol.is_bristol_editor (
         jsonb_build_object(
-          'cpos', cpos,
-          'npos', npos,
-          'pid', cpid,
-          'bid', bid
+          'user_id', uid,
+          'bristol_id', bid
         )
-      );
-    -- If cpid = null, bristol moved from root to bristol
-    ELSIF cpid IS NULL THEN
-      PERFORM move_from_root(
-        jsonb_build_object(
-          'cpos', cpos,
-          'npos', npos,
-          'npid', npid,
-          'bid', bid,
-          'uid', uid
+      )
+      INTO is_editor_start;
+
+      -- Is user editor of the target bristol (true if null - root)
+      IF npid IS NOT NULL THEN
+        SELECT *
+        FROM bristol.is_bristol_editor (
+          jsonb_build_object(
+            'user_id', uid,
+            'bristol_id', npid
+          )
         )
-      );
-    -- If npid = null, bristol moved from bristol to root
-    ELSIF npid IS NULL THEN
-      PERFORM move_to_root(
-        jsonb_build_object(
+        INTO is_editor_end;
+      ELSE
+        SELECT TRUE INTO is_editor_end;
+      END IF;
+
+      -- If user is not editor of current or target, error
+      IF is_editor_start IS NOT TRUE
+      OR is_editor_end IS NOT TRUE THEN
+        RAISE EXCEPTION 'user doesn''t have permission';
+      END IF;
+
+      -- If cpid = npid, bristol moved inside the same bristol
+      IF cpid = npid THEN
+        PERFORM move_inside_bristol(
+          jsonb_build_object(
+            'cpos', cpos,
+            'npos', npos,
+            'pid', cpid,
+            'bid', bid
+          )
+        );
+      -- If cpid = null, bristol moved from root to bristol
+      ELSIF cpid IS NULL THEN
+        PERFORM move_from_root(
+          jsonb_build_object(
+            'cpos', cpos,
+            'npos', npos,
+            'npid', npid,
+            'bid', bid,
+            'uid', uid
+          )
+        );
+      -- If npid = null, bristol moved from bristol to root
+      ELSIF npid IS NULL THEN
+        PERFORM move_to_root(
+          jsonb_build_object(
+            'cpos', cpos,
+            'npos', npos,
+            'cpid', cpid,
+            'bid', bid,
+            'uid', uid
+          )
+        );
+    -- IF npid and cpid != null, bristol moved in another bristol
+      ELSIF npid IS NOT NULL AND cpid IS NOT NULL THEN
+        PERFORM move_between_bristols(
+          jsonb_build_object(
           'cpos', cpos,
           'npos', npos,
           'cpid', cpid,
-          'bid', bid,
-          'uid', uid
+          'npid', npid,
+          'bid', bid
         )
       );
-	-- IF npid and cpid != null, bristol moved in another bristol
-    ELSIF npid IS NOT NULL AND cpid IS NOT NULL THEN
-      PERFORM move_between_bristols(
-        jsonb_build_object(
-        'cpos', cpos,
-        'npos', npos,
-        'cpid', cpid,
-        'npid', npid,
-        'bid', bid
-      )
-	  );
-    -- If none of the above, it must be an error
-    ELSE
-      RAISE EXCEPTION 'bad request';
+      -- If none of the above, it must be an error
+      ELSE
+        RAISE EXCEPTION 'bad request';
+      END IF;
     END IF;
   END;
 $$ LANGUAGE plpgsql;

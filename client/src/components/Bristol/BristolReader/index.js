@@ -13,21 +13,11 @@ const BristolReader = () => {
 			</Typography>
 			<Divider sx={{ m: 1, mt: 2 }}>read-write</Divider>
 			<Typography>
-				Le bristol à l'id {useSelector(state => state.bristol.lastMovedItem.id)}{" "}
+				Le bristol à l'id {useSelector(state => state.bristol.movedBristol.id)}{" "}
 				a été déplacé, son parent est maintenant{" "}
-				{useSelector(state => state.bristol.lastMovedItem.parent_id) || "root"}{" "}
+				{useSelector(state => state.bristol.movedBristol.parent_id) || "root"}{" "}
 				et sa postion est{" "}
-				{useSelector(state => state.bristol.lastMovedItem.position)}{" "}
-			</Typography>
-			<Divider sx={{ m: 1, mt: 2 }}>read-only</Divider>
-			<Typography>
-				Le bristol à l'id{" "}
-				{useSelector(state => state.bristol.lastMovedReadItem.id)} a été
-				déplacé, son parent est maintenant{" "}
-				{useSelector(state => state.bristol.lastMovedReadItem.parent_id) ||
-					"root"}{" "}
-				et sa postion est{" "}
-				{useSelector(state => state.bristol.lastMovedReadItem.position)}{" "}
+				{useSelector(state => state.bristol.movedBristol.position)}{" "}
 			</Typography>
 		</Box>
 	);
