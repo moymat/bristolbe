@@ -87,29 +87,25 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION bristol.get_users_bristols (UUID) RETURNS TABLE (
 	id UUID,
 	title TEXT,
-	content TEXT,
 	"position" INT,
 	created_at TIMESTAMPTZ,
-	parent_id UUID
+	parent_id UUID,
+	role ROLE_TYPE
 ) AS $$
-	WITH RECURSIVE children AS (
-		SELECT a.id, a.title, a.content, a.position, a.created_at, a.parent_id
-		FROM bristol.bristol a
-		WHERE a.parent_id = ANY(
-			SELECT r.bristol_id
-			FROM bristol.role r
-			WHERE r.user_id = $1
-		)
+	WITH RECURSIVE all_bristols AS (
+		SELECT id, title, root_position.position, created_at, parent_id, type as role
+		FROM bristol.bristol b
+		JOIN bristol.role ON role.bristol_id = id
+		JOIN bristol.root_position ON root_position.bristol_id = id
+		WHERE role.user_id = $1
 		UNION (
-			SELECT b.id, b.title, b.content, b.position, b.created_at, b.parent_id
+			SELECT b.id, b.title, b.position, b.created_at, b.parent_id, a.role
 			FROM bristol.bristol b
-			INNER JOIN children c
-			ON c.parent_id = b.id
+			INNER JOIN all_bristols a
+			ON b.parent_id = a.id
 		)
 	)
-	SELECT *
-	FROM children d
-	ORDER BY id DESC;
+	SELECT * FROM all_bristols;
 $$ LANGUAGE sql;
 
 COMMIT;
