@@ -1,1 +1,1 @@
-exports.AUTH_ROUTES = ["/home", "/bristol"];
+exports.AUTH_ROUTES = ["/home", "/bristol", "/user"];
