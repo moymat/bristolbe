@@ -8,6 +8,8 @@ import Login from "./views/Login";
 import Register from "./views/Register";
 import Forgot from "./views/Forgot";
 import Reset from "./views/Reset";
+import Profil from "./views/User/Profil";
+import ProfilLayout from "./components/ProfilLayout";
 import axios from "./utils/axios";
 import CustomTheme from "./theme";
 import "./App.scss";
@@ -61,6 +63,11 @@ function App() {
 										</Route>
 										<Route exact path="/bristol">
 											<Bristol />
+										</Route>
+										<Route exact path="/user/profil">
+											<ProfilLayout>
+												<Profil />
+											</ProfilLayout>
 										</Route>
 									</Navbar>
 								)}

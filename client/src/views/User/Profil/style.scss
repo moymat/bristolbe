@@ -1,0 +1,13 @@
+.form{
+    &-title{
+        margin: 0 0 0 10px;
+    }
+    &-description{
+       margin: 20px 0 0 10px;
+    }
+    &-field{
+        display: flex;
+        align-items: baseline;
+        padding-left: 50px;
+    }
+}
