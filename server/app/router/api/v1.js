@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { userController } = require("../../controllers");
+const { userController, bristolController } = require("../../controllers");
 const { isUserAuthz } = require("../../auth");
 
 router.get("/users", userController.getAllUsers);
@@ -14,6 +14,9 @@ router.get(
 	isUserAuthz,
 	userController.getUsersBristols
 );
+
+router.get("/bristols/:bristolId", bristolController.getBristol);
+router.post("/bristols/move", bristolController.moveBristol);
 
 //router.use("/bristols", bristolController);
 

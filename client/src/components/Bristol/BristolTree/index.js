@@ -27,7 +27,7 @@ const BristolTree = () => {
 			const { data: axiosData } = await axios().get(
 				`/api/v1/users/${user.id}/bristols`
 			);
-			const itemsWriteTemp = createNestedMenu(menus);
+			const itemsWriteTemp = createNestedMenu(axiosData.data);
 			dispatch({ type: "SET_READ_WRITE_ITEMS", items: itemsWriteTemp });
 			const itemsReadTemp = createNestedMenu(menusReadOnly);
 			dispatch({ type: "SET_READ_ONLY_ITEMS", items: itemsReadTemp });
@@ -36,15 +36,30 @@ const BristolTree = () => {
 		}
 	}, [dispatch, user]);
 
-	const handleWriteItemsMove = ({ items, dragItem, targetPath }) => {
-		console.log(dragItem.id);
-		dispatch({
-			type: "SET_READ_WRITE_ITEMS",
-			items,
-			id: dragItem.id,
-			parent_id: getParentId(items, targetPath),
-			position: targetPath[targetPath.length - 1],
-		});
+	const handleWriteItemsMove = async ({ items, dragItem, targetPath }) => {
+		try {
+			const { id: bristol_id } = dragItem;
+			const parent_id = getParentId(items, targetPath);
+			const position = targetPath[targetPath.length - 1];
+
+			const { data: axiosData } = await axios().post("/api/v1/bristols/move", {
+				bristol_id,
+				parent_id,
+				position,
+			});
+
+			console.log(axiosData);
+
+			dispatch({
+				type: "SET_READ_WRITE_ITEMS",
+				items,
+				id: bristol_id,
+				parent_id,
+				position,
+			});
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	const handleReadItemsMove = ({ items, dragItem, targetPath }) => {

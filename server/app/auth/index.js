@@ -89,6 +89,8 @@ const isUserAuthz = (req, res, next) => {
 		if (userId !== id)
 			throw Error("user doesn't have permission to access data");
 
+		req.userId = userId;
+
 		next();
 	} catch (error) {
 		next(error);
