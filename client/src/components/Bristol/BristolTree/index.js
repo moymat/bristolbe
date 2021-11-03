@@ -37,10 +37,11 @@ const BristolTree = () => {
 	}, [dispatch, user]);
 
 	const handleWriteItemsMove = ({ items, dragItem, targetPath }) => {
+		console.log(dragItem.id);
 		dispatch({
 			type: "SET_READ_WRITE_ITEMS",
 			items,
-			item_id: dragItem.id,
+			id: dragItem.id,
 			parent_id: getParentId(items, targetPath),
 			position: targetPath[targetPath.length - 1],
 		});
@@ -50,7 +51,7 @@ const BristolTree = () => {
 		dispatch({
 			type: "SET_READ_ONLY_ITEMS",
 			items,
-			item_id: dragItem.id,
+			id: dragItem.id,
 			parent_id: getParentId(items, targetPath),
 			position: targetPath[targetPath.length - 1],
 		});

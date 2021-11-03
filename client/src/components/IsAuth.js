@@ -8,7 +8,10 @@ const IsAuth = ({ children }) => {
 	const history = useHistory();
 
 	useEffect(() => {
-		if (user.id && !AUTH_ROUTES.includes(history.location.pathname)) {
+		if (
+			user.id &&
+			!AUTH_ROUTES.some(route => history.location.pathname.includes(route))
+		) {
 			history.push("/home");
 		} else if (!user.id && AUTH_ROUTES.includes(history.location.pathname)) {
 			console.log("not auth");
