@@ -9,11 +9,13 @@ import Register from "./views/Register";
 import Forgot from "./views/Forgot";
 import Reset from "./views/Reset";
 import Profil from "./views/User/Profil";
+import Settings from "./views/User/Settings";
 import ProfilLayout from "./components/ProfilLayout";
 import axios from "./utils/axios";
 import CustomTheme from "./theme";
 import "./App.scss";
 export const UserContext = createContext({});
+
 
 function App() {
 	const [user, setUser] = useState({});
@@ -64,11 +66,14 @@ function App() {
 										<Route exact path="/bristol">
 											<Bristol />
 										</Route>
-										<Route exact path="/user/profil">
-											<ProfilLayout>
+										<ProfilLayout>
+										<Route exact path="/user/profil">											
 												<Profil />
-											</ProfilLayout>
 										</Route>
+										<Route exact path="/user/settings">
+											<Settings />
+										</Route>
+										</ProfilLayout>
 									</Navbar>
 								)}
 							</CustomTheme>
