@@ -6,7 +6,7 @@ BEGIN;
 CREATE OR REPLACE FUNCTION bristol.add_viewers (jsonb) RETURNS VOID
 AS $$
 	DECLARE
-		eid UUID = ($1::jsonb->>'editor_id')::UUID;
+		eid UUID = ($1::jsonb->>'user_id')::UUID;
 		uids jsonb = ($1::jsonb->>'viewers_id')::jsonb;
 		bid UUID = ($1::jsonb->>'bristol_id')::UUID;
 		uid UUID;
@@ -73,7 +73,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION bristol.add_editors (jsonb) RETURNS VOID
 AS $$
 	DECLARE
-		eid UUID = ($1::jsonb->>'editor_id')::UUID;
+		eid UUID = ($1::jsonb->>'user_id')::UUID;
 		uids jsonb = ($1::jsonb->>'editors_id')::jsonb;
 		bid UUID = ($1::jsonb->>'bristol_id')::UUID;
 		uid UUID;
