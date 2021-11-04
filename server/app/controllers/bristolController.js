@@ -80,10 +80,30 @@ const getBristolRoles = async (req, res, next) => {
 	res.json({ data });
 };
 
+const addRoles = async (req, res, next) => {
+	const { bristolId } = req.params;
+	const { id } = decodeToken(req.cookies.access_token);
+	const { error, validationErrors } = await bristolModel.addRoles(
+		bristolId,
+		id,
+		req.body
+	);
+
+	if (validationErrors) return res.status(400).json({ validationErrors });
+
+	if (error) {
+		res.status(400);
+		return next(error);
+	}
+
+	res.json({ status: "roles added successfully" });
+};
+
 module.exports = {
 	getBristol,
 	moveBristol,
 	createBristol,
 	patchBristol,
 	getBristolRoles,
+	addRoles,
 };
