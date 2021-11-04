@@ -29,9 +29,8 @@ router.post("/bristols", bristolController.createBristol);
 router.post("/bristols/move", bristolController.moveBristol);
 router.get("/bristols/:bristolId", bristolController.getBristol);
 router.patch("/bristols/:bristolId", bristolController.patchBristol);
-router.get("bristols/roles/:bristolId", bristolController.getBristolRoles);
-router.post("bristols/roles/:bristolId/editors/:userId");
-router.post("bristols/roles/:bristolId/viewers/:userId");
+router.get("/bristols/:bristolId/roles", bristolController.getBristolRoles);
+router.post("/bristols/:bristolId/roles", bristolController.addRoles);
 
 //router.use("/bristols", bristolController);
 

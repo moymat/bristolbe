@@ -1,5 +1,5 @@
 const pgClient = require("../db/pg");
-const { validateBristol } = require("../validation");
+const { validateBristol, validateAddRole } = require("../validation");
 
 const createBristol = async (body, userId) => {
 	try {
@@ -107,10 +107,41 @@ const getBristolRoles = async (bristolId, userId) => {
 	}
 };
 
+const addRoles = async (bristolId, userId, body) => {
+	try {
+		const { data, errors } = await validateAddRole(body);
+
+		if (errors) return { validationErrors: errors };
+
+		return Promise.all(
+			Object.entries(data).map(async ([key, ids]) => {
+				return key === "editors_id"
+					? await pgClient.query("SELECT bristol.add_editors($1)", [
+							JSON.stringify({
+								user_id: userId,
+								bristol_id: bristolId,
+								editors_id: ids,
+							}),
+					  ])
+					: await pgClient.query("SELECT bristol.add_viewers($1)", [
+							JSON.stringify({
+								user_id: userId,
+								bristol_id: bristolId,
+								viewers_id: ids,
+							}),
+					  ]);
+			})
+		);
+	} catch (error) {
+		return { error };
+	}
+};
+
 module.exports = {
 	createBristol,
 	getBristol,
 	moveBristol,
 	patchBristol,
 	getBristolRoles,
+	addRoles,
 };
