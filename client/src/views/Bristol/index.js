@@ -5,7 +5,7 @@ import BristolReader from "../../components/Bristol/BristolReader";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
-// import SwipeableEdgeDrawer from './SwipeableDrawer'
+// import SwipeableEdgeDrawer from "../../components/Bristol/SwipeableDrawer";
 
 const BristolView = () => {
 	return (
@@ -20,7 +20,7 @@ const BristolView = () => {
 					{/* </Box> */}
 				</Grid>
 				<Grid item xs={9}>
-					{useSelector(state => state.bristol.editionMode) ? (
+					{useSelector(state => state.bristol.EditorIsVisible) ? (
 						<BristolEditor />
 					) : (
 						<BristolReader />

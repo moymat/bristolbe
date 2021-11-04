@@ -1,10 +1,11 @@
 const initialState = {
-	editionMode: false,
-	inModification: {
-		id: null,
-		title: null,
-		content: null,
-	},
+	EditorIsVisible: true,
+	EditorIsReadOnly: true,
+	EditorContent: "<h1>Principe des hook</h1><p>lorem ipsum</p>",
+	EditorTitle: "React et les hooks",
+	EditorBristolId: null,
+	EditorBristolEditOption: true,
+
 	inReading: {
 		id: null,
 		title: null,
@@ -26,30 +27,42 @@ const initialState = {
 
 const reducer = (state = initialState, action = {}) => {
 	switch (action.type) {
+		case "CHANGE_EDITOR_CONTENT":
+			return {
+				...state,
+				EditorContent: action.editorContent,
+			};
+		case "CHANGE_EDITOR_TITLE":
+			return {
+				...state,
+				EditorTitle: action.editorTitle,
+			};
+		case "TOGGLE_EDITOR_EDIT_MODE":
+			return {
+				...state,
+				EditorIsReadOnly: false,
+				EditorBristolEditOption: false,
+				EditorIsVisible: true,
+			};
+		case "SAVE_EDITOR_BRISTOL":
+			return {
+				...state,
+			};
 		case "SHOW_BRISTOL_EDITOR":
 			return {
 				...state,
-				editionMode: true,
+				EditorIsReadOnly: false,
+				EditorIsVisible: true,
+				EditorContent: "",
+				EditorTitle: "",
 			};
 		case "HIDE_BRISTOL_EDITOR":
 			return {
 				...state,
-				editionMode: false,
-				inModification: {
-					id: null,
-					title: null,
-					content: null,
-				},
-			};
-		case "SHOW_BRISTOL_READER":
-			return {
-				...state,
-				editionMode: false,
-				inReading: {
-					id: action.id,
-					title: null,
-					content: null,
-				},
+				EditorIsReadOnly: true,
+				EditorContent: null,
+				EditorTitle: "",
+				EditorIsVisible: false,
 			};
 		case "SET_READ_WRITE_ITEMS":
 			return {
