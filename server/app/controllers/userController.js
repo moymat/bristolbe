@@ -18,13 +18,45 @@ const getUser = async (req, res, next) => {
 	res.json({ data });
 };
 
-const patchUser = async (req, res, next) => {
-	const { error, errors } = await userModel.patchUser(
+const patchUserInfo = async (req, res, next) => {
+	const { error, validationErrors } = await userModel.patchUserInfo(
 		req.params.userId,
 		req.body
 	);
 
-	if (errors) return res.status(400).json({ errors });
+	if (validationErrors) return res.status(400).json({ validationErrors });
+
+	if (error) {
+		res.status(400);
+		return next(error);
+	}
+
+	res.json({ status: "update successfull" });
+};
+
+const patchUserEmail = async (req, res, next) => {
+	const { error, validationErrors } = await userModel.patchUserEmail(
+		req.params.userId,
+		req.body
+	);
+
+	if (validationErrors) return res.status(400).json({ validationErrors });
+
+	if (error) {
+		res.status(400);
+		return next(error);
+	}
+
+	res.json({ status: "update successfull" });
+};
+
+const patchUserPassword = async (req, res, next) => {
+	const { error, validationErrors } = await userModel.patchUserPassword(
+		req.params.userId,
+		req.body
+	);
+
+	if (validationErrors) return res.status(400).json({ validationErrors });
 
 	if (error) {
 		res.status(400);
@@ -59,7 +91,9 @@ const getUsersBristols = async (req, res, next) => {
 module.exports = {
 	getAllUsers,
 	getUser,
-	patchUser,
+	patchUserInfo,
+	patchUserEmail,
+	patchUserPassword,
 	deleteUser,
 	getUsersBristols,
 };

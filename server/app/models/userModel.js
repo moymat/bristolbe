@@ -1,5 +1,10 @@
+const bcrypt = require("bcryptjs");
 const pgClient = require("../db/pg");
-const { validateUser } = require("../validation");
+const {
+	validateUserInfo,
+	validateUserPassword,
+	validateUserEmail,
+} = require("../validation");
 
 const getAllUsers = async () => {
 	try {
@@ -24,13 +29,68 @@ const getUser = async userId => {
 	}
 };
 
-const patchUser = async (id, body) => {
+const patchUserInfo = async (id, body) => {
 	try {
-		const { data, errors } = await validateUser(body);
+		const { data, errors } = await validateUserInfo(body);
 
 		if (errors) return { validationErrors: errors };
 
-		return await pgClient.query("SELECT patch_user($1)", [
+		return await pgClient.query("SELECT patch_user_info($1)", [
+			JSON.stringify({ id, ...data }),
+		]);
+	} catch (error) {
+		return { error };
+	}
+};
+
+const patchUserEmail = async (id, body) => {
+	try {
+		const { data, errors } = await validateUserEmail(body);
+
+		if (errors) return { validationErrors: errors };
+
+		const { rows } = await pgClient.query("SELECT * FROM get_user_auth($1)", [
+			JSON.stringify({ id }),
+		]);
+
+		if (!rows) throw Error("no user found");
+
+		const user = rows[0];
+		bcrypt.compare(data.password, user.hash);
+		if (!compare) throw Error("wrong password");
+
+		delete data.password;
+		return await pgClient.query("SELECT patch_user_email($1)", [
+			JSON.stringify({ id, ...data }),
+		]);
+	} catch (error) {
+		return { error };
+	}
+};
+
+const patchUserPassword = async (id, body) => {
+	try {
+		const { data, errors } = await validateUserPassword(body);
+
+		if (errors) return { validationErrors: errors };
+
+		const { rows } = await pgClient.query("SELECT * FROM get_user_auth($1)", [
+			JSON.stringify({ id }),
+		]);
+
+		if (!rows) throw Error("no user found");
+
+		const user = rows[0];
+		bcrypt.compare(data.password, user.hash);
+		if (!compare) throw Error("wrong password");
+
+		data.hash = bcrypt.hash(
+			data.new_password,
+			await bcrypt.genSalt(+process.env.PWD_SALT_ROUND)
+		);
+
+		delete data.password;
+		return await pgClient.query("SELECT patch_user_password($1)", [
 			JSON.stringify({ id, ...data }),
 		]);
 	} catch (error) {
@@ -62,7 +122,9 @@ const getUsersBristols = async id => {
 module.exports = {
 	getAllUsers,
 	getUser,
-	patchUser,
+	patchUserInfo,
+	patchUserEmail,
+	patchUserPassword,
 	deleteUser,
 	getUsersBristols,
 };

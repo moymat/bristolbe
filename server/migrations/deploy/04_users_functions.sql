@@ -55,15 +55,34 @@ CREATE OR REPLACE FUNCTION bristol.get_user_auth (jsonb) RETURNS TABLE (
   END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION bristol.patch_user (jsonb) RETURNS VOID
+CREATE OR REPLACE FUNCTION bristol.patch_user_info (jsonb) RETURNS VOID
 AS $$
 	BEGIN
 		UPDATE bristol."user"
 		SET
 			first_name = $1::jsonb->>'first_name',
-			last_name = $1::jsonb->>'last_name',
-			email = ($1::jsonb->>'email')::EMAIL
+			last_name = $1::jsonb->>'last_name'
 		WHERE id = ($1::jsonb->>'id')::UUID;
+	END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION bristol.patch_user_email (jsonb) RETURNS VOID
+AS $$
+	BEGIN
+		UPDATE bristol."user"
+		SET
+			first_name = $1::jsonb->>'email'
+		WHERE id = ($1::jsonb->>'id')::UUID;
+	END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION bristol.patch_user_password (jsonb) RETURNS VOID
+AS $$
+	BEGIN
+		UPDATE bristol.password
+		SET
+			first_name = $1::jsonb->>'hash'
+		WHERE user_id = ($1::jsonb->>'id')::UUID;
 	END;
 $$ LANGUAGE plpgsql;
 
