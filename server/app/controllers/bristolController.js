@@ -48,7 +48,36 @@ const createBristol = async (req, res, next) => {
 };
 
 const patchBristol = async (req, res, next) => {
-	res.json({ status: "WIP" });
+	const { id } = decodeToken(req.cookies.access_token);
+	const { error, validationErrors } = await bristolModel.patchBristol(
+		req.body,
+		req.params.bristolId,
+		id
+	);
+
+	if (validationErrors) return res.status(400).json({ validationErrors });
+
+	if (error) {
+		res.status(400);
+		return next(error);
+	}
+
+	res.json({ status: "bristol updated" });
+};
+
+const getBristolRoles = async (req, res, next) => {
+	const { id } = decodeToken(req.cookies.access_token);
+	const { error, data } = await bristolModel.getBristolRoles(
+		req.params.bristolId,
+		id
+	);
+
+	if (error) {
+		res.status(400);
+		return next(error);
+	}
+
+	res.json({ data });
 };
 
 module.exports = {
@@ -56,4 +85,5 @@ module.exports = {
 	moveBristol,
 	createBristol,
 	patchBristol,
+	getBristolRoles,
 };
