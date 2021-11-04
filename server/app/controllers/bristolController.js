@@ -18,14 +18,16 @@ const getBristol = async (req, res, next) => {
 
 const moveBristol = async (req, res, next) => {
 	const { id } = decodeToken(req.cookies.access_token);
-	const { error } = await bristolModel.moveBristol(req.body, id);
+	const { error, data } = await bristolModel.moveBristol(req.body, id);
 
 	if (error) {
 		res.status(401);
 		return next(error);
 	}
 
-	res.json({ status: "bristol moved successfully" });
+	console.log(data);
+
+	res.json({ status: "bristol moved successfully", data });
 };
 
 const createBristol = async (req, res, next) => {

@@ -45,9 +45,11 @@ const validateUser = async data => {
 const validateUserInfo = async data => {
 	return await validateSchema(userInfoSchema, data);
 };
+
 const validateUserEmail = async data => {
 	return await validateSchema(userEmailSchema, data);
 };
+
 const validateUserPassword = async data => {
 	return await validateSchema(userPasswordSchema, data);
 };

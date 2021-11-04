@@ -11,7 +11,7 @@ const Middleware = store => next => action => {
 					position: action.position,
 				})
 				.then(({ data }) => {
-					console.log(data.status);
+					console.log(data);
 					next(action);
 				})
 				.catch(err => console.error("middleware", err));
