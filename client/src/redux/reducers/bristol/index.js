@@ -65,6 +65,3 @@ const reducer = (state = initialState, action = {}) => {
 };
 
 export default reducer;
-
-//onChange={() => dispatch({type: 'TOGGLE_DARK_MODE'})}
-//checked={useSelector((state) => state.isDark)}
