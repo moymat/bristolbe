@@ -138,7 +138,6 @@ AS $$
       SELECT position
       FROM bristol.bristol
       WHERE id = bid
-      AND user_id = uid
       INTO cpos;
     END IF;
 
@@ -376,6 +375,9 @@ AS $$
     -- Remove every rows relative to the bristol
     DELETE FROM bristol.root_position
     WHERE bristol_id = bid;
+
+    DELETE FROM bristol.role
+    WHERE bristol_id = bid;
     
     -- Shift each new right siblings by 1
     UPDATE bristol.bristol
@@ -418,11 +420,14 @@ AS $$
     END IF;
 	
     FOR buid IN
-    -- Retrieve all users that have vision on the highest parent of the bristol
-      SELECT user_id
-      FROM bristol.root_position
-      WHERE user_id <> uid
-      AND bristol_id IN (
+    -- Retrieve all users who are editor of the bristol's highest parent
+      SELECT r.user_id
+      FROM bristol.root_position r
+      JOIN bristol.role ON r.user_id = role.user_id
+      WHERE r.user_id <> uid
+      AND type = 'editor'
+	  AND role.bristol_id = bid
+      AND r.bristol_id = (
         SELECT *
         FROM bristol.get_highest_parent(cpid)
       )
@@ -431,11 +436,15 @@ AS $$
       INSERT INTO bristol.root_position (bristol_id, user_id, position)
       SELECT bid, buid, pos
       FROM (
-        SELECT last_position AS pos
+        SELECT last_root_position AS pos
         FROM bristol.last_root_position (
           jsonb_build_object('user_id', buid)
         )
       ) positions;
+
+      -- Add each highest parent's editor as editor of the new root bristol
+      INSERT INTO bristol.role (bristol_id, user_id, type)
+      SELECT bid, buid, 'editor';
     END LOOP;
     
     -- Shift every former right siblings of the bristol by -1
@@ -458,6 +467,10 @@ AS $$
     -- Insert a new row for the user moving the bristol with the chosen position
     INSERT INTO bristol.root_position (bristol_id, user_id, position)
     VALUES (bid, uid, npos);
+	  
+    -- Insert a new row for the user moving the bristol with the role editor
+    INSERT INTO bristol.role (bristol_id, user_id, type)
+    SELECT bid, uid, 'editor';
 
     -- Set the bristol as a root bristol
     UPDATE bristol.bristol
