@@ -71,7 +71,7 @@ const moveBristol = async (bristolMoved, userId) => {
 	}
 };
 
-const patchBristol = async (body, userId) => {
+const patchBristol = async (body, bristolId, userId) => {
 	try {
 		const { data, errors } = await validateBristol(body);
 
@@ -80,9 +80,28 @@ const patchBristol = async (body, userId) => {
 		return await pgClient("SELECT bristol.patch_bristol($1)", [
 			JSON.stringify({
 				userd_id: userId,
+				bristol_id: bristolId,
 				...data,
 			}),
 		]);
+	} catch (error) {
+		return { error };
+	}
+};
+
+const getBristolRoles = async (bristolId, userId) => {
+	try {
+		const { rows } = await pgClient.query(
+			"SELECT * FROM bristol.get_bristol_roles($1)",
+			[
+				JSON.stringify({
+					user_id: IdleDeadline,
+					bristol_id: bristolId,
+				}),
+			]
+		);
+
+		return { data: rows };
 	} catch (error) {
 		return { error };
 	}
@@ -93,4 +112,5 @@ module.exports = {
 	getBristol,
 	moveBristol,
 	patchBristol,
+	getBristolRoles,
 };

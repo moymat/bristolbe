@@ -1,4 +1,4 @@
--- Deploy bristol:05_bristols_functions to pg
+-- Deploy bristol:06_role_functions to pg
 
 BEGIN;
 
@@ -39,21 +39,21 @@ AS $$
 			FROM jsonb_array_elements_text(uids)
 		) LOOP
       SELECT *
-      FROM bristol.is_bristol_member(jsonb_build_object(
+      FROM bristol.is_member(jsonb_build_object(
           'user_id', uid,
           'bristol_id', bid
         )
       ) INTO ism;
 
-      -- If user already a member, update existing row
       IF ism IS TRUE THEN
+        -- If user already a member, update
         UPDATE bristol.role
         SET type = 'viewer'
         WHERE user_id = uid
         AND bristol_id = bid;
-      -- If not a member, create new rows
       ELSE
-        -- Insert the bristol at the end of his stack
+        -- If not already a member, insert
+        -- Insert the bristol to their root
         INSERT INTO bristol.root_position(bristol_id, user_id, position)
         (
           SELECT pid, uid, COUNT(bristol_id)
@@ -61,7 +61,7 @@ AS $$
           WHERE user_id = uid
         );
       
-        -- Add his new role
+        -- Add their role
         INSERT INTO bristol.role (bristol_id, user_id, type)
         VALUES (pid, uid, 'viewer');
       END IF;	
@@ -79,7 +79,7 @@ AS $$
 		uid UUID;
 		pid UUID;
 		auth BOOL;
-    ism BOOL;
+   		ism BOOL;
 	BEGIN
     -- Check if user is authorized to give other users a role
 		SELECT *
@@ -106,21 +106,21 @@ AS $$
 			FROM jsonb_array_elements_text(uids)
 		) LOOP
       SELECT *
-      FROM bristol.is_bristol_member(jsonb_build_object(
+      FROM bristol.is_member(jsonb_build_object(
           'user_id', uid,
           'bristol_id', bid
         )
       ) INTO ism;
 
-      -- If user already a member, update existing row
       IF ism IS TRUE THEN
+        -- If user already a member, update
         UPDATE bristol.role
         SET type = 'editor'
         WHERE user_id = uid
         AND bristol_id = bid;
-      -- If not a member, create new rows
       ELSE
-        -- Insert the bristol at the end of his stack
+        -- If not already a member, insert
+        -- Insert the bristol to their root
         INSERT INTO bristol.root_position(bristol_id, user_id, position)
         (
           SELECT pid, uid, COUNT(bristol_id)
@@ -128,7 +128,7 @@ AS $$
           WHERE user_id = uid
         );
       
-        -- Add his new role
+        -- Add their role
         INSERT INTO bristol.role (bristol_id, user_id, type)
         VALUES (pid, uid, 'editor');
       END IF;		
