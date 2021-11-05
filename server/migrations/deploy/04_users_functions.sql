@@ -82,7 +82,7 @@ AS $$
 	BEGIN
 		UPDATE bristol.password
 		SET
-			first_name = $1::jsonb->>'hash'
+			hash = $1::jsonb->>'hash'
 		WHERE user_id = ($1::jsonb->>'id')::UUID;
 	END;
 $$ LANGUAGE plpgsql;

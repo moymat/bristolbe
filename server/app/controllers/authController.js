@@ -108,6 +108,39 @@ const login = async (req, res, next) => {
 		});
 };
 
+const postResetPassword = async (req, res, next) => {
+	const { error, status } = await authModel.postResetPassword(req.body.email);
+
+	if (error) {
+		res.status(400);
+		return next(error);
+	}
+
+	res.json({ status });
+};
+
+const checkResetCode = async (req, res, next) => {
+	const { error, status } = await authModel.checkResetCode(req.params.code);
+
+	if (error) {
+		res.status(400);
+		return next(error);
+	}
+
+	res.json({ status });
+};
+
+const patchResetPassword = async (req, res, next) => {
+	const { error } = await authModel.patchResetPassword(req.body);
+
+	if (error) {
+		res.status(400);
+		return next(error);
+	}
+
+	res.json({ status: "password updated" });
+};
+
 const logout = async (req, res, next) => {
 	const browserId = req.headers.browser_id;
 
@@ -160,4 +193,7 @@ module.exports = {
 	isAuth,
 	verifyCode,
 	resendCode,
+	postResetPassword,
+	checkResetCode,
+	patchResetPassword,
 };

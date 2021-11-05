@@ -1,5 +1,10 @@
 import { useState, createContext, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Redirect,
+} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import IsAuth from "./components/IsAuth";
 import Home from "./views/Home";
@@ -12,8 +17,8 @@ import Profil from "./views/User/Profil";
 import ProfilLayout from "./components/ProfilLayout";
 import axios from "./utils/axios";
 import CustomTheme from "./theme";
-import "./App.scss";
 import ValidateEmail from "./views/ValidateEmail";
+import "./App.scss";
 export const UserContext = createContext({});
 
 function App() {
@@ -38,10 +43,6 @@ function App() {
 		checkAuth();
 	}, []);
 
-	useEffect(() => {
-		console.log(user);
-	}, [user]);
-
 	return (
 		isAuthChecked && (
 			<UserContext.Provider value={{ user, setUser }}>
@@ -57,7 +58,7 @@ function App() {
 							<Route exact path="/forgot-password">
 								<Forgot />
 							</Route>
-							<Route exact path="/reset">
+							<Route path="/reset/:code">
 								<Reset />
 							</Route>
 							<CustomTheme>
