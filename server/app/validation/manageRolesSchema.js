@@ -14,6 +14,12 @@ const schema = {
 				type: "must be an array",
 			},
 		},
+		delete_id: {
+			type: "array",
+			errorMessage: {
+				type: "must be an array",
+			},
+		},
 	},
 	anyOf: [
 		{
@@ -21,6 +27,9 @@ const schema = {
 		},
 		{
 			required: ["viewers_id"],
+		},
+		{
+			required: ["delete_id"],
 		},
 	],
 };
