@@ -15,7 +15,7 @@ export default function InputLayout({ children }) {
 			<Box
 				sx={{
 					width: 600,
-					display: "flex",
+					
 					margin: "auto",
 					padding: " 30px 60px",
 				}}>

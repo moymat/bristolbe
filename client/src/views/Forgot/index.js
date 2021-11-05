@@ -23,11 +23,11 @@ export default function Forgot() {
 		});
 	};
 	const handleSubmit = event => {
+		event.preventDefault();
 		const { email } = input;
 		if (!email) {
 			setEmailError(true);
 		}
-		event.preventDefault();
 	};
 	return (
 		<InputLayout>

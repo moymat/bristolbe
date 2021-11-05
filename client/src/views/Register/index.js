@@ -5,6 +5,7 @@ import { usePasswordValidation } from "../../hooks/usePasswordValidation";
 import { TextField, Button, Checkbox, FormControlLabel } from "@mui/material";
 import { UserContext } from "../../App";
 import InputLayout from "../../components/InputLayout";
+import Typography from "@mui/material/Typography";
 import axios from "../../utils/axios";
 
 const emailValidator = new RegExp(
@@ -60,7 +61,6 @@ export default function Register() {
 			default:
 				return;
 		}
-
 		setInput({
 			...input,
 			[name]: value,
@@ -176,18 +176,6 @@ export default function Register() {
 						helperText={passwordError ? "Your password is invalid" : ""}
 						error={passwordError}
 					/>
-					<p>Confirm Password</p>
-					<TextField
-						type="password"
-						name="confirm"
-						placeholder="Confirm Password"
-						className="reg-password"
-						size="small"
-						onChange={handleChange}
-						value={input.confirm}
-						helperText={confirmError ? "Your confirm password is invalid" : ""}
-						error={confirmError}
-					/>
 					{touch && (
 						<div>
 							<ul className="reg-list">
@@ -205,6 +193,18 @@ export default function Register() {
 							</ul>
 						</div>
 					)}
+					<p>Confirm Password</p>
+					<TextField
+						type="password"
+						name="confirm"
+						placeholder="Confirm Password"
+						className="reg-password"
+						size="small"
+						onChange={handleChange}
+						value={input.confirm}
+						helperText={confirmError ? "Your confirm password is invalid" : ""}
+						error={confirmError}
+					/>
 
 					<FormControlLabel
 						control={<Checkbox />}
