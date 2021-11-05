@@ -1,79 +1,77 @@
 import Box from "@mui/material/Box";
 import { TextField, Button } from "@mui/material";
-import Typography from "@mui/material/Box";
-import "./style.scss";
+import Typography from "@mui/material/Typography";
 import { UserContext } from "../../../App";
 import { useContext, useState } from "react";
 
 export default function Profil() {
-	const {user} = useContext(UserContext);
-	const [users, setUsers] = useState({
-		firstName: user.first_name,
-		lastName: user.last_name,
-		userDescription: "",
-	});
-	
-	const handleChange = (event) => {
-		const { name, value } = event.target;
-		console.log(name)
-		setUsers({
-			...users,
-			[name]: value, 
-		});
-	};
+  const { user } = useContext(UserContext);
+  const [users, setUsers] = useState({
+    firstName: user.first_name,
+    lastName: user.last_name,
+    userDescription: "",
+  });
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		const {firstName, lastName, userDescription} = users;
-	}
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setUsers({
+      ...users,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const { firstName, lastName, userDescription } = users;
+  };
   return (
     <Box
       component="form"
       sx={{
         "& .MuiTextField-root": { m: 2, width: "25ch" },
-        ml: 5,
+        ml: 5, flexGrow: 1,
       }}
-	  onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
     >
-      <h1 className="form-title">Profil</h1>
-      <Typography className="form-description">My profil :</Typography>
-      <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-        <Box sx={{display: "flex", alignItems: "baseline"}}>
+      <Typography variant="h4" gutterBottom>
+        Profil
+      </Typography>
+      <Typography variant="label">My profil :</Typography>
+      <Box>
+        <Box sx={{ display: "flex", alignItems: "baseline" }}>
           <Typography>First Name :</Typography>
           <TextField
-            id="outlined-basic"
             name="firstName"
             placeholder="First Name"
             variant="outlined"
-			value={users.firstName}
-			onChange={handleChange}
+            value={users.firstName}
+            onChange={handleChange}
           />
         </Box>
-        <Box sx={{display: "flex", alignItems: "baseline"}}>
+        <Box sx={{ display: "flex", alignItems: "baseline" }}>
           <Typography>Last Name :</Typography>
           <TextField
-            id="outlined-basic"
             name="lastName"
             placeholder="Last Name"
             variant="outlined"
-			value={users.lastName}
-			onChange={handleChange}
+            value={users.lastName}
+            onChange={handleChange}
           />
         </Box>
       </Box>
       <Box
-        style={{ display: "flex", alignItems: "baseline", marginTop: "10px" }}
+        style={{ display: "flex", alignItems: "baseline", marginTop: "1em" }}
       >
-        <Typography className="form-description">Import image :</Typography>
-        <Box sx={{display: "flex", alignItems: "baseline", marginLeft: 5}}>
+        <Typography>Import image :</Typography>
+        <Box sx={{ marginLeft: 5 }}>
           <input
             type="file"
             name="avatar"
             accept="image/*"
             style={{ display: "none" }}
-            id="raised-button-file"
+            id="button-file"
           />
-          <label htmlFor="raised-button-file">
+          <label htmlFor="button-file">
             <Button variant="contained" component="span">
               Img, jpg ....
             </Button>
@@ -81,31 +79,30 @@ export default function Profil() {
         </Box>
       </Box>
       <Box
-        style={{ display: "flex", alignItems: "baseline", marginTop: "30px" }}
+        style={{marginTop: "1em"}}
       >
-        <Typography className="form-description">Description :</Typography>
-        <Box  sx={{display: "flex", alignItems: "baseline", marginLeft: 5}}>
+        <Box sx={{ display: "flex", alignItems: "baseline"}}>
           <TextField
             id="outlined-multiline-static"
-            placeholder="Description"
-			name="userDescription"
+            label="Description"
+            name="userDescription"
             multiline
             rows={4}
             size="medium"
             sx={{ width: "400px !important" }}
-			onChange={handleChange}
-			value={users.userDescription}
+            onChange={handleChange}
+            value={users.userDescription}
           />
         </Box>
       </Box>
       <Box
         style={{
-          display: "flex",
-          marginTop: "30px",
-          justifyContent: "flex-end",
+          marginTop: "0.5rem",
         }}
       >
-        <Button type="submit" variant="contained" onSubmit={handleSubmit}>Apply</Button>
+        <Button type="submit" variant="contained" onSubmit={handleSubmit}>
+          Apply
+        </Button>
       </Box>
     </Box>
   );
