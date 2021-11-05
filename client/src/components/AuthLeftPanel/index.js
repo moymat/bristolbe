@@ -7,10 +7,9 @@ export default function AuthLeftPanel() {
 		<Paper
 			sx={{
 				width: "100%",
-				
-				display: "flex",
+				display: "flex",	
 			}}>
-			<img src={Img} alt="logo" style={{ objectFit: "contain", width: "100%", height: "100vh"}}/>
+			<img src={Img} alt="logo" style={{objectFit: "cover", width: "100%", height: "100vh"}}/>
 		</Paper> 
 	);
 }

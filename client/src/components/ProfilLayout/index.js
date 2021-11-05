@@ -53,6 +53,7 @@ export default function ProfilLayout({ children }) {
       <Box sx={{
           padding: " 30px 60px",
           flexGrow: 1,
+          margin: "auto",
           width: "600px",
 				}}>
         {children}

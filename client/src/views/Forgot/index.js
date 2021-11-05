@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { TextField, Button } from "@mui/material";
 import InputLayout from "../../components/InputLayout";
 import { useState } from "react";
+import Box from "@mui/material/Box";
 
 export default function Forgot() {
 	const [input, setInput] = useState({
@@ -56,9 +57,9 @@ export default function Forgot() {
 						Send reset link
 					</Button>
 				</form>
-				<p className="forgot-create">
+				<Box className="forgot-create">
 					<Link to="/"> {specialCharacter} Back to login</Link>
-				</p>
+				</Box>
 			</div>
 		</InputLayout>
 	);
