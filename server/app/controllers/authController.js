@@ -1,4 +1,5 @@
 const { authModel } = require("../models");
+const { decodeToken } = require("../auth");
 
 const register = async (req, res, next) => {
 	const browserId = req.headers.browser_id;
@@ -41,6 +42,30 @@ const register = async (req, res, next) => {
 			refresh,
 			user,
 		});
+};
+
+const verifyCode = async (req, res, next) => {
+	const { id } = decodeToken(req.cookies.access_token);
+	const { error } = await authModel.verifyCode(id, req.body.code);
+
+	if (error) {
+		res.status(400);
+		return next(error);
+	}
+
+	res.json({ status: "email verified" });
+};
+
+const resendCode = async (req, res, next) => {
+	const { id } = decodeToken(req.cookies.access_token);
+	const { error, status } = await authModel.resendCode(id);
+
+	if (error) {
+		res.status(400);
+		return next(error);
+	}
+
+	res.json({ status });
 };
 
 const login = async (req, res, next) => {
@@ -133,4 +158,6 @@ module.exports = {
 	login,
 	logout,
 	isAuth,
+	verifyCode,
+	resendCode,
 };

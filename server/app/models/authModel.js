@@ -1,8 +1,71 @@
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 const auth = require("../auth");
 const { validateRegister, validateLogin } = require("../validation");
 const pgClient = require("../db/pg");
+const { sendRegisterMail } = require("../auth/nodemailer");
 const redisClient = require("../db/redis")();
+
+const createEmailValidator = async (id, email, resend = false) => {
+	// Generate code for validation
+	const code = crypto.randomBytes(2).toString("hex").toUpperCase();
+
+	resend
+		? // If resend, update current code
+		  await pgClient.query(
+				"UPDATE bristol.account_validation SET code = $1 WHERE user_id = $2",
+				[code, id]
+		  )
+		: // If not, create a row for the user for email validation
+		  await pgClient.query(
+				"INSERT INTO bristol.account_validation (code, user_id) VALUES ($1, $2)",
+				[code, id]
+		  );
+
+	// Send email for validation
+	return await sendRegisterMail(email, code);
+};
+
+const resendCode = async id => {
+	try {
+		const { rows } = await pgClient.query(
+			'SELECT email FROM bristol."user" WHERE id = $1',
+			[id]
+		);
+
+		if (!rows) throw Error("no user found");
+
+		await createEmailValidator(id, rows[0].email, true);
+
+		return { status: "code resent" };
+	} catch (error) {
+		return { error };
+	}
+};
+
+const verifyCode = async (id, code) => {
+	try {
+		const { rows } = await pgClient.query(
+			"SELECT * FROM bristol.account_validation WHERE user_id = $1",
+			[id]
+		);
+
+		if (!rows) throw Error("no validation for this user");
+
+		if (rows[0].code !== code) throw Error("wrong code");
+
+		await pgClient.query(
+			"DELETE FROM bristol.account_validation WHERE user_id = $1",
+			[id]
+		);
+		return await pgClient.query(
+			'UPDATE bristol."user" SET verified = TRUE WHERE id = $1',
+			[id]
+		);
+	} catch (error) {
+		return { error };
+	}
+};
 
 const register = async (body, browserId) => {
 	try {
@@ -18,6 +81,7 @@ const register = async (body, browserId) => {
 		);
 
 		// Insertion of the new user in the db
+		delete data.confirm;
 		delete data.password;
 		const { rows } = await pgClient.query("SELECT * FROM create_user($1)", [
 			JSON.stringify({ ...data, hash }),
@@ -31,6 +95,9 @@ const register = async (body, browserId) => {
 		const token = auth.signToken({ id });
 		const refresh = auth.signToken({ id }, true);
 
+		// Create a validation process
+		await createEmailValidator(id, data.email);
+
 		// Storage of the refresh token in the cache with the browser id as its key
 		await redisClient.setAsync(
 			browserId,
@@ -41,7 +108,7 @@ const register = async (body, browserId) => {
 
 		return {
 			data: {
-				user: { id, ...data },
+				user: { id, ...data, verified: false },
 				token,
 				refresh,
 			},
@@ -139,4 +206,6 @@ module.exports = {
 	login,
 	logout,
 	isAuth,
+	verifyCode,
+	resendCode,
 };
