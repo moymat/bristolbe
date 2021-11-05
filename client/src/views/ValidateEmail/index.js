@@ -6,7 +6,7 @@ import axios from "../../utils/axios";
 
 const inputProps = {
 	maxLength: 1,
-	style: { fontSize: "24px", textAlign: "center" },
+	style: { fontSize: "24px", textAlign: "center", textTransform: "uppercase" },
 };
 
 const ValidateEmail = () => {
@@ -19,8 +19,8 @@ const ValidateEmail = () => {
 		const newCode = [...code];
 		newCode[nb] = target.value;
 		setCode(newCode);
+		// Automaticaly focus on the next case if not the last
 		if (nb < 3 && target.value) {
-			console.log("next");
 			const next = document.querySelector(`input[name="code${nb + 1}"]`);
 			next.focus();
 		}
@@ -37,18 +37,19 @@ const ValidateEmail = () => {
 			if (code.some(val => !val)) return;
 
 			const codeData = code.join("").toUpperCase();
-
 			const { data } = await axios().post("/auth/verify", {
 				code: codeData,
 			});
 
+			console.log(data);
 			if (data.error) {
 				return setError(true);
 			}
 
 			setUser({ ...user, verified: true });
 		} catch (error) {
-			console.error(error);
+			setError(true);
+			console.error(error.message);
 		}
 	};
 
@@ -123,8 +124,14 @@ const ValidateEmail = () => {
 						sx={{ width: "50px" }}>
 						{code[3]}
 					</TextField>
-					{error && <Typography></Typography>}
 				</Box>
+				{error && (
+					<Typography
+						sx={{ marginTop: "18px", fontSize: "18px", fontWeight: 700 }}
+						color="error">
+						Wrong code
+					</Typography>
+				)}
 				<Box
 					sx={{
 						postion: "relative",
