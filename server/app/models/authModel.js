@@ -2,32 +2,24 @@ const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const auth = require("../auth");
 const { v4: uuid } = require("uuid");
-const { validateRegister, validateLogin } = require("../validation");
 const pgClient = require("../db/pg");
+const redisClient = require("../db/redis");
+const { validateRegister, validateLogin } = require("../validation");
 const {
 	sendRegisterMail,
 	sendResetPasswordMail,
 } = require("../auth/nodemailer");
-const redisClient = require("../db/redis");
 
-const createEmailValidator = async (id, email, resend = false) => {
+const createEmailValidator = async (id, email) => {
 	// Generate code for validation
 	const code = crypto.randomBytes(2).toString("hex").toUpperCase();
 
-	resend
-		? // If resend, update current code
-		  await pgClient.query(
-				"UPDATE bristol.account_validation SET code = $1 WHERE user_id = $2",
-				[code, id]
-		  )
-		: // If not, create a row for the user for email validation
-		  await pgClient.query(
-				"INSERT INTO bristol.account_validation (code, user_id) VALUES ($1, $2)",
-				[code, id]
-		  );
-
-	// Send email for validation
-	return await sendRegisterMail(email, code);
+	return await Promise.all([
+		// Create a entry in the cache for the code with the user id as key
+		redisClient("email_code_").setAsync(id, code),
+		// Send email for validation
+		sendRegisterMail(email, code),
+	]);
 };
 
 const resendCode = async id => {
@@ -49,23 +41,20 @@ const resendCode = async id => {
 
 const verifyCode = async (id, code) => {
 	try {
-		const { rows } = await pgClient.query(
-			"SELECT * FROM bristol.account_validation WHERE user_id = $1",
-			[id]
-		);
+		const cachedCode = await redisClient("email_code_").getAsync(id);
 
-		if (!rows) throw Error("no validation for this user");
+		if (!cachedCode) throw Error("no validation pending for this user");
+		if (cachedCode !== code) throw Error("wrong code");
 
-		if (rows[0].code !== code) throw Error("wrong code");
-
-		await pgClient.query(
-			"DELETE FROM bristol.account_validation WHERE user_id = $1",
-			[id]
-		);
-		return await pgClient.query(
-			'UPDATE bristol."user" SET verified = TRUE WHERE id = $1',
-			[id]
-		);
+		return await Promise.all([
+			// Delete code in cache
+			redisClient("email_code_").delAsync(id),
+			// Update user
+			pgClient.query(
+				'UPDATE bristol."user" SET verified = TRUE WHERE id = $1',
+				[id]
+			),
+		]);
 	} catch (error) {
 		return { error };
 	}
@@ -84,9 +73,10 @@ const register = async (body, browserId) => {
 			await bcrypt.genSalt(+process.env.PWD_SALT_ROUND)
 		);
 
-		// Insertion of the new user in the db
+		// Clear sensible data
 		delete data.confirm;
 		delete data.password;
+		// Insertion of the new user in the db
 		const { rows } = await pgClient.query("SELECT * FROM create_user($1)", [
 			JSON.stringify({ ...data, hash }),
 		]);
@@ -99,16 +89,12 @@ const register = async (body, browserId) => {
 		const token = auth.signToken({ id });
 		const refresh = auth.signToken({ id }, true);
 
-		// Create a validation process
-		await createEmailValidator(id, data.email);
-
-		// Storage of the refresh token in the cache with the browser id as its key
-		await redisClient().setAsync(
-			browserId,
-			refresh,
-			"EX",
-			process.env.REFRESH_EXP
-		);
+		await Promise.all([
+			// Create a validation process
+			createEmailValidator(id, data.email),
+			// Storing the refresh token in the cache with the browser id as its key
+			redisClient().setAsync(browserId, refresh, "EX", process.env.REFRESH_EXP),
+		]);
 
 		return {
 			data: {
@@ -176,14 +162,15 @@ const postResetPassword = async email => {
 
 		const code = uuid();
 
-		await redisClient("reset_code_").setAsync(
-			code,
-			rows[0].id,
-			"EX",
-			process.env.RESET_PWD_CODE_EXP
-		);
-
-		await sendResetPasswordMail(email, code);
+		await Promise.all([
+			redisClient("reset_code_").setAsync(
+				code,
+				rows[0].id,
+				"EX",
+				process.env.RESET_PWD_CODE_EXP
+			),
+			sendResetPasswordMail(email, code),
+		]);
 
 		return { status: "reset password email sent" };
 	} catch (error) {
@@ -194,9 +181,6 @@ const postResetPassword = async email => {
 const checkResetCode = async code => {
 	try {
 		const cachedId = await redisClient("reset_code_").getAsync(code);
-
-		console.log(cachedId);
-
 		return { status: "code verified" };
 	} catch (error) {
 		return { error };
@@ -214,11 +198,12 @@ const patchResetPassword = async body => {
 			await bcrypt.genSalt(+process.env.PWD_SALT_ROUND)
 		);
 
-		await pgClient.query("SELECT bristol.patch_user_password($1)", [
-			JSON.stringify({ hash, id: cachedId }),
+		return await Promise.all([
+			pgClient.query("SELECT bristol.patch_user_password($1)", [
+				JSON.stringify({ hash, id: cachedId }),
+			]),
+			redisClient("reset_code_").delAsync(code),
 		]);
-
-		return await redisClient("reset_code_").delAsync(code);
 	} catch (error) {
 		return { error };
 	}
