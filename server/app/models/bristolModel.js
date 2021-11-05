@@ -1,5 +1,5 @@
 const pgClient = require("../db/pg");
-const { validateBristol, validateAddRole } = require("../validation");
+const { validateBristol, validateManageRoles } = require("../validation");
 
 const createBristol = async (body, userId) => {
 	try {
@@ -107,9 +107,9 @@ const getBristolRoles = async (bristolId, userId) => {
 	}
 };
 
-const addRoles = async (bristolId, userId, body) => {
+const manageRoles = async (bristolId, userId, body) => {
 	try {
-		const { data, errors } = await validateAddRole(body);
+		const { data, errors } = await validateManageRoles(body);
 
 		if (errors) return { validationErrors: errors };
 
@@ -123,11 +123,19 @@ const addRoles = async (bristolId, userId, body) => {
 								editors_id: ids,
 							}),
 					  ])
-					: await pgClient.query("SELECT bristol.add_viewers($1)", [
+					: key === "viewers_id"
+					? await pgClient.query("SELECT bristol.add_viewers($1)", [
 							JSON.stringify({
 								user_id: userId,
 								bristol_id: bristolId,
 								viewers_id: ids,
+							}),
+					  ])
+					: await pgClient.query("SELECT bristol.delete_roles($1)", [
+							JSON.stringify({
+								user_id: userId,
+								bristol_id: bristolId,
+								delete_id: ids,
 							}),
 					  ]);
 			})
@@ -143,5 +151,5 @@ module.exports = {
 	moveBristol,
 	patchBristol,
 	getBristolRoles,
-	addRoles,
+	manageRoles,
 };

@@ -5,7 +5,7 @@ const userInfoSchema = require("./userInfoSchema");
 const userEmailSchema = require("./userEmailSchema");
 const userPasswordSchema = require("./userPasswordSchema");
 const bristolSchema = require("./bristolSchema");
-const addRoleSchema = require("./addRoleSchema");
+const manageRoles = require("./manageRolesSchema");
 const Ajv = require("ajv");
 
 const ajv = new Ajv({ allErrors: true, removeAdditional: true, $data: true });
@@ -59,8 +59,8 @@ const validateBristol = async data => {
 	return await validateSchema(bristolSchema, data);
 };
 
-const validateAddRole = async data => {
-	return await validateSchema(addRoleSchema, data);
+const validateManageRoles = async data => {
+	return await validateSchema(manageRoles, data);
 };
 
 module.exports = {
@@ -71,5 +71,5 @@ module.exports = {
 	validateUserEmail,
 	validateUserPassword,
 	validateBristol,
-	validateAddRole,
+	validateManageRoles,
 };

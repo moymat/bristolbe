@@ -80,10 +80,10 @@ const getBristolRoles = async (req, res, next) => {
 	res.json({ data });
 };
 
-const addRoles = async (req, res, next) => {
+const manageRoles = async (req, res, next) => {
 	const { bristolId } = req.params;
 	const { id } = decodeToken(req.cookies.access_token);
-	const { error, validationErrors } = await bristolModel.addRoles(
+	const { error, validationErrors } = await bristolModel.manageRoles(
 		bristolId,
 		id,
 		req.body
@@ -105,5 +105,5 @@ module.exports = {
 	createBristol,
 	patchBristol,
 	getBristolRoles,
-	addRoles,
+	manageRoles,
 };
