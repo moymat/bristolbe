@@ -18,7 +18,8 @@ CREATE TABLE bristol."user" (
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
   email EMAIL UNIQUE NOT NULL,
-  picture_url TEXT
+  picture_url TEXT,
+  verified BOOL NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE bristol.password (

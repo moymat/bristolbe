@@ -28,6 +28,7 @@ CREATE OR REPLACE FUNCTION bristol.get_user_auth (jsonb) RETURNS TABLE (
   last_name TEXT,
   picture_url TEXT,
   email EMAIL,
+	verified BOOL,
   hash TEXT
 ) AS $$
   DECLARE
@@ -41,13 +42,13 @@ CREATE OR REPLACE FUNCTION bristol.get_user_auth (jsonb) RETURNS TABLE (
 
     IF uid IS NOT NULL THEN
       RETURN QUERY
-      SELECT u.id, u.first_name, u.last_name, u.picture_url, u.email, p.hash
+      SELECT u.id, u.first_name, u.last_name, u.picture_url, u.email, u.verified, p.hash
       FROM bristol."user" u
       JOIN bristol.password p ON user_id = u.id
       WHERE u.id = uid;
     ELSE
       RETURN QUERY
-      SELECT u.id, u.first_name, u.last_name, u.picture_url, u.email, p.hash
+      SELECT u.id, u.first_name, u.last_name, u.picture_url, u.email, u.verified, p.hash
       FROM bristol."user" u
       JOIN bristol.password p ON user_id = u.id
       WHERE u.email = uml;

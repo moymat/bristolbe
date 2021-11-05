@@ -4,7 +4,6 @@ const { userController, bristolController } = require("../../controllers");
 const { isUserAuthz } = require("../../auth");
 
 router.get("/users", userController.getAllUsers);
-
 router.get("/users/:userId", userController.getUser);
 router.patch("/users/:userId/info", isUserAuthz, userController.patchUserInfo);
 router.patch(
@@ -18,7 +17,6 @@ router.patch(
 	userController.patchUserPassword
 );
 router.delete("/users/:userId", isUserAuthz, userController.deleteUser);
-
 router.get(
 	"/users/:userId/bristols",
 	isUserAuthz,

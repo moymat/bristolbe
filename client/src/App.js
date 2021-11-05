@@ -13,6 +13,7 @@ import ProfilLayout from "./components/ProfilLayout";
 import axios from "./utils/axios";
 import CustomTheme from "./theme";
 import "./App.scss";
+import ValidateEmail from "./views/ValidateEmail";
 export const UserContext = createContext({});
 
 function App() {
@@ -36,6 +37,10 @@ function App() {
 		};
 		checkAuth();
 	}, []);
+
+	useEffect(() => {
+		console.log(user);
+	}, [user]);
 
 	return (
 		isAuthChecked && (
@@ -71,6 +76,9 @@ function App() {
 										</Route>
 									</Navbar>
 								)}
+								<Route exact path="/validate">
+									<ValidateEmail />
+								</Route>
 							</CustomTheme>
 						</IsAuth>
 					</Switch>
