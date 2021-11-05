@@ -5,7 +5,6 @@ import { usePasswordValidation } from "../../hooks/usePasswordValidation";
 import { TextField, Button, Checkbox, FormControlLabel } from "@mui/material";
 import { UserContext } from "../../App";
 import InputLayout from "../../components/InputLayout";
-import Typography from "@mui/material/Typography";
 import axios from "../../utils/axios";
 
 const emailValidator = new RegExp(

@@ -36,7 +36,9 @@ export default function Settings() {
   const handleTouch = () => {
     !touch && setTouch(true);
   };
-
+  
+  const { currentPassword, newPassword, confirmPassword } = userInformation;
+  
   const handleChange = (event) => {
     const { name, value } = event.target;
     switch (name) {
@@ -65,13 +67,10 @@ export default function Settings() {
   };
   const handleSubmitEmail = (event) => {
     event.preventDefault();
-    const {passwordEmail, newEmail} = userInformation;
-    
   };
 
   const handleSubmitPassword = (event) => {
     event.preventDefault();
-    const { currentPassword, newPassword, confirmPassword } = userInformation;
 
     if (
       !currentPassword ||
