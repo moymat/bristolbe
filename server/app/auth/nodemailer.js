@@ -18,7 +18,7 @@ const sendRegisterMail = async (to, code) => {
 		to,
 		subject: "Welcome to Bristols!",
 		html: `<!DOCTYPE html>
-    <html lang="en">
+    <html lang="fr">
       <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -64,13 +64,14 @@ const sendRegisterMail = async (to, code) => {
 };
 
 const sendResetPasswordMail = async (to, code) => {
-	const link = `${process.env.CLIENT_URL}/rest/${code}`;
+	const link = `${process.env.CLIENT_URL}/reset/${code}`;
+	console.log(link);
 	await transporter.sendMail({
 		from: "Bristols",
 		to,
 		subject: "Reset your password",
 		html: `<!DOCTYPE html>
-    <html lang="en">
+    <html lang="fr">
       <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -98,7 +99,6 @@ const sendResetPasswordMail = async (to, code) => {
             text-decoration: none;
             color: #1565c0;
             margin-top: 12px;
-            cursor: pointer;
           }
         </style>
       </head>
@@ -106,10 +106,9 @@ const sendResetPasswordMail = async (to, code) => {
         <div class="container">
           <h1 class="title">Reset your password</h1>
           <p class="content">
-            Click the link below to reset your password. This link will expire in 5
-            minutes.
+            Copy and paste the link below to reset your password. This link will expire  in 5 minutes.
           </p>
-          <a href="${link} class="link">Reset your password</a>
+          <p class="link">${link}</p>
         </div>
       </body>
     </html>`,
