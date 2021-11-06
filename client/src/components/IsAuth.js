@@ -19,7 +19,6 @@ const IsAuth = ({ children }) => {
 				history.push("/home");
 			}
 		} else if (!user.id && AUTH_ROUTES.includes(pathname)) {
-			console.log("isauth");
 			history.push("/");
 		}
 	}, [history, user, pathname]);

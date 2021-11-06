@@ -30,7 +30,7 @@ function App() {
 		const checkAuth = async () => {
 			try {
 				const { data } = await axios().get(
-					"http://localhost:4000/auth/is_auth"
+					"http://localhost:4000/auth/is-auth"
 				);
 				localStorage.setItem("refresh_token", data.refresh);
 				setUser(data.user);
