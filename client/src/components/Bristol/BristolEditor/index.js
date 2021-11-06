@@ -7,7 +7,8 @@ import { modules, formats } from "./EditorToolbar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
-import ManageAccess from "./ManageAccess";
+import Typography from '@mui/material/Typography';
+import RightsManagement from "./RightsManagement";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import "./styles.css";
@@ -27,9 +28,10 @@ export const BristolEditor = ({ setBristol }) => {
   };
 
   return (
-    <Box className="text-editor" sx={{ px: 5 /* , maxWidth: "1086px" */ }}>
-      <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
+    <Box className="text-editor" sx={{ px: 5, mx: 'auto' /* , maxWidth: "1086px" */ }}>
+      <Stack direction="row" spacing={1} sx={{ my: 2 }}>
         <TextField
+          sx={{ display: useSelector((state) => state.bristol.EditorIsReadOnly) && "none"}}
           value={useSelector((state) => state.bristol.EditorTitle)}
           onChange={handleTitleChange}
           fullWidth
@@ -44,6 +46,12 @@ export const BristolEditor = ({ setBristol }) => {
           size="small"
           disabled={useSelector((state) => state.bristol.EditorIsReadOnly)}
         />
+        <Typography 
+          sx={{ display: useSelector((state) => !state.bristol.EditorIsReadOnly) ? "none" : "flex", justifyContent: 'center',
+          alignContent: 'center', flexDirection: 'column'}}
+          variant="h3"
+          children={useSelector((state) => state.bristol.EditorTitle)} 
+        />
         <IconButton
           onClick={handleEditClick}
           aria-label="delete"
@@ -53,7 +61,7 @@ export const BristolEditor = ({ setBristol }) => {
                 (state) =>
                   !(
                     state.bristol.EditorIsReadOnly &&
-                    state.bristol.EditorBristolEditOption
+                    state.bristol.EditorEditOption
                   )
               ) && "none",
           }}
@@ -82,9 +90,30 @@ export const BristolEditor = ({ setBristol }) => {
           Save
         </Button>
       </Stack>
-      <ManageAccess />
+      <Box
+        sx={{
+          mb: 1,
+          display:
+            useSelector((state) => state.bristol.EditorIsReadOnly) && "none",
+        }}
+      >
+        <RightsManagement permission="editors"/>
+      </Box>
+      <Box
+        sx={{
+          mb: 1,
+          display:
+            useSelector((state) => state.bristol.EditorIsReadOnly) && "none",
+        }}
+      >
+        <RightsManagement permission="readers"/>
+      </Box>
       <ReactQuill
-        theme="snow"
+        theme={
+          useSelector((state) => state.bristol.EditorIsReadOnly)
+            ? "bubble"
+            : "snow"
+        }
         value={useSelector((state) => state.bristol.EditorContent)}
         onChange={handleEditorChange}
         modules={

@@ -1,10 +1,15 @@
 const initialState = {
 	EditorIsVisible: true,
 	EditorIsReadOnly: true,
+	EditorEditOption: true,
 	EditorContent: "<h1>Principe des hook</h1><p>lorem ipsum</p>",
 	EditorTitle: "React et les hooks",
 	EditorBristolId: null,
-	EditorBristolEditOption: true,
+	EditorBristolParentId: null,
+	EditorBristolEditorsList: ["Marcel Patulacci", "Agnes Walker", "Trevor Henderson"],
+	EditorBristolReadersList: ["Robert Robichet", "Cindy Baker", "Travis Howard", "Remy Sharp", "Marcel Patulacci", "Agnes Walker", "Trevor Henderson", "Searlas Carignan", "Didier Lemieux", "Annot Leroy", "Marguerite Savard", "Leone Guay", "Javier St-Pierre", "Avent Morel", "Fayme Bélanger"],
+	EditorManageAccessDialog: true,
+	EditorUserSearch: [],
 
 	inReading: {
 		id: null,
@@ -41,7 +46,7 @@ const reducer = (state = initialState, action = {}) => {
 			return {
 				...state,
 				EditorIsReadOnly: false,
-				EditorBristolEditOption: false,
+				EditorEditOption: false,
 				EditorIsVisible: true,
 			};
 		case "SAVE_EDITOR_BRISTOL":
@@ -55,6 +60,8 @@ const reducer = (state = initialState, action = {}) => {
 				EditorIsVisible: true,
 				EditorContent: "",
 				EditorTitle: "",
+				EditorBristolEditorsList: [],
+				EditorBristolReadersList: [],
 			};
 		case "HIDE_BRISTOL_EDITOR":
 			return {
