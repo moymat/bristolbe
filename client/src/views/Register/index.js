@@ -101,7 +101,7 @@ export default function Register() {
 
 			if (error.includes("user_email_key")) {
 				setEmailError(true);
-				return setEmailUsed(true);
+				setEmailUsed(true);
 			}
 
 			console.error(error);
