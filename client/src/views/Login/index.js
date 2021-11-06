@@ -60,12 +60,12 @@ export default function Login() {
 			const { error } = err.response.data;
 
 			if (error.includes("wrong password")) {
-				return setPasswordError(true);
+				setPasswordError(true);
 			} else if (error.includes("no user found with email")) {
-				return setEmailError(true);
+				setEmailError(true);
 			}
 
-			console.log(error);
+			console.error(error);
 		}
 	};
 	return (
