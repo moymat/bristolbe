@@ -8,26 +8,16 @@ const getBristol = async (req, res, next) => {
 		id
 	);
 
-	if (error) {
-		res.status(401);
-		return next(error);
-	}
-
-	res.json({ data });
+	error ? next(error) : res.json({ data });
 };
 
 const moveBristol = async (req, res, next) => {
 	const { id } = decodeToken(req.cookies.access_token);
 	const { error, data } = await bristolModel.moveBristol(req.body, id);
 
-	if (error) {
-		res.status(401);
-		return next(error);
-	}
-
-	console.log(data);
-
-	res.json({ status: "bristol moved successfully", data });
+	error
+		? next(error)
+		: res.json({ status: "bristol moved successfully", data });
 };
 
 const createBristol = async (req, res, next) => {
@@ -37,14 +27,11 @@ const createBristol = async (req, res, next) => {
 		id
 	);
 
-	if (validationErrors) return res.status(400).json({ validationErrors });
-
-	if (error) {
-		res.status(400);
-		return next(error);
-	}
-
-	res.json({ data });
+	validationErrors
+		? res.json({ validationErrors })
+		: error
+		? next(error)
+		: res.json({ data });
 };
 
 const patchBristol = async (req, res, next) => {
@@ -55,14 +42,11 @@ const patchBristol = async (req, res, next) => {
 		id
 	);
 
-	if (validationErrors) return res.status(400).json({ validationErrors });
-
-	if (error) {
-		res.status(400);
-		return next(error);
-	}
-
-	res.json({ status: "bristol updated" });
+	validationErrors
+		? res.json({ validationErrors })
+		: error
+		? next(error)
+		: res.json({ status: "bristol updated" });
 };
 
 const getBristolRoles = async (req, res, next) => {
@@ -72,31 +56,22 @@ const getBristolRoles = async (req, res, next) => {
 		id
 	);
 
-	if (error) {
-		res.status(400);
-		return next(error);
-	}
-
-	res.json({ data });
+	error ? next(error) : res.json({ data });
 };
 
 const manageRoles = async (req, res, next) => {
-	const { bristolId } = req.params;
 	const { id } = decodeToken(req.cookies.access_token);
 	const { error, validationErrors } = await bristolModel.manageRoles(
-		bristolId,
+		req.params.bristolId,
 		id,
 		req.body
 	);
 
-	if (validationErrors) return res.status(400).json({ validationErrors });
-
-	if (error) {
-		res.status(400);
-		return next(error);
-	}
-
-	res.json({ status: "roles added successfully" });
+	validationErrors
+		? res.json({ validationErrors })
+		: error
+		? next(error)
+		: res.json({ status: "roles added successfully" });
 };
 
 module.exports = {
