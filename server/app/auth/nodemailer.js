@@ -63,7 +63,8 @@ const sendRegisterMail = async (to, code) => {
 	});
 };
 
-const sendResetPasswordMail = async (to, slug) => {
+const sendResetPasswordMail = async (to, code) => {
+	const link = `${process.env.CLIENT_URL}/rest/${code}`;
 	await transporter.sendMail({
 		from: "Bristols",
 		to,
@@ -104,8 +105,11 @@ const sendResetPasswordMail = async (to, slug) => {
       <body>
         <div class="container">
           <h1 class="title">Reset your password</h1>
-          <p class="content">Click the link below to reset your password. This link will expire in 5 minutes.</p>
-          <a target="#" href=${process.env.CLIENT_URL}/reset/${slug} class="link">Reset your password</a>
+          <p class="content">
+            Click the link below to reset your password. This link will expire in 5
+            minutes.
+          </p>
+          <a href="${link} class="link">Reset your password</a>
         </div>
       </body>
     </html>`,

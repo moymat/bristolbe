@@ -42,7 +42,7 @@ export default function Forgot() {
 	return (
 		<InputLayout>
 			<div style={{ flex: 1 }}>
-				{mailSent ? (
+				{!mailSent ? (
 					<>
 						<h1 className="forgot-title">Forgot password? 🔒</h1>
 						<p className="forgot-instructions">

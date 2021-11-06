@@ -65,7 +65,7 @@ export default function Reset() {
 	}, [checked, checkCode]);
 
 	return (
-		checked && (
+		!checked && (
 			<InputLayout>
 				<div style={{ flex: 1 }}>
 					<h1 className="reset-title">Reset password 🔒</h1>
