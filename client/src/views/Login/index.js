@@ -18,6 +18,9 @@ export default function Login() {
 	const handleChange = event => {
 		const { name, value } = event.target;
 
+		name === "email" && emailError && setEmailError(false);
+		name === "password" && passwordError && setPasswordError(false);
+
 		setInput({
 			...input,
 			[name]: value,
@@ -28,7 +31,7 @@ export default function Login() {
 		event.preventDefault();
 		const { email, password } = input;
 
-		if (!email || !password) {
+		if (!email || !password || emailError || passwordError) {
 			!email && setEmailError(true);
 			!password && setPasswordError(true);
 			return;
@@ -54,7 +57,15 @@ export default function Login() {
 
 			setUser(data.user);
 		} catch (err) {
-			console.error(err);
+			const { error } = err.response.data;
+
+			if (error.includes("wrong password")) {
+				return setPasswordError(true);
+			} else if (error.includes("no user found with email")) {
+				return setEmailError(true);
+			}
+
+			console.log(error);
 		}
 	};
 	return (
