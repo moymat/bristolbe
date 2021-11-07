@@ -408,7 +408,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": null,
       "position": 0,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 1,
@@ -416,7 +428,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": null,
       "position": 1,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 2,
@@ -424,7 +448,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": null,
       "position": 3,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 3,
@@ -432,7 +468,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": null,
       "position": 2,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 4,
@@ -440,7 +488,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 0,
       "position": 0,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 5,
@@ -448,7 +508,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 0,
       "position": 2,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 6,
@@ -456,7 +528,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 0,
       "position": 1,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 7,
@@ -464,7 +548,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 1,
       "position": 1,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 8,
@@ -472,7 +568,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 1,
       "position": 0,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 9,
@@ -480,7 +588,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 2,
       "position": 0,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 10,
@@ -488,7 +608,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 2,
       "position": 1,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 11,
@@ -496,7 +628,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 3,
       "position": 0,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 12,
@@ -504,7 +648,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 5,
       "position": 1,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 13,
@@ -512,7 +668,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 5,
       "position": 0,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 14,
@@ -520,7 +688,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 11,
       "position": 0,
-      "role": "editor"
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 15,
@@ -528,7 +708,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": null,
       "position": 0,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 16,
@@ -536,7 +728,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": null,
       "position": 2,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 17,
@@ -544,7 +748,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": null,
       "position": 1,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 18,
@@ -552,7 +768,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 15,
       "position": 0,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 19,
@@ -560,7 +788,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 15,
       "position": 1,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 20,
@@ -568,7 +808,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 16,
       "position": 0,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 21,
@@ -576,7 +828,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 17,
       "position": 0,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 22,
@@ -584,7 +848,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 21,
       "position": 0,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 23,
@@ -592,7 +868,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 21,
       "position": 1,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 24,
@@ -600,7 +888,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 23,
       "position": 0,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 25,
@@ -608,7 +908,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 23,
       "position": 1,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 26,
@@ -616,7 +928,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": null,
       "position": 5,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 27,
@@ -624,7 +948,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": null,
       "position": 4,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 28,
@@ -632,7 +968,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 27,
       "position": 0,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     },
     {
       "id": 29,
@@ -640,27 +988,19 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 27,
       "position": 1,
-      "role": "viewer"
+      "role": "viewer",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 2,
+          "full_name": "Marc Mytton"
+        }
+      ]
     }
-  ],
-  "bristol": {
-    "id": 0,
-    "title": "Tempor anim amet anim dolore",
-    "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
-    "parent_id": null,
-    "position": 0,
-    "role": "editor",
-    "editors": [
-      {
-        "id": 1,
-        "full_name": "Allegra Lyddiard"
-      }
-    ],
-    "readers": [
-      {
-        "id": 1,
-        "full_name": "Olympie Priestner"
-      }
-    ]
-  }
+  ]
 }
