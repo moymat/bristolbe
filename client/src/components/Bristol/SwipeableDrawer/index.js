@@ -6,7 +6,7 @@ import { grey } from "@mui/material/colors";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import BristolTreeView from "../Tree/index.js";
+import BristolTreeView from "../BristolTree/index.js";
 
 const drawerBleeding = 56;
 

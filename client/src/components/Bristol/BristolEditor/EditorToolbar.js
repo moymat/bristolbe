@@ -21,6 +21,7 @@ Quill.register({
 //Add image resize
 Quill.register('modules/imageResize', ImageResize);
 
+
 // Modules object for setting up the Quill editor
 export const modules = {
   toolbar: [

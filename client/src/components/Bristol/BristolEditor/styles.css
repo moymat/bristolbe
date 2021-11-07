@@ -1,4 +1,29 @@
 .ql-editor {
   min-height: 400px;
-  font-size: 1.1em;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+.ql-editor h1 {
+  font-weight: 400 !important;
+  font-size: 2.125rem !important;
+  line-height: 1.235 !important;
+  letter-spacing: 0.00735em !important;
+}
+
+.ql-editor h2 {
+  font-weight: 400 !important;
+  font-size: 1.5rem !important;
+  line-height: 1.334 !important;
+  letter-spacing: 0em !important;
+}
+
+.ql-editor h3 {
+  font-weight: 500 !important;
+  font-size: 1.25rem !important;
+  line-height: 1.6 !important;
+  letter-spacing: 0.0075em !important;
 }
