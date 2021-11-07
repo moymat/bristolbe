@@ -55,59 +55,6 @@ AS $$
 	END;
 $$ LANGUAGE plpgsql;
 
--- Function to get the root bristol from a child bristol
-CREATE OR REPLACE FUNCTION bristol.get_highest_parent (UUID) RETURNS UUID
-AS $$
-	DECLARE
-		hid UUID;
-	BEGIN
-		-- Create a recursive table from the bottom to the root
-		WITH RECURSIVE highest AS (
-			SELECT id, parent_id
-			FROM bristol.bristol
-			WHERE id = $1
-			UNION (
-				SELECT b.id, b.parent_id
-				FROM bristol.bristol b
-				INNER JOIN highest h
-				ON h.parent_id = b.id
-			)
-		)
-		
-		-- Insert root id into function variable
-		SELECT id FROM highest
-		WHERE parent_id IS NULL
-		INTO hid;
-		
-		RETURN hid;
-	END;
-$$ LANGUAGE plpgsql;
-
--- Function to check if user is an editor of a bristol
-CREATE OR REPLACE FUNCTION bristol.is_bristol_editor (jsonb) RETURNS BOOL
-AS $$
-	DECLARE
-		result BOOL;
-	BEGIN
-		WITH bristol_editor AS (
-		SELECT user_id
-			FROM bristol.role
-			WHERE bristol_id = ANY (
-				SELECT *
-				FROM bristol.get_highest_parent (($1::jsonb->>'bristol_id')::UUID)
-			)
-		AND user_id = ($1::jsonb->>'user_id')::UUID
-		AND type = 'editor'
-		)
-				
-		SELECT COUNT(user_id)::INT::BOOL
-		FROM bristol_editor
-		INTO result;
-		
-		RETURN result;		
-	END;
-$$ LANGUAGE plpgsql;
-
 -- Function to move a bristol in the tree
 CREATE OR REPLACE FUNCTION bristol.move_bristol (jsonb) RETURNS VOID
 AS $$

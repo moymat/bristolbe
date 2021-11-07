@@ -2,6 +2,8 @@
 
 BEGIN;
 
--- XXX Add DDLs here.
+DROP FUNCTION bristol.delete_roles;
+DROP FUNCTION bristol.add_editors;
+DROP FUNCTION bristol.add_viewers;
 
 COMMIT;
