@@ -2,8 +2,10 @@
 
 BEGIN;
 
-DROP FUNCTION bristol.delete_roles;
-DROP FUNCTION bristol.add_editors;
-DROP FUNCTION bristol.add_viewers;
+DROP FUNCTION bristol.bristol_pre_move;
+DROP FUNCTION bristol.get_bristols_roles;
+DROP FUNCTION bristol.patch_bristol;
+DROP FUNCTION bristol.get_bristol;
+DROP FUNCTION bristol.is_bristol_member;
 
 COMMIT;

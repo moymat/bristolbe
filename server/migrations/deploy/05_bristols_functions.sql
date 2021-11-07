@@ -1,191 +1,162 @@
+
 -- Deploy bristol:05_bristols_functions to pg
 
 BEGIN;
 
--- Function to add multiple users as viewers of a bristol
-CREATE OR REPLACE FUNCTION bristol.add_viewers (jsonb) RETURNS VOID
+-- Function to check if user can read bristol
+CREATE OR REPLACE FUNCTION bristol.is_bristol_member (jsonb) RETURNS BOOL
 AS $$
 	DECLARE
-		eid UUID = ($1::jsonb->>'user_id')::UUID;
-		uids jsonb = ($1::jsonb->>'viewers_id')::jsonb;
-		bid UUID = ($1::jsonb->>'bristol_id')::UUID;
-		uid UUID;
-		hpid UUID;
+    bid UUID = ($1::jsonb->>'bristol_id')::UUID;
+    uid UUID = ($1::jsonb->>'user_id')::UUID;
 		auth BOOL;
-   		ism BOOL;
 	BEGIN
-    -- Check if user is authorized to give other users a role
-		SELECT *
-		FROM bristol.is_bristol_editor(
-			jsonb_build_object(
-				'user_id', eid,
-				'bristol_id', bid
-			)
-		) INTO auth;
+		SELECT COUNT(role.bristol_id)::INT::BOOL
+		FROM bristol.role
+		WHERE bristol_id = ANY (
+			SELECT get_highest_parent
+			FROM bristol.get_highest_parent(bid)
+		)
+		AND user_id = uid
+		INTO auth;
 		
-    -- If not, error
-		IF auth IS NOT TRUE THEN
-			RAISE EXCEPTION 'user is not authorized';
-		END IF;
-		
-    -- Loop through the array of users to give viewer role to
-		FOR uid IN (
-			SELECT *
-			FROM jsonb_array_elements_text(uids)
-		) LOOP
-      SELECT *
-      FROM bristol.is_bristol_member(jsonb_build_object(
-          'user_id', uid,
-          'bristol_id', bid
-        )
-      ) INTO ism;
-
-      -- If user already a member, update existing row
-      IF ism IS TRUE THEN
-        UPDATE bristol.role
-        SET type = 'viewer'
-        WHERE user_id = uid
-        AND bristol_id = bid;
-      -- If not a member, create new rows
-      ELSE		
-        -- Get the bristol's highest parent 
-        SELECT *
-        FROM get_highest_parent(bid)
-        INTO hpid;
-
-        -- Insert the bristol at the end of his stack
-        INSERT INTO bristol.root_position(bristol_id, user_id, position)
-        (
-          SELECT hpid, uid, COUNT(bristol_id)
-          FROM bristol.root_position
-          WHERE user_id = uid
-        );
-      
-        -- Add his new role
-        INSERT INTO bristol.role (bristol_id, user_id, type)
-        VALUES (hpid, uid, 'viewer');
-      END IF;	
-		END LOOP;	
+		RETURN auth;
 	END;
 $$ LANGUAGE plpgsql;
 
--- Function to add multiple users as editors of a bristol
-CREATE OR REPLACE FUNCTION bristol.add_editors (jsonb) RETURNS VOID
-AS $$
+-- Function to retrieve a bristol's info
+CREATE OR REPLACE FUNCTION bristol.get_bristol (jsonb) RETURNS TABLE (
+	id UUID,
+	title TEXT,
+	content TEXT,
+	created_at TIMESTAMPTZ
+) AS $$
 	DECLARE
-		eid UUID = ($1::jsonb->>'user_id')::UUID;
-		uids jsonb = ($1::jsonb->>'editors_id')::jsonb;
+		uid UUID = ($1::jsonb->>'user_id')::UUID;
 		bid UUID = ($1::jsonb->>'bristol_id')::UUID;
-		uid UUID;
-		hpid UUID;
-		auth BOOL;
-    ism BOOL;
+		auth BOOL = FALSE;
 	BEGIN
-    -- Check if user is authorized to give other users a role
+    -- Check if user have a role on the bristol's highest parent
 		SELECT *
-		FROM bristol.is_bristol_editor(
-			jsonb_build_object(
-				'user_id', eid,
-				'bristol_id', bid
-			)
-		) INTO auth;
+    FROM bristol.is_bristol_member(
+      jsonb_build_object(
+        'user_id', uid,
+        'bristol_id', bid
+      )
+    )
+		INTO auth;
 		
-    -- If not, error
+    -- If no role, error
 		IF auth IS NOT TRUE THEN
-			RAISE EXCEPTION 'user is not authorized';
+			RAISE EXCEPTION 'user not authorized';
 		END IF;
 		
-    -- Loop through the array of users to give user role to
-		FOR uid IN (
-			SELECT *
-			FROM jsonb_array_elements_text(uids)
-		) LOOP
-      SELECT *
-      FROM bristol.is_bristol_member(jsonb_build_object(
-          'user_id', uid,
-          'bristol_id', bid
-        )
-      ) INTO ism;
+    -- Else, return the bristol
+		RETURN QUERY
+		SELECT bristol.id, bristol.title, bristol.content, bristol.created_at
+		FROM bristol.bristol
+		WHERE bristol.id = bid;
+	END;	
+$$ LANGUAGE plpgsql;
 
-      -- If user already a member, update existing row
-      IF ism IS TRUE THEN
-        UPDATE bristol.role
-        SET type = 'editor'
-        WHERE user_id = uid
-        AND bristol_id = bid;
-      -- If not a member, create new rows
-      ELSE
-		        -- Get the bristol's highest parent 
-        SELECT *
-        FROM get_highest_parent(bid)
-        INTO hpid;
+-- Function to patch a bristol
+CREATE OR REPLACE FUNCTION bristol.patch_bristol (jsonb) RETURNS VOID
+AS $$
+	DECLARE
+    bid UUID = ($1::jsonb->>'bristol_id')::UUID;
+    uid UUID = ($1::jsonb->>'user_id')::UUID;
+    ttl TEXT = ($1::jsonb->>'title');
+    cnt TEXT = ($1::jsonb->>'content');
+		auth BOOL;
+	BEGIN
+		SELECT *
+    FROM bristol.is_bristol_member(
+      jsonb_build_object(
+        'user_id', uid,
+        'bristol_id', bid
+      )
+    )
+		INTO auth;
+		
+    IF auth IS NOT TRUE THEN
+      RAISE EXCEPTION 'user not authorized';
+    END IF;
 
-        -- Insert the bristol at the end of his stack
-        INSERT INTO bristol.root_position(bristol_id, user_id, position)
-        (
-          SELECT hpid, uid, COUNT(bristol_id)
-          FROM bristol.root_position
-          WHERE user_id = uid
-        );
-      
-        -- Add his new role
-        INSERT INTO bristol.role (bristol_id, user_id, type)
-        VALUES (hpid, uid, 'editor');
-      END IF;		
-		END LOOP;	
+    UPDATE bristol.bristol
+    SET title = ttl, content = cnt
+    WHERE id = bid;
 	END;
 $$ LANGUAGE plpgsql;
 
--- Function to delete multiple roles for a bristol
-CREATE OR REPLACE FUNCTION bristol.delete_roles (jsonb) RETURNS VOID
-AS $$
+-- Function to retrieve all role assigned to a bristol
+CREATE OR REPLACE FUNCTION bristol.get_bristols_roles (jsonb) RETURNS TABLE (
+	user_id UUID,
+	role ROLE_TYPE,
+	first_name TEXT,
+	last_name TEXT
+) AS $$
 	DECLARE
-		eid UUID = ($1::jsonb->>'user_id')::UUID;
-		uids jsonb = ($1::jsonb->>'delete_id')::jsonb;
+		uid UUID = ($1::jsonb->>'user_id')::UUID;
 		bid UUID = ($1::jsonb->>'bristol_id')::UUID;
-		uid UUID;
-		hpid UUID;
 		auth BOOL;
-    ism BOOL;
 	BEGIN
-    -- Check if user is authorized to delete a user's role
 		SELECT *
-		FROM bristol.is_bristol_editor(
-			jsonb_build_object(
-				'user_id', eid,
-				'bristol_id', bid
-			)
-		) INTO auth;
+		FROM bristol.is_bristol_member(
+		  jsonb_build_object(
+			'user_id', uid,
+			'bristol_id', bid
+		  )
+		)
+		INTO auth;
 		
-    -- If not, error
 		IF auth IS NOT TRUE THEN
-			RAISE EXCEPTION 'user is not authorized';
+		  RAISE EXCEPTION 'user not authorized';
 		END IF;
-		
-    -- Get the bristol's highest parent 
-		SELECT *
-		FROM get_highest_parent(bid)
-		INTO hpid;
-		
-    -- Loop through the array of users to remove the role from
-		FOR uid IN (
-			SELECT (jsonb_array_elements_text(uids))::UUID
-		) LOOP
-		  SELECT *
-		  FROM bristol.is_bristol_member(jsonb_build_object(
-			  'user_id', uid,
-			  'bristol_id', bid
-			)
-		  ) INTO ism;
+			
+		RETURN QUERY
+		SELECT role.user_id, role.type as role, "user".first_name, "user".last_name
+		FROM bristol.role
+		JOIN bristol."user" ON role.user_id = "user".id
+		WHERE bristol_id = ANY (
+			SELECT *
+			FROM bristol.get_highest_parent(bid)
+		)
+		ORDER BY role;
+	END;
+$$ LANGUAGE plpgsql;
 
-		  -- If user is a member, delete existing row
-		  IF ism IS TRUE THEN
-			DELETE
-			FROM bristol.role
-			WHERE user_id = uid
-			AND bristol_id = bid;
-		  END IF;		
-		END LOOP;	
+-- Function to retrieve all roles and current position before move
+CREATE OR REPLACE FUNCTION bristol.bristol_pre_move (jsonb) RETURNS TABLE (
+	user_id UUID,
+	role ROLE_TYPE,
+	first_name TEXT,
+	last_name TEXT,
+	"position" INT,
+	parent_id UUID
+) AS $$
+	DECLARE	
+		uid UUID = ($1::jsonb->>'user_id')::UUID;
+		bid UUID = ($1::jsonb->>'bristol_id')::UUID;
+		pos INT;
+		pid UUID;
+	BEGIN
+		SELECT bristol.position, bristol.parent_id
+		FROM bristol.bristol
+		WHERE bristol.id = bid
+		INTO pos, pid;
+		
+		IF pos IS NULL THEN
+			SELECT root_position.position
+			FROM bristol.root_position
+			WHERE root_position.bristol_id = bid
+			AND root_position.user_id = uid
+			INTO pos;
+		END IF;
+	
+		RETURN QUERY
+		SELECT r.user_id, r.role, r.first_name, r.last_name, pos as position, pid as parent_id
+		FROM bristol.get_bristols_roles($1) r
+		ORDER BY role;
 	END;
 $$ LANGUAGE plpgsql;
 
