@@ -29,9 +29,7 @@ function App() {
 	useEffect(() => {
 		const checkAuth = async () => {
 			try {
-				const { data } = await axios().get(
-					"http://localhost:4000/auth/is-auth"
-				);
+				const { data } = await axios().get("/auth/is-auth");
 				localStorage.setItem("refresh_token", data.refresh);
 				setUser(data.user);
 				setIsAuthChecked(true);
