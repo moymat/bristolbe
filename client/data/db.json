@@ -1,0 +1,666 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "full_name": "Allegra Lyddiard"
+    },
+    {
+      "id": 2,
+      "full_name": "Marc Mytton"
+    },
+    {
+      "id": 3,
+      "full_name": "Margaretta Pawlik"
+    },
+    {
+      "id": 4,
+      "full_name": "Matty Threlfall"
+    },
+    {
+      "id": 5,
+      "full_name": "Olympie Priestner"
+    },
+    {
+      "id": 6,
+      "full_name": "Ev Coghlin"
+    },
+    {
+      "id": 7,
+      "full_name": "Jacinta Neathway"
+    },
+    {
+      "id": 8,
+      "full_name": "Godiva Hawthorne"
+    },
+    {
+      "id": 9,
+      "full_name": "El Pavelka"
+    },
+    {
+      "id": 10,
+      "full_name": "Gwendolin Munning"
+    },
+    {
+      "id": 11,
+      "full_name": "Joella Towson"
+    },
+    {
+      "id": 12,
+      "full_name": "Dorry Sexty"
+    },
+    {
+      "id": 13,
+      "full_name": "Aldis McLleese"
+    },
+    {
+      "id": 14,
+      "full_name": "Deane Splain"
+    },
+    {
+      "id": 15,
+      "full_name": "Aurthur Peyton"
+    },
+    {
+      "id": 16,
+      "full_name": "Tiffie Arrighini"
+    },
+    {
+      "id": 17,
+      "full_name": "Moina Jewer"
+    },
+    {
+      "id": 18,
+      "full_name": "Kirbie Kivell"
+    },
+    {
+      "id": 19,
+      "full_name": "Kim Iddy"
+    },
+    {
+      "id": 20,
+      "full_name": "Angele Hanscombe"
+    },
+    {
+      "id": 21,
+      "full_name": "Annabal De Micoli"
+    },
+    {
+      "id": 22,
+      "full_name": "Bondon Lyfield"
+    },
+    {
+      "id": 23,
+      "full_name": "Giovanna Blodgetts"
+    },
+    {
+      "id": 24,
+      "full_name": "Birk Manuele"
+    },
+    {
+      "id": 25,
+      "full_name": "Nedi Knevit"
+    },
+    {
+      "id": 26,
+      "full_name": "Jon Blood"
+    },
+    {
+      "id": 27,
+      "full_name": "Janene Reditt"
+    },
+    {
+      "id": 28,
+      "full_name": "Norine Agron"
+    },
+    {
+      "id": 29,
+      "full_name": "Valentia Brombell"
+    },
+    {
+      "id": 30,
+      "full_name": "Ettie Daverin"
+    },
+    {
+      "id": 31,
+      "full_name": "Gwynne Byne"
+    },
+    {
+      "id": 32,
+      "full_name": "Haskel Fucher"
+    },
+    {
+      "id": 33,
+      "full_name": "Currey Van de Castele"
+    },
+    {
+      "id": 34,
+      "full_name": "Drusy Gounel"
+    },
+    {
+      "id": 35,
+      "full_name": "Katalin MacGregor"
+    },
+    {
+      "id": 36,
+      "full_name": "Roddie Bennellick"
+    },
+    {
+      "id": 37,
+      "full_name": "Kristopher Simukov"
+    },
+    {
+      "id": 38,
+      "full_name": "Adelina Audenis"
+    },
+    {
+      "id": 39,
+      "full_name": "Yehudit Crowhurst"
+    },
+    {
+      "id": 40,
+      "full_name": "Elton Kennan"
+    },
+    {
+      "id": 41,
+      "full_name": "Gabriel Erratt"
+    },
+    {
+      "id": 42,
+      "full_name": "Odelia Boch"
+    },
+    {
+      "id": 43,
+      "full_name": "Charmian Newick"
+    },
+    {
+      "id": 44,
+      "full_name": "Araldo Flann"
+    },
+    {
+      "id": 45,
+      "full_name": "Roslyn Kurton"
+    },
+    {
+      "id": 46,
+      "full_name": "Maximilien Copper"
+    },
+    {
+      "id": 47,
+      "full_name": "Armando Lyte"
+    },
+    {
+      "id": 48,
+      "full_name": "Darryl Tirte"
+    },
+    {
+      "id": 49,
+      "full_name": "Hilary Barnwell"
+    },
+    {
+      "id": 50,
+      "full_name": "Libbi Paireman"
+    },
+    {
+      "id": 51,
+      "full_name": "Craggy Shugg"
+    },
+    {
+      "id": 52,
+      "full_name": "Ricardo Allinson"
+    },
+    {
+      "id": 53,
+      "full_name": "Maisie Coveney"
+    },
+    {
+      "id": 54,
+      "full_name": "Wade Patriche"
+    },
+    {
+      "id": 55,
+      "full_name": "Powell Rawdales"
+    },
+    {
+      "id": 56,
+      "full_name": "Cece O'Canavan"
+    },
+    {
+      "id": 57,
+      "full_name": "Riordan Loweth"
+    },
+    {
+      "id": 58,
+      "full_name": "Davidde Carhart"
+    },
+    {
+      "id": 59,
+      "full_name": "Clarie Sheavills"
+    },
+    {
+      "id": 60,
+      "full_name": "Cordy Laible"
+    },
+    {
+      "id": 61,
+      "full_name": "Estrella Absolem"
+    },
+    {
+      "id": 62,
+      "full_name": "Cecilius Gorke"
+    },
+    {
+      "id": 63,
+      "full_name": "Mohandis MacCahee"
+    },
+    {
+      "id": 64,
+      "full_name": "Mohandis Aireton"
+    },
+    {
+      "id": 65,
+      "full_name": "Emili Crickmer"
+    },
+    {
+      "id": 66,
+      "full_name": "Birk Gerok"
+    },
+    {
+      "id": 67,
+      "full_name": "Frankie Scragg"
+    },
+    {
+      "id": 68,
+      "full_name": "Roxana Wines"
+    },
+    {
+      "id": 69,
+      "full_name": "Pauly Gebby"
+    },
+    {
+      "id": 70,
+      "full_name": "Mahmud Mabson"
+    },
+    {
+      "id": 71,
+      "full_name": "Mirabelle Fellibrand"
+    },
+    {
+      "id": 72,
+      "full_name": "Analise Dellar"
+    },
+    {
+      "id": 73,
+      "full_name": "Antonietta Amaya"
+    },
+    {
+      "id": 74,
+      "full_name": "Jacqueline Hardeman"
+    },
+    {
+      "id": 75,
+      "full_name": "Sophronia Iceton"
+    },
+    {
+      "id": 76,
+      "full_name": "Bliss Gauch"
+    },
+    {
+      "id": 77,
+      "full_name": "Dmitri Giacomello"
+    },
+    {
+      "id": 78,
+      "full_name": "Warden Dornan"
+    },
+    {
+      "id": 79,
+      "full_name": "Gayelord Schwandt"
+    },
+    {
+      "id": 80,
+      "full_name": "Joya Fleisch"
+    },
+    {
+      "id": 81,
+      "full_name": "Dionis Dyball"
+    },
+    {
+      "id": 82,
+      "full_name": "Keslie Cavanaugh"
+    },
+    {
+      "id": 83,
+      "full_name": "Ethelind Cantwell"
+    },
+    {
+      "id": 84,
+      "full_name": "Bartlett Hain"
+    },
+    {
+      "id": 85,
+      "full_name": "Mavra Habbeshaw"
+    },
+    {
+      "id": 86,
+      "full_name": "Rosanna Ardling"
+    },
+    {
+      "id": 87,
+      "full_name": "Clair Troy"
+    },
+    {
+      "id": 88,
+      "full_name": "Mord Ladon"
+    },
+    {
+      "id": 89,
+      "full_name": "Jdavie Pharoah"
+    },
+    {
+      "id": 90,
+      "full_name": "Donni Tiesman"
+    },
+    {
+      "id": 91,
+      "full_name": "Lombard Froggatt"
+    },
+    {
+      "id": 92,
+      "full_name": "Jenna Larret"
+    },
+    {
+      "id": 93,
+      "full_name": "Alyssa Pow"
+    },
+    {
+      "id": 94,
+      "full_name": "Catina Broseke"
+    },
+    {
+      "id": 95,
+      "full_name": "Karlotte Seegar"
+    },
+    {
+      "id": 96,
+      "full_name": "Orbadiah Annott"
+    },
+    {
+      "id": 97,
+      "full_name": "Henry Juszczak"
+    },
+    {
+      "id": 98,
+      "full_name": "Elvyn Harvard"
+    },
+    {
+      "id": 99,
+      "full_name": "Bobby Wile"
+    },
+    {
+      "id": 100,
+      "full_name": "Shanie Greenrod"
+    }
+  ],
+  "bristols": [
+    {
+      "id": 0,
+      "title": "Tempor anim amet anim dolore",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": null,
+      "position": 0,
+      "role": "editor"
+    },
+    {
+      "id": 1,
+      "title": "Proident eiusmod et nulla magna ut elit officia ex.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": null,
+      "position": 1,
+      "role": "editor"
+    },
+    {
+      "id": 2,
+      "title": "Qui exercitation veniam mollit consequat duis labore sunt enim pariatur.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": null,
+      "position": 3,
+      "role": "editor"
+    },
+    {
+      "id": 3,
+      "title": "Sint amet commodo consectetur ex.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": null,
+      "position": 2,
+      "role": "editor"
+    },
+    {
+      "id": 4,
+      "title": "Id nulla tempor amet pariatur do.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 0,
+      "position": 0,
+      "role": "editor"
+    },
+    {
+      "id": 5,
+      "title": "Ut occaecat consequat laboris irure eiusmod nostrud tempor amet quis.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 0,
+      "position": 2,
+      "role": "editor"
+    },
+    {
+      "id": 6,
+      "title": "Ipsum enim laboris laboris id laborum anim ea tempor deserunt commodo.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 0,
+      "position": 1,
+      "role": "editor"
+    },
+    {
+      "id": 7,
+      "title": "Pariatur nulla occaecat est proident ex ut minim aliqua ex culpa amet tempor minim.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 1,
+      "position": 1,
+      "role": "editor"
+    },
+    {
+      "id": 8,
+      "title": "Anim veniam nisi dolore mollit proident incididunt.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 1,
+      "position": 0,
+      "role": "editor"
+    },
+    {
+      "id": 9,
+      "title": "Consectetur exercitation commodo irure eu aute est Lorem aliquip aliquip eu proident cupidatat.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 2,
+      "position": 0,
+      "role": "editor"
+    },
+    {
+      "id": 10,
+      "title": "Esse quis sint consequat esse ad culpa exercitation nisi nisi exercitation voluptate in.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 2,
+      "position": 1,
+      "role": "editor"
+    },
+    {
+      "id": 11,
+      "title": "Commodo aliqua ad dolore officia ea magna elit esse ullamco do duis deserunt anim.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 3,
+      "position": 0,
+      "role": "editor"
+    },
+    {
+      "id": 12,
+      "title": "Enim eiusmod ut aute culpa qui aliqua incididunt ex sit veniam.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 5,
+      "position": 1,
+      "role": "editor"
+    },
+    {
+      "id": 13,
+      "title": "Reprehenderit enim proident Lorem adipisicing veniam in proident aliqua nulla magna.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 5,
+      "position": 0,
+      "role": "editor"
+    },
+    {
+      "id": 14,
+      "title": "Aliqua cillum est voluptate nulla nisi cupidatat enim cupidatat qui.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 11,
+      "position": 0,
+      "role": "editor"
+    },
+    {
+      "id": 15,
+      "title": "Irure ullamco labore enim dolore minim ipsum occaecat minim qui dolor et.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": null,
+      "position": 0,
+      "role": "viewer"
+    },
+    {
+      "id": 16,
+      "title": "Adipisicing est commodo ipsum voluptate nulla commodo et irure adipisicing tempor deserunt consectetur magna.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": null,
+      "position": 2,
+      "role": "viewer"
+    },
+    {
+      "id": 17,
+      "title": "Ipsum reprehenderit commodo fugiat sit labore amet velit.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": null,
+      "position": 1,
+      "role": "viewer"
+    },
+    {
+      "id": 18,
+      "title": "Voluptate elit esse sunt consectetur quis proident irure sint.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 15,
+      "position": 0,
+      "role": "viewer"
+    },
+    {
+      "id": 19,
+      "title": "Id nulla tempor amet pariatur do.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 15,
+      "position": 1,
+      "role": "viewer"
+    },
+    {
+      "id": 20,
+      "title": "Laborum sit ut ut amet minim irure pariatur et enim voluptate.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 16,
+      "position": 0,
+      "role": "viewer"
+    },
+    {
+      "id": 21,
+      "title": "Nisi ut quis ipsum eiusmod quis et sit ipsum eu.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 17,
+      "position": 0,
+      "role": "viewer"
+    },
+    {
+      "id": 22,
+      "title": "Non ad aliquip voluptate id eiusmod qui.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 21,
+      "position": 0,
+      "role": "viewer"
+    },
+    {
+      "id": 23,
+      "title": "Nisi veniam et dolor voluptate velit officia cupidatat.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 21,
+      "position": 1,
+      "role": "viewer"
+    },
+    {
+      "id": 24,
+      "title": "Ea do eu mollit do tempor in qui ex commodo eu ut.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 23,
+      "position": 0,
+      "role": "viewer"
+    },
+    {
+      "id": 25,
+      "title": "Adipisicing nulla sint anim do.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 23,
+      "position": 1,
+      "role": "viewer"
+    },
+    {
+      "id": 26,
+      "title": "Esse id fugiat proident commodo veniam ad officia ex pariatur adipisicing.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": null,
+      "position": 5,
+      "role": "viewer"
+    },
+    {
+      "id": 27,
+      "title": "Anim consequat velit velit elit laboris laborum elit eiusmod magna minim labore.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": null,
+      "position": 4,
+      "role": "viewer"
+    },
+    {
+      "id": 28,
+      "title": "Aute sit mollit magna eiusmod et enim reprehenderit enim qui irure.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 27,
+      "position": 0,
+      "role": "viewer"
+    },
+    {
+      "id": 29,
+      "title": "Laborum irure consequat occaecat ex aute ipsum aliquip laborum ipsum non.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "parent_id": 27,
+      "position": 1,
+      "role": "viewer"
+    }
+  ],
+  "bristol": {
+    "id": 0,
+    "title": "Tempor anim amet anim dolore",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+    "parent_id": null,
+    "position": 0,
+    "role": "editor",
+    "editors": [
+      {
+        "id": 1,
+        "full_name": "Allegra Lyddiard"
+      }
+    ],
+    "readers": [
+      {
+        "id": 1,
+        "full_name": "Olympie Priestner"
+      }
+    ]
+  }
+}
