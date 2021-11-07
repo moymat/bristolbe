@@ -7,10 +7,9 @@ const createBristol = async (body, userId) => {
 
 		if (errors) return { validationErrors: errors };
 
-		const { rows } = await pgClient.query(
-			"SELECT * FROM bristol.create_brisol($1)",
-			[JSON.stringify({ user_id: userId, ...data })]
-		);
+		const { rows } = await pgClient.query("SELECT * FROM create_brisol($1)", [
+			JSON.stringify({ user_id: userId, ...data }),
+		]);
 
 		return { data: rows[0] };
 	} catch (error) {
@@ -20,10 +19,9 @@ const createBristol = async (body, userId) => {
 
 const getBristol = async (bristolId, userId) => {
 	try {
-		const { rows } = await pgClient.query(
-			"SELECT * FROM bristol.get_bristol($1)",
-			[JSON.stringify({ user_id: userId, bristol_id: bristolId })]
-		);
+		const { rows } = await pgClient.query("SELECT * FROM get_bristol($1)", [
+			JSON.stringify({ user_id: userId, bristol_id: bristolId }),
+		]);
 
 		if (!rows) throw Error(`no bristol with id ${bristolId}`);
 
@@ -36,11 +34,11 @@ const getBristol = async (bristolId, userId) => {
 const moveBristol = async (bristolMoved, userId) => {
 	try {
 		const { rows } = await pgClient.query(
-			"SELECT * FROM bristol.bristol_pre_move($1)",
+			"SELECT * FROM bristol_pre_move($1)",
 			[JSON.stringify({ user_id: userId, bristol_id: bristolMoved.bristol_id })]
 		);
 
-		await pgClient.query("SELECT bristol.move_bristol($1)", [
+		await pgClient.query("SELECT move_bristol($1)", [
 			JSON.stringify({
 				...bristolMoved,
 				user_id: userId,
@@ -77,7 +75,7 @@ const patchBristol = async (body, bristolId, userId) => {
 
 		if (errors) return { validationErrors: errors };
 
-		return await pgClient("SELECT bristol.patch_bristol($1)", [
+		return await pgClient("SELECT patch_bristol($1)", [
 			JSON.stringify({
 				userd_id: userId,
 				bristol_id: bristolId,
@@ -92,7 +90,7 @@ const patchBristol = async (body, bristolId, userId) => {
 const getBristolRoles = async (bristolId, userId) => {
 	try {
 		const { rows } = await pgClient.query(
-			"SELECT * FROM bristol.get_bristol_roles($1)",
+			"SELECT * FROM get_bristol_roles($1)",
 			[
 				JSON.stringify({
 					user_id: IdleDeadline,
@@ -116,7 +114,7 @@ const manageRoles = async (bristolId, userId, body) => {
 		return Promise.all(
 			Object.entries(data).map(async ([key, ids]) => {
 				return key === "editors_id"
-					? await pgClient.query("SELECT bristol.add_editors($1)", [
+					? await pgClient.query("SELECT add_editors($1)", [
 							JSON.stringify({
 								user_id: userId,
 								bristol_id: bristolId,
@@ -124,14 +122,14 @@ const manageRoles = async (bristolId, userId, body) => {
 							}),
 					  ])
 					: key === "viewers_id"
-					? await pgClient.query("SELECT bristol.add_viewers($1)", [
+					? await pgClient.query("SELECT add_viewers($1)", [
 							JSON.stringify({
 								user_id: userId,
 								bristol_id: bristolId,
 								viewers_id: ids,
 							}),
 					  ])
-					: await pgClient.query("SELECT bristol.delete_roles($1)", [
+					: await pgClient.query("SELECT delete_roles($1)", [
 							JSON.stringify({
 								user_id: userId,
 								bristol_id: bristolId,

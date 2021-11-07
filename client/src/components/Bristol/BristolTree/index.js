@@ -61,7 +61,7 @@ const BristolTree = () => {
 					<NestedBristols
 						handleItemMove={handleBristolMove}
 						handleConfirm={handleConfirm}
-						items={useSelector(state => state.bristol.bristols)}
+						items={useSelector(state => state.bristols)}
 					/>
 				</Box>
 				<Fab

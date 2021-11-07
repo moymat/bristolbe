@@ -2,13 +2,13 @@
 
 BEGIN;
 
-DROP FUNCTION bristol.get_users_bristols;
-DROP FUNCTION bristol.delete_user;
-DROP FUNCTION bristol.patch_user_password;
-DROP FUNCTION bristol.patch_user_email;
-DROP FUNCTION bristol.patch_user_info;
-DROP FUNCTION bristol.get_user_auth;
-DROP FUNCTION bristol.get_user;
-DROP VIEW bristol.all_users;
+DROP FUNCTION get_users_bristols;
+DROP FUNCTION delete_user;
+DROP FUNCTION patch_user_password;
+DROP FUNCTION patch_user_email;
+DROP FUNCTION patch_user_info;
+DROP FUNCTION get_user_auth;
+DROP FUNCTION get_user;
+DROP VIEW all_users;
 
 COMMIT;

@@ -9,15 +9,14 @@ const BristolReader = () => {
 			<Divider sx={{ m: 1 }}>read-write or read-only</Divider>
 			<Typography>
 				Vous lisez actuellement le bristol à l'id{" "}
-				{useSelector(state => state.bristol.inReading.id)}{" "}
+				{useSelector(state => state.inReading.id)}{" "}
 			</Typography>
 			<Divider sx={{ m: 1, mt: 2 }}>read-write</Divider>
 			<Typography>
-				Le bristol à l'id {useSelector(state => state.bristol.movedBristol.id)}{" "}
-				a été déplacé, son parent est maintenant{" "}
-				{useSelector(state => state.bristol.movedBristol.parent_id) || "root"}{" "}
-				et sa postion est{" "}
-				{useSelector(state => state.bristol.movedBristol.position)}{" "}
+				Le bristol à l'id {useSelector(state => state.movedid)} a été déplacé,
+				son parent est maintenant{" "}
+				{useSelector(state => state.movedparent_id) || "root"} et sa postion est{" "}
+				{useSelector(state => state.movedposition)}{" "}
 			</Typography>
 		</Box>
 	);
