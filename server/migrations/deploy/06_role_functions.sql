@@ -1,4 +1,4 @@
--- Deploy bristol:06_role_functions to pg
+-- Deploy bristol:05_bristols_functions to pg
 
 BEGIN;
 
@@ -6,11 +6,11 @@ BEGIN;
 CREATE OR REPLACE FUNCTION bristol.add_viewers (jsonb) RETURNS VOID
 AS $$
 	DECLARE
-		eid UUID = ($1::jsonb->>'editor_id')::UUID;
+		eid UUID = ($1::jsonb->>'user_id')::UUID;
 		uids jsonb = ($1::jsonb->>'viewers_id')::jsonb;
 		bid UUID = ($1::jsonb->>'bristol_id')::UUID;
 		uid UUID;
-		pid UUID;
+		hpid UUID;
 		auth BOOL;
    		ism BOOL;
 	BEGIN
@@ -28,42 +28,42 @@ AS $$
 			RAISE EXCEPTION 'user is not authorized';
 		END IF;
 		
-    -- Get the bristol's highest parent 
-		SELECT *
-		FROM get_highest_parent(bid)
-		INTO pid;
-		
     -- Loop through the array of users to give viewer role to
 		FOR uid IN (
 			SELECT *
 			FROM jsonb_array_elements_text(uids)
 		) LOOP
       SELECT *
-      FROM bristol.is_member(jsonb_build_object(
+      FROM bristol.is_bristol_member(jsonb_build_object(
           'user_id', uid,
           'bristol_id', bid
         )
       ) INTO ism;
 
+      -- If user already a member, update existing row
       IF ism IS TRUE THEN
-        -- If user already a member, update
         UPDATE bristol.role
         SET type = 'viewer'
         WHERE user_id = uid
         AND bristol_id = bid;
-      ELSE
-        -- If not already a member, insert
-        -- Insert the bristol to their root
+      -- If not a member, create new rows
+      ELSE		
+        -- Get the bristol's highest parent 
+        SELECT *
+        FROM get_highest_parent(bid)
+        INTO hpid;
+
+        -- Insert the bristol at the end of his stack
         INSERT INTO bristol.root_position(bristol_id, user_id, position)
         (
-          SELECT pid, uid, COUNT(bristol_id)
+          SELECT hpid, uid, COUNT(bristol_id)
           FROM bristol.root_position
           WHERE user_id = uid
         );
       
-        -- Add their role
+        -- Add his new role
         INSERT INTO bristol.role (bristol_id, user_id, type)
-        VALUES (pid, uid, 'viewer');
+        VALUES (hpid, uid, 'viewer');
       END IF;	
 		END LOOP;	
 	END;
@@ -73,13 +73,13 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION bristol.add_editors (jsonb) RETURNS VOID
 AS $$
 	DECLARE
-		eid UUID = ($1::jsonb->>'editor_id')::UUID;
+		eid UUID = ($1::jsonb->>'user_id')::UUID;
 		uids jsonb = ($1::jsonb->>'editors_id')::jsonb;
 		bid UUID = ($1::jsonb->>'bristol_id')::UUID;
 		uid UUID;
-		pid UUID;
+		hpid UUID;
 		auth BOOL;
-   		ism BOOL;
+    ism BOOL;
 	BEGIN
     -- Check if user is authorized to give other users a role
 		SELECT *
@@ -95,42 +95,42 @@ AS $$
 			RAISE EXCEPTION 'user is not authorized';
 		END IF;
 		
-    -- Get the bristol's highest parent 
-		SELECT *
-		FROM get_highest_parent(bid)
-		INTO pid;
-		
     -- Loop through the array of users to give user role to
 		FOR uid IN (
 			SELECT *
 			FROM jsonb_array_elements_text(uids)
 		) LOOP
       SELECT *
-      FROM bristol.is_member(jsonb_build_object(
+      FROM bristol.is_bristol_member(jsonb_build_object(
           'user_id', uid,
           'bristol_id', bid
         )
       ) INTO ism;
 
+      -- If user already a member, update existing row
       IF ism IS TRUE THEN
-        -- If user already a member, update
         UPDATE bristol.role
         SET type = 'editor'
         WHERE user_id = uid
         AND bristol_id = bid;
+      -- If not a member, create new rows
       ELSE
-        -- If not already a member, insert
-        -- Insert the bristol to their root
+		        -- Get the bristol's highest parent 
+        SELECT *
+        FROM get_highest_parent(bid)
+        INTO hpid;
+
+        -- Insert the bristol at the end of his stack
         INSERT INTO bristol.root_position(bristol_id, user_id, position)
         (
-          SELECT pid, uid, COUNT(bristol_id)
+          SELECT hpid, uid, COUNT(bristol_id)
           FROM bristol.root_position
           WHERE user_id = uid
         );
       
-        -- Add their role
+        -- Add his new role
         INSERT INTO bristol.role (bristol_id, user_id, type)
-        VALUES (pid, uid, 'editor');
+        VALUES (hpid, uid, 'editor');
       END IF;		
 		END LOOP;	
 	END;
