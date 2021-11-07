@@ -25,7 +25,7 @@ Quill.register('modules/imageResize', ImageResize);
 // Modules object for setting up the Quill editor
 export const modules = {
   toolbar: [
-    [{ 'font': [] }, { 'header': [] }],
+    [{ 'header': [] }],
     ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block'],
     [{ 'color': [] }, { 'background': [] }],
     [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
@@ -39,11 +39,12 @@ export const modules = {
   "emoji-shortname": true,
   imageResize: {
     parchment: Quill.import('parchment'),
-    modules: ['Resize', 'DisplaySize']
+    modules: ['Resize', 'DisplaySize', 'Toolbar'],
+    displaySize: true
   },
   imageDrop: true,
   magicUrl: true,
 }
 
 // Formats objects for setting up the Quill editor
-export const formats = ['font', 'header', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block', 'color', 'background', 'list', 'indent', 'align', 'link', 'image', 'clean', 'emoji']
+export const formats = ['header', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block', 'color', 'background', 'list', 'indent', 'align', 'link', 'image', 'clean', 'emoji']

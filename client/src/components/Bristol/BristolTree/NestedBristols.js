@@ -1,7 +1,7 @@
 import Nestable from "react-nestable";
 import NestedItem from "./NestedItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import "./nestedStyles.css";
 
 const NestedBristols = ({ handleItemMove = null, items, handleConfirm }) => {
@@ -19,7 +19,7 @@ const NestedBristols = ({ handleItemMove = null, items, handleConfirm }) => {
 			renderCollapseIcon={({ isCollapsed }) =>
 				isCollapsed ? (
 					// <span className="iconCollapse">+</span>
-					<KeyboardArrowDownIcon
+					<KeyboardArrowRightIcon
 						sx={{
 							position: "relative",
 							top: "5px",
@@ -31,7 +31,7 @@ const NestedBristols = ({ handleItemMove = null, items, handleConfirm }) => {
 					/>
 				) : (
 					// <span className="iconCollapse">-</span>
-					<KeyboardArrowUpIcon
+					<KeyboardArrowDownIcon
 						sx={{
 							position: "relative",
 							top: "5px",
