@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 // open-source illustration from undraw.co
-import OneBristol from "../../assets/img/createOnesvg";
+import OneBristol from "../../assets/img/createOneBristol.svg";
 import myCollection from "../../assets/img/myCollection.svg";
 import fileBundle from "../../assets/img/fileBundle.svg";
 import TeamSpirit from "../../assets/img/teamSpirit.svg";

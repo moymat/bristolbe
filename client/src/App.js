@@ -1,10 +1,5 @@
 import { useState, createContext, useEffect } from "react";
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import IsAuth from "./components/IsAuth";
 import Home from "./views/Home";
