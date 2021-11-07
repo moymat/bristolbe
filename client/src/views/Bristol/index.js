@@ -20,7 +20,7 @@ const BristolView = () => {
 					{/* </Box> */}
 				</Grid>
 				<Grid item xs={9}>
-					{useSelector(state => state.bristol.editionMode) ? (
+					{useSelector(state => state.editionMode) ? (
 						<BristolEditor />
 					) : (
 						<BristolReader />

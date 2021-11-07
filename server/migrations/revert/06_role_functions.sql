@@ -2,8 +2,8 @@
 
 BEGIN;
 
-DROP FUNCTION bristol.delete_roles;
-DROP FUNCTION bristol.add_editors;
-DROP FUNCTION bristol.add_viewers;
+DROP FUNCTION delete_roles;
+DROP FUNCTION add_editors;
+DROP FUNCTION add_viewers;
 
 COMMIT;

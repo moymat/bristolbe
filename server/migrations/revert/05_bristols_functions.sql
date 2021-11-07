@@ -2,10 +2,10 @@
 
 BEGIN;
 
-DROP FUNCTION bristol.bristol_pre_move;
-DROP FUNCTION bristol.get_bristols_roles;
-DROP FUNCTION bristol.patch_bristol;
-DROP FUNCTION bristol.get_bristol;
-DROP FUNCTION bristol.is_bristol_member;
+DROP FUNCTION bristol_pre_move;
+DROP FUNCTION get_bristols_roles;
+DROP FUNCTION patch_bristol;
+DROP FUNCTION get_bristol;
+DROP FUNCTION is_bristol_member;
 
 COMMIT;

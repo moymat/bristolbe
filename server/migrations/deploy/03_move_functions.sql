@@ -3,7 +3,7 @@
 BEGIN;
 
 -- Function to get the root bristol from a child bristol
-CREATE OR REPLACE FUNCTION bristol.get_highest_parent (UUID) RETURNS UUID
+CREATE OR REPLACE FUNCTION get_highest_parent (UUID) RETURNS UUID
 AS $$
 	DECLARE
 		hid UUID;
@@ -11,11 +11,11 @@ AS $$
 		-- Create a recursive table from the bottom to the root
 		WITH RECURSIVE highest AS (
 			SELECT id, parent_id
-			FROM bristol.bristol
+			FROM bristol
 			WHERE id = $1
 			UNION (
 				SELECT b.id, b.parent_id
-				FROM bristol.bristol b
+				FROM bristol b
 				INNER JOIN highest h
 				ON h.parent_id = b.id
 			)
@@ -31,17 +31,17 @@ AS $$
 $$ LANGUAGE plpgsql;
 
 -- Function to check if user is an editor of a bristol
-CREATE OR REPLACE FUNCTION bristol.is_bristol_editor (jsonb) RETURNS BOOL
+CREATE OR REPLACE FUNCTION is_bristol_editor (jsonb) RETURNS BOOL
 AS $$
 	DECLARE
 		result BOOL;
 	BEGIN
 		WITH bristol_editor AS (
 		SELECT user_id
-			FROM bristol.role
+			FROM role
 			WHERE bristol_id = ANY (
 				SELECT *
-				FROM bristol.get_highest_parent (($1::jsonb->>'bristol_id')::UUID)
+				FROM get_highest_parent (($1::jsonb->>'bristol_id')::UUID)
 			)
 		AND user_id = ($1::jsonb->>'user_id')::UUID
 		AND type = 'editor'
@@ -56,7 +56,7 @@ AS $$
 $$ LANGUAGE plpgsql;
 
 -- Function to move a bristol in the tree
-CREATE OR REPLACE FUNCTION bristol.move_bristol (jsonb) RETURNS VOID
+CREATE OR REPLACE FUNCTION move_bristol (jsonb) RETURNS VOID
 AS $$
   DECLARE
     uid UUID = ($1::jsonb->>'user_id')::UUID;
@@ -70,20 +70,20 @@ AS $$
   BEGIN
     -- Store current parent_id (UUID or NULL)
     SELECT parent_id
-    FROM bristol.bristol
+    FROM bristol
     WHERE id = bid
     INTO cpid;
 
    -- Store current position
     IF cpid IS NULL THEN
       SELECT position
-      FROM bristol.root_position
+      FROM root_position
       WHERE bristol_id = bid
       AND user_id = uid
       INTO cpos;
     ELSE
       SELECT position
-      FROM bristol.bristol
+      FROM bristol
       WHERE id = bid
       INTO cpos;
     END IF;
@@ -101,7 +101,7 @@ AS $$
     ELSE
       -- Is user editor of the bristol
       SELECT *
-      FROM bristol.is_bristol_editor (
+      FROM is_bristol_editor (
         jsonb_build_object(
           'user_id', uid,
           'bristol_id', bid
@@ -112,7 +112,7 @@ AS $$
       -- Is user editor of the target bristol (true if null - root)
       IF npid IS NOT NULL THEN
         SELECT *
-        FROM bristol.is_bristol_editor (
+        FROM is_bristol_editor (
           jsonb_build_object(
             'user_id', uid,
             'bristol_id', npid
@@ -181,7 +181,7 @@ AS $$
 $$ LANGUAGE plpgsql;
 
 -- Function to handle shift inside root
-CREATE OR REPLACE FUNCTION bristol.move_inside_root (jsonb) RETURNS VOID
+CREATE OR REPLACE FUNCTION move_inside_root (jsonb) RETURNS VOID
 AS $$
   DECLARE
     npos INT = ($1::jsonb->>'npos')::INT;
@@ -198,7 +198,7 @@ AS $$
 
     -- Retrieve the max available position
     SELECT COUNT(bristol_id)
-    FROM bristol.root_position
+    FROM root_position
     WHERE user_id = uid
     INTO mpos;
     
@@ -212,14 +212,14 @@ AS $$
 
     IF up IS TRUE THEN
     -- If up, increase every following bristol's position by 1
-      UPDATE bristol.root_position
+      UPDATE root_position
       SET position = position - 1
       WHERE user_id = uid
       AND position > cpos
       AND position <= npos;
     ELSE
     -- If down, decrease every following bristol's position by 1
-      UPDATE bristol.root_position
+      UPDATE root_position
       SET position = position + 1
       WHERE user_id = uid
       AND position >= npos
@@ -227,7 +227,7 @@ AS $$
     END IF;
 
     -- Change the bristol's position
-    UPDATE bristol.root_position
+    UPDATE root_position
     SET position = npos
     WHERE user_id = uid
     AND bristol_id = bid;
@@ -235,7 +235,7 @@ AS $$
 $$ LANGUAGE plpgsql;
 
 -- Function to handle shift inside the same bristol
-CREATE OR REPLACE FUNCTION bristol.move_inside_bristol (jsonb) RETURNS VOID
+CREATE OR REPLACE FUNCTION move_inside_bristol (jsonb) RETURNS VOID
 AS $$
   DECLARE
     npos INT = ($1::jsonb->>'npos')::INT;
@@ -252,7 +252,7 @@ AS $$
 
     -- Retrieve the max available position
     SELECT COUNT(id)
-    FROM bristol.bristol
+    FROM bristol
     WHERE parent_id = pid
     INTO mpos;
     
@@ -266,14 +266,14 @@ AS $$
 
     IF up IS TRUE THEN
       -- If up, increase every following bristol's position by 1
-      UPDATE bristol.bristol
+      UPDATE bristol
       SET position = position - 1
       WHERE parent_id = pid
       AND position > cpos
       AND position <= npos;
     ELSE
       -- If down, decrease every following bristol's position by 1
-      UPDATE bristol.bristol
+      UPDATE bristol
       SET position = position + 1
       WHERE parent_id = pid
       AND position >= npos
@@ -281,14 +281,14 @@ AS $$
     END IF;
 
     -- Change the bristol's position
-    UPDATE bristol.bristol
+    UPDATE bristol
     SET position = npos
     WHERE id = bid;
   END;
 $$ LANGUAGE plpgsql;
 
 -- Function to handle shift from root to bristol
-CREATE OR REPLACE FUNCTION bristol.move_from_root (jsonb) RETURNS VOID
+CREATE OR REPLACE FUNCTION move_from_root (jsonb) RETURNS VOID
 AS $$
   DECLARE
     npos INT = ($1::jsonb->>'npos')::INT;
@@ -300,7 +300,7 @@ AS $$
   BEGIN
     -- Retrieve the max available position
     SELECT COUNT(id)
-    FROM bristol.bristol
+    FROM bristol
     WHERE parent_id = npid
     INTO mpos;
     
@@ -310,41 +310,41 @@ AS $$
     END IF;
     
     -- Move back every following root bristols from each user by 1
-    UPDATE bristol.root_position
+    UPDATE root_position
     SET position = position - 1
     WHERE position > cpos
     AND user_id = ANY (
       SELECT user_id
-      FROM bristol.root_position
+      FROM root_position
       WHERE bristol_id = bid
     );
 
     -- Remove every rows relative to the bristol
-    DELETE FROM bristol.root_position
+    DELETE FROM root_position
     WHERE bristol_id = bid;
 
-    DELETE FROM bristol.role
+    DELETE FROM role
     WHERE bristol_id = bid;
     
     -- Shift each new right siblings by 1
-    UPDATE bristol.bristol
+    UPDATE bristol
     SET position = position + 1
-    WHERE bristol.id = ANY (
+    WHERE id = ANY (
       SELECT id
-      FROM bristol.bristol
+      FROM bristol
       WHERE parent_id = npid
       AND position >= npos
     );
 
     -- Set the new bristol position and parent
-    UPDATE bristol.bristol
+    UPDATE bristol
     SET position = npos, parent_id = npid
     WHERE id = bid;
   END;
 $$ LANGUAGE plpgsql;
 
 -- Function to handle shift from bristol to root
-CREATE OR REPLACE FUNCTION bristol.move_to_root (jsonb) RETURNS VOID
+CREATE OR REPLACE FUNCTION move_to_root (jsonb) RETURNS VOID
 AS $$
   DECLARE
     npos INT = ($1::jsonb->>'npos')::INT;
@@ -357,7 +357,7 @@ AS $$
   BEGIN
     -- Retrieve the max available position
     SELECT COUNT(bristol_id)
-    FROM bristol.root_position
+    FROM root_position
     WHERE user_id = uid
     INTO mpos;
     
@@ -369,65 +369,65 @@ AS $$
     FOR buid IN
     -- Retrieve all users who are editor of the bristol's highest parent
       SELECT r.user_id
-      FROM bristol.root_position r
-      JOIN bristol.role ON r.user_id = role.user_id
+      FROM root_position r
+      JOIN role ON r.user_id = role.user_id
       WHERE r.user_id <> uid
       AND type = 'editor'
 	  AND role.bristol_id = bid
       AND r.bristol_id = (
         SELECT *
-        FROM bristol.get_highest_parent(cpid)
+        FROM get_highest_parent(cpid)
       )
 	  LOOP
 		-- For each user, insert a new row for the bristol at the end of their stack
-      INSERT INTO bristol.root_position (bristol_id, user_id, position)
+      INSERT INTO root_position (bristol_id, user_id, position)
       SELECT bid, buid, pos
       FROM (
         SELECT last_root_position AS pos
-        FROM bristol.last_root_position (
+        FROM last_root_position (
           jsonb_build_object('user_id', buid)
         )
       ) positions;
 
       -- Add each highest parent's editor as editor of the new root bristol
-      INSERT INTO bristol.role (bristol_id, user_id, type)
+      INSERT INTO role (bristol_id, user_id, type)
       SELECT bid, buid, 'editor';
     END LOOP;
     
     -- Shift every former right siblings of the bristol by -1
-    UPDATE bristol.bristol
+    UPDATE bristol
     SET position = position - 1
-    WHERE bristol.id = ANY (
+    WHERE id = ANY (
       SELECT id
-      FROM bristol.bristol
+      FROM bristol
       WHERE parent_id = cpid
       AND position > cpos
       AND id <> bid
     );
 	
     -- Shift every right root bristols of the user by 1
-    UPDATE bristol.root_position
+    UPDATE root_position
     SET position = position + 1
     WHERE user_id = uid
     AND position >= npos;
 
     -- Insert a new row for the user moving the bristol with the chosen position
-    INSERT INTO bristol.root_position (bristol_id, user_id, position)
+    INSERT INTO root_position (bristol_id, user_id, position)
     VALUES (bid, uid, npos);
 	  
     -- Insert a new row for the user moving the bristol with the role editor
-    INSERT INTO bristol.role (bristol_id, user_id, type)
+    INSERT INTO role (bristol_id, user_id, type)
     SELECT bid, uid, 'editor';
 
     -- Set the bristol as a root bristol
-    UPDATE bristol.bristol
+    UPDATE bristol
     SET position = NULL, parent_id = NULL
     WHERE id = bid;
   END;
 $$ LANGUAGE plpgsql;
 
 -- Function to handle shift from a bristol to an other bristol
-CREATE OR REPLACE FUNCTION bristol.move_between_bristols(jsonb) RETURNS void
+CREATE OR REPLACE FUNCTION move_between_bristols(jsonb) RETURNS void
 AS $$
   DECLARE
     npos INT = ($1::jsonb->>'npos')::INT;
@@ -439,7 +439,7 @@ AS $$
   BEGIN
     -- Retrieve the max available position
     SELECT COUNT(id)
-    FROM bristol.bristol
+    FROM bristol
     WHERE parent_id = npid
     INTO mpos;
     
@@ -449,20 +449,20 @@ AS $$
     END IF;
 	
     -- Shift every right former sibling bristols by -1
-    UPDATE bristol.bristol
+    UPDATE bristol
     SET position = position - 1
     WHERE parent_id = cpid
     AND position > cpos
     AND id <> bid;
     
     -- Shift every right new sibling bristols by 1
-    UPDATE bristol.bristol
+    UPDATE bristol
     SET position = position + 1
     WHERE parent_id = npid
     AND position >= npos;
 	
     -- Change the bristol's position
-    UPDATE bristol.bristol
+    UPDATE bristol
     SET position = npos, parent_id = npid
     WHERE id = bid;
   END;

@@ -25,7 +25,7 @@ const createEmailValidator = async (id, email) => {
 const resendCode = async id => {
 	try {
 		const { rows } = await pgClient.query(
-			'SELECT email FROM bristol."user" WHERE id = $1',
+			'SELECT email FROM "user" WHERE id = $1',
 			[id]
 		);
 
@@ -50,10 +50,7 @@ const verifyCode = async (id, code) => {
 			// Delete code in cache
 			redisClient("email_code_").delAsync(id),
 			// Update user
-			pgClient.query(
-				'UPDATE bristol."user" SET verified = TRUE WHERE id = $1',
-				[id]
-			),
+			pgClient.query('UPDATE "user" SET verified = TRUE WHERE id = $1', [id]),
 		]);
 	} catch (error) {
 		return { error };
@@ -199,7 +196,7 @@ const patchResetPassword = async body => {
 		);
 
 		return await Promise.all([
-			pgClient.query("SELECT bristol.patch_user_password($1)", [
+			pgClient.query("SELECT patch_user_password($1)", [
 				JSON.stringify({ hash, id: cachedId }),
 			]),
 			redisClient("reset_code_").delAsync(code),
