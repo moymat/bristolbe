@@ -1,8 +1,9 @@
+require("dotenv").config();
 const redis = require("redis");
 const { promisify } = require("util");
 
 const redisClient = (prefix = "refresh_token_") => {
-	const client = redis.createClient({ prefix });
+	const client = redis.createClient({ host: process.env.REDIS_HOST, prefix });
 
 	const getAsync = promisify(client.get).bind(client);
 	const setAsync = promisify(client.set).bind(client);
