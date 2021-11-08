@@ -29,10 +29,11 @@ export default function Login() {
       case "email":
         setEmailError(false);
         break;
-      default:
-        return;
       case "password":
         setPasswordError(false);
+		break;
+      default:
+        return;
     }
 
     setInput({

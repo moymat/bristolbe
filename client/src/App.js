@@ -13,11 +13,13 @@ import Settings from "./views/User/Settings";
 import ProfilLayout from "./components/ProfilLayout";
 import axios from "./utils/axios";
 import CustomTheme from "./theme";
+import Error from "./views/Error";
 import "./App.scss";
 export const UserContext = createContext({});
 
 
 function App() {
+	console.log(Error)
 	const [user, setUser] = useState({});
 	const [isAuthChecked, setIsAuthChecked] = useState(false);
 
@@ -76,7 +78,10 @@ function App() {
 										</ProfilLayout>
 									</Navbar>
 								)}
-							</CustomTheme>
+								</CustomTheme>
+						<Route >
+							<Error />
+						</Route>
 						</IsAuth>
 					</Switch>
 				</Router>
