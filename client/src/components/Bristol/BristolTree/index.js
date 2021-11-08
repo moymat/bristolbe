@@ -7,7 +7,8 @@ import AddIcon from "@mui/icons-material/Add";
 import Divider from "@mui/material/Divider";
 import "./styles.css";
 
-const BristolTree = ({ handleSelectBristol, handleNewBristol }) => {
+const BristolTree = () => {
+	const editMode = useSelector(state => state.bristol.isEditMode);
 	const dispatch = useDispatch();
 
 	const handleBristolMove = async ({ items, dragItem, targetPath }) => {
@@ -21,6 +22,26 @@ const BristolTree = ({ handleSelectBristol, handleNewBristol }) => {
 			});
 		} catch (err) {
 			console.error(err);
+		}
+	};
+
+	const handleSelectBristol = async e => {
+		try {
+			const { itemid } = e.target.dataset;
+			if (itemid) {
+				dispatch({
+					type: "CHANGE_SELECTED_BRISTOL",
+					selectedBristol: { id: itemid },
+				});
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	const handleNewBristol = () => {
+		if (!editMode) {
+			dispatch({ type: "CREATE_NEW_BRISTOL" });
 		}
 	};
 

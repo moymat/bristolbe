@@ -1,9 +1,10 @@
+import { useDispatch, useSelector } from "react-redux";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import TextField from "@mui/material/TextField";
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 const EditorUpperBar = ({
 	title,
@@ -11,9 +12,10 @@ const EditorUpperBar = ({
 	handleChange,
 	handleSave,
 	handleCancel,
-	toggleEditMode,
-	editMode,
 }) => {
+	const editMode = useSelector(state => state.bristol.isEditMode);
+	const dispatch = useDispatch();
+
 	return (
 		<Stack direction="row" spacing={1} sx={{ my: 2 }}>
 			{!editMode ? (
@@ -22,7 +24,9 @@ const EditorUpperBar = ({
 						{title}
 					</Typography>
 					{isEditor && (
-						<IconButton onClick={toggleEditMode} aria-label="delete">
+						<IconButton
+							onClick={() => dispatch({ type: "TOGGLE_EDIT_MODE" })}
+							aria-label="delete">
 							<EditIcon />
 						</IconButton>
 					)}

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ReactQuill from "react-quill";
 import { modules, formats } from "./EditorToolbar";
 import Box from "@mui/material/Box";
@@ -9,36 +9,19 @@ import "react-quill/dist/quill.bubble.css";
 import "./styles.css";
 import EditorUpperBar from "./EditorUpperBar";
 
-export const BristolEditor = ({
-	selectedBristol,
-	editMode,
-	toggleEditMode,
-	resetSelectedBristol,
-}) => {
-	const [title, setTitle] = useState(
-		selectedBristol ? selectedBristol.title : ""
-	);
-	const [content, setContent] = useState(
-		selectedBristol ? selectedBristol.content : ""
-	);
+export const BristolEditor = () => {
+	const selectedBristol = useSelector(state => state.bristol.selectedBristol);
+	const [content, setContent] = useState("");
+	const [title, setTitle] = useState("");
+	const editMode = useSelector(state => state.bristol.isEditMode);
 	const dispatch = useDispatch();
 
-	const handleTitleChange = e => {
-		setTitle(e.target.value);
-	};
-
-	const handleContentChange = value => {
-		setContent(value);
-	};
-
 	const handleCancel = () => {
-		toggleEditMode();
-		resetSelectedBristol();
+		dispatch({ type: "TOGGLE_EDIT_MODE" });
 	};
 
 	const handleSave = () => {
 		console.log("save");
-		toggleEditMode();
 		dispatch({
 			type: "CREATE_BRISTOL",
 			newBristol: {
@@ -46,24 +29,26 @@ export const BristolEditor = ({
 				content,
 			},
 		});
-		resetSelectedBristol();
 	};
 
+	useEffect(() => {
+		console.log(selectedBristol.content);
+		setContent(selectedBristol.content || "");
+		setTitle(selectedBristol.title || "");
+	}, [selectedBristol]);
+
 	return (
-		selectedBristol && (
-			<Box
-				className="text-editor"
-				sx={{ px: 5, mx: "auto" /* , maxWidth: "1086px" */ }}>
-				<EditorUpperBar
-					handleChange={handleTitleChange}
-					handleSave={handleSave}
-					toggleEditMode={toggleEditMode}
-					editMode={editMode}
-					handleCancel={handleCancel}
-					title={title}
-					isEditor={selectedBristol.isEditor}
-				/>
-				{/* <RightsManagement
+		<Box
+			className="text-editor"
+			sx={{ px: 5, mx: "auto" /* , maxWidth: "1086px" */ }}>
+			<EditorUpperBar
+				handleSave={handleSave}
+				editMode={editMode}
+				handleCancel={handleCancel}
+				title={title}
+				isEditor={selectedBristol.role === "editor"}
+			/>
+			{/* <RightsManagement
 				permission="editors"
 				defaultUsers={bristol.editors_id}
 			/>
@@ -71,17 +56,15 @@ export const BristolEditor = ({
 				permission="readers"
 				defaultUsers={bristol.viewers_id}
 			/> */}
-				<ReactQuill
-					theme={editMode ? "snow" : "bubble"}
-					defaultValue={content}
-					onChange={handleContentChange}
-					modules={editMode ? modules : { toolbar: false }}
-					formats={formats}
-					placeholder={editMode ? "Start typing" : ""}
-					readOnly={!editMode}
-				/>
-			</Box>
-		)
+			<ReactQuill
+				theme={editMode ? "snow" : "bubble"}
+				value={content}
+				modules={editMode ? modules : { toolbar: false }}
+				formats={formats}
+				placeholder={editMode ? "Start typing" : ""}
+				readOnly={!editMode}
+			/>
+		</Box>
 	);
 };
 
