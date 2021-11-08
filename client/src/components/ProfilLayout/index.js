@@ -1,33 +1,56 @@
-import * as React from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import { NavLink } from "react-router-dom";
-import { Divider } from "@mui/material";
+import { NavLink, useLocation } from "react-router-dom";
+import Divider from "@mui/material/Divider";
+import Button from '@mui/material/Button';
 
 export default function ProfilLayout({ children }) {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-    console.log(newValue);
-  };
+  const dataMap = [{ label: "profil" }, { label: "settings" }];
+  const { pathname } = useLocation()
 
   return (
     <Box
       sx={{
         flexGrow: 1,
         bgcolor: "background.paper",
-        display: "flex",
-        height: "auto",
+        display:{ xs : "column", md:"flex"}
       }}
     >
-      <Tabs orientation="vertical" value={value} onChange={handleChange}>
-        <Tab label="Profil" component={NavLink} to="/user/profil" />
-        <Tab label="Settings" component={NavLink} to="/user/settings" />
-      </Tabs>
-      <Divider orientation="vertical" flexItem />
-      {children}
+      <Box flexDirection="column" sx={{ marginRight: 5, display: {xs: "none", md:"flex"} }}>
+        {dataMap.map(({ label }) => (
+          <Button
+            variant={pathname.includes(label) ? "contained" : "outlined"}
+            key={label}
+            component={NavLink}
+            to={`/user/${label}`}
+            sx={{marginBottom: 3}}
+          >
+            {label}
+          </Button>
+        ))}
+      </Box>
+      <Box sx={{ height:"min-content", display: {xs: "flex", md:"none"}, justifyContent:"center", width: "500px"}}>
+        {dataMap.map(({ label }) => (
+          <Button
+            variant={pathname.includes(label) ? "contained" : "outlined"}
+            key={label}
+            component={NavLink}
+            to={`/user/${label}`}
+            sx={{marginBottom: 3, marginRight: 2}}
+          >
+            {label}
+          </Button>
+        ))}
+      </Box>
+        <Divider orientation="vertical" flexItem sx={{display: {xs: "none", md:"flex"}}}/>
+        <Divider  flexItem sx={{display: {xs: "flex", md:"none"}}}/>
+      <Box sx={{
+          padding: " 30px 60px",
+          flexGrow: 1,
+          margin: "auto",
+          width: "600px",
+				}}>
+        {children}
+      </Box>
     </Box>
   );
 }

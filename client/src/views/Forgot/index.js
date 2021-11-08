@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { TextField, Button } from "@mui/material";
 import InputLayout from "../../components/InputLayout";
 import { useState } from "react";
+import Box from "@mui/material/Box";
 
 export default function Forgot() {
 	const [input, setInput] = useState({
@@ -23,11 +24,11 @@ export default function Forgot() {
 		});
 	};
 	const handleSubmit = event => {
+		event.preventDefault();
 		const { email } = input;
 		if (!email) {
 			setEmailError(true);
 		}
-		event.preventDefault();
 	};
 	return (
 		<InputLayout>
@@ -56,9 +57,9 @@ export default function Forgot() {
 						Send reset link
 					</Button>
 				</form>
-				<p className="forgot-create">
+				<Box className="forgot-create">
 					<Link to="/"> {specialCharacter} Back to login</Link>
-				</p>
+				</Box>
 			</div>
 		</InputLayout>
 	);

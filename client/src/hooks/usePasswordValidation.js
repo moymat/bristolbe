@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PropTypes from 'prop-types';
 
 export const usePasswordValidation = ({ firstPassword = "", secondPassword = "" }) => {
 const [validLength, setValidLength] = useState(null);
@@ -18,3 +19,7 @@ const [match, setMatch] = useState(null);
   return [validLength, hasNumber, upperCase, lowerCase, match];
 }
 
+usePasswordValidation.PropTypes = {
+  firstPassword: PropTypes.string,
+  secondPassword: PropTypes.string,
+}

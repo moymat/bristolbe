@@ -1,13 +1,12 @@
 import "./style.scss";
 import { Link } from "react-router-dom";
 import { TextField, Button } from "@mui/material";
-import InputLayout from "../../components/InputLayout";
+import Box from "@mui/material/Box";
 
 export default function Reset() {
-	const specialCharacter = "<";
 
 	return (
-		<InputLayout>
+	
 			<div style={{ flex: 1 }}>
 				<h1 className="reset-title">Reset password 🔒</h1>
 				<p className="reset-instructions">
@@ -32,10 +31,9 @@ export default function Reset() {
 						Set new password
 					</Button>
 				</form>
-				<p className="reset-create">
-					<Link to="/"> {specialCharacter} Back to login</Link>
-				</p>
+				<Box className="reset-create">
+					<Link to="/"> {` < Back to login`} </Link>
+				</Box>
 			</div>
-		</InputLayout>
 	);
 }
