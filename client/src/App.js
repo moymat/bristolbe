@@ -66,24 +66,25 @@ function App() {
 										<Route exact path="/bristol">
 											<Bristol />
 										</Route>
-										<ProfilLayout>
-											<Route exact path="/user/profil">
-												<Profil />
-											</Route>
-											<Route exact path="/user/settings">
-												<Settings />
-											</Route>
-										</ProfilLayout>
+										<Route
+											exact
+											path="/user/:page"
+											render={({ match }) => (
+												<ProfilLayout>
+													{match.params.page === "settings" && <Settings />}
+													{match.params.page === "profil" && <Profil />}
+												</ProfilLayout>
+											)}></Route>
 									</Navbar>
 								)}
 								<Route exact path="/validate">
 									<ValidateEmail />
 								</Route>
-								<Route>
-									<Error />
-								</Route>
 							</CustomTheme>
 						</IsAuth>
+						{/* <Route path="*">
+							<Error />
+						</Route> */}
 					</Switch>
 				</Router>
 			</UserContext.Provider>

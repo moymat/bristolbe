@@ -1,8 +1,4 @@
 import { useSelector, useDispatch } from "react-redux";
-<<<<<<< HEAD
-import { UserContext } from "../../../App";
-=======
->>>>>>> client-server-merge
 import { getParentId } from "./helper.js";
 import NestedBristols from "./NestedBristols.js";
 import Fab from "@mui/material/Fab";
@@ -18,33 +14,15 @@ const BristolTree = () => {
 	const handleBristolMove = async ({ items, dragItem, targetPath }) => {
 		try {
 			dispatch({
-<<<<<<< HEAD
-				type: "SET_BRISTOLS",
-				userId: user.id,
-=======
 				type: "MOVE_BRISTOL",
 				items,
 				id: dragItem.id,
 				parent_id: getParentId(items, targetPath),
 				position: targetPath[targetPath.length - 1],
->>>>>>> client-server-merge
 			});
 		} catch (err) {
 			console.error(err);
 		}
-<<<<<<< HEAD
-	}, [dispatch, user]);
-
-	const handleBristolMove = async ({ items, dragItem, targetPath }) => {
-		try {
-			dispatch({
-				type: "MOVE_BRISTOL",
-				items,
-				id: dragItem.id,
-				parent_id: getParentId(items, targetPath),
-				position: targetPath[targetPath.length - 1],
-			});
-=======
 	};
 
 	const handleSelectBristol = async e => {
@@ -56,23 +34,15 @@ const BristolTree = () => {
 					selectedBristol: { id: itemid },
 				});
 			}
->>>>>>> client-server-merge
 		} catch (err) {
 			console.error(err);
 		}
 	};
 
-<<<<<<< HEAD
-	const handleConfirm = ({ dragItem, destinationParent }) => {
-		return dragItem.role === "editor"
-			? !destinationParent || destinationParent.role === "editor"
-			: !destinationParent && !dragItem.parent_id;
-=======
 	const handleNewBristol = () => {
 		if (!editMode) {
 			dispatch({ type: "CREATE_NEW_BRISTOL" });
 		}
->>>>>>> client-server-merge
 	};
 
 	const handleConfirm = ({ dragItem, destinationParent }) => {
@@ -85,11 +55,7 @@ const BristolTree = () => {
 		<Box>
 			<Divider>My Bristols</Divider>
 			<Box>
-<<<<<<< HEAD
-				<Box sx={{ mt: 1, mb: 2 }} onClick={handleItemClick}>
-=======
 				<Box sx={{ mt: 1, mb: 2 }} onClick={handleSelectBristol}>
->>>>>>> client-server-merge
 					<NestedBristols
 						handleItemMove={handleBristolMove}
 						handleConfirm={handleConfirm}
@@ -99,11 +65,7 @@ const BristolTree = () => {
 				<Fab
 					color="primary"
 					aria-label="add"
-<<<<<<< HEAD
-					onClick={() => dispatch({ type: "CREATE_NEW_BRISTOL" })}
-=======
 					onClick={handleNewBristol}
->>>>>>> client-server-merge
 					sx={{
 						position: "fixed",
 						bottom: 50,
