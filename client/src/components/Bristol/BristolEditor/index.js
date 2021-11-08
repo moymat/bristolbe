@@ -1,90 +1,137 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ReactQuill from "react-quill";
 import TextField from "@mui/material/TextField";
-import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import SaveIcon from "@mui/icons-material/Save";
 import Stack from "@mui/material/Stack";
 import { modules, formats } from "./EditorToolbar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
+import Typography from '@mui/material/Typography';
+import RightsManagement from "./RightsManagement";
 import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.bubble.css";
 import "./styles.css";
-// import axios from "axios";
-// import { useSelector } from "react-redux";
 
 export const BristolEditor = ({ setBristol }) => {
-	//loading state used by submit button
-	const dispatch = useDispatch();
-	const [loading, setLoading] = useState(false);
-	//quill editor html content
-	const [content, setContent] = useState({ value: null });
+  const dispatch = useDispatch();
+  const handleEditorChange = (value) => {
+    dispatch({ type: "UPDATE_BRISTOL_CONTENT", bristolContent: value });
+  };
+  const handleTitleChange = (event) => {
+    dispatch({ type: "UPDATE_BRISTOL_TITLE", bristolTitle: event.target.value });
+  };
+  const handleSaveClick = (event) => {
+    dispatch({ type: "SAVE_UPDATE_EDITOR" });
+  };
+  const handleEditClick = (event) => {
+    dispatch({ type: "EDIT_CURRENT_BRISTOL" });
+  };
 
-	function handleClick() {
-		setLoading(true);
-	}
-
-	const handleChange = value => {
-		setContent({ value });
-	};
-
-	const handleSaveClick = event => {
-		event.preventDefault();
-		console.log(content);
-		setContent({ value: null });
-	};
-
-	return (
-		<Box className="text-editor" sx={{ px: 5 /* , maxWidth: "1086px" */ }}>
-			<CssBaseline />
-			<Stack direction="row" spacing={1} sx={{ mb: 1 }}>
-				<TextField
-					fullWidth
-					id="title"
-					label="Title"
-					variant="outlined"
-					color="primary"
-					size="small"
-				/>
-				<Button
-					variant="outlined"
-					onClick={() => dispatch({ type: "HIDE_BRISTOL_EDITOR" })}>
-					CANCEL
-				</Button>
-				<LoadingButton
-					color="primary"
-					onClick={handleSaveClick}
-					loading={loading}
-					loadingPosition="start"
-					startIcon={<SaveIcon />}
-					variant="contained">
-					Save
-				</LoadingButton>
-			</Stack>
-			<ReactQuill
-				theme="snow"
-				value={content.value}
-				onChange={handleChange}
-				modules={modules}
-				formats={formats}
-				// placeholder={"Write something awesome..."}
-			/>
-
-			{/* 	  <Form onSubmit={() => null}>
-		  <div style={{ textAlign: 'center', margin: '2rem'}}>
-			  <Button
-			  	size="large"
-				htmlType="submit"
-				className=""
-				onSubmit={onSubmit}
-			>
-				Submit
-			</Button>
-		  </div>
-	  </Form> */}
-		</Box>
-	);
+  return (
+    <Box className="text-editor" sx={{ px: 5, mx: 'auto' /* , maxWidth: "1086px" */ }}>
+      <Stack direction="row" spacing={1} sx={{ my: 2 }}>
+        <TextField
+          sx={{ display: useSelector((state) => state.bristol.editorIsReadOnly) && "none"}}
+          value={useSelector((state) => state.bristol.bristolTitle)}
+          onChange={handleTitleChange}
+          fullWidth
+          id="title"
+          label={
+            useSelector((state) => state.bristol.editorIsReadOnly)
+              ? ""
+              : "Untitled"
+          }
+          variant="outlined"
+          color="primary"
+          size="small"
+          disabled={useSelector((state) => state.bristol.editorIsReadOnly)}
+        />
+        <Typography 
+          sx={{ display: useSelector((state) => !state.bristol.editorIsReadOnly) ? "none" : "flex", justifyContent: 'center',
+          alignContent: 'center', flexDirection: 'column'}}
+          variant="h3"
+          children={useSelector((state) => state.bristol.bristolTitle)} 
+        />
+        <IconButton
+          onClick={handleEditClick}
+          aria-label="delete"
+          sx={{
+            display:
+              useSelector(
+                (state) =>
+                  !(
+                    state.bristol.editorIsReadOnly &&
+                    state.bristol.bristolCurrentUserIsEditor
+                  )
+              ) && "none",
+          }}
+        >
+          <EditIcon />
+        </IconButton>
+        <Button
+          sx={{
+            display:
+              useSelector((state) => state.bristol.editorIsReadOnly) && "none",
+          }}
+          variant="outlined"
+          onClick={() => dispatch({ type: "CANCEL_UPDATE_EDITOR" })}
+        >
+          CANCEL
+        </Button>
+        <Button
+          sx={{
+            display:
+              useSelector((state) => state.bristol.editorIsReadOnly) && "none",
+          }}
+          color="primary"
+          onClick={handleSaveClick}
+          variant="contained"
+        >
+          Save
+        </Button>
+      </Stack>
+      <Box
+        sx={{
+          mb: 1,
+          display:
+            useSelector((state) => state.bristol.editorIsReadOnly) && "none",
+        }}
+      >
+        <RightsManagement permission="editors" />
+      </Box>
+      <Box
+        sx={{
+          mb: 1,
+          display:
+            useSelector((state) => state.bristol.editorIsReadOnly) && "none",
+        }}
+      >
+        <RightsManagement permission="readers" />
+      </Box>
+      <ReactQuill
+        theme={
+          useSelector((state) => state.bristol.editorIsReadOnly)
+            ? "bubble"
+            : "snow"
+        }
+        value={useSelector((state) => state.bristol.bristolContent)}
+        onChange={handleEditorChange}
+        modules={
+          useSelector((state) => state.bristol.editorIsReadOnly)
+            ? { toolbar: false }
+            : modules
+        }
+        formats={formats}
+        placeholder={
+          useSelector((state) => state.bristol.editorIsReadOnly)
+            ? ""
+            : "Start typing..."
+        }
+        readOnly={useSelector((state) => state.bristol.editorIsReadOnly)}
+      />
+    </Box>
+  );
 };
 
 export default BristolEditor;

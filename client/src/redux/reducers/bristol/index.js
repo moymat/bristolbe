@@ -1,79 +1,111 @@
 const initialState = {
-	editionMode: false,
-	inModification: {
-		id: null,
-		title: null,
-		content: null,
-	},
-	inReading: {
-		id: null,
-		title: null,
-		content: null,
-	},
-	itemsTempRead: [],
-	itemsTempWrite: [],
-	lastMovedItem: {
-		id: null,
-		parent_id: null,
-		position: null,
-	},
-	lastMovedReadItem: {
-		id: null,
-		parent_id: null,
-		position: null,
-	},
+  //editor state
+  editorIsVisible: false,
+  editorIsReadOnly: true,
+  //current Bristol
+  bristolCurrentUserIsEditor: false,
+  bristolId: null,
+  bristolContent: "",
+  bristolTitle: "",
+  bristolParentId: null,
+  bristolPositionId: null,
+  bristolEditorsList: [],
+  bristolReadersList: [],
+  //utility
+  usersSearchList: [],
+  //tree
+  bristols: [],
+  movedBristol: {
+    id: null,
+    parent_id: null,
+    position: null,
+  },
 };
 
 const reducer = (state = initialState, action = {}) => {
-	switch (action.type) {
-		case "SHOW_BRISTOL_EDITOR":
-			return {
-				...state,
-				editionMode: true,
-			};
-		case "HIDE_BRISTOL_EDITOR":
-			return {
-				...state,
-				editionMode: false,
-				inModification: {
-					id: null,
-					title: null,
-					content: null,
-				},
-			};
-		case "SHOW_BRISTOL_READER":
-			return {
-				...state,
-				editionMode: false,
-				inReading: {
-					id: action.id,
-					title: null,
-					content: null,
-				},
-			};
-		case "SET_READ_WRITE_ITEMS":
-			return {
-				...state,
-				itemsTempWrite: action.items,
-				lastMovedItem: {
-					id: action.id,
-					parent_id: action.parent_id,
-					position: action.position,
-				},
-			};
-		case "SET_READ_ONLY_ITEMS":
-			return {
-				...state,
-				itemsTempRead: action.items,
-				lastMovedReadItem: {
-					id: action.id,
-					parent_id: action.parent_id,
-					position: action.position,
-				},
-			};
-		default:
-			return state;
-	}
+  switch (action.type) {
+    case "CREATE_NEW_BRISTOL":
+      return {
+        ...state,
+        editorIsVisible: true,
+        editorIsReadOnly: false,
+        bristolCurrentUserIsEditor: true,
+        bristolId: null,
+        bristolContent: "",
+        bristolTitle: "",
+        bristolParentId: null,
+        bristolPositionId: null,
+        bristolEditorsList: [],
+        bristolReadersList: [],
+      };
+      case "EDIT_CURRENT_BRISTOL":
+        return {
+          ...state,
+          editorIsVisible: true,
+          editorIsReadOnly: false,
+          bristolCurrentUserIsEditor: true,
+        };
+    case "UPDATE_BRISTOL_TITLE":
+      return {
+        ...state,
+        bristolTitle: action.bristolTitle,
+      };
+    case "UPDATE_BRISTOL_CONTENT":
+      return {
+        ...state,
+        bristolContent: action.bristolContent,
+      };
+    case "UPDATE_BRISTOL_EDITORS":
+      return {
+        ...state,
+        bristolEditorsList: action.bristolEditorsList,
+      };
+    case "UPDATE_BRISTOL_READERS":
+      return {
+        ...state,
+        bristolReadersList: action.bristolReadersList,
+      };
+    case "CANCEL_UPDATE_EDITOR":
+      return {
+        ...state,
+        editorIsVisible: false,
+        editorIsReadOnly: true,
+        bristolCurrentUserIsEditor: false,
+        bristolId: null,
+        bristolContent: "",
+        bristolTitle: "",
+        bristolParentId: null,
+        bristolPositionId: null,
+        bristolEditorsList: [],
+        bristolReadersList: [],
+      };
+      case "SAVE_UPDATE_EDITOR":
+        console.log(state.bristolContent)
+      return {
+        ...state,
+        editorIsVisible: true,
+        editorIsReadOnly: true,
+        bristolCurrentUserIsEditor: true,
+      };
+
+      //
+    case "SET_BRISTOLS":
+      return {
+        ...state,
+        bristols: action.bristols,
+      };
+    case "MOVE_BRISTOL":
+      return {
+        ...state,
+        movedBristol: {
+          id: action.id,
+          parent_id: action.parent_id,
+          position: action.position,
+        },
+      };
+    default:
+      return state;
+  }
 };
 
 export default reducer;

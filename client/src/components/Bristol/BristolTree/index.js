@@ -1,21 +1,12 @@
 import { useEffect, useContext, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { UserContext } from "../../../App";
-import {
-	createNestedMenu,
-	getParentId,
-	menus,
-	menusReadOnly,
-} from "./helper.js";
+import { getParentId } from "./helper.js";
 import NestedBristols from "./NestedBristols.js";
 import Fab from "@mui/material/Fab";
 import Box from "@mui/material/Box";
 import AddIcon from "@mui/icons-material/Add";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import SaveIcon from "@mui/icons-material/Save";
 import Divider from "@mui/material/Divider";
-import axios from "../../../utils/axios";
 import "./styles.css";
 
 const BristolTree = () => {
@@ -24,41 +15,33 @@ const BristolTree = () => {
 
 	const getBristols = useCallback(async () => {
 		try {
-			const { data: axiosData } = await axios().get(
-				`/api/v1/users/${user.id}/bristols`
-			);
-			const itemsWriteTemp = createNestedMenu(menus);
-			dispatch({ type: "SET_READ_WRITE_ITEMS", items: itemsWriteTemp });
-			const itemsReadTemp = createNestedMenu(menusReadOnly);
-			dispatch({ type: "SET_READ_ONLY_ITEMS", items: itemsReadTemp });
+			dispatch({
+				type: "SET_BRISTOLS",
+				userId: user.id,
+			});
 		} catch (err) {
 			console.error(err);
 		}
 	}, [dispatch, user]);
 
-	const handleWriteItemsMove = ({ items, dragItem, targetPath }) => {
-		console.log(dragItem.id);
-		dispatch({
-			type: "SET_READ_WRITE_ITEMS",
-			items,
-			id: dragItem.id,
-			parent_id: getParentId(items, targetPath),
-			position: targetPath[targetPath.length - 1],
-		});
-	};
-
-	const handleReadItemsMove = ({ items, dragItem, targetPath }) => {
-		dispatch({
-			type: "SET_READ_ONLY_ITEMS",
-			items,
-			id: dragItem.id,
-			parent_id: getParentId(items, targetPath),
-			position: targetPath[targetPath.length - 1],
-		});
+	const handleBristolMove = async ({ items, dragItem, targetPath }) => {
+		try {
+			dispatch({
+				type: "MOVE_BRISTOL",
+				items,
+				id: dragItem.id,
+				parent_id: getParentId(items, targetPath),
+				position: targetPath[targetPath.length - 1],
+			});
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	const handleConfirm = ({ dragItem, destinationParent }) => {
-		return !dragItem.parent_id && !destinationParent;
+		return dragItem.role === "editor"
+			? !destinationParent || destinationParent.role === "editor"
+			: !destinationParent && !dragItem.parent_id;
 	};
 
 	const handleItemClick = e => {
@@ -72,42 +55,19 @@ const BristolTree = () => {
 
 	return (
 		<Box>
-			<Stack
-				direction="row"
-				spacing={1}
-				sx={{ mb: 1, display: { xs: "none", sm: "flex" } }}>
-				<Button variant="outlined" disabled={true}>
-					CANCEL
-				</Button>
-				<Button
-					startIcon={<SaveIcon />}
-					fullWidth
-					variant="contained"
-					disabled={true}>
-					SAVE POSITION
-				</Button>
-			</Stack>
-			<Box onClick={handleItemClick}>
-				<Divider>read-write</Divider>
-				<Box sx={{ mt: 1, mb: 2 }}>
+			<Divider>My Bristols</Divider>
+			<Box>
+				<Box sx={{ mt: 1, mb: 2 }} onClick={handleItemClick}>
 					<NestedBristols
-						handleItemMove={handleWriteItemsMove}
-						items={useSelector(state => state.bristol.itemsTempWrite)}
-					/>
-				</Box>
-				<Divider>read-only</Divider>
-				<Box sx={{ mt: 1 }}>
-					<NestedBristols
-						handleItemClick={handleItemClick}
+						handleItemMove={handleBristolMove}
 						handleConfirm={handleConfirm}
-						handleItemMove={handleReadItemsMove}
-						items={useSelector(state => state.bristol.itemsTempRead)}
+						items={useSelector(state => state.bristol.bristols)}
 					/>
 				</Box>
 				<Fab
 					color="primary"
 					aria-label="add"
-					onClick={() => dispatch({ type: "SHOW_BRISTOL_EDITOR" })}
+					onClick={() => dispatch({ type: "CREATE_NEW_BRISTOL" })}
 					sx={{
 						position: "fixed",
 						bottom: 50,
