@@ -12,8 +12,8 @@ export const CustomTheme = ({ children }) => {
   const darkState = useSelector((state) => state.core.isDark);
 
   const palletType = darkState ? "dark" : "light";
-  const mainPrimaryColor = darkState ? orange[500] : lightBlue[500];
-  const mainSecondaryColor = darkState ? deepOrange[900] : deepPurple[500];
+  const mainPrimaryColor = darkState ? lightBlue[800] : lightBlue[500];
+  const mainSecondaryColor = darkState ? deepPurple[800] : deepPurple[500];
 
   const bristolTheme = createTheme({
     palette: {
