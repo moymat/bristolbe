@@ -1,17 +1,13 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ReactQuill from "react-quill";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
 import { modules, formats } from "./EditorToolbar";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import EditIcon from "@mui/icons-material/Edit";
-import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
 import RightsManagement from "./RightsManagement";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import "./styles.css";
+<<<<<<< HEAD
 
 export const BristolEditor = ({ setBristol }) => {
   const dispatch = useDispatch();
@@ -132,6 +128,67 @@ export const BristolEditor = ({ setBristol }) => {
       />
     </Box>
   );
+=======
+import EditorUpperBar from "./EditorUpperBar";
+
+export const BristolEditor = () => {
+	const selectedBristol = useSelector(state => state.bristol.selectedBristol);
+	const [content, setContent] = useState("");
+	const [title, setTitle] = useState("");
+	const editMode = useSelector(state => state.bristol.isEditMode);
+	const dispatch = useDispatch();
+
+	const handleCancel = () => {
+		dispatch({ type: "TOGGLE_EDIT_MODE" });
+	};
+
+	const handleSave = () => {
+		console.log("save");
+		dispatch({
+			type: "CREATE_BRISTOL",
+			newBristol: {
+				title,
+				content,
+			},
+		});
+	};
+
+	useEffect(() => {
+		console.log(selectedBristol.content);
+		setContent(selectedBristol.content || "");
+		setTitle(selectedBristol.title || "");
+	}, [selectedBristol]);
+
+	return (
+		<Box
+			className="text-editor"
+			sx={{ px: 5, mx: "auto" /* , maxWidth: "1086px" */ }}>
+			<EditorUpperBar
+				handleSave={handleSave}
+				editMode={editMode}
+				handleCancel={handleCancel}
+				title={title}
+				isEditor={selectedBristol.role === "editor"}
+			/>
+			{/* <RightsManagement
+				permission="editors"
+				defaultUsers={bristol.editors_id}
+			/>
+			<RightsManagement
+				permission="readers"
+				defaultUsers={bristol.viewers_id}
+			/> */}
+			<ReactQuill
+				theme={editMode ? "snow" : "bubble"}
+				value={content}
+				modules={editMode ? modules : { toolbar: false }}
+				formats={formats}
+				placeholder={editMode ? "Start typing" : ""}
+				readOnly={!editMode}
+			/>
+		</Box>
+	);
+>>>>>>> client-server-merge
 };
 
 export default BristolEditor;

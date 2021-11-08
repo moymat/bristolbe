@@ -4,4 +4,6 @@
 01_init 2021-10-25T20:39:48Z Moymat,,, <moymat@moymat-PC> # initialisation du schema et des tables
 02_add_functions 2021-10-25T21:09:43Z Moymat,,, <moymat@moymat-PC> # creating functions to add user and bristols
 03_move_functions 2021-10-29T18:20:05Z Moymat,,, <moymat@moymat-PC> # creating functions relative to the shift of a bristol
-04_users_function 2021-10-31T12:54:13Z Moymat,,, <moymat@moymat-PC> # creating functions to manage users' data
+04_users_functions 2021-10-31T12:54:13Z Moymat,,, <moymat@moymat-PC> # creating functions to manage users' data
+05_bristols_functions 2021-11-03T11:46:58Z Moymat,,, <moymat@moymat-PC> # create funcions to retrieve bristols
+06_role_functions 2021-11-04T19:26:11Z Moymat,,, <moymat@moymat-PC> # create functions to give or remove role to users

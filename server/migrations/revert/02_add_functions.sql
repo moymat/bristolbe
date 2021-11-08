@@ -2,7 +2,8 @@
 
 BEGIN;
 
-DROP FUNCTION bristol.create_user;
-DROP FUNCTION bristol.create_bristol;
+DROP FUNCTION create_user;
+DROP FUNCTION create_bristol;
+DROP FUNCTION last_root_position;
 
 COMMIT;

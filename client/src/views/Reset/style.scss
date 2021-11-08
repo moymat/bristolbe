@@ -14,4 +14,16 @@
 	&-instructions {
 		width: 85%;
 	}
+	&-list {
+		font-size: 0.9rem;
+		color: #5d5d5d;
+		list-style-type: "\1F44D";
+	}
+	&--one-li {
+		color: #259c08;
+	}
+}
+
+.MuiFormHelperText-root {
+	color: red !important;
 }
