@@ -3,7 +3,7 @@ const router = express.Router();
 const { userController, bristolController } = require("../../controllers");
 const { isUserAuthz } = require("../../auth");
 
-router.get("/users", userController.getAllUsers);
+router.get("/users", userController.getUsers);
 router.get("/users/:userId", userController.getUser);
 router.patch("/users/:userId/info", isUserAuthz, userController.patchUserInfo);
 router.patch(

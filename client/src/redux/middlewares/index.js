@@ -11,7 +11,6 @@ const Middleware = store => next => action => {
 					position: action.position,
 				})
 				.then(({ data }) => {
-					console.log(data);
 					next(action);
 				})
 				.catch(err => console.error("middleware", err));
@@ -20,10 +19,26 @@ const Middleware = store => next => action => {
 			axios()
 				.get(`/api/v1/users/${action.userId}/bristols`)
 				.then(({ data }) => {
-					console.log(data.data);
+					console.log(data);
 					action.bristols = createNestedMenu(data.data);
 					next(action);
 				})
+				.catch(err => console.error(err));
+			break;
+		case "CREATE_BRISTOL":
+			axios()
+				.post("api/v1/bristols", {
+					title: action.newBristol.title,
+					content: action.newBristol.content,
+				})
+				.then(({ data: axiosData }) => {
+					console.log(axiosData);
+					action.newBristol = {
+						...action.newBristol,
+						id: axiosData.data.id,
+					};
+				})
+				.then(() => next(action))
 				.catch(err => console.error(err));
 			break;
 		default:

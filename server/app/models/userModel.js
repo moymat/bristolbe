@@ -6,9 +6,11 @@ const {
 	validateUserEmail,
 } = require("../validation");
 
-const getAllUsers = async () => {
+const getUsers = async (userId, query) => {
 	try {
-		const { rows } = await pgClient.query("SELECT * FROM get_all_users()");
+		const { rows } = await pgClient.query("SELECT * FROM get_users($1)", [
+			JSON.stringify({ user_id: userId, query }),
+		]);
 		return { data: rows };
 	} catch (error) {
 		return { error };
@@ -120,7 +122,7 @@ const getUsersBristols = async id => {
 };
 
 module.exports = {
-	getAllUsers,
+	getUsers,
 	getUser,
 	patchUserInfo,
 	patchUserEmail,
