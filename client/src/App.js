@@ -14,12 +14,12 @@ import ProfilLayout from "./components/ProfilLayout";
 import axios from "./utils/axios";
 import CustomTheme from "./theme";
 import Error from "./views/Error";
+import ValidateEmail from "./views/ValidateEmail";
 import "./App.scss";
 export const UserContext = createContext({});
 
-
 function App() {
-	console.log(Error)
+	console.log(Error);
 	const [user, setUser] = useState({});
 	const [isAuthChecked, setIsAuthChecked] = useState(false);
 
@@ -27,9 +27,7 @@ function App() {
 	useEffect(() => {
 		const checkAuth = async () => {
 			try {
-				const { data } = await axios().get(
-					"http://localhost:4000/auth/is_auth"
-				);
+				const { data } = await axios().get("/auth/is-auth");
 				localStorage.setItem("refresh_token", data.refresh);
 				setUser(data.user);
 				setIsAuthChecked(true);
@@ -56,7 +54,7 @@ function App() {
 							<Route exact path="/forgot-password">
 								<Forgot />
 							</Route>
-							<Route exact path="/reset">
+							<Route path="/reset/:code">
 								<Reset />
 							</Route>
 							<CustomTheme>
@@ -69,19 +67,22 @@ function App() {
 											<Bristol />
 										</Route>
 										<ProfilLayout>
-										<Route exact path="/user/profil">											
+											<Route exact path="/user/profil">
 												<Profil />
-										</Route>
-										<Route exact path="/user/settings">
-											<Settings />
-										</Route>
+											</Route>
+											<Route exact path="/user/settings">
+												<Settings />
+											</Route>
 										</ProfilLayout>
 									</Navbar>
 								)}
-								</CustomTheme>
-						<Route >
-							<Error />
-						</Route>
+								<Route exact path="/validate">
+									<ValidateEmail />
+								</Route>
+								<Route>
+									<Error />
+								</Route>
+							</CustomTheme>
 						</IsAuth>
 					</Switch>
 				</Router>

@@ -68,24 +68,17 @@ export default function Register() {
 
 	const handleSubmit = async event => {
 		event.preventDefault();
-		
+
 		const { email, password, firstName, lastName, confirm } = input;
 
-		if (
-			!email ||
-			!password ||
-			!confirm ||
-			!firstName ||
-			!lastName
-		) {
+		if (!email || !password || !confirm || !firstName || !lastName) {
 			!email && setEmailError(true);
 			!password && setPasswordError(true);
 			!firstName && setFirstNameError(true);
 			!lastName && setLastNameError(true);
-			!confirm && setConfirmError(true)
+			!confirm && setConfirmError(true);
 			return;
 		}
-
 
 		try {
 			const { data } = await axios().post("/auth/register", {
@@ -100,15 +93,17 @@ export default function Register() {
 				return;
 			}
 
-			if (data.error) {
-				setEmailError(true);
-				return setEmailUsed(true);
-			}
-
 			localStorage.setItem("refresh_token", data.refresh);
 			setUser(data.user);
 		} catch (err) {
-			console.error(err);
+			const { error } = err.response.data;
+
+			if (error.includes("user_email_key")) {
+				setEmailError(true);
+				setEmailUsed(true);
+			}
+
+			console.error(error);
 		}
 	};
 
@@ -223,7 +218,7 @@ export default function Register() {
 					</Button>
 				</form>
 				<p className="reg-sign">
-					Already hava an account?
+					Already have an account?
 					<Link to="/">Sign in instead</Link>
 				</p>
 			</div>

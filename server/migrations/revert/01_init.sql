@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP SCHEMA bristol CASCADE;
+DROP SCHEMA public CASCADE;
 
 COMMIT;

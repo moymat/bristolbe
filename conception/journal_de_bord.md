@@ -43,4 +43,4 @@ En fin d'après-midi, nous avons commencé à rédiger le cahier des charges.
 - **Jérémy M :** Malheureusement Jérémy, ne pourra pas continuer de faire l'apothéose avec nous à cause de problèmes personnels.
 - **Tony D :** Hier création des dossiers drive. Aujourd'hui, création des wireframes "my profile", "account settings" en vue desktop et vue mobile. Début de la redaction du cahier de charge.
 - **Michel D :** Hier création du readme.md et du mcd.drawio. Aujourd'hui, création des users stories puis des wireframes "Landing page" et "Home View" en vue desktop et vue mobile.
-- **Rémi V :** Hier création du kanban de gestion de projet et de ses premieres taches à suivre. Aujourd'hui création des wireframes liée aux pages de layout, d'authentification, d'erreur, de gestion des groupe utilisateures et des pages liées à la vue Bristol.
+- **Rémi V :** Hier création du kanban de gestion de projet et de ses premieres taches à suivre. Aujourd'hui création des wireframes liée aux pages de layout, d'authentification, d'erreur, de gestion des groupe utilisateures et des pages liées à la vue

@@ -82,7 +82,7 @@ const isUserAuthz = (req, res, next) => {
 		// Retrieving access token from the cookies and decoding it
 		const { access_token: token } = req.cookies;
 		const { id } = decodeToken(token);
-		// Retrieving the user allowed by the query
+		// Retrieving the user id in the query
 		const { userId } = req.params;
 
 		// If userId and if from token different, error

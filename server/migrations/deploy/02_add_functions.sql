@@ -3,7 +3,7 @@
 BEGIN;
 
 -- Function to create add a user and his/her password into the db
-CREATE OR REPLACE FUNCTION bristol.create_user (jsonb) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION create_user (jsonb) RETURNS TABLE (
 	id UUID
 )
 AS $$
@@ -12,7 +12,7 @@ AS $$
 	BEGIN
     -- Create new user
 		WITH created_user AS (
-			INSERT INTO bristol."user" (first_name, last_name, email)
+			INSERT INTO "user" (first_name, last_name, email)
 			VALUES (
 				$1::jsonb->>'first_name',
 				$1::jsonb->>'last_name',
@@ -25,7 +25,7 @@ AS $$
 		SELECT created_user.id FROM created_user INTO uid;
 
     -- Create password row for user
-		INSERT INTO bristol.password (hash, user_id)
+		INSERT INTO password (hash, user_id)
 		VALUES ($1::jsonb->>'hash', uid);
 
     -- Return new user id
@@ -35,7 +35,7 @@ AS $$
 $$ LANGUAGE plpgsql;
 
 -- Function to create a bristol
-CREATE OR REPLACE FUNCTION bristol.create_bristol (jsonb) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION create_bristol (jsonb) RETURNS TABLE (
 	id UUID
 )
 AS $$
@@ -47,7 +47,7 @@ AS $$
     -- Insert the new bristol in the table
 		WITH created_bristol AS
 		(
-			INSERT INTO bristol.bristol (title, content)
+			INSERT INTO bristol (title, content)
 			VALUES (
 				$1::jsonb->>'title',
 				$1::jsonb->>'content'
@@ -58,16 +58,16 @@ AS $$
 		SELECT created_bristol.id FROM created_bristol INTO bid;
 		
     -- Add user as the bristol's editor
-		INSERT INTO bristol.role (bristol_id, user_id, type)
+		INSERT INTO role (bristol_id, user_id, type)
 		VALUES (bid, uid, 'editor');
 
 		-- Add position into function variable
 		SELECT last_root_position
-		FROM bristol.last_root_position(jsonb_build_object('user_id', uid))
+		FROM last_root_position(jsonb_build_object('user_id', uid))
 		INTO pos;
 		
     -- Add bristol as root with its position
-		INSERT INTO bristol.root_position (bristol_id, user_id, position)
+		INSERT INTO root_position (bristol_id, user_id, position)
 		VALUES (bid, uid, pos);
 
     -- Return the new bristol id
@@ -77,13 +77,13 @@ AS $$
 $$ LANGUAGE plpgsql;
 
 -- Find nb of root bristol to determine new bristol position
-CREATE OR REPLACE FUNCTION bristol.last_root_position (jsonb) RETURNS INT
+CREATE OR REPLACE FUNCTION last_root_position (jsonb) RETURNS INT
 AS $$
 	DECLARE
 		pos INT;
 	BEGIN
 		SELECT COALESCE(MAX(position) + 1, 0)
-		FROM bristol.root_position
+		FROM root_position
 		WHERE user_id = ($1::json->>'user_id')::UUID
 		INTO pos;
 
