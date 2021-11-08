@@ -7,16 +7,14 @@
 		display: flex;
 		justify-content: space-between;
 		margin-top: 1rem;
-	}
-	&-forgot {
-		margin-top: 4%;
+		align-items: baseline;
 	}
 	&-submit {
 		margin-top: 1rem !important;
 	}
 	&-create {
-		margin-top: 2rem !important;
-		display: flex !important;
+		margin-top: 1rem;
+		display: flex;
 		justify-content: space-evenly;
 	}
 }

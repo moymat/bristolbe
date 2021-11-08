@@ -184,7 +184,7 @@ export default function Navbar({ children }) {
 			}}
 			open={isMobileMenuOpen}
 			onClose={handleMobileMenuClose}>
-			<MenuItem onChange={() => dispatch({ type: "TOGGLE_DARK_MODE" })}>
+			<MenuItem onClick={() => dispatch({ type: "TOGGLE_DARK_MODE" })}>
 				<IconButton size="large" aria-label="change theme" color="inherit">
 					{useSelector(state => state.core.isDark) ? (
 						<Brightness7Icon />
