@@ -1,46 +1,44 @@
 const initialState = {
-	EditorIsVisible: true,
-	EditorEditOption: true,
-
-	inReading: {
-		id: null,
-		title: null,
-		content: null,
-	},
+	isEditMode: false,
 	bristols: [],
 	movedBristol: {
 		id: null,
 		parent_id: null,
 		position: null,
 	},
+	selectedBristol: null,
 };
 
 const reducer = (state = initialState, action = {}) => {
 	switch (action.type) {
-		case "TOGGLE_EDITOR_EDIT_MODE":
+		case "TOGGLE_EDIT_MODE":
 			return {
 				...state,
-				EditorEditOption: false,
-				EditorIsVisible: true,
-			};
-		case "SAVE_EDITOR_BRISTOL":
-			return {
-				...state,
-			};
-		case "SHOW_BRISTOL_EDITOR":
-			return {
-				...state,
-				EditorIsVisible: true,
-			};
-		case "HIDE_BRISTOL_EDITOR":
-			return {
-				...state,
-				EditorIsVisible: false,
+				isEditMode: !state.isEditMode,
 			};
 		case "SET_BRISTOLS":
 			return {
 				...state,
 				bristols: action.bristols,
+				selectedBristol: action.bristols[0] || null,
+			};
+		case "CHANGE_SELECTED_BRISTOL":
+			return {
+				...state,
+				selectedBristol: action.selectedBristol,
+			};
+		case "CREATE_NEW_BRISTOL":
+			return {
+				...state,
+				selectedBristol: {
+					id: null,
+					title: "",
+					content: "",
+					editors_id: [],
+					viewers_id: [],
+					role: null,
+				},
+				isEditMode: !state.isEditMode,
 			};
 		case "CREATE_BRISTOL":
 			return {

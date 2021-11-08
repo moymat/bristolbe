@@ -10,7 +10,7 @@ const Middleware = store => next => action => {
 					parent_id: action.parent_id,
 					position: action.position,
 				})
-				.then(({ data }) => {
+				.then(() => {
 					next(action);
 				})
 				.catch(err => console.error("middleware", err));
@@ -19,8 +19,16 @@ const Middleware = store => next => action => {
 			axios()
 				.get(`/api/v1/users/${action.userId}/bristols`)
 				.then(({ data }) => {
-					console.log(data);
 					action.bristols = createNestedMenu(data.data);
+					next(action);
+				})
+				.catch(err => console.error(err));
+			break;
+		case "CHANGE_SELECTED_BRISTOL":
+			axios()
+				.get(`api/v1/bristols/${action.selectedBristol.id}`)
+				.then(({ data: axiosData }) => {
+					action.selectedBristol = axiosData.data;
 					next(action);
 				})
 				.catch(err => console.error(err));
@@ -37,8 +45,8 @@ const Middleware = store => next => action => {
 						...action.newBristol,
 						id: axiosData.data.id,
 					};
+					next(action);
 				})
-				.then(() => next(action))
 				.catch(err => console.error(err));
 			break;
 		default:
