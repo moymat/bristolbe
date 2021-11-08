@@ -32,19 +32,9 @@ const BristolView = () => {
 					<BristolTree />
 				</Grid>
 				<Grid item xs={9}>
-<<<<<<< HEAD
 					{useSelector(state => state.bristol.editorIsVisible) && (
 						<BristolEditor />
-					) }
-=======
-					{selectedBristol ? (
-						<BristolEditor />
-					) : (
-						<Typography variant="h5" align="center">
-							You don't have any bristol to read
-						</Typography>
 					)}
->>>>>>> client-server-merge
 				</Grid>
 			</Grid>
 		</Box>

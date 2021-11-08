@@ -1,6 +1,4 @@
 # projet-13-bristol
-<<<<<<< HEAD
-=======
 
 ## Rôles
 
@@ -38,4 +36,3 @@
 - sanitize-html
 - sQitch
 - Joi, AJV, Yup ?
->>>>>>> conception
