@@ -29,7 +29,8 @@ CREATE OR REPLACE FUNCTION get_bristol (jsonb) RETURNS TABLE (
 	id UUID,
 	title TEXT,
 	content TEXT,
-	created_at TIMESTAMPTZ
+	created_at TIMESTAMPTZ,
+	role ROLE_TYPE
 ) AS $$
 	DECLARE
 		uid UUID = ($1::jsonb->>'user_id')::UUID;
@@ -38,12 +39,12 @@ CREATE OR REPLACE FUNCTION get_bristol (jsonb) RETURNS TABLE (
 	BEGIN
     -- Check if user have a role on the bristol's highest parent
 		SELECT *
-    FROM is_bristol_member(
-      jsonb_build_object(
-        'user_id', uid,
-        'bristol_id', bid
-      )
-    )
+		FROM is_bristol_member(
+		  jsonb_build_object(
+			'user_id', uid,
+			'bristol_id', bid
+		  )
+		)
 		INTO auth;
 		
     -- If no role, error
@@ -51,11 +52,20 @@ CREATE OR REPLACE FUNCTION get_bristol (jsonb) RETURNS TABLE (
 			RAISE EXCEPTION 'user not authorized';
 		END IF;
 		
-    -- Else, return the bristol
 		RETURN QUERY
-		SELECT id, title, content, created_at
-		FROM bristol
-		WHERE id = bid;
+		WITH user_role AS (
+			SELECT type
+			FROM role
+			WHERE role.user_id = uid
+			AND role.bristol_id = ANY (
+				SELECT *
+				FROM get_highest_parent(bid)
+			)
+		)		
+    	-- Else, return the bristol
+		SELECT bristol.id, bristol.title, bristol.content, bristol.created_at, user_role.type as role
+		FROM bristol, user_role
+		WHERE bristol.id = bid;
 	END;	
 $$ LANGUAGE plpgsql;
 
@@ -125,7 +135,6 @@ CREATE OR REPLACE FUNCTION get_bristols_roles (jsonb) RETURNS TABLE (
 	END;
 $$ LANGUAGE plpgsql;
 
--- Function to retrieve all roles and current position before move
 CREATE OR REPLACE FUNCTION bristol_pre_move (jsonb) RETURNS TABLE (
 	user_id UUID,
 	role ROLE_TYPE,
@@ -140,7 +149,7 @@ CREATE OR REPLACE FUNCTION bristol_pre_move (jsonb) RETURNS TABLE (
 		pos INT;
 		pid UUID;
 	BEGIN
-		SELECT position, parent_id
+		SELECT bristol.position, bristol.parent_id
 		FROM bristol
 		WHERE id = bid
 		INTO pos, pid;

@@ -7,7 +7,7 @@ const createBristol = async (body, userId) => {
 
 		if (errors) return { validationErrors: errors };
 
-		const { rows } = await pgClient.query("SELECT * FROM create_brisol($1)", [
+		const { rows } = await pgClient.query("SELECT * FROM create_bristol($1)", [
 			JSON.stringify({ user_id: userId, ...data }),
 		]);
 

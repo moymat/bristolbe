@@ -1,9 +1,11 @@
 const express = require("express");
+const { decodeToken } = require("../auth");
 const { userModel } = require("../models");
 router = express.Router();
 
-const getAllUsers = async (req, res, next) => {
-	const { data, error } = await userModel.getAllUsers();
+const getUsers = async (req, res, next) => {
+	const { id } = decodeToken(req.cookies.access_token);
+	const { data, error } = await userModel.getUsers(id, req.query.search);
 
 	error ? next(error) : res.json({ data });
 };
@@ -66,7 +68,7 @@ const getUsersBristols = async (req, res, next) => {
 };
 
 module.exports = {
-	getAllUsers,
+	getUsers,
 	getUser,
 	patchUserInfo,
 	patchUserEmail,

@@ -2,22 +2,22 @@ import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
+import { useEffect } from "react";
 
-const BristolReader = () => {
+const BristolReader = ({ bristol }) => {
+	useEffect(() => {
+		console.log("bristol", bristol);
+	}, [bristol]);
+
 	return (
 		<Box sx={{ textAlign: "center", my: 2 }}>
-			<Divider sx={{ m: 1 }}>read-write or read-only</Divider>
-			<Typography>
-				Vous lisez actuellement le bristol à l'id{" "}
-				{useSelector(state => state.inReading.id)}{" "}
-			</Typography>
-			<Divider sx={{ m: 1, mt: 2 }}>read-write</Divider>
-			<Typography>
-				Le bristol à l'id {useSelector(state => state.movedid)} a été déplacé,
-				son parent est maintenant{" "}
-				{useSelector(state => state.movedparent_id) || "root"} et sa postion est{" "}
-				{useSelector(state => state.movedposition)}{" "}
-			</Typography>
+			{bristol ? (
+				<>
+					<Typography variant="h1">{bristol.title}</Typography>
+				</>
+			) : (
+				<Typography>You don't have any bristol</Typography>
+			)}
 		</Box>
 	);
 };

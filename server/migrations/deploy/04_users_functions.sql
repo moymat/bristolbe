@@ -22,6 +22,26 @@ CREATE OR REPLACE FUNCTION get_user (jsonb) RETURNS TABLE (
   END;
 $$ LANGUAGE plpgsql;
 
+-- Function to get a max of 10 users based on a query
+CREATE OR REPLACE FUNCTION get_users (jsonb) RETURNS TABLE (
+  id UUID,
+  first_name TEXT,
+  last_name TEXT,
+  picture_url TEXT
+) AS $$
+  BEGIN
+    RETURN QUERY
+    SELECT u.id, u.first_name, u.last_name, u.picture_url
+    FROM all_users u
+    WHERE u.id <> ($1::jsonb->>'user_id')::UUID
+	AND (
+		LOWER(u.first_name) LIKE LOWER($1::jsonb->>'query' || '%')
+		OR LOWER(u.last_name) LIKE LOWER($1::jsonb->>'query' || '%')
+	)
+	LIMIT 10;
+  END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION get_user_auth (jsonb) RETURNS TABLE (
   id UUID,
   first_name TEXT,

@@ -52,10 +52,10 @@ AS $$
 				$1::jsonb->>'title',
 				$1::jsonb->>'content'
 			)
-			RETURNING id
+			RETURNING bristol.id
 		)
     -- Add new bristol id into function variable
-		SELECT created_id FROM created_bristol INTO bid;
+		SELECT created_bristol.id FROM created_bristol INTO bid;
 		
     -- Add user as the bristol's editor
 		INSERT INTO role (bristol_id, user_id, type)
