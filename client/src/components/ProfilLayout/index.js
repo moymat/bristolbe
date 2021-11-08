@@ -1,10 +1,11 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
-import { NavLink } from "react-router-dom";
-import { Button, Divider } from "@mui/material";
+import { NavLink, useLocation } from "react-router-dom";
+import Divider from "@mui/material/Divider";
+import Button from '@mui/material/Button';
 
 export default function ProfilLayout({ children }) {
   const dataMap = [{ label: "profil" }, { label: "settings" }];
+  const { pathname } = useLocation()
 
   return (
     <Box
@@ -17,15 +18,11 @@ export default function ProfilLayout({ children }) {
       <Box flexDirection="column" sx={{ marginRight: 5, display: {xs: "none", md:"flex"} }}>
         {dataMap.map(({ label }) => (
           <Button
-            variant="outlined"
+            variant={pathname.includes(label) ? "contained" : "outlined"}
             key={label}
             component={NavLink}
             to={`/user/${label}`}
             sx={{marginBottom: 3}}
-            activeStyle={{
-              backgroundColor: "#03a9f4",
-              color: "rgb(0 26 91)"
-            }}
           >
             {label}
           </Button>
@@ -34,15 +31,11 @@ export default function ProfilLayout({ children }) {
       <Box sx={{ height:"min-content", display: {xs: "flex", md:"none"}, justifyContent:"center", width: "500px"}}>
         {dataMap.map(({ label }) => (
           <Button
-            variant="outlined"
+            variant={pathname.includes(label) ? "contained" : "outlined"}
             key={label}
             component={NavLink}
             to={`/user/${label}`}
             sx={{marginBottom: 3, marginRight: 2}}
-            activeStyle={{
-              backgroundColor: "#03a9f4",
-              color: "rgb(0 26 91)"
-            }}
           >
             {label}
           </Button>
