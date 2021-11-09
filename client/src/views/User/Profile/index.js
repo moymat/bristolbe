@@ -67,12 +67,12 @@ export default function Profile() {
 	return (
 		<Box
 			component="form"
+			onSubmit={handleSubmit}
 			sx={{
 				"& .MuiTextField-root": { m: 2, width: "25ch" },
 				ml: 5,
 				flexGrow: 1,
-			}}
-			onSubmit={handleSubmit}>
+			}}>
 			<CustomAlert
 				open={isSnackOpen}
 				handleClose={handleSnackClose}
@@ -146,7 +146,7 @@ export default function Profile() {
 				style={{
 					marginTop: "0.5rem",
 				}}>
-				<Button type="submit" variant="contained" onSubmit={handleSubmit}>
+				<Button type="submit" variant="contained">
 					Apply
 				</Button>
 			</Box>

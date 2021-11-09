@@ -1,36 +1,28 @@
 import "./style.scss";
-import { Link, useHistory } from "react-router-dom";
-import { TextField, Button } from "@mui/material";
-import InputLayout from "../../components/InputLayout";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import InputLayout from "../../components/InputLayout";
+import SectionTitle from "../../components/muiComponents/SectionTitle";
+import SectionParagraph from "../../components/muiComponents/SectionParagraph";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import axios from "../../utils/axios";
 
 export default function Forgot() {
-	const [input, setInput] = useState({
-		email: "",
-	});
+	const [email, setEmail] = useState("");
 	const [emailError, setEmailError] = useState(false);
 	const [mailSent, setMailSent] = useState(false);
 	const history = useHistory();
 
-	const specialCharacter = "<";
-
-	const handleChange = event => {
-		const { name, value } = event.target;
-		if (name === "email") {
-			setEmailError(false);
-		}
-		setInput({
-			...input,
-			[name]: value,
-		});
+	const handleChange = e => {
+		setEmailError(!!e.target.value);
+		setEmail(e.target.value);
 	};
 	const handleSubmit = async e => {
 		try {
 			e.preventDefault();
-			const { email } = input;
-
 			if (!email) return setEmailError(true);
 
 			await axios().post("/auth/reset-password", { email });
@@ -42,21 +34,27 @@ export default function Forgot() {
 	};
 	return (
 		<InputLayout>
-			<div style={{ flex: 1 }}>
+			<Box style={{ flex: 1 }}>
 				{!mailSent ? (
 					<>
-						<h1 className="forgot-title">Forgot password? 🔒</h1>
-						<p className="forgot-instructions">
-							Enter your email and we'll send you instructions to reset your
-							password
-						</p>
-						<form className="forgot-form" onSubmit={handleSubmit}>
-							<p>Email</p>
+						<Box mb={2}>
+							<SectionTitle>Forgot password? 🔒</SectionTitle>
+							<SectionParagraph>
+								Enter your email and we'll send you instructions to reset your
+								password
+							</SectionParagraph>
+						</Box>
+						<Box
+							component="form"
+							onSubmit={handleSubmit}
+							gutterBottom={true}
+							sx={{ display: "flex", flexDirection: "column" }}>
 							<TextField
 								type="email"
 								name="email"
 								placeholder="toto@example.com"
 								size="small"
+								value={email}
 								onChange={handleChange}
 								helperText={emailError ? "Your Email is invalid" : ""}
 								error={emailError}
@@ -64,19 +62,25 @@ export default function Forgot() {
 							<Button
 								type="submit"
 								variant="contained"
-								className="forgot-submit"
-								onSubmit={handleSubmit}>
+								className="forgot-submit">
 								Send reset link
 							</Button>
-						</form>
+						</Box>
 					</>
 				) : (
-					<p>An email was sent with instructions to reset your password</p>
+					<SectionParagraph>
+						An email was sent with instructions to reset your password
+					</SectionParagraph>
 				)}
-				<Box className="forgot-create">
-					<Link to="/"> {specialCharacter} Back to login</Link>
+				<Box display="flex" justifyContent="flex-end" mt={2}>
+					<Button
+						startIcon={<ArrowBackIosIcon />}
+						size="small"
+						onClick={() => history.push("/")}>
+						Back to login
+					</Button>
 				</Box>
-			</div>
+			</Box>
 		</InputLayout>
 	);
 }
