@@ -12,7 +12,12 @@ const passwordValidator = new RegExp(
 
 export default function Reset() {
 	const specialCharacter = "<";
-	const [input, setInput] = useState({ password: "", confirm: "" });
+	const [input, setInput] = useState({ 
+		password: "", 
+		confirm: "" 
+	});
+	const [touch, setTouch] = useState(false);
+
 	const [validLength, hasNumber, upperCase, lowerCase, match] =
 		usePasswordValidation({
 			firstPassword: input.password,
@@ -23,12 +28,16 @@ export default function Reset() {
 	const [checked, setChecked] = useState(false);
 	const history = useHistory();
 	const { code } = useParams();
+	const [passwordError, setPasswordError] = useState(false);
+	const [confirmError, setConfirmError] = useState(false);
 
 	const handleChange = ({ target }) => {
 		if (target.name === "password") {
 			setInput({ ...input, password: target.value });
+			setPasswordError(!passwordValidator.test(target.value))
 		} else if (target.name === "confirm") {
 			setInput({ ...input, confirm: target.value });
+			setConfirmError(target.value !== input.password);
 		}
 	};
 
@@ -37,8 +46,12 @@ export default function Reset() {
 			e.preventDefault();
 			const { password, confirm } = input;
 
-			if (!passwordValidator.test(input.password) || password !== confirm)
+			if (!passwordValidator.test(input.password) || password !== confirm){
+				setPasswordError(true)
+				setConfirmError(true)
 				return;
+			}
+				
 
 			await axios().patch("/auth/reset-password", { code, password, confirm });
 
@@ -46,6 +59,10 @@ export default function Reset() {
 		} catch (err) {
 			console.error(err);
 		}
+	};
+
+	const handleTouch = () => {
+		!touch && setTouch(true);
 	};
 
 	const checkCode = useCallback(async () => {
@@ -77,8 +94,27 @@ export default function Reset() {
 							placeholder="Password"
 							size="small"
 							onChange={handleChange}
+							onFocus={handleTouch}
 							value={input.password}
+							helperText={passwordError ? "Your password is invalid" : ""}
 						/>
+						{touch && (
+						<div>
+							<ul className="reg-list">
+								<li className={`${validLength ? "reg--one-li" : ""}`}>
+									8 characters (max.30)
+								</li>
+								<li className={`${upperCase ? "reg--one-li" : ""}`}>
+									1 capital letter
+								</li>
+								<li className={`${lowerCase ? "reg--one-li" : ""}`}>
+									1 lower letter
+								</li>
+								<li className={`${hasNumber ? "reg--one-li" : ""}`}>1 digit</li>
+								<li className={`${match ? "reg--one-li" : ""}`}>Match</li>
+							</ul>
+						</div>
+					)}
 						<p>Confirm password</p>
 						<TextField
 							type="password"
@@ -87,22 +123,8 @@ export default function Reset() {
 							size="small"
 							onChange={handleChange}
 							value={input.confirm}
+							helperText={confirmError ? "Your confirm password is invalid" : ""}
 						/>
-						<div>
-							<ul className="res-list">
-								<li className={`${validLength ? "res--one-li" : ""}`}>
-									8 characters (max.30)
-								</li>
-								<li className={`${upperCase ? "res--one-li" : ""}`}>
-									1 capital letter
-								</li>
-								<li className={`${lowerCase ? "res--one-li" : ""}`}>
-									1 lower letter
-								</li>
-								<li className={`${hasNumber ? "res--one-li" : ""}`}>1 digit</li>
-								<li className={`${match ? "res--one-li" : ""}`}>Match</li>
-							</ul>
-						</div>
 						<Button type="submit" variant="contained" className="reset-submit">
 							Set new password
 						</Button>

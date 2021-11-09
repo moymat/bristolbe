@@ -403,7 +403,7 @@
   ],
   "bristols": [
     {
-      "content": "<p>React a été conçu dès le départ pour une adoption progressive, et vous pouvez utiliser React a minima ou autant que nécessaire. Que vous souhaitiez avoir un aperçu de React, ajouter de l’interactivité à une simple page HTML ou démarrer une application React complète, les liens de cette section vous aideront à bien démarrer.</p>",
+      "content": "<p><strong><span class=\"ql-emojiblot\" data-name=\"wink\">﻿<span contenteditable=\"false\"><span class=\"ap ap-wink\">😉</span></span>﻿</span>React a été conçu dès le départ pour une adoption progressive, et vous pouvez utiliser React a minima ou autant que nécessaire. Que vous souhaitiez avoir un aperçu de React, ajouter de l’interactivité à une simple page HTML ou démarrer une application React complète, les liens de cette section vous aideront à bien démarrer.</strong></p>",
       "title": "Fondamentaux",
       "parent_id": null,
       "position": null,
@@ -647,9 +647,8 @@
       ]
     },
     {
-      "id": 12,
-      "title": "Penser en React",
-      "content": "Ça s’appelle du JSX, et c’est une extension syntaxique de JavaScript. Nous recommandons de l’utiliser avec React afin de décrire à quoi devrait ressembler l’interface utilisateur (UI). JSX vous fait sûrement penser à un langage de balisage, mais il recèle toute la puissance de JavaScript.",
+      "content": "<p>Ça s’appelle du JSX, et c’est une extension syntaxique de JavaScript. Nous recommandons de l’utiliser avec React afin de décrire à quoi devrait ressembler l’interface utilisateur (UI). JSX vous fait sûrement penser à un langage de balisage, mais il recèle toute la puissance de JavaScript.</p>",
+      "title": "Penser en React 123",
       "parent_id": 5,
       "position": 1,
       "role": "editor",
@@ -657,6 +656,10 @@
         {
           "id": 1,
           "full_name": "Allegra Lyddiard"
+        },
+        {
+          "id": 3,
+          "full_name": "Margaretta Pawlik"
         }
       ],
       "readers": [
@@ -664,7 +667,8 @@
           "id": 2,
           "full_name": "Marc Mytton"
         }
-      ]
+      ],
+      "id": 12
     },
     {
       "id": 13,
@@ -1003,6 +1007,26 @@
         {
           "id": 2,
           "full_name": "Marc Mytton"
+        }
+      ]
+    },
+    {
+      "id": "46c0d2ea-d6a2-493a-932c-1439d0835526",
+      "content": "<p>React c'est bien</p>",
+      "title": "Le code c'est cool",
+      "parent_id": null,
+      "position": 9,
+      "role": "editor",
+      "editors": [
+        {
+          "id": 1,
+          "full_name": "Allegra Lyddiard"
+        }
+      ],
+      "readers": [
+        {
+          "id": 3,
+          "full_name": "Margaretta Pawlik"
         }
       ]
     }
