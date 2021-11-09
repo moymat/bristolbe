@@ -22,6 +22,13 @@ const initialState = {
   },
 };
 
+const updateTitle = (arr, id, newTitle) => {
+  return arr.map(bristol => {
+    if (bristol.children) {bristol.children = updateTitle(bristol.children, id, newTitle)}
+    return bristol.id === id ? {...bristol, title: newTitle} : bristol
+  })
+}
+
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case "CREATE_NEW_BRISTOL":
@@ -96,7 +103,7 @@ const reducer = (state = initialState, action = {}) => {
       console.log(state.bristols)
       return {
         ...state,
-        /* bristols: [],  */
+        bristols: updateTitle(state.bristols, state.bristolId, state.bristolTitle),
         editorIsVisible: true,
         editorIsReadOnly: true,
         bristolCurrentUserIsEditor: "editor",
