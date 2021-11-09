@@ -81,10 +81,10 @@ function App() {
 									<ValidateEmail />
 								</Route>
 							</CustomTheme>
-						</IsAuth>
-						{/* <Route path="*">
+						<Route path="/error">
 							<Error />
-						</Route> */}
+						</Route> 
+						</IsAuth>
 					</Switch>
 				</Router>
 			</UserContext.Provider>
