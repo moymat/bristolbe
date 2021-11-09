@@ -196,7 +196,6 @@ export default function Settings() {
 				</Box>
 				<Button
 					type="submit"
-					//onSubmit={handleSubmitEmail}
 					variant="contained"
 					className="log-submit"
 					sx={{ width: "fit-content", marginLeft: "5em", marginBottom: "2em" }}>
@@ -270,7 +269,6 @@ export default function Settings() {
 				</Box>
 				<Button
 					type="submit"
-					//onSubmit={handleSubmitPassword}
 					variant="contained"
 					className="log-submit"
 					sx={{ width: "fit-content", marginLeft: "5em" }}>

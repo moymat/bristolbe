@@ -1,6 +1,11 @@
 import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
-import { TextField, Button, Checkbox, FormControlLabel } from "@mui/material";
+import { useHistory } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import InputLayout from "../../components/InputLayout";
 import axios from "../../utils/axios";
 import { UserContext } from "../../App";
@@ -14,6 +19,7 @@ export default function Login() {
 	const [passwordError, setPasswordError] = useState(false);
 	const [emailError, setEmailError] = useState(false);
 	const { setUser } = useContext(UserContext);
+	const history = useHistory();
 
 	const handleChange = event => {
 		const { name, value } = event.target;
@@ -87,12 +93,16 @@ export default function Login() {
 						helperText={emailError ? "Your Email is invalid" : ""}
 						error={emailError}
 					/>
-					<div className="log-text">
-						<p>Password</p>
-						<Link to="/forgot-password" className="log-forgot">
-							Forgot password ?
-						</Link>
-					</div>
+					<Box className="log-text" mb={2}>
+						<Typography>Password</Typography>
+						<Button
+							endIcon={<ArrowForwardIosIcon />}
+							variant="text"
+							size="small"
+							onClick={() => history.push("/forgot-password")}>
+							Forgot password
+						</Button>
+					</Box>
 					<TextField
 						type="password"
 						name="password"
@@ -104,7 +114,6 @@ export default function Login() {
 						helperText={passwordError ? "Your password is invalid" : ""}
 						error={passwordError}
 					/>
-					<FormControlLabel control={<Checkbox />} label="Remember me" />
 					<Button
 						type="submit"
 						variant="contained"
@@ -113,9 +122,18 @@ export default function Login() {
 						Sign in
 					</Button>
 				</form>
-				<p className="log-create">
+				<Box className="log-text">
+					<Typography>New on our platform ?</Typography>
+					<Button
+						endIcon={<ArrowForwardIosIcon />}
+						size="small"
+						onClick={() => history.push("/register")}>
+						Create an account
+					</Button>
+				</Box>
+				{/* <p className="log-create">
 					New on our platform ?<Link to="/register">Create an account</Link>
-				</p>
+				</p> */}
 			</div>
 		</InputLayout>
 	);
