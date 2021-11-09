@@ -75,9 +75,9 @@ const patchBristol = async (body, bristolId, userId) => {
 
 		if (errors) return { validationErrors: errors };
 
-		return await pgClient("SELECT patch_bristol($1)", [
+		return await pgClient.query("SELECT patch_bristol($1)", [
 			JSON.stringify({
-				userd_id: userId,
+				user_id: userId,
 				bristol_id: bristolId,
 				...data,
 			}),

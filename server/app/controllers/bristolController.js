@@ -36,6 +36,7 @@ const createBristol = async (req, res, next) => {
 
 const patchBristol = async (req, res, next) => {
 	const { id } = decodeToken(req.cookies.access_token);
+	console.log(id)
 	const { error, validationErrors } = await bristolModel.patchBristol(
 		req.body,
 		req.params.bristolId,

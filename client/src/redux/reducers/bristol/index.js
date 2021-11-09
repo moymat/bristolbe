@@ -40,21 +40,16 @@ const reducer = (state = initialState, action = {}) => {
     case "GET_CURRENT_BRISTOL_CONTENT":
       return {
         ...state,
-      };
-    case "READ_CURRENT_BRISTOL":
-		console.log(state.bristols)
-      return {
-        ...state,
-		editorIsVisible: true,
-		editorIsReadOnly: true,
-		bristolId : action.bristolId, 
-		bristolTitle : action.bristolTitle,
-		bristolContent : action.bristolContent, 
-		bristolCurrentUserIsEditor : action.bristolCurrentUserIsEditor,
-		bristolPositionId : action.bristolPositionId,
-		bristolParentId : action.bristolParentId,
-		bristolEditorsList : action.bristolEditorsList,
-		bristolReadersList : action.bristolReadersList
+        editorIsVisible: true,
+        editorIsReadOnly: true,
+        bristolId: action.data.id,
+        bristolTitle: action.data.title,
+        bristolContent: action.data.content,
+        bristolCurrentUserIsEditor: action.data.role,
+        bristolPositionId: action.data.position,
+        bristolParentId: action.data.parent_id,
+        bristolEditorsList: [],
+        bristolReadersList: [],
       };
     case "EDIT_CURRENT_BRISTOL":
       return {
@@ -98,45 +93,38 @@ const reducer = (state = initialState, action = {}) => {
         bristolReadersList: [],
       };
     case "SAVE_UPDATE_EDITOR":
+      console.log(state.bristols)
       return {
         ...state,
+        /* bristols: [],  */
         editorIsVisible: true,
         editorIsReadOnly: true,
         bristolCurrentUserIsEditor: "editor",
       };
-	  case "ADD_NEW_BRISTOL":
-		
-		return {
-			...state,
-			bristols: [
-				...state.bristols,
-				{
-					id: action.id,
-					title: action.title,
-					content: action.content,
-					parent_id: null, 
-					position: action.position,
-					role: "editor", 
-					editors : action.editors,
-					readers: action.readers,
-				},
-			],
-		};
-    //
+    case "ADD_NEW_BRISTOL":
+      console.log(state.bristols)
+      return {
+        ...state,
+        bristols: state.bristols.push({
+          id: action.id,
+          title: state.bristolTitle,
+          parent_id: null,
+          position: state.bristols.length,
+          role: "editor",
+          editors: [],
+          readers: [],
+        })
+      };
     case "SET_BRISTOLS":
       return {
         ...state,
         bristols: action.bristols,
       };
     case "MOVE_BRISTOL":
+      console.log(action.items)
       return {
         ...state,
-		bristols: action.items,
-/*         movedBristol: {
-          id: action.id,
-          parent_id: action.parent_id,
-          position: action.position,
-        }, */
+        bristols: action.items,
       };
     default:
       return state;

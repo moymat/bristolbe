@@ -19,7 +19,6 @@ import "./App.scss";
 export const UserContext = createContext({});
 
 function App() {
-	console.log(Error);
 	const [user, setUser] = useState({});
 	const [isAuthChecked, setIsAuthChecked] = useState(false);
 
