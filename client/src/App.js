@@ -8,9 +8,9 @@ import Login from "./views/Login";
 import Register from "./views/Register";
 import Forgot from "./views/Forgot";
 import Reset from "./views/Reset";
-import Profil from "./views/User/Profil";
+import Profile from "./views/User/Profile";
 import Settings from "./views/User/Settings";
-import ProfilLayout from "./components/ProfilLayout";
+import ProfileLayout from "./components/ProfileLayout";
 import axios from "./utils/axios";
 import CustomTheme from "./theme";
 import Error from "./views/Error";
@@ -69,10 +69,10 @@ function App() {
 											exact
 											path="/user/:page"
 											render={({ match }) => (
-												<ProfilLayout>
+												<ProfileLayout>
 													{match.params.page === "settings" && <Settings />}
-													{match.params.page === "profil" && <Profil />}
-												</ProfilLayout>
+													{match.params.page === "profile" && <Profile />}
+												</ProfileLayout>
 											)}></Route>
 									</Navbar>
 								)}

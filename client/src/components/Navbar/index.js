@@ -21,7 +21,7 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import PersonIcon from '@mui/icons-material/Person';
+import PersonIcon from "@mui/icons-material/Person";
 import ListItemText from "@mui/material/ListItemText";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import BELogo from "../../assets/img/BELogo.png";
@@ -148,9 +148,11 @@ export default function Navbar({ children }) {
 	const handleBristolButtonClick = () => {
 		history.push("/bristol");
 	};
-	const handleProfil = () => {
-		history.push("/user/profil");
+
+	const handleProfile = () => {
+		history.push("/user/profile");
 	};
+
 	const menuId = "primary-search-account-menu";
 	const renderMenu = (
 		<Menu
@@ -167,7 +169,7 @@ export default function Navbar({ children }) {
 			}}
 			open={isMenuOpen}
 			onClose={handleMenuClose}>
-			<MenuItem onClick={handleProfil}>Profile</MenuItem>
+			<MenuItem onClick={handleProfile}>Profile</MenuItem>
 			<MenuItem onClick={handleSignout}>Sign out</MenuItem>
 		</Menu>
 	);
@@ -198,7 +200,7 @@ export default function Navbar({ children }) {
 				</IconButton>
 				<p>Thème</p>
 			</MenuItem>
-			<MenuItem onClick={handleProfil}>
+			<MenuItem onClick={handleProfile}>
 				<IconButton size="large" aria-label="change theme" color="inherit">
 					<PersonIcon />
 				</IconButton>
