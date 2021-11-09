@@ -13,7 +13,7 @@ const Middleware = store => next => action => {
 				.then(() => {
 					next(action);
 				})
-				.catch(err => console.error("middleware", err.response.data));
+				.catch(err => console.error(err.response.data.error));
 			break;
 		case "ADD_NEW_BRISTOL":
 			axios()
@@ -25,7 +25,7 @@ const Middleware = store => next => action => {
 					action.id = data.data.id;
 					next(action);
 				})
-				.catch(err => console.error("middleware", err));
+				.catch(err => console.error(err.response.data.error));
 			break;
 		case "MOVE_BRISTOL":
 			axios()
@@ -34,10 +34,10 @@ const Middleware = store => next => action => {
 					parent_id: action.parent_id,
 					position: action.position,
 				})
-				.then(({ data }) => {
+				.then(() => {
 					next(action);
 				})
-				.catch(err => console.error("middleware", err));
+				.catch(err => console.error(err.response.data.error));
 			break;
 		case "SET_BRISTOLS":
 			axios()
@@ -55,7 +55,7 @@ const Middleware = store => next => action => {
 					action.data = data.data;
 					next(action);
 				})
-				.catch(err => console.error(err));
+				.catch(err => console.error(err.response.data.error));
 			break;
 		default:
 			next(action);
