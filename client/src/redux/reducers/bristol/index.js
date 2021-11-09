@@ -136,7 +136,6 @@ const reducer = (state = initialState, action = {}) => {
 				bristols: action.bristols,
 			};
 		case "MOVE_BRISTOL":
-			console.log(action.items);
 			return {
 				...state,
 				bristols: action.items,
