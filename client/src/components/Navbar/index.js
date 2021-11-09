@@ -153,6 +153,7 @@ export default function Navbar({ children }) {
 
 	const handleProfile = () => {
 		history.push("/user/profile");
+		handleMenuClose();
 	};
 
 	const menuId = "primary-search-account-menu";
