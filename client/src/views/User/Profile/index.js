@@ -4,12 +4,15 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import CustomAlert from "../../../components/CustomAlert";
 import axios from "../../../utils/axios";
 
 export default function Profile() {
 	const { user, setUser } = useContext(UserContext);
 	const [firstName, setFirstName] = useState(user.first_name);
 	const [lastName, setLastName] = useState(user.last_name);
+	const [alertMessage, setAlertMessage] = useState("");
+	const [isSnackOpen, setIsSnackOpen] = useState(false);
 
 	const handleChange = event => {
 		const { name, value } = event.target;
@@ -31,9 +34,16 @@ export default function Profile() {
 				last_name: lastName,
 			});
 			setUser({ ...user, first_name: firstName, last_name: lastName });
+			setAlertMessage("Profile updated");
+			setIsSnackOpen(true);
 		} catch (error) {
 			console.error(error);
 		}
+	};
+
+	const handleSnackClose = () => {
+		setAlertMessage("");
+		setIsSnackOpen(false);
 	};
 
 	return (
@@ -45,6 +55,11 @@ export default function Profile() {
 				flexGrow: 1,
 			}}
 			onSubmit={handleSubmit}>
+			<CustomAlert
+				open={isSnackOpen}
+				handleClose={handleSnackClose}
+				options={{ message: alertMessage }}
+			/>
 			<Typography variant="h4" gutterBottom>
 				Profile
 			</Typography>

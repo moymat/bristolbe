@@ -92,7 +92,7 @@ AS $$
 	BEGIN
 		UPDATE "user"
 		SET
-			first_name = $1::jsonb->>'email'
+			email = $1::jsonb->>'email'
 		WHERE id = ($1::jsonb->>'id')::UUID;
 	END;
 $$ LANGUAGE plpgsql;

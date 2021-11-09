@@ -58,7 +58,7 @@ const patchUserEmail = async (id, body) => {
 		if (!rows) throw Error("no user found");
 
 		const user = rows[0];
-		bcrypt.compare(data.password, user.hash);
+		const compare = await bcrypt.compare(data.password, user.hash);
 		if (!compare) throw Error("wrong password");
 
 		delete data.password;
@@ -83,10 +83,13 @@ const patchUserPassword = async (id, body) => {
 		if (!rows) throw Error("no user found");
 
 		const user = rows[0];
-		bcrypt.compare(data.password, user.hash);
+		const compare = await bcrypt.compare(data.password, user.hash);
 		if (!compare) throw Error("wrong password");
 
-		data.hash = bcrypt.hash(
+		const same = await bcrypt.compare(data.new_password, user.hash);
+		if (same) throw Error("same password");
+
+		data.hash = await bcrypt.hash(
 			data.new_password,
 			await bcrypt.genSalt(+process.env.PWD_SALT_ROUND)
 		);

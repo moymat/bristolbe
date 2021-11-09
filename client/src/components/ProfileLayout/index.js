@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import { NavLink, useLocation } from "react-router-dom";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
-import Alert from "@mui/material/Alert";
 
 export default function ProfileLayout({ children }) {
 	const dataMap = [{ label: "profile" }, { label: "settings" }];
@@ -15,7 +14,6 @@ export default function ProfileLayout({ children }) {
 				bgcolor: "background.paper",
 				display: { xs: "column", md: "flex" },
 			}}>
-			<Alert></Alert>
 			<Box
 				flexDirection="column"
 				sx={{ marginRight: 5, display: { xs: "none", md: "flex" } }}>

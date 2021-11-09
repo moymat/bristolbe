@@ -23,7 +23,7 @@ const patchUserInfo = async (req, res, next) => {
 	);
 
 	validationErrors
-		? res.json({ validationErrors })
+		? res.status(400).json({ validationErrors })
 		: error
 		? next(error)
 		: res.json({ status: "update successfull" });
@@ -36,7 +36,7 @@ const patchUserEmail = async (req, res, next) => {
 	);
 
 	validationErrors
-		? res.json({ validationErrors })
+		? res.status(400).json({ validationErrors })
 		: error
 		? next(error)
 		: res.json({ status: "update successfull" });
@@ -49,7 +49,7 @@ const patchUserPassword = async (req, res, next) => {
 	);
 
 	validationErrors
-		? res.json({ validationErrors })
+		? res.status(400).json({ validationErrors })
 		: error
 		? next(error)
 		: res.json({ status: "update successfull" });
