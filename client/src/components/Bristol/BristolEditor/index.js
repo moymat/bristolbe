@@ -27,11 +27,11 @@ export const BristolEditor = ({ setBristol }) => {
 	};
 	const handleSaveClick = event => {
 		dispatch({ type: "SAVE_UPDATE_EDITOR" });
-		dispatch({ type: "SET_BRISTOLS" });
+		/* dispatch({ type: "SET_BRISTOLS" }); */
 	};
 	const handleEditClick = event => {
 		dispatch({ type: "EDIT_CURRENT_BRISTOL" });
-		dispatch({ type: "SET_BRISTOLS" });
+		/* dispatch({ type: "SET_BRISTOLS" }); */
 	};
 
 	return (

@@ -8,42 +8,34 @@ const Middleware = (store) => (next) => (action) => {
     case "SAVE_UPDATE_EDITOR":
       const state = store.getState();
       if (!state.bristol.bristolId) {
-        state.bristol.bristolId = uuidv4();
         axios()
-          .post("http://localhost:8000/bristols", {
-            id: state.bristol.bristolId,
+          .post(`/api/v1/bristols`, {
             content: state.bristol.bristolContent,
             title: state.bristol.bristolTitle,
-            parent_id: null,
-            position: state.bristol.bristols.length,
-            role: "editor",
-            editors: state.bristol.bristolEditorsList,
-            readers: state.bristol.bristolReadersList,
           })
           .then(({ data }) => {
-            store.dispatch({ type: "ADD_NEW_BRISTOL" });
+            const { id } = data.data;
+            action.id = id
+            store.dispatch({
+              type: "ADD_NEW_BRISTOL", action
+            });
             next(action);
           })
           .catch((err) => console.error("middleware", err));
       } else {
         axios()
-          .put(`http://localhost:8000/bristols/${state.bristol.bristolId}`, {
+          .patch(`/api/v1/bristols/${state.bristol.bristolId}`, {
             content: state.bristol.bristolContent,
             title: state.bristol.bristolTitle,
-            parent_id: state.bristol.bristolParentId,
-            position: state.bristol.bristolPositionId,
-            role: "editor",
-            editors: state.bristol.bristolEditorsList,
-            readers: state.bristol.bristolReadersList,
           })
           .then(({ data }) => {
             next(action);
           })
-          .catch((err) => console.error("middleware", err));
+          .catch((err) => console.error("middleware", err.response.data));
       }
       break;
     case "MOVE_BRISTOL":
-      /* 			axios()
+      axios()
 				.post("/api/v1/bristols/move", {
 					bristol_id: action.id,
 					parent_id: action.parent_id,
@@ -52,33 +44,22 @@ const Middleware = (store) => (next) => (action) => {
 				.then(({ data }) => {
 					next(action);
 				})
-				.catch(err => console.error("middleware", err)); */
-				next(action);
+				.catch(err => console.error("middleware", err));
       break;
     case "SET_BRISTOLS":
       axios()
-        .get("http://localhost:8000/bristols")
+        .get(`api/v1/users/${action.userId}/bristols`)
         .then(({ data }) => {
-          action.bristols = createNestedMenu(data);
+          action.bristols = createNestedMenu(data.data);
           next(action);
         })
         .catch((err) => console.error(err));
       break;
     case "GET_CURRENT_BRISTOL_CONTENT":
       axios()
-        .get(`http://localhost:8000/bristols/${action.selectedBristol}`)
+        .get(`/api/v1/bristols/${action.selectedBristol}`)
         .then(({ data }) => {
-          store.dispatch({
-            type: "READ_CURRENT_BRISTOL",
-            bristolId: action.selectedBristol,
-            bristolTitle: data.title,
-            bristolContent: data.content,
-            bristolCurrentUserIsEditor: data.role,
-            bristolParentId: data.parent_id,
-            bristolPositionId: data.position,
-            bristolEditorsList: data.editors,
-            bristolReadersList: data.readers,
-          });
+          action.data = data.data
           next(action);
         })
         .catch((err) => console.error(err));
