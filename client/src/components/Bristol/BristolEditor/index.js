@@ -16,6 +16,7 @@ import "./styles.css";
 
 export const BristolEditor = ({ setBristol }) => {
 	const dispatch = useDispatch();
+	const bristolId = useSelector(state => state.bristol.bristolId);
 	const handleEditorChange = value => {
 		dispatch({ type: "UPDATE_BRISTOL_CONTENT", bristolContent: value });
 	};
@@ -25,13 +26,13 @@ export const BristolEditor = ({ setBristol }) => {
 			bristolTitle: event.target.value,
 		});
 	};
-	const handleSaveClick = event => {
-		dispatch({ type: "SAVE_UPDATE_EDITOR" });
-		/* dispatch({ type: "SET_BRISTOLS" }); */
+	const handleSaveClick = () => {
+		bristolId
+			? dispatch({ type: "UPDATE_BRISTOL" })
+			: dispatch({ type: "ADD_NEW_BRISTOL" });
 	};
-	const handleEditClick = event => {
+	const handleEditClick = () => {
 		dispatch({ type: "EDIT_CURRENT_BRISTOL" });
-		/* dispatch({ type: "SET_BRISTOLS" }); */
 	};
 
 	return (

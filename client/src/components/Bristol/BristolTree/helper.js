@@ -1,7 +1,7 @@
 const createNestedMenu = (arr = [], parent = null) => {
 	const fix = [];
 
-	//arr.sort((a, b) => a.position - b.position);
+	arr.sort((a, b) => a.position - b.position);
 
 	for (let i in arr) {
 		if (arr[i].parent_id === parent) {
@@ -31,6 +31,5 @@ const getParentId = (itemsArr, path) => {
 
 	return workedArr.id;
 };
-
 
 export { createNestedMenu, getParentId };
