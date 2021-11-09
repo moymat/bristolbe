@@ -37,8 +37,7 @@ CREATE OR REPLACE FUNCTION get_users (jsonb) RETURNS TABLE (
 	AND (
 		LOWER(u.first_name) LIKE LOWER($1::jsonb->>'query' || '%')
 		OR LOWER(u.last_name) LIKE LOWER($1::jsonb->>'query' || '%')
-	)
-	LIMIT 10;
+	);
   END;
 $$ LANGUAGE plpgsql;
 
