@@ -1,3 +1,4 @@
+import { useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getParentId } from "./helper.js";
 import NestedBristols from "./NestedBristols.js";
@@ -6,10 +7,22 @@ import Box from "@mui/material/Box";
 import AddIcon from "@mui/icons-material/Add";
 import Divider from "@mui/material/Divider";
 import "./styles.css";
+import { UserContext } from "../../../App";
+
 
 const BristolTree = () => {
-	const editMode = useSelector(state => state.bristol.isEditMode);
+	const { user } = useContext(UserContext);
+	const isReadOnly = useSelector(state => state.bristol.editorIsReadOnly);
 	const dispatch = useDispatch();
+
+	//chargement initial
+
+	useEffect(() => {
+		dispatch({
+			type: "SET_BRISTOLS",
+			userId: user.id,
+		});
+	}, [dispatch, user]);
 
 	const handleBristolMove = async ({ items, dragItem, targetPath }) => {
 		try {
@@ -30,8 +43,8 @@ const BristolTree = () => {
 			const { itemid } = e.target.dataset;
 			if (itemid) {
 				dispatch({
-					type: "CHANGE_SELECTED_BRISTOL",
-					selectedBristol: { id: itemid },
+					type: "GET_CURRENT_BRISTOL_CONTENT",
+					selectedBristol: itemid,
 				});
 			}
 		} catch (err) {
@@ -40,7 +53,7 @@ const BristolTree = () => {
 	};
 
 	const handleNewBristol = () => {
-		if (!editMode) {
+		if (isReadOnly) {
 			dispatch({ type: "CREATE_NEW_BRISTOL" });
 		}
 	};
