@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import InputLayout from "../../components/InputLayout";
 import SectionTitle from "../../components/muiComponents/SectionTitle";
 import SectionParagraph from "../../components/muiComponents/SectionParagraph";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
 import axios from "../../utils/axios";
 
 export default function Forgot() {
@@ -74,7 +74,7 @@ export default function Forgot() {
 				)}
 				<Box display="flex" justifyContent="flex-end" mt={2}>
 					<Button
-						startIcon={<ArrowBackIosIcon />}
+						startIcon={<ArrowBackIcon />}
 						size="small"
 						onClick={() => history.push("/")}>
 						Back to login
