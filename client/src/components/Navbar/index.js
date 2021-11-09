@@ -30,7 +30,9 @@ import stringAvatar from "../../utils/avatarsColors";
 import { useHistory, Link } from "react-router-dom";
 import axios from "../../utils/axios";
 import { UserContext } from "../../App";
+
 const drawerWidth = 240;
+
 const openedMixin = theme => ({
 	width: drawerWidth,
 	transition: theme.transitions.create("width", {
