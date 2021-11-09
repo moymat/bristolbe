@@ -27,9 +27,11 @@ export const BristolEditor = ({ setBristol }) => {
 	};
 	const handleSaveClick = event => {
 		dispatch({ type: "SAVE_UPDATE_EDITOR" });
+		dispatch({ type: "SET_BRISTOLS" });
 	};
 	const handleEditClick = event => {
 		dispatch({ type: "EDIT_CURRENT_BRISTOL" });
+		dispatch({ type: "SET_BRISTOLS" });
 	};
 
 	return (
@@ -77,7 +79,7 @@ export const BristolEditor = ({ setBristol }) => {
 								state =>
 									!(
 										state.bristol.editorIsReadOnly &&
-										state.bristol.bristolCurrentUserIsEditor
+										state.bristol.bristolCurrentUserIsEditor === "editor"
 									)
 							) && "none",
 					}}>
@@ -133,11 +135,6 @@ export const BristolEditor = ({ setBristol }) => {
 						: modules
 				}
 				formats={formats}
-				placeholder={
-					useSelector(state => state.bristol.editorIsReadOnly)
-						? ""
-						: "Start typing..."
-				}
 				readOnly={useSelector(state => state.bristol.editorIsReadOnly)}
 			/>
 		</Box>

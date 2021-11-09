@@ -403,16 +403,19 @@
   ],
   "bristols": [
     {
-      "id": 0,
-      "title": "Tempor anim amet anim dolore",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "content": "<p>React a été conçu dès le départ pour une adoption progressive, et vous pouvez utiliser React a minima ou autant que nécessaire. Que vous souhaitiez avoir un aperçu de React, ajouter de l’interactivité à une simple page HTML ou démarrer une application React complète, les liens de cette section vous aideront à bien démarrer.</p>",
+      "title": "Fondamentaux",
       "parent_id": null,
-      "position": 0,
+      "position": null,
       "role": "editor",
       "editors": [
         {
           "id": 1,
           "full_name": "Allegra Lyddiard"
+        },
+        {
+          "id": 3,
+          "full_name": "Margaretta Pawlik"
         }
       ],
       "readers": [
@@ -420,12 +423,13 @@
           "id": 2,
           "full_name": "Marc Mytton"
         }
-      ]
+      ],
+      "id": 0
     },
     {
       "id": 1,
-      "title": "Proident eiusmod et nulla magna ut elit officia ex.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Bonjour, monde !",
+      "content": "Vous pouvez ajouter React à une page HTML en une minute et ensuite étendre progressivement sa présence ou la limiter à quelques éléments d’interface dynamiques.",
       "parent_id": null,
       "position": 1,
       "role": "editor",
@@ -444,8 +448,8 @@
     },
     {
       "id": 2,
-      "title": "Qui exercitation veniam mollit consequat duis labore sunt enim pariatur.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Introduction à JSX",
+      "content": "Lorsque vous démarrez un projet React, une simple page HTML avec des balises de script reste peut-être la meilleure option. Ça ne prend qu’une minute à mettre en place !",
       "parent_id": null,
       "position": 3,
       "role": "editor",
@@ -464,8 +468,8 @@
     },
     {
       "id": 3,
-      "title": "Sint amet commodo consectetur ex.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Le rendu des éléments",
+      "content": "Au fur et à mesure que votre application grandit, vous voudrez peut-être envisager une configuration plus intégrée. Il y a plusieurs boîtes à outils JavaScript que nous conseillons pour des applications plus importantes. Chacune d’entre elles peut fonctionner avec peu ou pas de configuration et vous permet de tirer pleinement parti du riche écosystème de React. Découvrez comment faire.",
       "parent_id": null,
       "position": 2,
       "role": "editor",
@@ -483,9 +487,8 @@
       ]
     },
     {
-      "id": 4,
-      "title": "Id nulla tempor amet pariatur do.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "content": "<p>Les gens qui découvrent React viennent d’horizons et de styles d’apprentissage variés. Que vous préfériez une approche plutôt théorique ou pratique, nous espérons que vous trouverez cette section utile.</p>",
+      "title": "Composants et props",
       "parent_id": 0,
       "position": 0,
       "role": "editor",
@@ -500,12 +503,13 @@
           "id": 2,
           "full_name": "Marc Mytton"
         }
-      ]
+      ],
+      "id": 4
     },
     {
       "id": 5,
-      "title": "Ut occaecat consequat laboris irure eiusmod nostrud tempor amet quis.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "État et cycle de vie",
+      "content": "La page d’accueil de React contient quelques petits exemples React que vous pouvez modifier directement en ligne. Même si vous ne connaissez rien encore à React, essayez de changer le code de ces exemples et voyez comment cela affecte le résultat.",
       "parent_id": 0,
       "position": 2,
       "role": "editor",
@@ -524,8 +528,8 @@
     },
     {
       "id": 6,
-      "title": "Ipsum enim laboris laboris id laborum anim ea tempor deserunt commodo.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Gérer les événements",
+      "content": "Si vous trouvez que la documentation React va un peu trop vite pour vous, consultez cet aperçu de React par Tania Rascia. Il présente les concepts les plus importants de React de façon détaillée et conviviale pour les débutant·e·s. Une fois que vous avez terminé, essayez à nouveau la documentation !",
       "parent_id": 0,
       "position": 1,
       "role": "editor",
@@ -544,8 +548,8 @@
     },
     {
       "id": 7,
-      "title": "Pariatur nulla occaecat est proident ex ut minim aliqua ex culpa amet tempor minim.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Affichage conditionnel",
+      "content": "Si vous avez plutôt une expérience de designer, ces ressources sont un excellent moyen de commencer.",
       "parent_id": 1,
       "position": 1,
       "role": "editor",
@@ -564,8 +568,8 @@
     },
     {
       "id": 8,
-      "title": "Anim veniam nisi dolore mollit proident incididunt.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Listes et clés",
+      "content": "La documentation de React suppose une certaine habitude de la programmation en langage JavaScript. Pas besoin d’être une experte, mais il est plus difficile d’apprendre à la fois React et JavaScript.",
       "parent_id": 1,
       "position": 0,
       "role": "editor",
@@ -584,8 +588,8 @@
     },
     {
       "id": 9,
-      "title": "Consectetur exercitation commodo irure eu aute est Lorem aliquip aliquip eu proident cupidatat.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Formulaires",
+      "content": "Nous vous recommandons de parcourir cet aperçu JavaScript pour vérifier votre niveau de connaissances. Ça vous prendra entre 30 minutes et une heure, mais vous vous sentirez plus en confiance pour apprendre React.",
       "parent_id": 2,
       "position": 0,
       "role": "editor",
@@ -604,8 +608,8 @@
     },
     {
       "id": 10,
-      "title": "Esse quis sint consequat esse ad culpa exercitation nisi nisi exercitation voluptate in.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Faire remonter l'état",
+      "content": "Si vous préférez apprendre par la pratique, allez voir notre tutoriel pratique. Dans ce tutoriel, nous construisons un jeu de morpion en React. Vous pourriez être tentée de l’ignorer sous prétexte que vous n’êtes pas intéressé·e par la construction de jeux—mais donnez-lui sa chance. Les techniques que vous apprendrez dans ce tutoriel sont fondamentales pour la construction de n’importe quel type d’appli React, et les maîtriser vous apportera une compréhension profonde de React.",
       "parent_id": 2,
       "position": 1,
       "role": "editor",
@@ -624,8 +628,8 @@
     },
     {
       "id": 11,
-      "title": "Commodo aliqua ad dolore officia ea magna elit esse ullamco do duis deserunt anim.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Composition ou héritage ?",
+      "content": "Si vous préférez apprendre les concepts étape par étape notre guide des fondamentaux est le meilleur endroit pour commencer. Chaque chapitre s’appuie sur les connaissances introduites dans les précédents, afin que vous ne manquiez de rien pour avancer.",
       "parent_id": 3,
       "position": 0,
       "role": "editor",
@@ -644,8 +648,8 @@
     },
     {
       "id": 12,
-      "title": "Enim eiusmod ut aute culpa qui aliqua incididunt ex sit veniam.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Penser en React",
+      "content": "Ça s’appelle du JSX, et c’est une extension syntaxique de JavaScript. Nous recommandons de l’utiliser avec React afin de décrire à quoi devrait ressembler l’interface utilisateur (UI). JSX vous fait sûrement penser à un langage de balisage, mais il recèle toute la puissance de JavaScript.",
       "parent_id": 5,
       "position": 1,
       "role": "editor",
@@ -664,8 +668,8 @@
     },
     {
       "id": 13,
-      "title": "Reprehenderit enim proident Lorem adipisicing veniam in proident aliqua nulla magna.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Accessibilité",
+      "content": "Le fonctionnement d’une UI conditionnera toujours les logiques de rendu, de la gestion des événements à la préparation des données pour l’affichage, en passant par l’évolution de l’état au fil du temps. React a choisi d’assumer pleinement cet état de fait.",
       "parent_id": 5,
       "position": 0,
       "role": "editor",
@@ -684,8 +688,8 @@
     },
     {
       "id": 14,
-      "title": "Aliqua cillum est voluptate nulla nisi cupidatat enim cupidatat qui.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Découpage dynamique de code",
+      "content": "Au lieu de séparer artificiellement les technologies en mettant le balisage et la logique dans des fichiers séparés, React sépare les préoccupations via des unités faiblement couplées appelées « composants », qui contiennent les deux. Nous reviendrons sur les composants dans une prochaine section, mais si l’idée d’injecter des balises dans du JS vous met mal à l’aise, cette présentation vous fera peut-être changer d’avis.",
       "parent_id": 11,
       "position": 0,
       "role": "editor",
@@ -704,8 +708,8 @@
     },
     {
       "id": 15,
-      "title": "Irure ullamco labore enim dolore minim ipsum occaecat minim qui dolor et.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Contexte",
+      "content": "React ne vous oblige pas à utiliser JSX, mais la plupart des gens y trouvent une aide visuelle quand ils manipulent l’interface utilisateur dans le code JavaScript. Ça permet aussi à React de produire des messages d’erreurs et d’avertissements plus utiles.",
       "parent_id": null,
       "position": 0,
       "role": "viewer",
@@ -724,8 +728,8 @@
     },
     {
       "id": 16,
-      "title": "Adipisicing est commodo ipsum voluptate nulla commodo et irure adipisicing tempor deserunt consectetur magna.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Périmètres d’erreurs",
+      "content": "Contrairement aux éléments DOM d’un navigateur, les éléments React sont de simples objets peu coûteux à créer. React DOM se charge de mettre à jour le DOM afin qu’il corresponde aux éléments React.",
       "parent_id": null,
       "position": 2,
       "role": "viewer",
@@ -744,8 +748,8 @@
     },
     {
       "id": 17,
-      "title": "Ipsum reprehenderit commodo fugiat sit labore amet velit.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Transfert de refs",
+      "content": "Les éléments React sont immuables. Une fois votre élément créé, vous ne pouvez plus modifier ses enfants ou ses attributs. Un élément est comme une image d’un film à un instant T : il représente l’interface utilisateur à un point précis dans le temps.",
       "parent_id": null,
       "position": 1,
       "role": "viewer",
@@ -764,8 +768,8 @@
     },
     {
       "id": 18,
-      "title": "Voluptate elit esse sunt consectetur quis proident irure sint.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Fragments",
+      "content": "Conceptuellement, les composants sont comme des fonctions JavaScript. Ils acceptent des entrées quelconques (appelées « props ») et renvoient des éléments React décrivant ce qui doit apparaître à l’écran.",
       "parent_id": 15,
       "position": 0,
       "role": "viewer",
@@ -784,8 +788,8 @@
     },
     {
       "id": 19,
-      "title": "Id nulla tempor amet pariatur do.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Composants d’ordre supérieur",
+      "content": "Dans cette section, nous allons apprendre à faire un composant Clock vraiment réutilisable et isolé. Il mettra en place son propre minuteur et se mettra à jour tout seul à chaque seconde.",
       "parent_id": 15,
       "position": 1,
       "role": "viewer",
@@ -804,7 +808,7 @@
     },
     {
       "id": 20,
-      "title": "Laborum sit ut ut amet minim irure pariatur et enim voluptate.",
+      "title": "Intégration avec d’autres bibliothèques",
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 16,
       "position": 0,
@@ -824,8 +828,8 @@
     },
     {
       "id": 21,
-      "title": "Nisi ut quis ipsum eiusmod quis et sit ipsum eu.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "JSX dans le détail",
+      "content": "Autre différence importante : en React, on ne peut pas renvoyer false pour empêcher le comportement par défaut. Vous devez appeler explicitement preventDefault. Par exemple, en HTML, pour annuler le comportement par défaut des liens qui consiste à ouvrir une nouvelle page.",
       "parent_id": 17,
       "position": 0,
       "role": "viewer",
@@ -844,7 +848,7 @@
     },
     {
       "id": 22,
-      "title": "Non ad aliquip voluptate id eiusmod qui.",
+      "title": "Optimiser les performances",
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
       "parent_id": 21,
       "position": 0,
@@ -864,8 +868,8 @@
     },
     {
       "id": 23,
-      "title": "Nisi veniam et dolor voluptate velit officia cupidatat.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Portails",
+      "content": "L’affichage conditionnel en React fonctionne de la même façon que les conditions en Javascript. On utilise l’instruction Javascript if ou l’opérateur ternaire pour créer des éléments représentant l’état courant, et on laisse React mettre à jour l’interface utilisateur (UI) pour qu’elle corresponde.",
       "parent_id": 21,
       "position": 1,
       "role": "viewer",
@@ -884,8 +888,8 @@
     },
     {
       "id": 24,
-      "title": "Ea do eu mollit do tempor in qui ex commodo eu ut.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Profileur",
+      "content": "Dans le code suivant, on utilise la méthode map() pour prendre un tableau de nombres et doubler leurs valeurs. On affecte le nouveau tableau retourné par map() à une variable doubled et on l’affiche dans la console",
       "parent_id": 23,
       "position": 0,
       "role": "viewer",
@@ -904,8 +908,8 @@
     },
     {
       "id": 25,
-      "title": "Adipisicing nulla sint anim do.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "React sans ES6",
+      "content": "En exécutant ce code, vous obtiendrez un avertissement disant qu’une clé devrait être fournie pour les éléments d’une liste. Une « clé » (key, NdT), est un attribut spécial que vous devez inclure quand vous créez une liste d’éléments. Nous verrons pourquoi c’est important dans la prochaine section",
       "parent_id": 23,
       "position": 1,
       "role": "viewer",
@@ -924,8 +928,8 @@
     },
     {
       "id": 26,
-      "title": "Esse id fugiat proident commodo veniam ad officia ex pariatur adipisicing.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "React sans JSX",
+      "content": "Ce formulaire a le comportement classique d’un formulaire HTML et redirige sur une nouvelle page quand l’utilisateur le soumet. Si vous souhaitez ce comportement en React, vous n’avez rien à faire. Cependant, dans la plupart des cas, vous voudrez pouvoir gérer la soumission avec une fonction JavaScript, qui accède aux données saisies par l’utilisateur. La manière classique de faire ça consiste à utiliser les « composants contrôlés ».",
       "parent_id": null,
       "position": 5,
       "role": "viewer",
@@ -944,8 +948,8 @@
     },
     {
       "id": 27,
-      "title": "Anim consequat velit velit elit laboris laborum elit eiusmod magna minim labore.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Réconciliation",
+      "content": "Nous avons maintenant deux champs de saisie, mais lorsque vous saisissez la température dans un des deux, l’autre ne se met pas à jour. Nous avons besoin de les garder synchronisés.",
       "parent_id": null,
       "position": 4,
       "role": "viewer",
@@ -964,8 +968,8 @@
     },
     {
       "id": 28,
-      "title": "Aute sit mollit magna eiusmod et enim reprehenderit enim qui irure.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Les refs et le DOM",
+      "content": "Dans les composants React déclarés en tant que classes ES6, les méthodes suivent la même sémantique que dans toute classe ES6. Ça signifie qu’elles ne vont pas automatiquement lier this a l’instance. Pour ce faire, vous devez utiliser .bind(this) dans le constructeur",
       "parent_id": 27,
       "position": 0,
       "role": "viewer",
@@ -984,8 +988,8 @@
     },
     {
       "id": 29,
-      "title": "Laborum irure consequat occaecat ex aute ipsum aliquip laborum ipsum non.",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab harum obcaecati maxime cumque in, animi fugit at, culpa molestias, ea alias. Porro rerum ea, architecto illo atque in nesciunt nemo",
+      "title": "Props de rendu",
+      "content": "Si vous mesurez ou rencontrez des problèmes de performances dans vos applications React, assurez-vous que vous testez bien la version minifiée de production.",
       "parent_id": 27,
       "position": 1,
       "role": "viewer",
