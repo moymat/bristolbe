@@ -1,7 +1,10 @@
 import "./style.scss";
 import { useCallback, useEffect, useState } from "react";
 import { useHistory, useParams, Link } from "react-router-dom";
-import { TextField, Button } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
 import InputLayout from "../../components/InputLayout";
 import axios from "../../utils/axios";
 import { usePasswordValidation } from "../../hooks/usePasswordValidation";
@@ -107,9 +110,14 @@ export default function Reset() {
 							Set new password
 						</Button>
 					</form>
-					<p className="reset-create">
-						<Link to="/">{specialCharacter} Back to login</Link>
-					</p>
+					<Box display="flex" justifyContent="flex-end" mt={2}>
+						<Button
+							startIcon={<ArrowBackIcon />}
+							size="small"
+							onClick={() => history.push("/")}>
+							Back to login
+						</Button>
+					</Box>
 				</div>
 			</InputLayout>
 		)

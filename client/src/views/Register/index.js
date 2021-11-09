@@ -1,8 +1,11 @@
 import "./style.scss";
 import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { usePasswordValidation } from "../../hooks/usePasswordValidation";
-import { TextField, Button, Checkbox, FormControlLabel } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
 import { UserContext } from "../../App";
 import InputLayout from "../../components/InputLayout";
 import axios from "../../utils/axios";
@@ -36,6 +39,7 @@ export default function Register() {
 	const [lastNameError, setLastNameError] = useState(false);
 	const [touch, setTouch] = useState(false);
 	const { setUser } = useContext(UserContext);
+	const history = useHistory();
 
 	const handleChange = event => {
 		const { name, value } = event.target;
@@ -199,16 +203,6 @@ export default function Register() {
 						helperText={confirmError ? "Your confirm password is invalid" : ""}
 						error={confirmError}
 					/>
-
-					<FormControlLabel
-						control={<Checkbox />}
-						label={
-							<div>
-								<span> I agree to </span>
-								<Link to="#">Privacy policy & terms</Link>
-							</div>
-						}
-					/>
 					<Button
 						type="submit"
 						variant="contained"
@@ -217,10 +211,14 @@ export default function Register() {
 						Sign up
 					</Button>
 				</form>
-				<p className="reg-sign">
-					Already have an account?
-					<Link to="/">Sign in instead</Link>
-				</p>
+				<Box display="flex" justifyContent="flex-end" mt={2}>
+					<Button
+						startIcon={<ArrowBackIcon />}
+						size="small"
+						onClick={() => history.push("/")}>
+						Back to login
+					</Button>
+				</Box>
 			</div>
 		</InputLayout>
 	);
