@@ -5,17 +5,19 @@ import Slide from "@mui/material/Slide";
 const CustomAlert = ({
 	open,
 	handleClose,
-	options = { message: "default message", duration: 3000, severity: "success" },
+	message = "default message",
+	duration = 3000,
+	severity = "success",
 }) => {
 	return (
 		<Snackbar
 			open={open}
 			anchorOrigin={{ vertical: "top", horizontal: "center" }}
-			autoHideDuration={options.duration}
+			autoHideDuration={duration}
 			TransitionComponent={Slide}
 			onClose={handleClose}>
-			<Alert variant="filled" severity={options.severity}>
-				{options.message}
+			<Alert variant="filled" severity={severity}>
+				{message}
 			</Alert>
 		</Snackbar>
 	);

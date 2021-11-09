@@ -160,7 +160,7 @@ export default function Settings() {
 			<CustomAlert
 				open={isSnackOpen}
 				handleClose={handleSnackClose}
-				options={{ message: alertMessage }}
+				message={alertMessage}
 			/>
 			<Typography variant="h4" gutterBottom>
 				Settings
