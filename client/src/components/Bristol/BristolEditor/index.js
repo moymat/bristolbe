@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import RightsManagement from "./RightsManagement";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import "./styles.css";
@@ -104,19 +105,19 @@ export const BristolEditor = ({ setBristol }) => {
 		});
 
 		if (permission === "editors") {
-			const isViewer = !!viewers.find(user => user.id === option.id);
+			const isViewer = viewers.find(user => user.id === option.id);
 			return (
 				<Box {...props} sx={optionStyle(isViewer)}>
-					<Typography sx={{ marginRight: 2 }}>{option.full_name}</Typography>
-					{isViewer && <Typography>{"(viewer)"}</Typography>}
+					<Typography sx={{ marginRight: 1 }}>{option.full_name}</Typography>
+					{isViewer && <RemoveRedEyeOutlinedIcon fontSize="small" />}
 				</Box>
 			);
 		} else if (permission === "viewers") {
 			const isEditor = editors.find(user => user.id === option.id);
 			return (
 				<Box {...props} sx={optionStyle(isEditor)}>
-					<Typography>{option.full_name}</Typography>
-					{isEditor && <Typography>{"(editor)"}</Typography>}
+					<Typography sx={{ marginRight: 1 }}>{option.full_name}</Typography>
+					{isEditor && <EditIcon fontSize="small" />}
 				</Box>
 			);
 		}
