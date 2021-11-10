@@ -15,7 +15,6 @@ import axios from "./utils/axios";
 import CustomTheme from "./theme";
 import NotFound from "./views/NotFound";
 import ValidateEmail from "./views/ValidateEmail";
-
 export const UserContext = createContext({});
 
 function App() {
@@ -80,6 +79,7 @@ function App() {
 									<ValidateEmail />
 								</Route>
 							</CustomTheme>
+							<Route path="*" component={Error} />
 						</IsAuth>
 						{/* <Route path="*">
 							<NotFound />
