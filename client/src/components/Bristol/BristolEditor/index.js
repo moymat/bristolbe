@@ -73,11 +73,53 @@ export const BristolEditor = ({ setBristol }) => {
 	}, [selectedBristol]);
 
 	const handleEditorsChange = newEditors => {
+		setViewers(
+			viewers.filter(
+				viewer => !newEditors.some(editor => editor.id === viewer.id)
+			)
+		);
 		setEditors(newEditors);
 	};
 
-	const handleViewersChange = newViewer => {
-		setViewers(newViewer);
+	const handleViewersChange = newViewers => {
+		setEditors(
+			editors.filter(
+				editor => !newViewers.some(viewer => editor.id === viewer.id)
+			)
+		);
+		setViewers(newViewers);
+	};
+
+	const renderOption = permission => (props, option, state) => {
+		const optionStyle = isInList => ({
+			"&.MuiAutocomplete-option": {
+				color: isInList ? "primary.main" : "dimgrey",
+				transition: "all 0.15s ease-in",
+				"&:hover": {
+					backgroundColor: isInList ? "primary.main" : "grey",
+					color: isInList ? "white" : "black",
+					opacity: isInList ? 0.5 : 1,
+				},
+			},
+		});
+
+		if (permission === "editors") {
+			const isViewer = !!viewers.find(user => user.id === option.id);
+			return (
+				<Box {...props} sx={optionStyle(isViewer)}>
+					<Typography sx={{ marginRight: 2 }}>{option.full_name}</Typography>
+					{isViewer && <Typography>{"(viewer)"}</Typography>}
+				</Box>
+			);
+		} else if (permission === "viewers") {
+			const isEditor = editors.find(user => user.id === option.id);
+			return (
+				<Box {...props} sx={optionStyle(isEditor)}>
+					<Typography>{option.full_name}</Typography>
+					{isEditor && <Typography>{"(editor)"}</Typography>}
+				</Box>
+			);
+		}
 	};
 
 	return (
@@ -87,11 +129,6 @@ export const BristolEditor = ({ setBristol }) => {
 			<Stack direction="row" spacing={1} sx={{ my: 2 }}>
 				{!isReadOnly ? (
 					<TextField
-						sx={
-							{
-								// display: isReadOnly && "none",
-							}
-						}
 						value={title}
 						onChange={handleTitleChange}
 						fullWidth
@@ -146,11 +183,13 @@ export const BristolEditor = ({ setBristol }) => {
 						permission="editors"
 						usersSelected={editors}
 						handleChange={handleEditorsChange}
+						renderOption={renderOption}
 					/>
 					<RightsManagement
 						permission="viewers"
 						usersSelected={viewers}
 						handleChange={handleViewersChange}
+						renderOption={renderOption}
 					/>
 				</>
 			)}

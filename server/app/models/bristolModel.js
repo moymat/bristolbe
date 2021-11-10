@@ -119,7 +119,6 @@ const manageRoles = async (bristolId, userId, body) => {
 		const { data, errors } = await validateManageRoles(body);
 
 		if (errors) return { validationErrors: errors };
-		console.log(data);
 
 		return Promise.all(
 			Object.entries(data).map(async ([key, ids]) => {
