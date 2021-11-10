@@ -1,33 +1,28 @@
 import { useSelector } from "react-redux";
 import { createTheme } from "@mui/material/styles";
-import {
-  orange,
-  lightBlue,
-  deepPurple,
-  deepOrange,
-} from "@mui/material/colors";
+import { teal, lightBlue } from "@mui/material/colors";
 import { ThemeProvider } from "@mui/material/styles";
 
 export const CustomTheme = ({ children }) => {
-  const darkState = useSelector((state) => state.core.isDark);
+	const darkState = useSelector(state => state.core.isDark);
 
-  const palletType = darkState ? "dark" : "light";
-  const mainPrimaryColor = darkState ? lightBlue[800] : lightBlue[500];
-  const mainSecondaryColor = darkState ? deepPurple[800] : deepPurple[500];
+	const palletType = darkState ? "dark" : "light";
+	const mainPrimaryColor = darkState ? lightBlue[800] : lightBlue[500];
+	const mainSecondaryColor = darkState ? teal[600] : teal[300];
 
-  const bristolTheme = createTheme({
-    palette: {
-      mode: palletType,
-      primary: {
-        main: mainPrimaryColor,
-      },
-      secondary: {
-        main: mainSecondaryColor,
-      },
-    },
-  });
+	const bristolTheme = createTheme({
+		palette: {
+			mode: palletType,
+			primary: {
+				main: mainPrimaryColor,
+			},
+			secondary: {
+				main: mainSecondaryColor,
+			},
+		},
+	});
 
-  return <ThemeProvider theme={bristolTheme}>{children}</ThemeProvider>;
+	return <ThemeProvider theme={bristolTheme}>{children}</ThemeProvider>;
 };
 
 export default CustomTheme;
