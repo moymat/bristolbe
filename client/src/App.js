@@ -64,15 +64,16 @@ function App() {
 										<Route exact path="/bristol">
 											<Bristol />
 										</Route>
-										<Route
-											exact
-											path="/user/:page"
-											render={({ match }) => (
-												<ProfileLayout>
-													{match.params.page === "settings" && <Settings />}
-													{match.params.page === "profile" && <Profile />}
-												</ProfileLayout>
-											)}></Route>
+										<Route exact path="/user/:page">
+											<ProfileLayout>
+												<Route
+													exact
+													path="/user/settings"
+													component={Settings}
+												/>
+												<Route exact path="/user/profile" component={Profile} />
+											</ProfileLayout>
+										</Route>
 									</Navbar>
 								)}
 								<Route exact path="/validate">

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ReactQuill from "react-quill";
 import { modules, formats } from "./EditorToolbar";
@@ -17,28 +17,37 @@ import "./styles.css";
 export const BristolEditor = ({ setBristol }) => {
 	const dispatch = useDispatch();
 	const isReadOnly = useSelector(state => state.bristol.editorIsReadOnly);
-	const isEditor = useSelector(
-		state => !state.bristol.bristolCurrentUserIsEditor === "editor"
-	);
-	const bristolTitle = useSelector(state => state.bristol.bristolTitle);
-	const bristolContent = useSelector(state => state.bristol.bristolContent);
-	const bristolId = useSelector(state => state.bristol.bristolId);
+	const selectedBristol = useSelector(state => state.bristol.selectedBristol);
+	const [title, setTitle] = useState("");
+	const [content, setContent] = useState("");
+	const [editors, setEditors] = useState([]);
+	const [viewers, setViewers] = useState([]);
+	const [deleted, setDeleted] = useState([]);
 
-	const handleEditorChange = value => {
-		dispatch({ type: "UPDATE_BRISTOL_CONTENT", bristolContent: value });
+	const handleContentChange = content => {
+		setContent(content);
+		/* dispatch({ type: "UPDATE_BRISTOL_CONTENT", bristolContent: value }) */
 	};
 
-	const handleTitleChange = event => {
-		dispatch({
+	const handleTitleChange = e => {
+		setTitle(e.target.value);
+		/* dispatch({
 			type: "UPDATE_BRISTOL_TITLE",
-			bristolTitle: event.target.value,
-		});
+			bristolTitle: e.target.value,
+		}); */
 	};
 
 	const handleSaveClick = () => {
-		bristolId
-			? dispatch({ type: "UPDATE_BRISTOL" })
-			: dispatch({ type: "ADD_NEW_BRISTOL" });
+		if (!title) return;
+
+		if (
+			title !== selectedBristol.title ||
+			content !== selectedBristol.content
+		) {
+			selectedBristol.id
+				? dispatch({ type: "UPDATE_BRISTOL" })
+				: dispatch({ type: "ADD_NEW_BRISTOL" });
+		}
 	};
 
 	const handleEditClick = () => {
@@ -49,40 +58,60 @@ export const BristolEditor = ({ setBristol }) => {
 		dispatch({ type: "CANCEL_UPDATE_EDITOR" });
 	};
 
+	useEffect(() => {
+		setTitle(selectedBristol.title);
+		setContent(selectedBristol.content);
+		setEditors(selectedBristol.editors);
+		setViewers(selectedBristol.viewers);
+	}, [selectedBristol]);
+
+	const handleEditorsChange = newEditors => {
+		setEditors(newEditors);
+	};
+
+	const handleViewersChange = newViewer => {
+		setViewers(newViewer);
+	};
+
 	return (
 		<Box
 			className="text-editor"
 			sx={{ px: 5, mx: "auto" /* , maxWidth: "1086px" */ }}>
 			<Stack direction="row" spacing={1} sx={{ my: 2 }}>
-				<TextField
-					sx={{
-						display: isReadOnly && "none",
-					}}
-					value={bristolTitle}
-					onChange={handleTitleChange}
-					fullWidth
-					id="title"
-					label={isReadOnly ? "" : "Untitled"}
-					variant="outlined"
-					color="primary"
-					size="small"
-					disabled={isReadOnly}
-				/>
-				<Typography
-					sx={{
-						display: !isReadOnly ? "none" : "flex",
-						justifyContent: "center",
-						alignContent: "center",
-						flexDirection: "column",
-					}}
-					variant="h3"
-					children={bristolTitle}
-				/>
+				{!isReadOnly ? (
+					<TextField
+						sx={
+							{
+								// display: isReadOnly && "none",
+							}
+						}
+						value={title}
+						onChange={handleTitleChange}
+						fullWidth
+						id="title"
+						label="Title"
+						placeholder="Untitled"
+						variant="outlined"
+						color="primary"
+						size="small"
+					/>
+				) : (
+					<Typography
+						sx={{
+							display: "flex",
+							justifyContent: "center",
+							alignContent: "center",
+							flexDirection: "column",
+						}}
+						variant="h3"
+						children={title}
+					/>
+				)}
 				<IconButton
 					onClick={handleEditClick}
-					aria-label="delete"
+					aria-label="edit"
 					sx={{
-						display: !isEditor && !isReadOnly && "none",
+						display: selectedBristol.role !== "editor" && !isReadOnly && "none",
 					}}>
 					<EditIcon />
 				</IconButton>
@@ -104,24 +133,24 @@ export const BristolEditor = ({ setBristol }) => {
 					Save
 				</Button>
 			</Stack>
-			<Box
-				sx={{
-					mb: 1,
-					display: isReadOnly && "none",
-				}}>
-				<RightsManagement permission="editors" />
-			</Box>
-			<Box
-				sx={{
-					mb: 1,
-					display: isReadOnly && "none",
-				}}>
-				<RightsManagement permission="readers" />
-			</Box>
+			{!isReadOnly && (
+				<>
+					<RightsManagement
+						permission="editors"
+						usersSelected={editors}
+						handleChange={handleEditorsChange}
+					/>
+					<RightsManagement
+						permission="viewers"
+						usersSelected={viewers}
+						handleChange={handleViewersChange}
+					/>
+				</>
+			)}
 			<ReactQuill
 				theme={isReadOnly ? "bubble" : "snow"}
-				value={bristolContent}
-				onChange={handleEditorChange}
+				value={content}
+				onChange={handleContentChange}
 				modules={isReadOnly ? { toolbar: false } : modules}
 				formats={formats}
 				readOnly={isReadOnly}

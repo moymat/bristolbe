@@ -7,8 +7,8 @@ const Middleware = store => next => action => {
 		case "UPDATE_BRISTOL":
 			axios()
 				.patch(`/api/v1/bristols/${state.bristol.bristolId}`, {
-					content: state.bristol.bristolContent,
-					title: state.bristol.bristolTitle,
+					content: action.content,
+					title: action.title,
 				})
 				.then(() => {
 					next(action);
@@ -18,8 +18,8 @@ const Middleware = store => next => action => {
 		case "ADD_NEW_BRISTOL":
 			axios()
 				.post(`/api/v1/bristols`, {
-					content: state.bristol.bristolContent,
-					title: state.bristol.bristolTitle,
+					content: action.content,
+					title: action.title,
 				})
 				.then(({ data }) => {
 					action.id = data.data.id;
