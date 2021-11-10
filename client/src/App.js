@@ -19,7 +19,7 @@ export const UserContext = createContext({});
 
 function App() {
 	const [user, setUser] = useState({});
-	const [isAuthChecked, setIsAuthChecked] = useState(false);
+	const [isAuthChecked, setIsAuthChecked] = useState(true);
 
 	// Check if user is already authenticate at app launch
 	useEffect(() => {
@@ -39,23 +39,23 @@ function App() {
 
 	return (
 		isAuthChecked && (
-			<UserContext.Provider value={{ user, setUser }}>
-				<Router>
-					<Switch>
-						<IsAuth>
-							<Route exact path="/">
-								<Login />
-							</Route>
-							<Route exact path="/register">
-								<Register />
-							</Route>
-							<Route exact path="/forgot-password">
-								<Forgot />
-							</Route>
-							<Route path="/reset/:code">
-								<Reset />
-							</Route>
-							<CustomTheme>
+			<CustomTheme>
+				<UserContext.Provider value={{ user, setUser }}>
+					<Router>
+						<Switch>
+							<IsAuth>
+								<Route exact path="/">
+									<Login />
+								</Route>
+								<Route exact path="/register">
+									<Register />
+								</Route>
+								<Route exact path="/forgot-password">
+									<Forgot />
+								</Route>
+								<Route path="/reset/:code">
+									<Reset />
+								</Route>
 								{user.id && (
 									<Navbar>
 										<Route exact path="/home">
@@ -78,15 +78,14 @@ function App() {
 								<Route exact path="/validate">
 									<ValidateEmail />
 								</Route>
-							</CustomTheme>
-							<Route path="*" component={Error} />
-						</IsAuth>
-						{/* <Route path="*">
+							</IsAuth>
+							{/* <Route path="*">
 							<NotFound />
 						</Route> */}
-					</Switch>
-				</Router>
-			</UserContext.Provider>
+						</Switch>
+					</Router>
+				</UserContext.Provider>
+			</CustomTheme>
 		)
 	);
 }
