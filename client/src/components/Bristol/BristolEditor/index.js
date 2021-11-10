@@ -127,7 +127,11 @@ export const BristolEditor = ({ setBristol }) => {
 		<Box
 			className="text-editor"
 			sx={{ px: 5, mx: "auto" /* , maxWidth: "1086px" */ }}>
-			<Stack direction="row" spacing={1} sx={{ my: 2 }}>
+			<Stack
+				direction="row"
+				alignItems="center"
+				spacing={isReadOnly ? 6 : 1}
+				sx={{ my: 2 }}>
 				{!isReadOnly ? (
 					<TextField
 						value={title}
@@ -152,31 +156,32 @@ export const BristolEditor = ({ setBristol }) => {
 						children={title}
 					/>
 				)}
-				<IconButton
-					onClick={handleEditClick}
-					aria-label="edit"
-					sx={{
-						display: selectedBristol.role !== "editor" && !isReadOnly && "none",
-					}}>
-					<EditIcon />
-				</IconButton>
-				<Button
-					sx={{
-						display: isReadOnly && "none",
-					}}
-					variant="outlined"
-					onClick={handleCancel}>
-					CANCEL
-				</Button>
-				<Button
-					sx={{
-						display: isReadOnly && "none",
-					}}
-					color="primary"
-					onClick={handleSaveClick}
-					variant="contained">
-					Save
-				</Button>
+				{selectedBristol.role === "editor" &&
+					(isReadOnly && selectedBristol.id ? (
+						<Button
+							onClick={handleEditClick}
+							aria-label="edit"
+							variant="contained"
+							sx={{ color: "white" }}
+							startIcon={<EditIcon />}>
+							Edit
+						</Button>
+					) : (
+						!isReadOnly && (
+							<>
+								<Button variant="outlined" onClick={handleCancel}>
+									CANCEL
+								</Button>
+								<Button
+									color="primary"
+									onClick={handleSaveClick}
+									variant="contained"
+									sx={{ color: "white" }}>
+									Save
+								</Button>
+							</>
+						)
+					))}
 			</Stack>
 			{!isReadOnly && (
 				<>
