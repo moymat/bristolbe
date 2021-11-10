@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
-import { UserContext } from "../../../App";
+import { UserContext } from "../App";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import CustomAlert from "../../../components/CustomAlert";
-import axios from "../../../utils/axios";
+import CustomAlert from "../components/CustomAlert";
+import axios from "../utils/axios";
 
 export default function Profile() {
 	const { user, setUser } = useContext(UserContext);
@@ -20,7 +20,6 @@ export default function Profile() {
 	const handleChange = event => {
 		const { name, value } = event.target;
 		if (name === "firstName") {
-			console.log(!!value);
 			setFirstNameError(!value);
 			setFirstName(value);
 		} else if (name === "lastName") {

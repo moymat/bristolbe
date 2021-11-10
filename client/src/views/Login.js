@@ -2,14 +2,12 @@ import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import InputLayout from "../../components/InputLayout";
-import axios from "../../utils/axios";
-import { UserContext } from "../../App";
-import "./style.scss";
+import InputLayout from "../components/InputLayout";
+import axios from "../utils/axios";
+import { UserContext } from "../App";
 
 export default function Login() {
 	const [input, setInput] = useState({
@@ -77,64 +75,68 @@ export default function Login() {
 
 	return (
 		<InputLayout>
-			<div style={{ flex: 1 }}>
-				<h1 className="log-title">Welcome to Bristol! 👋</h1>
-				<p>Please sign-in to your account</p>
-				<form className="log-form" onSubmit={handleSubmit}>
-					<p>Email</p>
+			<Box style={{ flex: 1 }}>
+				<Typography variant="h4" component="h1" fontWeight={700} mb={2}>
+					Welcome to Bristol! 👋
+				</Typography>
+				<Typography mb={2} width={"85%"}>
+					Please sign-in to your account
+				</Typography>
+				<Box
+					component="form"
+					onSubmit={handleSubmit}
+					gutterBottom={true}
+					sx={{ display: "flex", flexDirection: "column" }}>
 					<TextField
 						type="email"
 						name="email"
+						label="Email"
 						placeholder="toto@example.com"
-						className="log-email"
 						size="small"
+						sx={{ marginBottom: 2 }}
 						onChange={handleChange}
 						value={input.email}
 						helperText={emailError ? "Your Email is invalid" : ""}
 						error={emailError}
 					/>
-					<Box className="log-text" mb={2}>
+					{/* <Box className="log-text" mb={2}>
 						<Typography>Password</Typography>
-						<Button
-							endIcon={<ArrowForwardIosIcon />}
-							variant="text"
-							size="small"
-							onClick={() => history.push("/forgot-password")}>
-							Forgot password
-						</Button>
-					</Box>
+					</Box> */}
 					<TextField
 						type="password"
 						name="password"
+						label="Password"
 						placeholder="Password"
-						className="log-password"
 						size="small"
+						sx={{ marginBottom: 2 }}
 						onChange={handleChange}
 						value={input.password}
 						helperText={passwordError ? "Your password is invalid" : ""}
 						error={passwordError}
 					/>
 					<Button
+						endIcon={<ArrowForwardIosIcon />}
+						size="small"
+						sx={{ width: "fit-content", alignSelf: "end", marginBottom: 2 }}
+						onClick={() => history.push("/forgot-password")}>
+						Forgot password
+					</Button>
+					<Button
 						type="submit"
 						variant="contained"
-						className="log-submit"
+						sx={{ marginBottom: 2 }}
 						onSubmit={handleSubmit}>
 						Sign in
 					</Button>
-				</form>
-				<Box className="log-text">
-					<Typography>New on our platform ?</Typography>
 					<Button
 						endIcon={<ArrowForwardIosIcon />}
 						size="small"
+						sx={{ width: "fit-content", alignSelf: "end" }}
 						onClick={() => history.push("/register")}>
 						Create an account
 					</Button>
 				</Box>
-				{/* <p className="log-create">
-					New on our platform ?<Link to="/register">Create an account</Link>
-				</p> */}
-			</div>
+			</Box>
 		</InputLayout>
 	);
 }

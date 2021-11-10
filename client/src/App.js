@@ -8,14 +8,15 @@ import Login from "./views/Login";
 import Register from "./views/Register";
 import Forgot from "./views/Forgot";
 import Reset from "./views/Reset";
-import Profile from "./views/User/Profile";
-import Settings from "./views/User/Settings";
+import Profile from "./views/Profile";
+import Settings from "./views/Settings";
 import ProfileLayout from "./components/ProfileLayout";
 import axios from "./utils/axios";
 import CustomTheme from "./theme";
-import Error from "./views/Error";
+import NotFound from "./views/NotFound";
 import ValidateEmail from "./views/ValidateEmail";
 import "./App.scss";
+
 export const UserContext = createContext({});
 
 function App() {
@@ -82,7 +83,7 @@ function App() {
 							</CustomTheme>
 						</IsAuth>
 						{/* <Route path="*">
-							<Error />
+							<NotFound />
 						</Route> */}
 					</Switch>
 				</Router>

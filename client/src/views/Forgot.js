@@ -1,14 +1,12 @@
-import "./style.scss";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import InputLayout from "../../components/InputLayout";
-import SectionTitle from "../../components/muiComponents/SectionTitle";
-import SectionParagraph from "../../components/muiComponents/SectionParagraph";
+import Typography from "@mui/material/Typography";
+import InputLayout from "../components/InputLayout";
 import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
-import axios from "../../utils/axios";
+import axios from "../utils/axios";
 
 export default function Forgot() {
 	const [email, setEmail] = useState("");
@@ -20,6 +18,7 @@ export default function Forgot() {
 		setEmailError(!!e.target.value);
 		setEmail(e.target.value);
 	};
+
 	const handleSubmit = async e => {
 		try {
 			e.preventDefault();
@@ -29,20 +28,23 @@ export default function Forgot() {
 
 			setMailSent(true);
 		} catch (err) {
-			console.error(err);
+			console.error(err.response.data.error);
 		}
 	};
+
 	return (
 		<InputLayout>
 			<Box style={{ flex: 1 }}>
 				{!mailSent ? (
 					<>
 						<Box mb={2}>
-							<SectionTitle>Forgot password? 🔒</SectionTitle>
-							<SectionParagraph>
+							<Typography variant="h4" component="h1" fontWeight={700} mb={2}>
+								Forgot password? 🔒
+							</Typography>
+							<Typography mb={2} width={"85%"}>
 								Enter your email and we'll send you instructions to reset your
 								password
-							</SectionParagraph>
+							</Typography>
 						</Box>
 						<Box
 							component="form"
@@ -52,25 +54,24 @@ export default function Forgot() {
 							<TextField
 								type="email"
 								name="email"
+								label="Email"
 								placeholder="toto@example.com"
 								size="small"
+								sx={{ marginBottom: 2 }}
 								value={email}
 								onChange={handleChange}
 								helperText={emailError ? "Your Email is invalid" : ""}
 								error={emailError}
 							/>
-							<Button
-								type="submit"
-								variant="contained"
-								className="forgot-submit">
+							<Button type="submit" variant="contained">
 								Send reset link
 							</Button>
 						</Box>
 					</>
 				) : (
-					<SectionParagraph>
+					<Typography mb={2} width={"85%"}>
 						An email was sent with instructions to reset your password
-					</SectionParagraph>
+					</Typography>
 				)}
 				<Box display="flex" justifyContent="flex-end" mt={2}>
 					<Button

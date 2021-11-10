@@ -1,7 +1,8 @@
 import "./style.scss";
 import { useCallback, useEffect, useState } from "react";
-import { useHistory, useParams, Link } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
@@ -70,19 +71,24 @@ export default function Reset() {
 	return (
 		checked && (
 			<InputLayout>
-				<div style={{ flex: 1 }}>
-					<h1 className="reset-title">Reset password 🔒</h1>
-					<form className="reset-form" onSubmit={handleSubmit}>
-						<p>New password</p>
+				<Box style={{ flex: 1 }}>
+					<Typography variant="h4" component="h1" fontWeight={700} mb={2}>
+						Reset password 🔒
+					</Typography>
+					<Box
+						component="form"
+						onSubmit={handleSubmit}
+						gutterBottom={true}
+						sx={{ display: "flex", flexDirection: "column" }}>
 						<TextField
 							type="password"
 							name="password"
 							placeholder="Password"
 							size="small"
+							sx={{ marginBottom: 2 }}
 							onChange={handleChange}
 							value={input.password}
 						/>
-						<p>Confirm password</p>
 						<TextField
 							type="password"
 							name="confirm"
@@ -109,7 +115,7 @@ export default function Reset() {
 						<Button type="submit" variant="contained" className="reset-submit">
 							Set new password
 						</Button>
-					</form>
+					</Box>
 					<Box display="flex" justifyContent="flex-end" mt={2}>
 						<Button
 							startIcon={<ArrowBackIcon />}
@@ -118,7 +124,7 @@ export default function Reset() {
 							Back to login
 						</Button>
 					</Box>
-				</div>
+				</Box>
 			</InputLayout>
 		)
 	);

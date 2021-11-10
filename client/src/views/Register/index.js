@@ -3,6 +3,7 @@ import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { usePasswordValidation } from "../../hooks/usePasswordValidation";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
@@ -117,39 +118,49 @@ export default function Register() {
 
 	return (
 		<InputLayout>
-			<div style={{ flex: 1 }}>
-				<h1 className="reg-title">Adventure starts here 🚀</h1>
-				<p>Make your app management easy and fun!</p>
-				<form className="reg-form" onSubmit={handleSubmit}>
-					<p>First name</p>
+			<Box style={{ flex: 1 }}>
+				<Typography variant="h4" component="h1" fontWeight={700} mb={2}>
+					Adventure starts here 🚀
+				</Typography>
+				<Typography mb={2} width={"85%"}>
+					Make your app management easy and fun!
+				</Typography>
+				<Box
+					component="form"
+					onSubmit={handleSubmit}
+					gutterBottom={true}
+					sx={{ display: "flex", flexDirection: "column" }}>
 					<TextField
 						type="text"
 						name="firstName"
-						placeholder="john"
+						label="First Name"
+						placeholder="John"
 						size="small"
+						sx={{ marginBottom: 2 }}
 						onChange={handleChange}
 						value={input.firstName}
 						helperText={firstNameError ? "Your first name is required" : ""}
 						error={firstNameError}
 					/>
-					<p>Last name</p>
 					<TextField
 						type="text"
 						name="lastName"
-						placeholder="doe"
+						label="Last Name"
+						placeholder="Doe"
 						size="small"
+						sx={{ marginBottom: 2 }}
 						onChange={handleChange}
 						value={input.lastName}
 						helperText={lastNameError ? "Your last name is required" : ""}
 						error={lastNameError}
 					/>
-					<p>Email</p>
 					<TextField
 						type="email"
 						name="email"
-						placeholder="toto@example.com"
-						className="reg-email"
+						label="Email"
+						placeholder="johndoe@example.com"
 						size="small"
+						sx={{ marginBottom: 2 }}
 						onChange={handleChange}
 						value={input.email}
 						helperText={
@@ -161,13 +172,13 @@ export default function Register() {
 						}
 						error={emailError}
 					/>
-					<p>Password</p>
 					<TextField
 						type="password"
 						name="password"
+						label="Password"
 						placeholder="Password"
-						className="reg-password"
 						size="small"
+						sx={{ marginBottom: 2 }}
 						onChange={handleChange}
 						value={input.password}
 						onFocus={handleTouch}
@@ -175,7 +186,7 @@ export default function Register() {
 						error={passwordError}
 					/>
 					{touch && (
-						<div>
+						<Box mb={2}>
 							<ul className="reg-list">
 								<li className={`${validLength ? "reg--one-li" : ""}`}>
 									8 characters (max.30)
@@ -189,15 +200,16 @@ export default function Register() {
 								<li className={`${hasNumber ? "reg--one-li" : ""}`}>1 digit</li>
 								<li className={`${match ? "reg--one-li" : ""}`}>Match</li>
 							</ul>
-						</div>
+						</Box>
 					)}
-					<p>Confirm Password</p>
 					<TextField
 						type="password"
 						name="confirm"
+						label="Confirm Password"
 						placeholder="Confirm Password"
 						className="reg-password"
 						size="small"
+						sx={{ marginBottom: 2 }}
 						onChange={handleChange}
 						value={input.confirm}
 						helperText={confirmError ? "Your confirm password is invalid" : ""}
@@ -210,7 +222,7 @@ export default function Register() {
 						onSubmit={handleSubmit}>
 						Sign up
 					</Button>
-				</form>
+				</Box>
 				<Box display="flex" justifyContent="flex-end" mt={2}>
 					<Button
 						startIcon={<ArrowBackIcon />}
@@ -219,7 +231,7 @@ export default function Register() {
 						Back to login
 					</Button>
 				</Box>
-			</div>
+			</Box>
 		</InputLayout>
 	);
 }
