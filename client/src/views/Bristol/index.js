@@ -3,7 +3,7 @@ import BristolTree from "../../components/Bristol/BristolTree";
 import BristolEditor from "../../components/Bristol/BristolEditor";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-
+import Navbar from "../../components/Navbar";
 
 // import SwipeableEdgeDrawer from "../../components/Bristol/SwipeableDrawer";
 
@@ -12,6 +12,7 @@ const BristolView = () => {
 
 
 	return (
+		<Navbar>
 		<Box sx={{ flexGrow: 1 }}>
 			<Grid container spacing={2}>
 				<Grid item xs={3}>
@@ -28,6 +29,7 @@ const BristolView = () => {
 				</Grid>
 			</Grid>
 		</Box>
+		</Navbar>
 	);
 };
 

@@ -1,8 +1,12 @@
 import Box from "@mui/material/Box";
 import { TextField, Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { usePasswordValidation } from "../../../hooks/usePasswordValidation";
+import axios from "../../../utils/axios"
+import { UserContext } from "../../../App";
+import ProfilLayout from "../../../components/ProfilLayout";
+import Navbar from "../../../components/Navbar";
 
 const passwordValidator = new RegExp(
   /^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d).{8,30}$/
@@ -13,6 +17,7 @@ const emailValidator = new RegExp(
 );
 
 export default function Settings() {
+  const { user } = useContext(UserContext);
   const [userInformation, setUserInformation] = useState({
     passwordEmail: "",
     newEmail: "",
@@ -69,7 +74,7 @@ export default function Settings() {
     event.preventDefault();
   };
 
-  const handleSubmitPassword = (event) => {
+  const handleSubmitPassword = async event => {
     event.preventDefault();
 
     if (
@@ -86,6 +91,8 @@ export default function Settings() {
   };
 
   return (
+    <Navbar>
+      <ProfilLayout>
     <Box
       sx={{
         "& .MuiTextField-root": { m: 1.5, width: "25ch" },
@@ -207,5 +214,7 @@ export default function Settings() {
         </Button>
       </Box>
     </Box>
+    </ProfilLayout>
+    </Navbar>
   );
 }
