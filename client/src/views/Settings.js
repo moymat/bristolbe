@@ -3,10 +3,10 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import CustomAlert from "../../../components/CustomAlert";
-import { usePasswordValidation } from "../../../hooks/usePasswordValidation";
-import { UserContext } from "../../../App";
-import axios from "../../../utils/axios";
+import CustomAlert from "../components/CustomAlert";
+import { usePasswordValidation } from "../hooks/usePasswordValidation";
+import { UserContext } from "../App";
+import axios from "../utils/axios";
 
 const passwordValidator = new RegExp(
 	/^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d).{8,30}$/
@@ -46,7 +46,7 @@ export default function Settings() {
 
 	const handleChange = e => {
 		const { name, value } = e.target;
-		const { currentPassword, newPassword, confirmPassword } = userInformation;
+		const { currentPassword, newPassword } = userInformation;
 
 		switch (name) {
 			case "currentPassword":

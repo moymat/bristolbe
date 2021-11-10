@@ -1,8 +1,10 @@
 import { useState, useContext } from "react";
-import { TextField, Typography, Button } from "@mui/material";
-import { Box } from "@mui/system";
-import { UserContext } from "../../App";
-import axios from "../../utils/axios";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import { UserContext } from "../App";
+import axios from "../utils/axios";
 
 const inputProps = {
 	maxLength: 1,
@@ -78,7 +80,8 @@ const ValidateEmail = () => {
 				align="center">
 				Please enter the code that was sent to your email address
 			</Typography>
-			<form
+			<Box
+				component="form"
 				style={{
 					display: "flex",
 					flexDirection: "column",
@@ -155,7 +158,7 @@ const ValidateEmail = () => {
 						Resend code
 					</Button>
 				</Box>
-			</form>
+			</Box>
 		</Box>
 	);
 };

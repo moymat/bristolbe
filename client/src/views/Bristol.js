@@ -1,15 +1,13 @@
 import { useSelector } from "react-redux";
-import BristolTree from "../../components/Bristol/BristolTree";
-import BristolEditor from "../../components/Bristol/BristolEditor";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-
+import BristolTree from "../components/Bristol/BristolTree";
+import BristolEditor from "../components/Bristol/BristolEditor";
 
 // import SwipeableEdgeDrawer from "../../components/Bristol/SwipeableDrawer";
 
 const BristolView = () => {
-
-
+	const editorIsVisible = useSelector(state => state.bristol.editorIsVisible);
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>
@@ -22,9 +20,7 @@ const BristolView = () => {
 					<BristolTree />
 				</Grid>
 				<Grid item xs={9}>
-					{useSelector(state => state.bristol.editorIsVisible) && (
-						<BristolEditor />
-					)}
+					{editorIsVisible && <BristolEditor />}
 				</Grid>
 			</Grid>
 		</Box>
