@@ -15,11 +15,11 @@ import axios from "./utils/axios";
 import CustomTheme from "./theme";
 import Error from "./views/Error";
 import ValidateEmail from "./views/ValidateEmail";
+import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.scss";
 export const UserContext = createContext({});
 
 function App() {
-	console.log(Error);
 	const [user, setUser] = useState({});
 	const [isAuthChecked, setIsAuthChecked] = useState(false);
 
@@ -69,21 +69,19 @@ function App() {
 										<Route
 											exact
 											path="/user/:page"
-											render={({ match }) => (
+											>
 												<ProfilLayout>
-													{match.params.page === "settings" && <Settings />}
-													{match.params.page === "profil" && <Profil />}
+													<Route exact path="/user/profil" component={Profil}/>
+													<Route exact path="/user/settings" component={Settings}/>
 												</ProfilLayout>
-											)}></Route>
+											</Route>
 									</Navbar>
 								)}
 								<Route exact path="/validate">
 									<ValidateEmail />
 								</Route>
 							</CustomTheme>
-						<Route path="/error">
-							<Error />
-						</Route> 
+						<Route path="*" component={Error} />
 						</IsAuth>
 					</Switch>
 				</Router>

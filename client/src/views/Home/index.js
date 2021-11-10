@@ -8,6 +8,7 @@ import OneBristol from "../../assets/img/createOneBristol.svg";
 import myCollection from "../../assets/img/myCollection.svg";
 import fileBundle from "../../assets/img/fileBundle.svg";
 import TeamSpirit from "../../assets/img/teamSpirit.svg";
+import Navbar from "../../components/Navbar";
 
 const Item = styled(Paper)(({ theme }) => ({
 	...theme.typography.body2,
@@ -17,6 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const MainContents = () => (
+	<Navbar>
 	<Box sx={{ flexGrow: 1, mx: "10%" }}>
 		<Item elevation={0}>
 			<Typography variant="h2" component="div" gutterBottom>
@@ -112,6 +114,7 @@ const MainContents = () => (
 			</Typography>
 		</Item>
 	</Box>
+	</Navbar>
 );
 
 export default MainContents;

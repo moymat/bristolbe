@@ -3,6 +3,8 @@ import { TextField, Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { UserContext } from "../../../App";
 import { useContext, useState } from "react";
+import ProfilLayout from "../../../components/ProfilLayout";
+import Navbar from "../../../components/Navbar";
 
 export default function Profil() {
 	const { user } = useContext(UserContext);
@@ -26,6 +28,8 @@ export default function Profil() {
 	};
 
 	return (
+		<Navbar>
+		<ProfilLayout>
 		<Box
 			component="form"
 			sx={{
@@ -35,9 +39,9 @@ export default function Profil() {
 			}}
 			onSubmit={handleSubmit}>
 			<Typography variant="h4" gutterBottom>
-				Profil
+				Profile
 			</Typography>
-			<Typography variant="label">My profil :</Typography>
+			<Typography variant="label">My profile :</Typography>
 			<Box>
 				<Box sx={{ display: "flex", alignItems: "baseline" }}>
 					<Typography>First Name :</Typography>
@@ -102,5 +106,7 @@ export default function Profil() {
 				</Button>
 			</Box>
 		</Box>
+		</ProfilLayout>
+		</Navbar>
 	);
 }
