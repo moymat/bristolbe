@@ -8,7 +8,7 @@ import axios from "../utils/axios";
 
 const inputProps = {
 	maxLength: 1,
-	style: { fontSize: "24px", textAlign: "center", textTransform: "uppercase" },
+	style: { fontSize: "20px", textAlign: "center", textTransform: "uppercase" },
 };
 
 const ValidateEmail = () => {
@@ -64,17 +64,17 @@ const ValidateEmail = () => {
 	};
 
 	return (
-		<Box
-			sx={{
-				display: "flex",
-				flexDirection: "column",
-				alignItems: "center",
-				justifyContent: "center",
-				maxWidth: "600px",
-				margin: "auto",
-			}}>
+		<Box sx={{
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
+			justifyContent: "center",
+			Width: "750px",
+			height: "750px",
+			margin: "auto",
+		}}>
 			<Typography
-				variant="h4"
+				variant="h6"
 				component="h1"
 				gutterBottom={true}
 				align="center">
@@ -142,19 +142,20 @@ const ValidateEmail = () => {
 						justifyContent: "center",
 						width: "100%",
 						marginTop: "18px",
+						
 					}}>
 					<Button
 						type="submit"
 						color="success"
 						variant="contained"
-						sx={{ width: 200 }}>
+						sx={{ width: 150 }}>
 						Validate
 					</Button>
 					<Button
 						variant="contained"
 						onClick={handleResend}
 						color="info"
-						sx={{ width: 200, marginLeft: "18px" }}>
+						sx={{ width: 150, marginLeft: "18px" }}>
 						Resend code
 					</Button>
 				</Box>
