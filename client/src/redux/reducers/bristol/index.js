@@ -3,16 +3,16 @@ const initialState = {
 	editorIsVisible: false,
 	editorIsReadOnly: true,
 	//current Bristol
-	bristolCurrentUserIsEditor: "reader",
-	bristolId: null,
-	bristolContent: "",
-	bristolTitle: "",
-	bristolParentId: null,
-	bristolPositionId: null,
-	bristolEditorsList: [],
-	bristolReadersList: [],
-	//utility
-	usersSearchList: [],
+	selectedBristol: {
+		id: null,
+		title: "",
+		content: "",
+		parent_id: null,
+		position: null,
+		editors: [],
+		viewers: [],
+		role: "editor",
+	},
 	//tree
 	bristols: [],
 	movedBristol: {
@@ -36,80 +36,48 @@ const reducer = (state = initialState, action = {}) => {
 				...state,
 				editorIsVisible: true,
 				editorIsReadOnly: false,
-				bristolCurrentUserIsEditor: "editor",
-				bristolId: null,
-				bristolContent: "",
-				bristolTitle: "",
-				bristolParentId: null,
-				bristolEditorsList: [],
-				bristolReadersList: [],
+				selectedBristol: initialState.selectedBristol,
 			};
 		case "GET_CURRENT_BRISTOL_CONTENT":
 			return {
 				...state,
 				editorIsVisible: true,
 				editorIsReadOnly: true,
-				bristolId: action.data.id,
-				bristolTitle: action.data.title,
-				bristolContent: action.data.content,
-				bristolCurrentUserIsEditor: action.data.role,
-				bristolPositionId: action.data.position,
-				bristolParentId: action.data.parent_id,
-				bristolEditorsList: [],
-				bristolReadersList: [],
+				selectedBristol: action.data,
 			};
 		case "EDIT_CURRENT_BRISTOL":
 			return {
 				...state,
 				editorIsVisible: true,
 				editorIsReadOnly: false,
-				bristolCurrentUserIsEditor: "editor",
+				//bristolCurrentUserIsEditor: "editor",
 			};
-		case "UPDATE_BRISTOL_TITLE":
+		case "UPDATE_BRISTOL":
 			return {
 				...state,
-				bristolTitle: action.bristolTitle,
+				selectedBristol: {
+					...state.selectedBristol,
+					title: action.title,
+					content: action.content,
+				},
+				bristols: updateTitle(state.bristols, action.title, action.content),
+				editorIsVisible: true,
+				editorIsReadOnly: true,
 			};
-		case "UPDATE_BRISTOL_CONTENT":
+		case "UPDATE_BRISTOL_ROLES":
 			return {
 				...state,
-				bristolContent: action.bristolContent,
-			};
-		case "UPDATE_BRISTOL_EDITORS":
-			return {
-				...state,
-				bristolEditorsList: action.bristolEditorsList,
-			};
-		case "UPDATE_BRISTOL_READERS":
-			return {
-				...state,
-				bristolReadersList: action.bristolReadersList,
+				selectedBristol: {
+					...state.selectedBristol,
+					viewers: action.viewers,
+					editors: action.editors,
+				},
 			};
 		case "CANCEL_UPDATE_EDITOR":
 			return {
 				...state,
 				editorIsVisible: false,
 				editorIsReadOnly: true,
-				bristolCurrentUserIsEditor: "reader",
-				bristolId: null,
-				bristolContent: "",
-				bristolTitle: "",
-				bristolParentId: null,
-				bristolPositionId: null,
-				bristolEditorsList: [],
-				bristolReadersList: [],
-			};
-		case "UPDATE_BRISTOL":
-			return {
-				...state,
-				bristols: updateTitle(
-					state.bristols,
-					state.bristolId,
-					state.bristolTitle
-				),
-				editorIsVisible: true,
-				editorIsReadOnly: true,
-				bristolCurrentUserIsEditor: "editor",
 			};
 		case "ADD_NEW_BRISTOL":
 			return {
@@ -128,7 +96,6 @@ const reducer = (state = initialState, action = {}) => {
 				],
 				editorIsVisible: true,
 				editorIsReadOnly: true,
-				bristolCurrentUserIsEditor: "editor",
 			};
 		case "SET_BRISTOLS":
 			return {
