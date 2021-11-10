@@ -22,7 +22,6 @@ export const BristolEditor = ({ setBristol }) => {
 	const [content, setContent] = useState("");
 	const [editors, setEditors] = useState([]);
 	const [viewers, setViewers] = useState([]);
-	const [deleted, setDeleted] = useState([]);
 
 	const handleContentChange = content => {
 		setContent(content);
@@ -48,6 +47,9 @@ export const BristolEditor = ({ setBristol }) => {
 				? dispatch({ type: "UPDATE_BRISTOL" })
 				: dispatch({ type: "ADD_NEW_BRISTOL" });
 		}
+
+		selectedBristol.id &&
+			dispatch({ type: "UPDATE_BRISTOL_ROLES", editors, viewers });
 	};
 
 	const handleEditClick = () => {
@@ -59,10 +61,15 @@ export const BristolEditor = ({ setBristol }) => {
 	};
 
 	useEffect(() => {
+		const addFullName = user => ({
+			...user,
+			full_name: `${user.first_name} ${user.last_name}`,
+		});
+
 		setTitle(selectedBristol.title);
 		setContent(selectedBristol.content);
-		setEditors(selectedBristol.editors);
-		setViewers(selectedBristol.viewers);
+		setEditors(selectedBristol.editors.map(addFullName));
+		setViewers(selectedBristol.viewers.map(addFullName));
 	}, [selectedBristol]);
 
 	const handleEditorsChange = newEditors => {

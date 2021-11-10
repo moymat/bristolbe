@@ -61,7 +61,7 @@ CREATE OR REPLACE FUNCTION get_bristol (jsonb) RETURNS TABLE (
 				SELECT *
 				FROM get_highest_parent(bid)
 			)
-		)		
+		)
     	-- Else, return the bristol
 		SELECT bristol.id, bristol.title, bristol.content, bristol.created_at, user_role.type as role
 		FROM bristol, user_role
@@ -131,6 +131,7 @@ CREATE OR REPLACE FUNCTION get_bristols_roles (jsonb) RETURNS TABLE (
 			SELECT *
 			FROM get_highest_parent(bid)
 		)
+		AND role.user_id <> uid
 		ORDER BY role;
 	END;
 $$ LANGUAGE plpgsql;

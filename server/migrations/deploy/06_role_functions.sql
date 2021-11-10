@@ -141,7 +141,7 @@ CREATE OR REPLACE FUNCTION delete_roles (jsonb) RETURNS VOID
 AS $$
 	DECLARE
 		eid UUID = ($1::jsonb->>'user_id')::UUID;
-		uids jsonb = ($1::jsonb->>'delete_id')::jsonb;
+		uids jsonb = ($1::jsonb->>'deleted_id')::jsonb;
 		bid UUID = ($1::jsonb->>'bristol_id')::UUID;
 		uid UUID;
 		hpid UUID;

@@ -25,7 +25,15 @@ const getBristol = async (bristolId, userId) => {
 
 		if (!rows) throw Error(`no bristol with id ${bristolId}`);
 
-		return { data: rows[0] };
+		const { rows: rolesRows } = await pgClient.query(
+			"SELECT * FROM get_bristols_roles($1)",
+			[JSON.stringify({ user_id: userId, bristol_id: bristolId })]
+		);
+
+		const editors = rolesRows.filter(user => user.role === "editor");
+		const viewers = rolesRows.filter(user => user.role === "viewer");
+
+		return { data: { ...rows[0], editors, viewers } };
 	} catch (error) {
 		return { error };
 	}
@@ -33,10 +41,10 @@ const getBristol = async (bristolId, userId) => {
 
 const moveBristol = async (bristolMoved, userId) => {
 	try {
-		const { rows } = await pgClient.query(
+		/* const { rows } = await pgClient.query(
 			"SELECT * FROM bristol_pre_move($1)",
 			[JSON.stringify({ user_id: userId, bristol_id: bristolMoved.bristol_id })]
-		);
+		); */
 
 		await pgClient.query("SELECT move_bristol($1)", [
 			JSON.stringify({
@@ -45,7 +53,7 @@ const moveBristol = async (bristolMoved, userId) => {
 			}),
 		]);
 
-		const bristol_before = {
+		/* const bristol_before = {
 			position: rows[0].position,
 			parent_id: rows[0].parent_id,
 		};
@@ -55,13 +63,14 @@ const moveBristol = async (bristolMoved, userId) => {
 			role,
 			first_name,
 			last_name,
-		}));
+		})); */
 
 		return {
 			data: {
-				bristol_before,
+				status: "success",
+				/* 	bristol_before,
 				editors: roles.filter(({ role }) => role === "editor"),
-				viewers: roles.filter(({ role }) => role === "viewer"),
+				viewers: roles.filter(({ role }) => role === "viewer"),*/
 			},
 		};
 	} catch (error) {
@@ -110,6 +119,7 @@ const manageRoles = async (bristolId, userId, body) => {
 		const { data, errors } = await validateManageRoles(body);
 
 		if (errors) return { validationErrors: errors };
+		console.log(data);
 
 		return Promise.all(
 			Object.entries(data).map(async ([key, ids]) => {
