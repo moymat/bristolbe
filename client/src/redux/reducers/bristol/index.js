@@ -72,6 +72,8 @@ const reducer = (state = initialState, action = {}) => {
 					viewers: action.viewers,
 					editors: action.editors,
 				},
+				editorIsVisible: true,
+				editorIsReadOnly: true,
 			};
 		case "CANCEL_UPDATE_EDITOR":
 			return {

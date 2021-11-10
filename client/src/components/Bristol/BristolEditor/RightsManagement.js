@@ -1,4 +1,3 @@
-import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -11,7 +10,6 @@ export default function RightsManagement({
 	handleChange,
 	usersSelected = [],
 }) {
-	const dispatch = useDispatch();
 	const [users, setUsers] = useState([]);
 	const [inputValue, setInputValue] = useState("");
 
@@ -21,8 +19,6 @@ export default function RightsManagement({
 			return;
 		}
 		axios()
-			//.get(`http://localhost:8000/users?full_name_like=${inputValue}`)
-			//.then(({ data }) => setUsers(data));
 			.get(`/api/v1/users?search=${inputValue}`)
 			.then(({ data }) =>
 				setUsers(

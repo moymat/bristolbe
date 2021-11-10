@@ -34,10 +34,10 @@ CREATE OR REPLACE FUNCTION get_users (jsonb) RETURNS TABLE (
     SELECT u.id, u.first_name, u.last_name, u.picture_url
     FROM all_users u
     WHERE u.id <> ($1::jsonb->>'user_id')::UUID
-	AND (
-		LOWER(u.first_name) LIKE LOWER($1::jsonb->>'query' || '%')
-		OR LOWER(u.last_name) LIKE LOWER($1::jsonb->>'query' || '%')
-	);
+		AND (
+			LOWER(u.first_name) LIKE LOWER($1::jsonb->>'query' || '%')
+			OR LOWER(u.last_name) LIKE LOWER($1::jsonb->>'query' || '%')
+		);
   END;
 $$ LANGUAGE plpgsql;
 

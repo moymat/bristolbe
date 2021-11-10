@@ -1,12 +1,12 @@
-export const getRightsListValue = (state, permission) => {
-	if (permission === "editors") {
-		return state.bristol.bristolEditorsList;
-	} else if (permission === "readers") {
-		return state.bristol.bristolReadersList;
-	}
+const selectedBristol = {
+	editors: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
+	viewers: [{ id: 6 }, { id: 7 }, { id: 8 }, { id: 9 }, { id: 10 }],
 };
 
-export const deltaRoles = (selectedBristol, editors, viewers) => {
+const editors = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
+const viewers = [{ id: 6 }, { id: 7 }, { id: 8 }, { id: 9 }, { id: 10 }];
+
+const deltaRoles = () => {
 	const editorsId = editors
 		.filter(({ id }) => !selectedBristol.editors.find(user => user.id === id))
 		.map(({ id }) => id);
@@ -25,3 +25,7 @@ export const deltaRoles = (selectedBristol, editors, viewers) => {
 	if (deletedId.length) newRoles.deleted_id = deletedId;
 	return newRoles;
 };
+
+const delta = Object.keys(deltaRoles());
+if (delta.length) console.log("have prop");
+else console.log("empty");

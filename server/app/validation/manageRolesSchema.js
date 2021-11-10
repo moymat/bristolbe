@@ -14,7 +14,7 @@ const schema = {
 				type: "must be an array",
 			},
 		},
-		delete_id: {
+		deleted_id: {
 			type: "array",
 			errorMessage: {
 				type: "must be an array",
@@ -29,7 +29,7 @@ const schema = {
 			required: ["viewers_id"],
 		},
 		{
-			required: ["delete_id"],
+			required: ["deleted_id"],
 		},
 	],
 };
