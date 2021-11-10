@@ -53,7 +53,6 @@ const Middleware = store => next => action => {
 			axios()
 				.get(`/api/v1/bristols/${action.selectedBristol}`)
 				.then(({ data }) => {
-					console.log(data.data);
 					action.data = {
 						...data.data,
 						editors: data.data.editors || [],
