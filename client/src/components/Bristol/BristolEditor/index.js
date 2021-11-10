@@ -8,7 +8,6 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
-import IconButton from "@mui/material/IconButton";
 import RightsManagement from "./RightsManagement";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import "react-quill/dist/quill.snow.css";
@@ -26,15 +25,10 @@ export const BristolEditor = ({ setBristol }) => {
 
 	const handleContentChange = content => {
 		setContent(content);
-		/* dispatch({ type: "UPDATE_BRISTOL_CONTENT", bristolContent: value }) */
 	};
 
 	const handleTitleChange = e => {
 		setTitle(e.target.value);
-		/* dispatch({
-			type: "UPDATE_BRISTOL_TITLE",
-			bristolTitle: e.target.value,
-		}); */
 	};
 
 	const handleSaveClick = () => {
@@ -124,9 +118,7 @@ export const BristolEditor = ({ setBristol }) => {
 	};
 
 	return (
-		<Box
-			className="text-editor"
-			sx={{ px: 5, mx: "auto" /* , maxWidth: "1086px" */ }}>
+		<Box className="text-editor" sx={{ px: 5, mx: "auto" }}>
 			<Stack
 				direction="row"
 				alignItems="center"
