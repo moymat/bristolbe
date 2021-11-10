@@ -1,12 +1,12 @@
-import * as React from "react";
+import { useState } from "react";
 import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
 import { grey } from "@mui/material/colors";
+import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import BristolTreeView from "../BristolTree/index.js";
+import BristolTreeView from "./BristolTree/index.js";
 
 const drawerBleeding = 56;
 
@@ -34,7 +34,7 @@ const Puller = styled(Box)(({ theme }) => ({
 
 function SwipeableEdgeDrawer(props) {
 	const { window } = props;
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = useState(false);
 
 	const toggleDrawer = newOpen => () => {
 		setOpen(newOpen);

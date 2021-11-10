@@ -15,7 +15,6 @@ import axios from "./utils/axios";
 import CustomTheme from "./theme";
 import NotFound from "./views/NotFound";
 import ValidateEmail from "./views/ValidateEmail";
-import "./App.scss";
 
 export const UserContext = createContext({});
 

@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
-import AuthLeftPanel from "../AuthLeftPanel";
-import "./style.scss";
+import AuthLeftPanel from "./AuthLeftPanel";
 
 export default function InputLayout({ children }) {
 	return (

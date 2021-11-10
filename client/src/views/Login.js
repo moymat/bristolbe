@@ -99,9 +99,6 @@ export default function Login() {
 						helperText={emailError ? "Your Email is invalid" : ""}
 						error={emailError}
 					/>
-					{/* <Box className="log-text" mb={2}>
-						<Typography>Password</Typography>
-					</Box> */}
 					<TextField
 						type="password"
 						name="password"
