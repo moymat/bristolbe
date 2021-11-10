@@ -115,7 +115,8 @@ export default function Login() {
 						endIcon={<ArrowForwardIosIcon />}
 						size="small"
 						sx={{ width: "fit-content", alignSelf: "end", marginBottom: 2 }}
-						onClick={() => history.push("/forgot-password")}>
+						component={Link}
+						to="/forgot-password">
 						Forgot password
 					</Button>
 					<Button
@@ -129,7 +130,7 @@ export default function Login() {
 						endIcon={<ArrowForwardIosIcon />}
 						size="small"
 						component={Link}
-						to={"/register"}
+						to="/register"
 						sx={{ width: "fit-content", alignSelf: "end" }}>
 						Create an account
 					</Button>
