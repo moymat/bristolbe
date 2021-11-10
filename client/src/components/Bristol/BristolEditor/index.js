@@ -17,23 +17,36 @@ import "./styles.css";
 export const BristolEditor = ({ setBristol }) => {
 	const dispatch = useDispatch();
 	const isReadOnly = useSelector(state => state.bristol.editorIsReadOnly);
+	const isEditor = useSelector(
+		state => !state.bristol.bristolCurrentUserIsEditor === "editor"
+	);
+	const bristolTitle = useSelector(state => state.bristol.bristolTitle);
+	const bristolContent = useSelector(state => state.bristol.bristolContent);
 	const bristolId = useSelector(state => state.bristol.bristolId);
+
 	const handleEditorChange = value => {
 		dispatch({ type: "UPDATE_BRISTOL_CONTENT", bristolContent: value });
 	};
+
 	const handleTitleChange = event => {
 		dispatch({
 			type: "UPDATE_BRISTOL_TITLE",
 			bristolTitle: event.target.value,
 		});
 	};
+
 	const handleSaveClick = () => {
 		bristolId
 			? dispatch({ type: "UPDATE_BRISTOL" })
 			: dispatch({ type: "ADD_NEW_BRISTOL" });
 	};
+
 	const handleEditClick = () => {
 		dispatch({ type: "EDIT_CURRENT_BRISTOL" });
+	};
+
+	const handleCancel = () => {
+		dispatch({ type: "CANCEL_UPDATE_EDITOR" });
 	};
 
 	return (
@@ -45,7 +58,7 @@ export const BristolEditor = ({ setBristol }) => {
 					sx={{
 						display: isReadOnly && "none",
 					}}
-					value={useSelector(state => state.bristol.bristolTitle)}
+					value={bristolTitle}
 					onChange={handleTitleChange}
 					fullWidth
 					id="title"
@@ -57,24 +70,19 @@ export const BristolEditor = ({ setBristol }) => {
 				/>
 				<Typography
 					sx={{
-						display: isReadOnly ? "none" : "flex",
+						display: !isReadOnly ? "none" : "flex",
 						justifyContent: "center",
 						alignContent: "center",
 						flexDirection: "column",
 					}}
 					variant="h3"
-					children={useSelector(state => state.bristol.bristolTitle)}
+					children={bristolTitle}
 				/>
 				<IconButton
 					onClick={handleEditClick}
 					aria-label="delete"
 					sx={{
-						display:
-							useSelector(
-								state => !state.bristol.bristolCurrentUserIsEditor === "editor"
-							) &&
-							!isReadOnly &&
-							"none",
+						display: !isEditor && !isReadOnly && "none",
 					}}>
 					<EditIcon />
 				</IconButton>
@@ -83,7 +91,7 @@ export const BristolEditor = ({ setBristol }) => {
 						display: isReadOnly && "none",
 					}}
 					variant="outlined"
-					onClick={() => dispatch({ type: "CANCEL_UPDATE_EDITOR" })}>
+					onClick={handleCancel}>
 					CANCEL
 				</Button>
 				<Button
@@ -112,7 +120,7 @@ export const BristolEditor = ({ setBristol }) => {
 			</Box>
 			<ReactQuill
 				theme={isReadOnly ? "bubble" : "snow"}
-				value={useSelector(state => state.bristol.bristolContent)}
+				value={bristolContent}
 				onChange={handleEditorChange}
 				modules={isReadOnly ? { toolbar: false } : modules}
 				formats={formats}
