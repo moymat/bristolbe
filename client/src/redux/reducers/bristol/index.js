@@ -78,7 +78,7 @@ const reducer = (state = initialState, action = {}) => {
 		case "CANCEL_UPDATE_EDITOR":
 			return {
 				...state,
-				editorIsVisible: false,
+				editorIsVisible: true,
 				editorIsReadOnly: true,
 			};
 		case "ADD_NEW_BRISTOL":
