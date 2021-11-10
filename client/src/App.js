@@ -19,7 +19,7 @@ export const UserContext = createContext({});
 
 function App() {
 	const [user, setUser] = useState({});
-	const [isAuthChecked, setIsAuthChecked] = useState(true);
+	const [isAuthChecked, setIsAuthChecked] = useState(false);
 
 	// Check if user is already authenticate at app launch
 	useEffect(() => {
