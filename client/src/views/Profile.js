@@ -65,10 +65,8 @@ export default function Profile() {
 
 	return (
 		<Box
-			component="form"
-			onSubmit={handleSubmit}
 			sx={{
-				"& .MuiTextField-root": { m: 2, width: "25ch" },
+				"& .MuiTextField-root": { m: 2 },
 				ml: 5,
 				flexGrow: 1,
 			}}>
@@ -81,32 +79,48 @@ export default function Profile() {
 			<Typography variant="h4" gutterBottom>
 				Profile
 			</Typography>
-			<Typography variant="label">My profile :</Typography>
-			<Box>
-				<Box sx={{ display: "flex", alignItems: "baseline" }}>
-					<Typography>First Name :</Typography>
-					<TextField
-						name="firstName"
-						placeholder="First Name"
-						variant="outlined"
-						value={firstName}
-						onChange={handleChange}
-						helperText={firstNameError ? "A first name is required" : ""}
-						error={firstNameError}
-					/>
-				</Box>
-				<Box sx={{ display: "flex", alignItems: "baseline" }}>
-					<Typography>Last Name :</Typography>
-					<TextField
-						name="lastName"
-						placeholder="Last Name"
-						variant="outlined"
-						value={lastName}
-						onChange={handleChange}
-						helperText={lastNameError ? "A last name is required" : ""}
-						error={lastNameError}
-					/>
-				</Box>
+			<Box
+				component="form"
+				onSubmit={handleSubmit}
+				sx={{
+					marginTop: 2,
+					display: "flex",
+					flexDirection: "column",
+					width: 300,
+				}}>
+				<Typography variant="h6" sx={{ marginBottom: 2 }}>
+					My profile
+				</Typography>
+				<TextField
+					name="firstName"
+					label="First Name"
+					variant="outlined"
+					value={firstName}
+					onChange={handleChange}
+					helperText={firstNameError ? "A first name is required" : ""}
+					error={firstNameError}
+				/>
+
+				<TextField
+					name="lastName"
+					label="Last Name"
+					variant="outlined"
+					value={lastName}
+					onChange={handleChange}
+					helperText={lastNameError ? "A last name is required" : ""}
+					error={lastNameError}
+				/>
+				<Button
+					type="submit"
+					variant="contained"
+					sx={{
+						marginTop: 2,
+						width: "fit-content",
+						left: "50%",
+						transform: "translateX(-50%)",
+					}}>
+					Apply
+				</Button>
 			</Box>
 			{/* <Box
 				style={{ display: "flex", alignItems: "baseline", marginTop: "1em" }}>
@@ -141,14 +155,6 @@ export default function Profile() {
 					/>
 				</Box>
 			</Box> */}
-			<Box
-				style={{
-					marginTop: "0.5rem",
-				}}>
-				<Button type="submit" variant="contained">
-					Apply
-				</Button>
-			</Box>
 		</Box>
 	);
 }

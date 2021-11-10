@@ -153,7 +153,7 @@ export default function Settings() {
 	return (
 		<Box
 			sx={{
-				"& .MuiTextField-root": { m: 1.5, width: "25ch" },
+				"& .MuiTextField-root": { m: 1.5 },
 				ml: 5,
 				flexGrow: 1,
 			}}>
@@ -165,113 +165,128 @@ export default function Settings() {
 			<Typography variant="h4" gutterBottom>
 				Settings
 			</Typography>
-			<Typography variant="h6" sx={{ width: "100%" }}>
-				Change your Email :
-			</Typography>
-			<Box sx={{ marginTop: 1 }} component="form" onSubmit={handleSubmitEmail}>
-				<Box>
-					<TextField
-						type="password"
-						name="passwordEmail"
-						label="Password"
-						variant="outlined"
-						inputProps={{ autoComplete: "new-password" }}
-						onChange={handleChange}
-						value={userInformation.passwordEmail}
-						helperText={emailPasswordError ? "Wrong password" : ""}
-						error={emailPasswordError}
-					/>
-				</Box>
-				<Box>
-					<TextField
-						type="email"
-						name="newEmail"
-						label="New email"
-						variant="outlined"
-						onChange={handleChange}
-						value={userInformation.newEmail}
-						helperText={newEmailError ? "Your Email is invalid" : ""}
-						error={newEmailError}
-					/>
-				</Box>
+			<Box
+				sx={{
+					marginTop: 4,
+					display: "flex",
+					flexDirection: "column",
+					width: 300,
+				}}
+				component="form"
+				onSubmit={handleSubmitEmail}>
+				<Typography variant="h6" sx={{ marginBottom: 2 }}>
+					Change your Email
+				</Typography>
+				<TextField
+					type="password"
+					name="passwordEmail"
+					label="Password"
+					variant="outlined"
+					inputProps={{ autoComplete: "new-password" }}
+					onChange={handleChange}
+					value={userInformation.passwordEmail}
+					helperText={emailPasswordError ? "Wrong password" : ""}
+					error={emailPasswordError}
+				/>
+				<TextField
+					type="email"
+					name="newEmail"
+					label="New email"
+					variant="outlined"
+					onChange={handleChange}
+					value={userInformation.newEmail}
+					helperText={newEmailError ? "Your Email is invalid" : ""}
+					error={newEmailError}
+				/>
 				<Button
 					type="submit"
 					variant="contained"
-					className="log-submit"
-					sx={{ width: "fit-content", marginLeft: "5em", marginBottom: "2em" }}>
+					sx={{
+						marginTop: 2,
+						width: "fit-content",
+						left: "50%",
+						transform: "translateX(-50%)",
+					}}>
 					Change
 				</Button>
 			</Box>
-			<Typography variant="h6" sx={{ width: "100%" }}>
-				Change your password :
-			</Typography>
-			<Box component="form" onSubmit={handleSubmitPassword}>
-				<Box sx={{ marginTop: 1 }}>
-					<TextField
-						type="password"
-						name="currentPassword"
-						label="Password"
-						variant="outlined"
-						inputProps={{ autoComplete: "new-password" }}
-						onChange={handleChange}
-						value={userInformation.currentPassword}
-						helperText={currentPasswordError ? "Wrong password" : ""}
-						error={currentPasswordError}
-					/>
-				</Box>
-				<Box>
-					<TextField
-						type="password"
-						name="newPassword"
-						label="New Password"
-						variant="outlined"
-						onChange={handleChange}
-						value={userInformation.newPassword}
-						onFocus={handleTouch}
-						helperText={
-							newPasswordError
-								? "Your new password is invalid"
-								: samePasswordError
-								? "Your new password has to be different than your current one"
-								: ""
-						}
-						error={newPasswordError}
-					/>
-					{touch && (
-						<ul className="reg-list">
-							<li className={`${validLength ? "reg--one-li" : ""}`}>
-								8 characters (max.30)
-							</li>
-							<li className={`${upperCase ? "reg--one-li" : ""}`}>
-								1 capital letter
-							</li>
-							<li className={`${lowerCase ? "reg--one-li" : ""}`}>
-								1 lower letter
-							</li>
-							<li className={`${hasNumber ? "reg--one-li" : ""}`}>1 digit</li>
-							<li className={`${match ? "reg--one-li" : ""}`}>Match</li>
-						</ul>
-					)}
-				</Box>
-				<Box>
-					<TextField
-						type="password"
-						name="confirmPassword"
-						label="Confirm Password"
-						variant="outlined"
-						onChange={handleChange}
-						value={userInformation.confirmPassword}
-						helperText={
-							confirmPasswordError ? "Your confirm password is invalid" : ""
-						}
-						error={confirmPasswordError}
-					/>
-				</Box>
+			<Box
+				sx={{
+					marginTop: 4,
+					display: "flex",
+					flexDirection: "column",
+					width: 300,
+				}}
+				component="form"
+				onSubmit={handleSubmitPassword}>
+				<Typography variant="h6" sx={{ marginBottom: 2 }}>
+					Change your password
+				</Typography>
+				<TextField
+					type="password"
+					name="currentPassword"
+					label="Password"
+					variant="outlined"
+					inputProps={{ autoComplete: "new-password" }}
+					onChange={handleChange}
+					value={userInformation.currentPassword}
+					helperText={currentPasswordError ? "Wrong password" : ""}
+					error={currentPasswordError}
+				/>
+				<TextField
+					type="password"
+					name="newPassword"
+					label="New Password"
+					variant="outlined"
+					onChange={handleChange}
+					value={userInformation.newPassword}
+					onFocus={handleTouch}
+					helperText={
+						newPasswordError
+							? "Your new password is invalid"
+							: samePasswordError
+							? "Your new password has to be different than your current one"
+							: ""
+					}
+					error={newPasswordError}
+				/>
+				{touch && (
+					<ul className="reg-list">
+						<li className={`${validLength ? "reg--one-li" : ""}`}>
+							8 characters (max.30)
+						</li>
+						<li className={`${upperCase ? "reg--one-li" : ""}`}>
+							1 capital letter
+						</li>
+						<li className={`${lowerCase ? "reg--one-li" : ""}`}>
+							1 lower letter
+						</li>
+						<li className={`${hasNumber ? "reg--one-li" : ""}`}>1 digit</li>
+						<li className={`${match ? "reg--one-li" : ""}`}>Match</li>
+					</ul>
+				)}
+				<TextField
+					type="password"
+					name="confirmPassword"
+					label="Confirm Password"
+					variant="outlined"
+					onChange={handleChange}
+					value={userInformation.confirmPassword}
+					helperText={
+						confirmPasswordError ? "Your confirm password is invalid" : ""
+					}
+					error={confirmPasswordError}
+				/>
 				<Button
 					type="submit"
 					variant="contained"
 					className="log-submit"
-					sx={{ width: "fit-content", marginLeft: "5em" }}>
+					sx={{
+						marginTop: 2,
+						width: "fit-content",
+						left: "50%",
+						transform: "translateX(-50%)",
+					}}>
 					Change
 				</Button>
 			</Box>
