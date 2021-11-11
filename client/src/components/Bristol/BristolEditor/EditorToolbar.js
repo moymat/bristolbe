@@ -2,10 +2,9 @@ import { Quill } from "react-quill";
 import quillEmoji from "quill-emoji";
 import "react-quill/dist/quill.snow.css";
 import "quill-emoji/dist/quill-emoji.css";
-import ImageResize from "quill-image-resize-module-react";
 import { ImageDrop } from "quill-image-drop-module";
 import MagicUrl from "quill-magic-url";
-
+import BlotFormatter from 'quill-blot-formatter';
 //image handler
 Quill.register("modules/imageDrop", ImageDrop);
 Quill.register("modules/magicUrl", MagicUrl);
@@ -22,7 +21,8 @@ Quill.register(
 	true
 );
 //Add image resize
-Quill.register("modules/imageResize", ImageResize);
+Quill.register('modules/blotFormatter', BlotFormatter);
+
 
 // Modules object for setting up the Quill editor
 export const modules = {
@@ -44,11 +44,9 @@ export const modules = {
 	"emoji-toolbar": true,
 	"emoji-textarea": false,
 	"emoji-shortname": true,
-	imageResize: {
-		parchment: Quill.import("parchment"),
-		modules: ["Resize", "DisplaySize", "Toolbar"],
-		displaySize: true,
-	},
+	blotFormatter: {
+		// see config options below
+	  },
 	imageDrop: true,
 	magicUrl: true,
 };
@@ -75,6 +73,17 @@ export const formats = [
 	"code",
 	"script",
 	"width",
+	"height",
+	"top",
+	"left",
+	"right",
+	"bottom",
+	"float",
+	"inline",
+	"margin",
+	"display",
+	"data-align",
+	"style",
 	"direction",
 	"video",
 ];

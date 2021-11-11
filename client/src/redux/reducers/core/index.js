@@ -1,6 +1,7 @@
 const initialState = {
 	isDark: false,
 	isDrawerOpen: false,
+	isMobileDrawerOpen: false,
 };
 
 const reducer = (state = initialState, action = {}) => {
@@ -14,12 +15,20 @@ const reducer = (state = initialState, action = {}) => {
 			return {
 				...state,
 				isDrawerOpen: action.setOpen,
+				isMobileDrawerOpen: false,
 			};
+			case "TOGGLE_MOBILE_DRAWER":
+				return {
+					...state,
+					isMobileDrawerOpen: !state.isMobileDrawerOpen,
+					isDrawerOpen: false,
+				};
 		case "LOGOUT":
 			return {
 				...state,
 				isDark: false,
 				isDrawerOpen: false,
+				isMobileDrawerOpen: false,
 			};
 		default:
 			return state;

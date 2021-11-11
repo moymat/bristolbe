@@ -6,12 +6,13 @@ const NestedItem = ({ collapseIcon, item }) => {
 			data-itemid={item.id}
 			startIcon={collapseIcon}
 			color={item.role === "editor" ? "primary" : "secondary"}
-			variant={"contained"}
+			variant="contained"
+			size="small"
 			sx={{
 				display: "flex",
+				/* height : "40em", */
 				alignItems: "center",
 				color: "white",
-				maxHeight: 35,
 				"& .MuiButton-startIcon": {
 					"&:hover": {
 						backgroundColor:

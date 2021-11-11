@@ -7,7 +7,7 @@ const Middleware = store => next => action => {
 	switch (action.type) {
 		case "UPDATE_BRISTOL":
 			axios()
-				.patch(`/api/v1/bristols/${state.bristol.bristolId}`, {
+				.patch(`/api/v1/bristols/${state.bristol.selectedBristol.id}`, {
 					content: action.content,
 					title: action.title,
 				})
