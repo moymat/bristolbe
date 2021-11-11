@@ -16,6 +16,7 @@
 		"clsx": "^1.1.1",
 		"node-sass": "4.14.1",
 		"prop-types": "^15.7.2",
+		"quill-blot-formatter": "^1.0.5",
 		"quill-emoji": "^0.2.0",
 		"quill-image-drop-module": "^1.0.3",
 		"quill-image-resize-module-react": "^3.0.0",

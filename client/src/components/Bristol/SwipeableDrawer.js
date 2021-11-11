@@ -6,7 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import BristolTreeView from "./BristolTree/index.js";
+import Button from '@mui/material/Button';
 
 const drawerBleeding = 56;
 
@@ -77,9 +77,18 @@ function SwipeableEdgeDrawer(props) {
 						left: 0,
 					}}>
 					<Puller />
+					<Box sx={{ display: 'flex', justifyContent: 'space-between'}}>
 					<Typography sx={{ p: 2, color: "text.secondary" }}>
-						51 bristols
+						6 bristols 
 					</Typography>
+					
+					</Box>
+				</StyledBox>
+				<StyledBox
+					sx={{
+
+					}}>
+					<Button sx={{ px: 2, float: 'right'}} variant="text" onClick={props.newBristol} size="small">New Bristol</Button>
 				</StyledBox>
 				<StyledBox
 					sx={{
@@ -88,7 +97,7 @@ function SwipeableEdgeDrawer(props) {
 						height: "100%",
 						overflow: "auto",
 					}}>
-					<BristolTreeView />
+					{props.children}
 				</StyledBox>
 			</SwipeableDrawer>
 		</Root>
