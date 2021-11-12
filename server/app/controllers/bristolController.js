@@ -34,6 +34,16 @@ const createBristol = async (req, res, next) => {
 		: res.json({ data });
 };
 
+const deleteBristols = async (req, res, next) => {
+	const { id } = decodeToken(req.cookies.access_token);
+	const { error, status } = await bristolModel.deleteBristols(
+		req.params.bristolId,
+		id
+	);
+
+	error ? next(error) : res.json({ status });
+};
+
 const patchBristol = async (req, res, next) => {
 	const { id } = decodeToken(req.cookies.access_token);
 	const { error, validationErrors } = await bristolModel.patchBristol(
@@ -78,6 +88,7 @@ module.exports = {
 	getBristol,
 	moveBristol,
 	createBristol,
+	deleteBristols,
 	patchBristol,
 	getBristolRoles,
 	manageRoles,
