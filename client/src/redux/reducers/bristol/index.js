@@ -88,7 +88,7 @@ const reducer = (state = initialState, action = {}) => {
 					...state.bristols,
 					{
 						id: action.id,
-						title: state.bristolTitle,
+						title: action.title,
 						parent_id: null,
 						position: state.bristols.length,
 						role: "editor",
