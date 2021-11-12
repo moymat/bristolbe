@@ -4,7 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import "quill-emoji/dist/quill-emoji.css";
 import { ImageDrop } from "quill-image-drop-module";
 import MagicUrl from "quill-magic-url";
-import BlotFormatter from 'quill-blot-formatter';
+import BlotFormatter from "quill-blot-formatter";
 //image handler
 Quill.register("modules/imageDrop", ImageDrop);
 Quill.register("modules/magicUrl", MagicUrl);
@@ -21,9 +21,47 @@ Quill.register(
 	true
 );
 //Add image resize
-Quill.register('modules/blotFormatter', BlotFormatter);
+Quill.register("modules/blotFormatter", BlotFormatter);
+// By default the Image format of quill does not allow alignments.  To solve the issue, the default Image class can be extended:
+const Image = Quill.import("formats/image"); // Had to get the class this way, instead of ES6 imports, so that quill could register it without errors
 
+const ATTRIBUTES = [
+	"alt",
+	"height",
+	"width",
+	"class",
+	"style", // Had to add this line because the style was inlined
+];
 
+class CustomImage extends Image {
+	static formats(domNode) {
+		return ATTRIBUTES.reduce((formats, attribute) => {
+			const copy = { ...formats };
+
+			if (domNode.hasAttribute(attribute)) {
+				copy[attribute] = domNode.getAttribute(attribute);
+			}
+
+			return copy;
+		}, {});
+	}
+
+	format(name, value) {
+		if (ATTRIBUTES.indexOf(name) > -1) {
+			if (value) {
+				this.domNode.setAttribute(name, value);
+			} else {
+				this.domNode.removeAttribute(name);
+			}
+		} else {
+			super.format(name, value);
+		}
+	}
+}
+Quill.register({
+	// ... other formats
+	"formats/image": CustomImage,
+});
 // Modules object for setting up the Quill editor
 export const modules = {
 	toolbar: [
@@ -46,7 +84,7 @@ export const modules = {
 	"emoji-shortname": true,
 	blotFormatter: {
 		// see config options below
-	  },
+	},
 	imageDrop: true,
 	magicUrl: true,
 };
@@ -86,4 +124,5 @@ export const formats = [
 	"style",
 	"direction",
 	"video",
+	"class",
 ];
