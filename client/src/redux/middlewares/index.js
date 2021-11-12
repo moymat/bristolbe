@@ -1,6 +1,6 @@
 import axios from "../../utils/axios";
 import { createNestedMenu } from "../../components/Bristol/BristolTree/helper";
-import { deltaRoles } from "../selectors/britols";
+import { deltaRoles } from "../selectors/bristols";
 
 const Middleware = store => next => action => {
 	const state = store.getState();

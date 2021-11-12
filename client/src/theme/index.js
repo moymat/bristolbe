@@ -15,6 +15,7 @@ export const CustomTheme = ({ children }) => {
 			mode: palletType,
 			primary: {
 				main: mainPrimaryColor,
+				contrastText: "white",
 			},
 			secondary: {
 				main: mainSecondaryColor,
