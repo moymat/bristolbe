@@ -75,30 +75,34 @@ AS $$
 		WHERE bristol.id = bid
 		INTO pid;
 		
-		-- Shift all right siblings of the bristol by -1
 		IF pid IS NULL THEN
+			-- If bristol is root
 			FOR mid IN (
 				SELECT rp.user_id
 				FROM root_position rp
 				WHERE rp.bristol_id = bid
 			) LOOP
+				-- Get its position in root for each user
 				SELECT rp.position
 				FROM root_position rp
 				WHERE rp.bristol_id = bid
 				AND rp.user_id = mid
 				INTO pos;
 				
+				-- Shift all right siblings of the bristol for this user
 				UPDATE root_position
 				SET position = position - 1
 				WHERE position > pos
 				AND user_id = mid;
 			END LOOP;
-		ELSE							
+		ELSE
+			-- If bristol is in an other bristol				
 			SELECT a.position
 			FROM bristol a
 			WHERE a.id = bid
 			INTO pos;
 		
+			-- Shift all right siblings of the bristol
 			FOR sid IN (				
 				SELECT b.id
 				FROM bristol b
@@ -111,12 +115,15 @@ AS $$
 			END LOOP;
 		END IF;
 		
+		-- Remove all rows for the root position
 		DELETE FROM root_position
 		WHERE bristol_id = bid;
 		
+		-- Remove all rows for role
 		DELETE FROM role
 		WHERE bristol_id = bid;
 		
+		-- Delete the bristol
 		DELETE FROM bristol
 		WHERE id = bid;
 	END;
