@@ -211,6 +211,7 @@ const BristolEditor = ({ setBristol }) => {
 			)}
 			<ReactQuill
 				theme={isReadOnly || isSmallScreen ? "bubble" : "snow"}
+				className={isReadOnly ? "readOnly" : "readwrite"}
 				value={content}
 				onChange={handleContentChange}
 				modules={isReadOnly ? { toolbar: false } : modules}
