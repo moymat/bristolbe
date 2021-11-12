@@ -101,9 +101,8 @@ const BristolTree = () => {
             aria-label="add"
             onClick={handleNewBristol}
             sx={{
-              position: "absolute",
-              left: 0,
-              bottom: 210,
+              position: "fixed",
+              bottom: 50,
               ml: "18%",
               display: { xs: "none", sm: "flex" },
             }}
