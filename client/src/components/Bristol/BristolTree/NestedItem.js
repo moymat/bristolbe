@@ -10,8 +10,10 @@ const NestedItem = ({ collapseIcon, item }) => {
 			size="small"
 			sx={{
 				display: "flex",
-				/* height : "40em", */
+				minHeight : 40,
 				alignItems: "center",
+				justifyContent: "start",
+				minWidth: '1px',
 				color: "white",
 				"& .MuiButton-startIcon": {
 					"&:hover": {
