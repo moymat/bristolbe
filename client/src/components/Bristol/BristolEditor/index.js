@@ -16,7 +16,7 @@ import "./styles.css";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const BristolEditor = ({ setBristol }) => {
-	const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 	const dispatch = useDispatch();
 	const isReadOnly = useSelector(state => state.bristol.editorIsReadOnly);
 	const selectedBristol = useSelector(state => state.bristol.selectedBristol);
@@ -120,12 +120,22 @@ const BristolEditor = ({ setBristol }) => {
 	};
 
 	return (
-		<Box className="text-editor" sx={{ px: { xs: 0, md: 5 }, mx: "auto" }}>
+		<Box
+			className="text-editor"
+			sx={{
+				px: { xs: 0, sm: 5 },
+				mx: "auto",
+			}}>
 			<Stack
 				direction="row"
 				alignItems="center"
 				spacing={isReadOnly ? 6 : 1}
-				sx={{ my: 2 }}>
+				sx={{
+					my: 2,
+					display: "flex",
+					width: "100%",
+					justifyContent: isSmallScreen ? "space-between" : "initial",
+				}}>
 				{!isReadOnly ? (
 					<TextField
 						value={title}
@@ -156,9 +166,14 @@ const BristolEditor = ({ setBristol }) => {
 							onClick={handleEditClick}
 							aria-label="edit"
 							variant="contained"
-							sx={{ color: "white", px: {sx: 3, sm: 1} }}
+							sx={{
+								position: "relative",
+								right: 0,
+								color: "white",
+								px: { sx: 3, sm: 1 },
+							}}
 							size={isSmallScreen ? "small" : "medium"}
-							startIcon={<EditIcon  />}>
+							startIcon={<EditIcon />}>
 							Edit
 						</Button>
 					) : (
