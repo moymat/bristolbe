@@ -76,6 +76,12 @@ const Middleware = store => next => action => {
 					.then(() => next(action))
 					.catch(err => console.error(err.response.data.error));
 			break;
+		case "DELETE_BRISTOL":
+			axios()
+				.delete(`/api/v1/bristols/${action.bristolId}`)
+				.then(() => next(action))
+				.catch(err => console.error(err.response.data.error));
+			break;
 		default:
 			next(action);
 			break;

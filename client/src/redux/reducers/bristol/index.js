@@ -22,6 +22,24 @@ const initialState = {
 	},
 };
 
+const deleteBristols = (arr, id) =>
+	arr.reduce(
+		(acc, bristol) =>
+			bristol.id === id
+				? // If bristol is the one we want to delete return the current array without the bristol and its children
+				  acc
+				: [
+						// Else return the current arr concatenated with...
+						...acc,
+						bristol.children
+							? // ...the children array checked for the bristol we want to delete if the bristol have children
+							  { ...bristol, children: deleteBristols(bristol.children, id) }
+							: // ...the bristol if it doesn't have children
+							  bristol,
+				  ],
+		[]
+	);
+
 const updateTitle = (arr, id, newTitle) =>
 	arr.map(bristol => {
 		if (bristol.children)
@@ -82,20 +100,19 @@ const reducer = (state = initialState, action = {}) => {
 				editorIsReadOnly: true,
 			};
 		case "ADD_NEW_BRISTOL":
+			const newBristol = {
+				id: action.id,
+				title: action.title,
+				parent_id: null,
+				position: state.bristols.length,
+				role: "editor",
+				editors: [],
+				viewers: [],
+			};
 			return {
 				...state,
-				bristols: [
-					...state.bristols,
-					{
-						id: action.id,
-						title: action.title,
-						parent_id: null,
-						position: state.bristols.length,
-						role: "editor",
-						editors: [],
-						readers: [],
-					},
-				],
+				bristols: [...state.bristols, newBristol],
+				selectedBristol: newBristol,
 				editorIsVisible: true,
 				editorIsReadOnly: true,
 			};
@@ -103,6 +120,14 @@ const reducer = (state = initialState, action = {}) => {
 			return {
 				...state,
 				bristols: action.bristols,
+			};
+		case "DELETE_BRISTOL":
+			return {
+				...state,
+				bristols: deleteBristols(state.bristols, action.bristolId),
+				editorIsVisible: true,
+				editorIsReadOnly: true,
+				selectedBristol: initialState.selectedBristol,
 			};
 		case "MOVE_BRISTOL":
 			return {

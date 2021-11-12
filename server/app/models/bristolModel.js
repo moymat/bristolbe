@@ -19,7 +19,7 @@ const createBristol = async (body, userId) => {
 
 const deleteBristols = async (bristolId, userId) => {
 	try {
-		await pgClient.query("SELECT delete_bristol($1)", [
+		await pgClient.query("SELECT delete_bristols($1)", [
 			JSON.stringify({ user_id: userId, bristol_id: bristolId }),
 		]);
 		return { status: "bristol deleted" };
