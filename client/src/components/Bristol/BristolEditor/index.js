@@ -49,6 +49,10 @@ const BristolEditor = ({ setBristol }) => {
 			dispatch({ type: "UPDATE_BRISTOL_ROLES", editors, viewers });
 	};
 
+	const handleDeleteClick = () => {
+
+	}
+
 	const handleEditClick = () => {
 		dispatch({ type: "EDIT_CURRENT_BRISTOL" });
 	};
@@ -125,6 +129,7 @@ const BristolEditor = ({ setBristol }) => {
 			sx={{
 				px: { xs: 0, sm: 5 },
 				mx: "auto",
+				mb: isSmallScreen ? 8 : 1
 			}}>
 			<Stack
 				direction="row"
@@ -218,6 +223,17 @@ const BristolEditor = ({ setBristol }) => {
 				formats={formats}
 				readOnly={isReadOnly}
 			/>
+
+{!isReadOnly && selectedBristol.id &&<Button
+									color="error"
+									onClick={handleDeleteClick}
+									variant="outlined"
+									size="small"
+									sx={{ mb: isSmallScreen ? 8 : 1, mt: 1, float: 'right'}}
+									>
+									Delete this Bristol
+								</Button>
+}
 		</Box>
 	);
 };
