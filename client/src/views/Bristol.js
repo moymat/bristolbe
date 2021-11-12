@@ -10,21 +10,26 @@ const BristolView = () => {
   const editorIsVisible = useSelector((state) => state.bristol.editorIsVisible);
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   return (
-    <Box sx={{ flexGrow: 1 }}>
-
-        <Grid container spacing={isSmallScreen ? 0 : 2}>
-        {!isSmallScreen && <Grid item xs={3}>
+      <>
+      {!isSmallScreen && (
+        <Box sx={{ display: "flex" }}>
+          <Box sx={{minWidth: 250}}>
             <BristolTree />
-          </Grid>
-}
-          <Grid item xs={isSmallScreen ? 12 : 9}>
-          {isSmallScreen && <BristolTree />}
-            {editorIsVisible && <BristolEditor />}
-          </Grid>
-        </Grid>
+          </Box>
 
+          <Box>{editorIsVisible && <BristolEditor />}</Box>
+          </Box>
+      )}
 
-    </Box>
+      {isSmallScreen && (
+        <>
+          <BristolTree />
+
+          {editorIsVisible && <BristolEditor />}
+        </>
+      )}
+      </>
+    
   );
 };
 
