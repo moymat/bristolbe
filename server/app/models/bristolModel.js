@@ -17,6 +17,17 @@ const createBristol = async (body, userId) => {
 	}
 };
 
+const deleteBristols = async (bristolId, userId) => {
+	try {
+		await pgClient.query("SELECT delete_bristol($1)", [
+			JSON.stringify({ user_id: userId, bristol_id: bristolId }),
+		]);
+		return { status: "bristol deleted" };
+	} catch (error) {
+		return { error };
+	}
+};
+
 const getBristol = async (bristolId, userId) => {
 	try {
 		const { rows } = await pgClient.query("SELECT * FROM get_bristol($1)", [
@@ -154,6 +165,7 @@ const manageRoles = async (bristolId, userId, body) => {
 
 module.exports = {
 	createBristol,
+	deleteBristols,
 	getBristol,
 	moveBristol,
 	patchBristol,

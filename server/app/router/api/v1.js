@@ -26,10 +26,9 @@ router.get(
 router.post("/bristols", bristolController.createBristol);
 router.post("/bristols/move", bristolController.moveBristol);
 router.get("/bristols/:bristolId", bristolController.getBristol);
+router.delete("/bristols/:bristolId", bristolController.deleteBristols);
 router.patch("/bristols/:bristolId", bristolController.patchBristol);
 router.get("/bristols/:bristolId/roles", bristolController.getBristolRoles);
 router.post("/bristols/:bristolId/roles", bristolController.manageRoles);
-
-//router.use("/bristols", bristolController);
 
 module.exports = router;
