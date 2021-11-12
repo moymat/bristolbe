@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { styled } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -31,9 +32,17 @@ const Puller = styled(Box)(({ theme }) => ({
 	left: "calc(50% - 15px)",
 }));
 
+const countBristols = arr =>
+	arr.reduce((acc, el) => {
+		if (el.children) acc += countBristols(el.children);
+		return acc + 1;
+	}, 0);
+
 function SwipeableEdgeDrawer(props) {
 	const { window } = props;
 	const [open, setOpen] = useState(false);
+	const bristols = useSelector(state => state.bristol.bristols);
+	const [rootNb, setRootNb] = useState("0 bristol");
 
 	const toggleDrawer = newOpen => () => {
 		setOpen(newOpen);
@@ -42,6 +51,11 @@ function SwipeableEdgeDrawer(props) {
 	// This is used only for the example
 	const container =
 		window !== undefined ? () => window().document.body : undefined;
+
+	useEffect(() => {
+		const nb = countBristols(bristols);
+		setRootNb(`${nb} bristol${nb > 1 ? "s" : ""}`);
+	}, [bristols]);
 
 	return (
 		<Root>
@@ -76,7 +90,7 @@ function SwipeableEdgeDrawer(props) {
 					<Puller />
 					<Box sx={{ display: "flex", justifyContent: "space-between" }}>
 						<Typography sx={{ p: 2, color: "text.secondary" }}>
-							6 bristols
+							{rootNb}
 						</Typography>
 					</Box>
 				</StyledBox>

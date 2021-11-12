@@ -4,7 +4,14 @@ import "react-quill/dist/quill.snow.css";
 import "quill-emoji/dist/quill-emoji.css";
 import { ImageDrop } from "quill-image-drop-module";
 import MagicUrl from "quill-magic-url";
-import BlotFormatter from "quill-blot-formatter";
+import BlotFormatter, {
+	AlignAction,
+	DeleteAction,
+	ImageSpec,
+} from "quill-blot-formatter";
+import VideoResize from "quill-video-resize-module2";
+//video resize
+Quill.register("modules/VideoResize", VideoResize);
 //image handler
 Quill.register("modules/imageDrop", ImageDrop);
 Quill.register("modules/magicUrl", MagicUrl);
@@ -22,6 +29,12 @@ Quill.register(
 );
 //Add image resize
 Quill.register("modules/blotFormatter", BlotFormatter);
+//toresizing support only images
+class CustomImageSpec extends ImageSpec {
+	getActions() {
+		return [AlignAction, DeleteAction];
+	}
+}
 // By default the Image format of quill does not allow alignments.  To solve the issue, the default Image class can be extended:
 const Image = Quill.import("formats/image"); // Had to get the class this way, instead of ES6 imports, so that quill could register it without errors
 
@@ -83,7 +96,11 @@ export const modules = {
 	"emoji-textarea": false,
 	"emoji-shortname": true,
 	blotFormatter: {
-		// see config options below
+		specs: [CustomImageSpec],
+	},
+	VideoResize: {
+		modules: ["Resize", "DisplaySize", "Toolbar"],
+		tagName: "iframe", // iframe | video
 	},
 	imageDrop: true,
 	magicUrl: true,
