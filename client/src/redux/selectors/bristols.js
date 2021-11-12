@@ -1,11 +1,3 @@
-export const getRightsListValue = (state, permission) => {
-	if (permission === "editors") {
-		return state.bristol.bristolEditorsList;
-	} else if (permission === "readers") {
-		return state.bristol.bristolReadersList;
-	}
-};
-
 export const deltaRoles = (selectedBristol, editors, viewers) => {
 	const editorsId = editors
 		.filter(({ id }) => !selectedBristol.editors.find(user => user.id === id))

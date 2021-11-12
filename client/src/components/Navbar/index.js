@@ -30,6 +30,7 @@ import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import BELogo from "../../assets/img/BELogo.png";
 import DarkThemeSwitch from "./DarkThemeSwitch";
 import stringAvatar from "../../utils/avatarsColors";
+import ContactPageIcon from "@mui/icons-material/ContactPage";
 import axios from "../../utils/axios";
 import { UserContext } from "../../App";
 import useMediaQuery from "@mui/material/useMediaQuery";

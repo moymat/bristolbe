@@ -10,6 +10,7 @@ import Forgot from "./views/Forgot";
 import Reset from "./views/Reset";
 import Profile from "./views/Profile";
 import Settings from "./views/Settings";
+import Contact from "./views/Contact";
 import ProfileLayout from "./components/ProfileLayout";
 import axios from "./utils/axios";
 import CustomTheme from "./theme";
@@ -60,6 +61,9 @@ function App() {
 									<Navbar>
 										<Route exact path="/home">
 											<Home />
+										</Route>
+										<Route exact path="/contact">
+											<Contact />
 										</Route>
 										<Route exact path="/bristol">
 											<Bristol />
