@@ -261,7 +261,7 @@ export default function Navbar({ children }) {
 						}}>
 						<MenuIcon />
 					</IconButton>
-					<Link to="/home">
+					<Link to="/home" style={{ display: "flex", alignContent: "center" }}>
 						<img src={BELogo} alt="react logo" width="40" />
 					</Link>
 					<Box sx={{ flexGrow: 1 }} />
@@ -309,6 +309,7 @@ export default function Navbar({ children }) {
 			<SwipeableDrawer
 				sx={{ display: { xs: "flex", sm: "none" } }}
 				anchor="top"
+				className="drawer-top"
 				open={useSelector(state => state.core.isMobileDrawerOpen)}
 				onOpen={handleDrawerOpen}
 				onClose={handleDrawerClose}>

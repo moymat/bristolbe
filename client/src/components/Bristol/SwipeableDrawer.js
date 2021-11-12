@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 
 const drawerBleeding = 56;
 
@@ -47,15 +46,13 @@ function SwipeableEdgeDrawer(props) {
 	return (
 		<Root>
 			<CssBaseline />
-			<Global
-				styles={{
-					".MuiDrawer-root > .MuiPaper-root": {
+			<SwipeableDrawer
+				sx={{
+					"& .MuiPaper-root": {
 						height: `calc(80% - ${drawerBleeding}px)`,
 						overflow: "visible",
 					},
 				}}
-			/>
-			<SwipeableDrawer
 				container={container}
 				anchor="bottom"
 				open={open}
@@ -77,18 +74,20 @@ function SwipeableEdgeDrawer(props) {
 						left: 0,
 					}}>
 					<Puller />
-					<Box sx={{ display: 'flex', justifyContent: 'space-between'}}>
-					<Typography sx={{ p: 2, color: "text.secondary" }}>
-						6 bristols 
-					</Typography>
-					
+					<Box sx={{ display: "flex", justifyContent: "space-between" }}>
+						<Typography sx={{ p: 2, color: "text.secondary" }}>
+							6 bristols
+						</Typography>
 					</Box>
 				</StyledBox>
-				<StyledBox
-					sx={{
-
-					}}>
-					<Button sx={{ px: 2, float: 'right'}} variant="text" onClick={props.newBristol} size="small">New Bristol</Button>
+				<StyledBox sx={{}}>
+					<Button
+						sx={{ px: 2, float: "right" }}
+						variant="text"
+						onClick={props.newBristol}
+						size="small">
+						New Bristol
+					</Button>
 				</StyledBox>
 				<StyledBox
 					sx={{
