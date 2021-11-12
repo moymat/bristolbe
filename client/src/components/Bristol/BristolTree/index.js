@@ -6,11 +6,10 @@ import Fab from "@mui/material/Fab";
 import Box from "@mui/material/Box";
 import AddIcon from "@mui/icons-material/Add";
 import Divider from "@mui/material/Divider";
-import Button from "@mui/material/Button";
-import "./styles.css";
 import { UserContext } from "../../../App";
 import SwipeableDrawer from "../SwipeableDrawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import "./styles.css";
 
 const BristolTree = () => {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
@@ -72,7 +71,7 @@ const BristolTree = () => {
 	return (
 		<Box>
 			{!isSmallScreen && <Divider>My Bristols</Divider>}
-			<Box>
+			<Box className="bottom">
 				{isSmallScreen ? (
 					<SwipeableDrawer newBristol={handleNewBristol}>
 						<Box sx={{ pt: 1 }} onClick={handleSelectBristol}>
