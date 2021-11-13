@@ -9,7 +9,13 @@ const SocketIOListener = ({ children }) => {
 	});
 
 	user.socket.on("stop_editing", data => {
+		console.log(data);
 		dispatch({ type: "SIO_UNSET_EDITING", data });
+		data.hasContentChanged &&
+			dispatch({
+				type: "GET_CURRENT_BRISTOL_CONTENT",
+				selectedBristol: data.bristolId,
+			});
 	});
 
 	return <>{children}</>;
