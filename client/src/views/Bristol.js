@@ -7,6 +7,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 const BristolView = () => {
 	const editorIsVisible = useSelector(state => state.bristol.editorIsVisible);
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
+
 	return (
 		<Box sx={{ display: "flex", minHeight: "100%" }}>
 			<Box
