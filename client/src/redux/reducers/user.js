@@ -1,9 +1,12 @@
+import io from "socket.io-client";
+
 const initialState = {
 	user: {
 		id: null,
 		firstName: "",
 		lastName: "",
 		email: "",
+		socket: null,
 	},
 };
 
@@ -13,7 +16,12 @@ const reducer = (state = initialState, action = {}) => {
 			localStorage.setItem("refresh_token", action.refresh);
 			return {
 				...state,
-				user: action.user,
+				user: {
+					...action.user,
+					socket: io(process.env.REACT_APP_SERVER_URL, {
+						query: `id=${action.user.id}`,
+					}),
+				},
 			};
 		case "UPDATE_USER_INFO":
 			return {

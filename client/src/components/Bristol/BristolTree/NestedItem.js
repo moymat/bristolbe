@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 const NestedItem = ({ collapseIcon, item }) => {
 	const selectedBristol = useSelector(state => state.bristol.selectedBristol);
+	const user = useSelector(state => state.user.user);
 
 	return (
 		<Button
@@ -17,7 +18,9 @@ const NestedItem = ({ collapseIcon, item }) => {
 				justifyContent: "start",
 				minWidth: "1px",
 				backgroundColor:
-					item.role === "editor"
+					item.inEditing.status && item.inEditing.userId !== user.id
+						? "red"
+						: item.role === "editor"
 						? selectedBristol.id === item.id
 							? "primary.dark"
 							: "primary.main"
@@ -27,7 +30,9 @@ const NestedItem = ({ collapseIcon, item }) => {
 				color: "white",
 				"&:hover": {
 					backgroundColor:
-						item.role === "editor"
+						item.inEditing.status && item.inEditing.userId !== user.id
+							? "darkred"
+							: item.role === "editor"
 							? selectedBristol.id === item.id
 								? "primary.dark"
 								: "primary.light"
