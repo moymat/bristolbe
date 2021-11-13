@@ -134,6 +134,10 @@ const reducer = (state = initialState, action = {}) => {
 				...state,
 				bristols: action.items,
 			};
+		case "BRISTOL_RESET":
+			return {
+				...initialState,
+			};
 		default:
 			return state;
 	}

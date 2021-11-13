@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getParentId } from "./helper.js";
 import NestedBristols from "./NestedBristols.js";
@@ -6,14 +6,13 @@ import Fab from "@mui/material/Fab";
 import Box from "@mui/material/Box";
 import AddIcon from "@mui/icons-material/Add";
 import Divider from "@mui/material/Divider";
-import { UserContext } from "../../../App";
 import SwipeableDrawer from "../SwipeableDrawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import "./styles.css";
 
 const BristolTree = () => {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
-	const { user } = useContext(UserContext);
+	const user = useSelector(state => state.user.user);
 	const bristols = useSelector(state => state.bristol.bristols);
 	const isReadOnly = useSelector(state => state.bristol.editorIsReadOnly);
 	const dispatch = useDispatch();
@@ -42,7 +41,6 @@ const BristolTree = () => {
 	};
 
 	const handleSelectBristol = async e => {
-		console.log(e.target);
 		try {
 			const { itemid } = e.target.dataset;
 			if (itemid) {

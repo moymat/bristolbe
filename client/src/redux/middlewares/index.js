@@ -4,6 +4,13 @@ import { deltaRoles } from "../selectors/bristols";
 
 const Middleware = store => next => action => {
 	const state = store.getState();
+
+	const errorHandler = err => {
+		const { error } = err.response.data;
+		if (error === "not logged in") store.dispatch({ type: "LOGOUT" });
+		console.error(error);
+	};
+
 	switch (action.type) {
 		case "UPDATE_BRISTOL":
 			axios()
@@ -14,7 +21,7 @@ const Middleware = store => next => action => {
 				.then(() => {
 					next(action);
 				})
-				.catch(err => console.error(err.response.data.error));
+				.catch(errorHandler);
 			break;
 		case "ADD_NEW_BRISTOL":
 			axios()
@@ -26,7 +33,7 @@ const Middleware = store => next => action => {
 					action.id = data.data.id;
 					next(action);
 				})
-				.catch(err => console.error(err.response.data.error));
+				.catch(errorHandler);
 			break;
 		case "MOVE_BRISTOL":
 			axios()
@@ -38,7 +45,7 @@ const Middleware = store => next => action => {
 				.then(() => {
 					next(action);
 				})
-				.catch(err => console.error(err.response.data.error));
+				.catch(errorHandler);
 			break;
 		case "SET_BRISTOLS":
 			axios()
@@ -47,7 +54,7 @@ const Middleware = store => next => action => {
 					action.bristols = createNestedMenu(data.data);
 					next(action);
 				})
-				.catch(err => console.error(err));
+				.catch(errorHandler);
 			break;
 		case "GET_CURRENT_BRISTOL_CONTENT":
 			axios()
@@ -60,7 +67,7 @@ const Middleware = store => next => action => {
 					};
 					next(action);
 				})
-				.catch(err => console.error(err.response.data.error));
+				.catch(errorHandler);
 			break;
 		case "UPDATE_BRISTOL_ROLES":
 			const roles = deltaRoles(
@@ -74,13 +81,17 @@ const Middleware = store => next => action => {
 						...roles,
 					})
 					.then(() => next(action))
-					.catch(err => console.error(err.response.data.error));
+					.catch(errorHandler);
 			break;
 		case "DELETE_BRISTOL":
 			axios()
 				.delete(`/api/v1/bristols/${action.bristolId}`)
 				.then(() => next(action))
-				.catch(err => console.error(err.response.data.error));
+				.catch(errorHandler);
+			break;
+		case "LOGOUT":
+			store.dispatch({ type: "BRISTOL_RESET" });
+			next(action);
 			break;
 		default:
 			next(action);

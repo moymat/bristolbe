@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { UserContext } from "../App";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -8,7 +8,7 @@ import CustomAlert from "../components/CustomAlert";
 import axios from "../utils/axios";
 
 export default function Profile() {
-	const { user, setUser } = useContext(UserContext);
+	const user = useSelector(state => state.user.user);
 	const [firstName, setFirstName] = useState(user.first_name);
 	const [firstNameError, setFirstNameError] = useState(false);
 	const [lastName, setLastName] = useState(user.last_name);
@@ -16,6 +16,7 @@ export default function Profile() {
 	const [alertMessage, setAlertMessage] = useState("");
 	const [alertSeverity, setAlertSeverity] = useState("success");
 	const [isSnackOpen, setIsSnackOpen] = useState(false);
+	const dispatch = useDispatch();
 
 	const handleChange = event => {
 		const { name, value } = event.target;
@@ -50,7 +51,7 @@ export default function Profile() {
 				first_name: firstName,
 				last_name: lastName,
 			});
-			setUser({ ...user, first_name: firstName, last_name: lastName });
+			dispatch({ type: "UPDATE_USER_INFO", firstName, lastName });
 			setAlertMessage("Profile updated");
 			setAlertSeverity("success");
 			setIsSnackOpen(true);

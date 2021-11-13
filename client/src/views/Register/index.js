@@ -1,15 +1,15 @@
-import "./style.scss";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { usePasswordValidation } from "../../hooks/usePasswordValidation";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
-import { UserContext } from "../../App";
 import InputLayout from "../../components/InputLayout";
 import axios from "../../utils/axios";
+import "./style.scss";
 
 const emailValidator = new RegExp(
 	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -39,7 +39,7 @@ export default function Register() {
 	const [firstNameError, setFirstNameError] = useState(false);
 	const [lastNameError, setLastNameError] = useState(false);
 	const [touch, setTouch] = useState(false);
-	const { setUser } = useContext(UserContext);
+	const dispatch = useDispatch();
 	const history = useHistory();
 
 	const handleChange = event => {
@@ -99,7 +99,7 @@ export default function Register() {
 			}
 
 			localStorage.setItem("refresh_token", data.refresh);
-			setUser(data.user);
+			dispatch({ type: "LOGIN", user: { ...data.user } });
 		} catch (err) {
 			const { error } = err.response.data;
 

@@ -1,11 +1,11 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import CustomAlert from "../components/CustomAlert";
 import { usePasswordValidation } from "../hooks/usePasswordValidation";
-import { UserContext } from "../App";
 import axios from "../utils/axios";
 
 const passwordValidator = new RegExp(
@@ -38,7 +38,8 @@ export default function Settings() {
 	const [touch, setTouch] = useState(false);
 	const [alertMessage, setAlertMessage] = useState("");
 	const [isSnackOpen, setIsSnackOpen] = useState(false);
-	const { user, setUser } = useContext(UserContext);
+	const user = useSelector(state => state.user.user);
+	const dispatch = useDispatch();
 
 	const handleTouch = () => {
 		!touch && setTouch(true);
@@ -95,7 +96,7 @@ export default function Settings() {
 				newEmail: "",
 				passwordEmail: "",
 			});
-			setUser({ ...user, email: newEmail });
+			dispatch({ type: "UPDATE_USER_EMAIL", email: newEmail });
 		} catch (err) {
 			const { error } = err.response.data;
 			if (error === "wrong password") {

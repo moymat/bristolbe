@@ -1,5 +1,6 @@
-import { useState, createContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./components/Navbar";
 import IsAuth from "./components/IsAuth";
 import Home from "./views/Home";
@@ -16,11 +17,11 @@ import axios from "./utils/axios";
 import CustomTheme from "./theme";
 import NotFound from "./views/NotFound";
 import ValidateEmail from "./views/ValidateEmail";
-export const UserContext = createContext({});
 
 function App() {
-	const [user, setUser] = useState({});
 	const [isAuthChecked, setIsAuthChecked] = useState(false);
+	const user = useSelector(state => state.user.user);
+	const dispatch = useDispatch();
 
 	// Check if user is already authenticate at app launch
 	useEffect(() => {
@@ -28,7 +29,7 @@ function App() {
 			try {
 				const { data } = await axios().get("/auth/is-auth");
 				localStorage.setItem("refresh_token", data.refresh);
-				setUser(data.user);
+				dispatch({ type: "LOGIN", user: { ...data.user } });
 				setIsAuthChecked(true);
 			} catch (err) {
 				console.error("Not logged in");
@@ -36,60 +37,54 @@ function App() {
 			}
 		};
 		checkAuth();
-	}, []);
+	}, [dispatch]);
 
 	return (
 		isAuthChecked && (
 			<CustomTheme>
-				<UserContext.Provider value={{ user, setUser }}>
-					<Router>
-						<Switch>
-							<IsAuth>
-								<Route exact path="/">
-									<Login />
-								</Route>
-								<Route exact path="/register">
-									<Register />
-								</Route>
-								<Route exact path="/forgot-password">
-									<Forgot />
-								</Route>
-								<Route path="/reset/:code">
-									<Reset />
-								</Route>
-								{user.id && (
-									<Navbar>
-										<Route exact path="/home">
-											<Home />
-										</Route>
-										<Route exact path="/contact">
-											<Contact />
-										</Route>
-										<Route exact path="/bristol">
-											<Bristol />
-										</Route>
-										<Route exact path="/user/:page">
-											<ProfileLayout>
-												<Route
-													exact
-													path="/user/settings"
-													component={Settings}
-												/>
-												<Route exact path="/user/profile" component={Profile} />
-											</ProfileLayout>
-										</Route>
-									</Navbar>
-								)}
-								<Route exact path="/validate">
-									<ValidateEmail />
-								</Route>
-							</IsAuth>
-							{/* <Route path="*">
+				<Router>
+					<Switch>
+						<IsAuth>
+							<Route exact path="/">
+								<Login />
+							</Route>
+							<Route exact path="/register">
+								<Register />
+							</Route>
+							<Route exact path="/forgot-password">
+								<Forgot />
+							</Route>
+							<Route path="/reset/:code">
+								<Reset />
+							</Route>
+							{user.id && (
+								<Navbar>
+									<Route exact path="/home">
+										<Home />
+									</Route>
+									<Route exact path="/contact">
+										<Contact />
+									</Route>
+									<Route exact path="/bristol">
+										<Bristol />
+									</Route>
+									<Route exact path="/user/:page">
+										<ProfileLayout>
+											<Route exact path="/user/settings" component={Settings} />
+											<Route exact path="/user/profile" component={Profile} />
+										</ProfileLayout>
+									</Route>
+								</Navbar>
+							)}
+							<Route exact path="/validate">
+								<ValidateEmail />
+							</Route>
+						</IsAuth>
+						{/* <Route path="*">
 							<NotFound />
 						</Route> */}
-						</Switch>
-					</Router>
-				</UserContext.Provider>
+					</Switch>
+				</Router>
 			</CustomTheme>
 		)
 	);

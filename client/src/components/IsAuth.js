@@ -1,10 +1,10 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { UserContext } from "../App";
+import { useSelector } from "react-redux";
 import { AUTH_ROUTES } from "../utils/authRoutes";
 
 const IsAuth = ({ children }) => {
-	const { user } = useContext(UserContext);
+	const user = useSelector(state => state.user.user);
 	const history = useHistory();
 	const { pathname } = useLocation();
 
