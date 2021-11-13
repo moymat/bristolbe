@@ -7,7 +7,8 @@ const Middleware = store => next => action => {
 
 	const errorHandler = err => {
 		const { error } = err.response.data;
-		if (error === "not logged in") store.dispatch({ type: "LOGOUT" });
+		if (error === "not logged in" || error === "jwt expired")
+			store.dispatch({ type: "LOGOUT" });
 		console.error(error);
 	};
 
