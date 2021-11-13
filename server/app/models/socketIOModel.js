@@ -22,9 +22,30 @@ const onStopEditing = async (socket, args) => {
 	socket.broadcast.to(`bristol_${args.bristolId}`).emit("stop_editing", args);
 };
 
+const onDisconnect = async socket => {
+	const allInEditing = await redisClient().keysAsync("in_editing_*");
+
+	await Promise.all(
+		allInEditing.map(async key => {
+			const bristolId = key.replace("in_editing_", "");
+
+			const userId = await redisClient("in_editing_").getAsync(bristolId);
+			const cachedId = await redisClient("socket_id_").getAsync(userId);
+
+			if (socket.id === cachedId) {
+				await redisClient("in_editing_").delAsync(bristolId);
+				socket.broadcast
+					.to(`bristol_${bristolId}`)
+					.emit("stop_editing", { bristolId });
+			}
+		})
+	);
+};
+
 module.exports = {
 	onConnection,
 	onJoinBristolRooms,
 	onEditing,
 	onStopEditing,
+	onDisconnect,
 };
