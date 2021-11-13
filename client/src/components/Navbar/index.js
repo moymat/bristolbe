@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { styled, useTheme } from "@mui/material/styles";
 import { useHistory, Link } from "react-router-dom";
@@ -32,7 +32,6 @@ import DarkThemeSwitch from "./DarkThemeSwitch";
 import stringAvatar from "../../utils/avatarsColors";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
 import axios from "../../utils/axios";
-import { UserContext } from "../../App";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const drawerWidth = 240;
@@ -105,7 +104,7 @@ const Drawer = styled(MuiDrawer, {
 
 export default function Navbar({ children }) {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
-	const { setUser, user } = useContext(UserContext);
+	const user = useSelector(state => state.user.user);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 	const history = useHistory();
@@ -140,12 +139,6 @@ export default function Navbar({ children }) {
 		setAnchorEl(event.currentTarget);
 	};
 
-	const logout = async () => {
-		await axios().get("/auth/logout");
-		localStorage.removeItem("refresh_token");
-		setUser({});
-	};
-
 	const handleMobileMenuClose = () => {
 		setMobileMoreAnchorEl(null);
 	};
@@ -153,7 +146,7 @@ export default function Navbar({ children }) {
 	const handleSignout = async () => {
 		handleMenuClose();
 		try {
-			await logout();
+			await axios().get("/auth/logout");
 			dispatch({ type: "LOGOUT" });
 		} catch (err) {
 			console.error(err);

@@ -1,5 +1,6 @@
-import { useState, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -7,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import InputLayout from "../components/InputLayout";
 import axios from "../utils/axios";
-import { UserContext } from "../App";
 
 export default function Login() {
 	const [input, setInput] = useState({
@@ -16,8 +16,7 @@ export default function Login() {
 	});
 	const [passwordError, setPasswordError] = useState(false);
 	const [emailError, setEmailError] = useState(false);
-	const { setUser } = useContext(UserContext);
-	const history = useHistory();
+	const dispatch = useDispatch();
 
 	const handleChange = event => {
 		const { name, value } = event.target;
@@ -57,9 +56,7 @@ export default function Login() {
 				return;
 			}
 
-			localStorage.setItem("refresh_token", data.refresh);
-
-			setUser(data.user);
+			dispatch({ type: "LOGIN", ...data });
 		} catch (err) {
 			const { error } = err.response.data;
 
@@ -68,8 +65,6 @@ export default function Login() {
 			} else if (error.includes("no user found with email")) {
 				setEmailError(true);
 			}
-
-			console.error(error);
 		}
 	};
 

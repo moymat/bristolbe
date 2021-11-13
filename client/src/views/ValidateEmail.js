@@ -1,9 +1,9 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { UserContext } from "../App";
 import axios from "../utils/axios";
 
 const inputProps = {
@@ -12,9 +12,10 @@ const inputProps = {
 };
 
 const ValidateEmail = () => {
-	const { user, setUser } = useContext(UserContext);
+	const user = useSelector(state => state.user.user);
 	const [code, setCode] = useState(Array(4).fill(null));
 	const [error, setError] = useState(false);
+	const dispatch = useDispatch();
 
 	const handleChange = ({ target }) => {
 		const nb = +target.name.replace("code", "");
@@ -43,12 +44,11 @@ const ValidateEmail = () => {
 				code: codeData,
 			});
 
-			console.log(data);
 			if (data.error) {
 				return setError(true);
 			}
 
-			setUser({ ...user, verified: true });
+			dispatch({ type: "LOGIN", user: { ...user, verified: true } });
 		} catch (error) {
 			setError(true);
 			console.error(error.message);
@@ -64,15 +64,16 @@ const ValidateEmail = () => {
 	};
 
 	return (
-		<Box sx={{
-			display: "flex",
-			flexDirection: "column",
-			alignItems: "center",
-			justifyContent: "center",
-			Width: "750px",
-			height: "750px",
-			margin: "auto",
-		}}>
+		<Box
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				alignItems: "center",
+				justifyContent: "center",
+				Width: "750px",
+				height: "750px",
+				margin: "auto",
+			}}>
 			<Typography
 				variant="h6"
 				component="h1"
@@ -142,7 +143,6 @@ const ValidateEmail = () => {
 						justifyContent: "center",
 						width: "100%",
 						marginTop: "18px",
-						
 					}}>
 					<Button
 						type="submit"

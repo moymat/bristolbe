@@ -17,12 +17,12 @@ const reducer = (state = initialState, action = {}) => {
 				isDrawerOpen: action.setOpen,
 				isMobileDrawerOpen: false,
 			};
-			case "TOGGLE_MOBILE_DRAWER":
-				return {
-					...state,
-					isMobileDrawerOpen: !state.isMobileDrawerOpen,
-					isDrawerOpen: false,
-				};
+		case "TOGGLE_MOBILE_DRAWER":
+			return {
+				...state,
+				isMobileDrawerOpen: !state.isMobileDrawerOpen,
+				isDrawerOpen: false,
+			};
 		case "LOGOUT":
 			return {
 				...state,
@@ -36,6 +36,3 @@ const reducer = (state = initialState, action = {}) => {
 };
 
 export default reducer;
-
-//onChange={() => dispatch({type: 'TOGGLE_DARK_MODE'})}
-//checked={useSelector((state) => state.isDark)}
