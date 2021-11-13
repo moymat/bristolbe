@@ -12,6 +12,10 @@ const initialState = {
 		editors: [],
 		viewers: [],
 		role: "editor",
+		inEditing: {
+			status: false,
+			userId: null,
+		},
 	},
 	//tree
 	bristols: [],
@@ -47,6 +51,20 @@ const updateTitle = (arr, id, newTitle) =>
 		return bristol.id === id ? { ...bristol, title: newTitle } : bristol;
 	});
 
+const updateEditingStatus = (arr, bristolId, userId = null, status = false) => {
+	return arr.map(bristol => {
+		if (bristol.children)
+			bristol.children = updateEditingStatus(
+				bristol.children,
+				bristolId,
+				status
+			);
+		return bristol.id === bristolId
+			? { ...bristol, inEditing: { status, userId } }
+			: bristol;
+	});
+};
+
 const reducer = (state = initialState, action = {}) => {
 	switch (action.type) {
 		case "CREATE_NEW_BRISTOL":
@@ -68,7 +86,6 @@ const reducer = (state = initialState, action = {}) => {
 				...state,
 				editorIsVisible: true,
 				editorIsReadOnly: false,
-				//bristolCurrentUserIsEditor: "editor",
 			};
 		case "UPDATE_BRISTOL":
 			return {
@@ -98,6 +115,7 @@ const reducer = (state = initialState, action = {}) => {
 				...state,
 				editorIsVisible: true,
 				editorIsReadOnly: true,
+				bristols: updateEditingStatus(state.bristols, state.selectedBristol.id),
 			};
 		case "ADD_NEW_BRISTOL":
 			const newBristol = {
@@ -137,6 +155,36 @@ const reducer = (state = initialState, action = {}) => {
 		case "BRISTOL_RESET":
 			return {
 				...initialState,
+			};
+		// Socket.io actions
+		case "SIO_SET_EDITING":
+			return {
+				...state,
+				bristols: updateEditingStatus(
+					state.bristols,
+					action.data.bristolId,
+					action.data.userId,
+					true
+				),
+				selectedBristol:
+					state.selectedBristol.id === action.data.bristolId
+						? {
+								...state.selectedBristol,
+								inEditing: { status: true, userId: action.data.userId },
+						  }
+						: state.selectedBristol,
+			};
+		case "SIO_UNSET_EDITING":
+			return {
+				...state,
+				bristols: updateEditingStatus(state.bristols, action.data.bristolId),
+				selectedBristol:
+					state.selectedBristol.id === action.data.bristolId
+						? {
+								...state.selectedBristol,
+								inEditing: { status: false, userId: null },
+						  }
+						: state.selectedBristol,
 			};
 		default:
 			return state;
