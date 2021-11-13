@@ -13,8 +13,8 @@ async function onEditing({ userId, bristolId }) {
 	await socketIOModel.onEditing(this, bristolId, userId);
 }
 
-async function onStopEditing({ bristolId }) {
-	await socketIOModel.onStopEditing(this, bristolId);
+async function onStopEditing(args) {
+	await socketIOModel.onStopEditing(this, args);
 }
 
 module.exports = {
