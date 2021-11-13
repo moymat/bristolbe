@@ -17,9 +17,15 @@ async function onStopEditing(args) {
 	await socketIOModel.onStopEditing(this, args);
 }
 
+async function onDisconnect(args) {
+	console.log(args);
+	await socketIOModel.onDisconnect(this);
+}
+
 module.exports = {
 	onConnection,
 	onJoinBristolRooms,
 	onEditing,
 	onStopEditing,
+	onDisconnect,
 };
