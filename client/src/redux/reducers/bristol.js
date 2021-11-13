@@ -65,6 +65,31 @@ const updateEditingStatus = (arr, bristolId, userId = null, status = false) => {
 	});
 };
 
+/* state.selectedBristol.id === action.data.bristolId
+						action.data.title ? {
+							...state.selectedBristol,
+							inEditing: { status: false, userId: null },
+							title: action.title
+						}
+						? {
+								...state.selectedBristol,
+								inEditing: { status: false, userId: null },
+						  }
+						: state.selectedBristol, */
+
+const updateSelectedBristol = (state, data) => {
+	if (state.selectedBristol.id !== data.bristolId) return state.selectedBristol;
+
+	const newBristol = {
+		...state.selectedBristol,
+		inEditing: { status: false, userId: null },
+	};
+
+	if (data.title) newBristol.title = data.title;
+
+	return newBristol;
+};
+
 const reducer = (state = initialState, action = {}) => {
 	switch (action.type) {
 		case "CREATE_NEW_BRISTOL":
@@ -95,7 +120,11 @@ const reducer = (state = initialState, action = {}) => {
 					title: action.title,
 					content: action.content,
 				},
-				bristols: updateTitle(state.bristols, action.title, action.content),
+				bristols: updateTitle(
+					state.bristols,
+					state.selectedBristol.id,
+					action.title
+				),
 				editorIsVisible: true,
 				editorIsReadOnly: true,
 			};
@@ -177,14 +206,24 @@ const reducer = (state = initialState, action = {}) => {
 		case "SIO_UNSET_EDITING":
 			return {
 				...state,
-				bristols: updateEditingStatus(state.bristols, action.data.bristolId),
-				selectedBristol:
-					state.selectedBristol.id === action.data.bristolId
-						? {
-								...state.selectedBristol,
-								inEditing: { status: false, userId: null },
-						  }
-						: state.selectedBristol,
+				bristols: action.data.title
+					? updateTitle(
+							updateEditingStatus(
+								state.bristols,
+								action.data.bristolId,
+								action.data.userId,
+								false
+							),
+							action.data.bristolId,
+							action.data.title
+					  )
+					: updateEditingStatus(
+							state.bristols,
+							action.data.bristolId,
+							action.data.userId,
+							false
+					  ),
+				selectedBristol: updateSelectedBristol(state, action.data),
 			};
 		default:
 			return state;

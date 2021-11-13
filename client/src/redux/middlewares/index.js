@@ -2,10 +2,19 @@ import { createNestedMenu } from "../../components/Bristol/BristolTree/helper";
 import { deltaRoles } from "../selectors/bristols";
 import axios from "../../utils/axios";
 
-const stopEditing = state => {
+const stopEditing = (state, action = null) => {
 	const { socket } = state.user.user;
-	const { id: bristolId } = state.bristol.selectedBristol;
-	socket.emit("stop_editing", { bristolId });
+	const { id: bristolId, content } = state.bristol.selectedBristol;
+
+	const data = action
+		? {
+				bristolId,
+				title: action.title,
+				hasContentChanged: action.content !== content,
+		  }
+		: { bristolId };
+
+	socket.emit("stop_editing", data);
 };
 
 const editing = state => {
@@ -71,7 +80,7 @@ const Middleware = store => next => action => {
 			next(action);
 			break;
 		case "UPDATE_BRISTOL":
-			stopEditing(state);
+			stopEditing(state, action);
 			axios()
 				.patch(`/api/v1/bristols/${state.bristol.selectedBristol.id}`, {
 					content: action.content,
