@@ -10,10 +10,10 @@ import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import RightsManagement from "./RightsManagement";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import "./styles.css";
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 const BristolEditor = ({ setBristol }) => {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
@@ -61,18 +61,6 @@ const BristolEditor = ({ setBristol }) => {
 	const handleCancel = () => {
 		dispatch({ type: "CANCEL_UPDATE_EDITOR" });
 	};
-
-	useEffect(() => {
-		const addFullName = user => ({
-			...user,
-			full_name: `${user.first_name} ${user.last_name}`,
-		});
-
-		setTitle(selectedBristol.title);
-		setContent(selectedBristol.content);
-		setEditors(selectedBristol.editors.map(addFullName));
-		setViewers(selectedBristol.viewers.map(addFullName));
-	}, [selectedBristol]);
 
 	const handleEditorsChange = newEditors => {
 		setViewers(
@@ -123,6 +111,18 @@ const BristolEditor = ({ setBristol }) => {
 			);
 		}
 	};
+
+	useEffect(() => {
+		const addFullName = user => ({
+			...user,
+			full_name: `${user.first_name} ${user.last_name}`,
+		});
+
+		setTitle(selectedBristol.title);
+		setContent(selectedBristol.content);
+		setEditors(selectedBristol.editors.map(addFullName));
+		setViewers(selectedBristol.viewers.map(addFullName));
+	}, [selectedBristol]);
 
 	return (
 		<Box

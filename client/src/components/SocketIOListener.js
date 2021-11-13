@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 const SocketIOListener = ({ children }) => {
 	const user = useSelector(state => state.user.user);
+	const selectedBristol = useSelector(state => state.bristol.selectedBristol);
 	const dispatch = useDispatch();
 
 	user.socket.on("in_editing", data => {
@@ -9,9 +10,9 @@ const SocketIOListener = ({ children }) => {
 	});
 
 	user.socket.on("stop_editing", data => {
-		console.log(data);
 		dispatch({ type: "SIO_UNSET_EDITING", data });
-		data.hasContentChanged &&
+		selectedBristol.id === data.bristolId &&
+			data.hasContentChanged &&
 			dispatch({
 				type: "GET_CURRENT_BRISTOL_CONTENT",
 				selectedBristol: data.bristolId,

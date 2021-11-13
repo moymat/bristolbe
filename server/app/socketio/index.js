@@ -15,5 +15,6 @@ module.exports = server => {
 		socket.on("join_bristol_rooms", socketIOController.onJoinBristolRooms);
 		socket.on("editing", socketIOController.onEditing);
 		socket.on("stop_editing", socketIOController.onStopEditing);
+		socket.on("disconnect", socketIOController.onDisconnect);
 	});
 };
