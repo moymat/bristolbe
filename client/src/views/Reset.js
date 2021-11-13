@@ -1,34 +1,24 @@
-import "./style.scss";
 import { useCallback, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import PasswordVerification from "../components/PasswordVerification";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
-import InputLayout from "../../components/InputLayout";
-import axios from "../../utils/axios";
-import { usePasswordValidation } from "../../hooks/usePasswordValidation";
+import InputLayout from "../components/InputLayout";
+import axios from "../utils/axios";
 
 const passwordValidator = new RegExp(
 	/^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d).{8,30}$/
 );
 
 export default function Reset() {
-	const specialCharacter = "<";
 	const [input, setInput] = useState({
 		password: "",
 		confirm: "",
 	});
 	const [touch, setTouch] = useState(false);
-
-	const [validLength, hasNumber, upperCase, lowerCase, match] =
-		usePasswordValidation({
-			firstPassword: input.password,
-			secondPassword: input.confirm,
-		});
-	/* const [passwordError, setPasswordError] = useState(false);
-	const [confirmError, setConfirmError] = useState(false); */
 	const [checked, setChecked] = useState(false);
 	const history = useHistory();
 	const { code } = useParams();
@@ -107,26 +97,6 @@ export default function Reset() {
 							value={input.password}
 							helperText={passwordError ? "Your password is invalid" : ""}
 						/>
-						{touch && (
-							<div>
-								<ul className="reg-list">
-									<li className={`${validLength ? "reg--one-li" : ""}`}>
-										8 characters (max.30)
-									</li>
-									<li className={`${upperCase ? "reg--one-li" : ""}`}>
-										1 capital letter
-									</li>
-									<li className={`${lowerCase ? "reg--one-li" : ""}`}>
-										1 lower letter
-									</li>
-									<li className={`${hasNumber ? "reg--one-li" : ""}`}>
-										1 digit
-									</li>
-									<li className={`${match ? "reg--one-li" : ""}`}>Match</li>
-								</ul>
-							</div>
-						)}
-						<p>Confirm password</p>
 						<TextField
 							type="password"
 							name="confirm"
@@ -138,7 +108,8 @@ export default function Reset() {
 								confirmError ? "Your confirm password is invalid" : ""
 							}
 						/>
-						<Button type="submit" variant="contained" className="reset-submit">
+						<PasswordVerification input={input} />
+						<Button type="submit" variant="contained">
 							Set new password
 						</Button>
 					</Box>

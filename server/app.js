@@ -1,13 +1,17 @@
 require("dotenv").config();
 const express = require("express");
+const http = require("http");
 const cors = require("cors");
 const router = require("./app/router");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("./app/lib/errorHandler");
+const app = express();
+const server = http.createServer(app);
+
+require("./app/socketio")(server);
+
 const PORT = process.env.PORT;
 const ENV = process.env.NODE_ENV;
-
-const app = express();
 
 if (ENV === "development") {
 	const morgan = require("morgan");
@@ -24,11 +28,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.options("/auth/logout", cors(corsOptions));
-
 app.use(router);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
 	console.log(`Server running on port ${PORT} on ${ENV} environement`);
 });
