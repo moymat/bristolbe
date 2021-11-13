@@ -123,6 +123,8 @@ const getUsersBristols = async id => {
 			rows.map(async bristol => {
 				const userId = await redisClient("in_editing_").getAsync(bristol.id);
 
+				console.log(userId === id, bristol.id);
+
 				return { ...bristol, inEditing: { status: !!userId, userId } };
 			})
 		);

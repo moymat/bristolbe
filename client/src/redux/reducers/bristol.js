@@ -65,18 +65,6 @@ const updateEditingStatus = (arr, bristolId, userId = null, status = false) => {
 	});
 };
 
-/* state.selectedBristol.id === action.data.bristolId
-						action.data.title ? {
-							...state.selectedBristol,
-							inEditing: { status: false, userId: null },
-							title: action.title
-						}
-						? {
-								...state.selectedBristol,
-								inEditing: { status: false, userId: null },
-						  }
-						: state.selectedBristol, */
-
 const updateSelectedBristol = (state, data) => {
 	if (state.selectedBristol.id !== data.bristolId) return state.selectedBristol;
 
