@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const pgClient = require("../db/pg");
+const redisClient = require("../db/redis");
 const {
 	validateUserInfo,
 	validateUserPassword,
@@ -118,7 +119,15 @@ const getUsersBristols = async id => {
 			[id]
 		);
 
-		return { data: rows };
+		const bristols = await Promise.all(
+			rows.map(async bristol => {
+				const userId = await redisClient("in_editing_").getAsync(bristol.id);
+
+				return { ...bristol, inEditing: { status: !!userId, userId } };
+			})
+		);
+
+		return { data: bristols };
 	} catch (error) {
 		return { error };
 	}

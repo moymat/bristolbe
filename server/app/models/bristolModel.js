@@ -1,4 +1,5 @@
 const pgClient = require("../db/pg");
+const redisClient = require("../db/redis");
 const { validateBristol, validateManageRoles } = require("../validation");
 
 const createBristol = async (body, userId) => {
@@ -40,6 +41,10 @@ const getBristol = async (bristolId, userId) => {
 			"SELECT * FROM get_bristols_roles($1)",
 			[JSON.stringify({ user_id: userId, bristol_id: bristolId })]
 		);
+
+		const bristol = rows[0];
+		const userIdCached = await redisClient("in_editing_").getAsync(bristol.id);
+		bristol.inEditing = { status: !!userIdCached, userId: userIdCached };
 
 		const editors = rolesRows.filter(user => user.role === "editor");
 		const viewers = rolesRows.filter(user => user.role === "viewer");

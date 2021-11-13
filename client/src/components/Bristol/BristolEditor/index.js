@@ -20,6 +20,7 @@ const BristolEditor = ({ setBristol }) => {
 	const dispatch = useDispatch();
 	const isReadOnly = useSelector(state => state.bristol.editorIsReadOnly);
 	const selectedBristol = useSelector(state => state.bristol.selectedBristol);
+	const user = useSelector(state => state.user.user);
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 	const [editors, setEditors] = useState([]);
@@ -171,6 +172,10 @@ const BristolEditor = ({ setBristol }) => {
 							onClick={handleEditClick}
 							aria-label="edit"
 							variant="contained"
+							disabled={
+								selectedBristol.inEditing.status &&
+								selectedBristol.inEditing.userId !== user.id
+							}
 							sx={{
 								position: "relative",
 								right: 0,
