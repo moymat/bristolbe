@@ -28,11 +28,9 @@ function App() {
 		const checkAuth = async () => {
 			try {
 				const { data } = await axios().get("/auth/is-auth");
-				localStorage.setItem("refresh_token", data.refresh);
-				dispatch({ type: "LOGIN", user: { ...data.user } });
+				dispatch({ type: "LOGIN", ...data });
 				setIsAuthChecked(true);
 			} catch (err) {
-				console.error("Not logged in");
 				setIsAuthChecked(true);
 			}
 		};
