@@ -17,7 +17,11 @@ const NestedBristols = ({ handleItemMove = null, items, handleConfirm }) => {
 			onChange={handleItemMove}
 			confirmChange={handleConfirm}
 			renderCollapseIcon={({ isCollapsed }) =>
-				isCollapsed ? <KeyboardArrowRightIcon fontSize="small" /> : <KeyboardArrowDownIcon fontSize="small" />
+				isCollapsed ? (
+					<KeyboardArrowRightIcon fontSize="small" />
+				) : (
+					<KeyboardArrowDownIcon fontSize="small" />
+				)
 			}
 		/>
 	);
