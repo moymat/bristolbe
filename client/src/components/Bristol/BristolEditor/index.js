@@ -227,6 +227,7 @@ const BristolEditor = ({ setBristol }) => {
 				modules={isReadOnly ? { toolbar: false } : modules}
 				formats={formats}
 				readOnly={isReadOnly}
+				style={{ maxHeight: "100%" }}
 			/>
 
 			{!isReadOnly && selectedBristol.id && (
