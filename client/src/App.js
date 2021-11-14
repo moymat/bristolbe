@@ -78,12 +78,12 @@ function App() {
 												<Route exact path="/user/profile" component={Profile} />
 											</ProfileLayout>
 										</Route>
+										<Route exact path="/validate">
+											<ValidateEmail />
+										</Route>
 									</Navbar>
 								</SocketIOListener>
 							)}
-							<Route exact path="/validate">
-								<ValidateEmail />
-							</Route>
 						</IsAuth>
 						{/* <Route path="*">
 							<NotFound />

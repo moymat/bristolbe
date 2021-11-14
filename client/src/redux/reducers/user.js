@@ -13,7 +13,7 @@ const initialState = {
 const reducer = (state = initialState, action = {}) => {
 	switch (action.type) {
 		case "LOGIN":
-			localStorage.setItem("refresh_token", action.refresh);
+			action.refresh && localStorage.setItem("refresh_token", action.refresh);
 			return {
 				...state,
 				user: {

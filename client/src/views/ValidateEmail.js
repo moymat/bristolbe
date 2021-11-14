@@ -70,9 +70,7 @@ const ValidateEmail = () => {
 				flexDirection: "column",
 				alignItems: "center",
 				justifyContent: "center",
-				Width: "750px",
-				height: "750px",
-				margin: "auto",
+				minHeight: "100%",
 			}}>
 			<Typography
 				variant="h6"
