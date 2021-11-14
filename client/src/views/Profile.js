@@ -68,10 +68,6 @@ export default function Profile() {
 		setIsSnackOpen(false);
 	};
 
-	useEffect(() => {
-		console.log(user);
-	}, [user]);
-
 	return (
 		<Box
 		className="Coucou"
