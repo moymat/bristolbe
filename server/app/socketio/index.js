@@ -1,5 +1,3 @@
-const { onConnection } = require("../controllers/socketIOController");
-
 const { socketIOController } = require("../controllers");
 
 module.exports = server => {
@@ -15,6 +13,8 @@ module.exports = server => {
 		socket.on("join_bristol_rooms", socketIOController.onJoinBristolRooms);
 		socket.on("editing", socketIOController.onEditing);
 		socket.on("stop_editing", socketIOController.onStopEditing);
+		socket.on("moving", socketIOController.onMoving);
+		socket.on("stop_moving", socketIOController.onStopMoving);
 		socket.on("disconnect", socketIOController.onDisconnect);
 	});
 };
