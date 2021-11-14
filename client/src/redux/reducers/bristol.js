@@ -1,3 +1,5 @@
+import { bindActionCreators } from "redux";
+
 const initialState = {
 	//editor state
 	editorIsVisible: false,
@@ -16,14 +18,13 @@ const initialState = {
 			status: false,
 			userId: null,
 		},
+		isMoving: {
+			status: false,
+			userId: null,
+		},
 	},
 	//tree
 	bristols: [],
-	movedBristol: {
-		id: null,
-		parent_id: null,
-		position: null,
-	},
 };
 
 const deleteBristols = (arr, id) =>
@@ -51,19 +52,41 @@ const updateTitle = (arr, id, newTitle) =>
 		return bristol.id === id ? { ...bristol, title: newTitle } : bristol;
 	});
 
-const updateEditingStatus = (arr, bristolId, userId = null, status = false) => {
-	return arr.map(bristol => {
+const updateMovingStatus = (arr, bristolId, userId = null, status = false) =>
+	arr.map(bristol => {
 		if (bristol.children)
-			bristol.children = updateEditingStatus(
-				bristol.children,
-				bristolId,
-				status
-			);
+			bristol = {
+				...bristol,
+				children: updateMovingStatus(
+					bristol.children,
+					bristolId,
+					userId,
+					status
+				),
+			};
+
+		return bristol.id === bristolId
+			? { ...bristol, isMoving: { status, userId } }
+			: bristol;
+	});
+
+const updateEditingStatus = (arr, bristolId, userId = null, status = false) =>
+	arr.map(bristol => {
+		if (bristol.children)
+			bristol = {
+				...bristol,
+				children: updateEditingStatus(
+					bristol.children,
+					bristolId,
+					userId,
+					status
+				),
+			};
+
 		return bristol.id === bristolId
 			? { ...bristol, inEditing: { status, userId } }
 			: bristol;
 	});
-};
 
 const updateSelectedBristol = (state, data) => {
 	if (state.selectedBristol.id !== data.bristolId) return state.selectedBristol;
@@ -143,6 +166,14 @@ const reducer = (state = initialState, action = {}) => {
 				role: "editor",
 				editors: [],
 				viewers: [],
+				inEditing: {
+					status: false,
+					userId: null,
+				},
+				isMoving: {
+					status: false,
+					userId: null,
+				},
 			};
 			return {
 				...state,
@@ -167,7 +198,7 @@ const reducer = (state = initialState, action = {}) => {
 		case "MOVE_BRISTOL":
 			return {
 				...state,
-				bristols: action.items,
+				bristols: updateMovingStatus(action.items, action.id),
 			};
 		case "BRISTOL_RESET":
 			return {
@@ -212,6 +243,22 @@ const reducer = (state = initialState, action = {}) => {
 							false
 					  ),
 				selectedBristol: updateSelectedBristol(state, action.data),
+			};
+		case "SIO_SET_MOVING":
+			return {
+				...state,
+				bristols: updateMovingStatus(
+					state.bristols,
+					action.data.bristolId,
+					action.data.userId,
+					true
+				),
+			};
+		case "SIO_UNSET_MOVING":
+			console.log(action.data);
+			return {
+				...state,
+				bristols: updateMovingStatus(state.bristols, action.data.bristolId),
 			};
 		default:
 			return state;
