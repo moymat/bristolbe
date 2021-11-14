@@ -68,7 +68,13 @@ const BristolTree = () => {
 			: !destinationParent && !dragItem.parent_id;
 
 	return (
-		<Box>
+		<Box
+			sx={{
+				position: "fixed",
+				overflowY: "auto",
+				width: 300,
+				maxHeight: "90vh",
+			}}>
 			{!isSmallScreen && <Divider>My Bristols</Divider>}
 			<Box className="bottom">
 				{isSmallScreen ? (
@@ -97,9 +103,9 @@ const BristolTree = () => {
 					aria-label="add"
 					onClick={handleNewBristol}
 					sx={{
-						position: "absolute",
-						right: 0,
-						bottom: 30,
+						position: "fixed",
+						left: 280,
+						bottom: 20,
 						display: { xs: "none", sm: "flex" },
 					}}>
 					<AddIcon />
