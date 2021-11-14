@@ -349,9 +349,6 @@ export default function Navbar({ children }) {
 					flexGrow: 1,
 					p: 1,
 					pt: isSmallScreen ? 8 : 10,
-					minHeight: "100vh",
-					maxWidth: "100%",
-					boxSizing: "border-box",
 				}}>
 				{/* {isSmallScreen && <DrawerHeader />} */}
 				{children}
