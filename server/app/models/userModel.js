@@ -121,11 +121,14 @@ const getUsersBristols = async id => {
 
 		const bristols = await Promise.all(
 			rows.map(async bristol => {
-				const userId = await redisClient("in_editing_").getAsync(bristol.id);
+				const editorId = await redisClient("in_editing_").getAsync(bristol.id);
+				const moverId = await redisClient("is_moving_").getAsync(bristol.id);
 
-				console.log(userId === id, bristol.id);
-
-				return { ...bristol, inEditing: { status: !!userId, userId } };
+				return {
+					...bristol,
+					inEditing: { status: !!editorId, userId: editorId },
+					isMoving: { status: !!moverId, userId: moverId },
+				};
 			})
 		);
 
