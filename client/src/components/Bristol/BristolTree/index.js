@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getParentId } from "./helper.js";
 import NestedBristols from "./NestedBristols.js";
@@ -15,6 +15,7 @@ const BristolTree = () => {
 	const user = useSelector(state => state.user.user);
 	const bristols = useSelector(state => state.bristol.bristols);
 	const isReadOnly = useSelector(state => state.bristol.editorIsReadOnly);
+	const [isMoving, setIsMoving] = useState(false);
 	const dispatch = useDispatch();
 
 	//chargement initial
@@ -28,6 +29,7 @@ const BristolTree = () => {
 
 	const handleBristolMove = async ({ items, dragItem, targetPath }) => {
 		try {
+			setIsMoving(false);
 			dispatch({
 				type: "MOVE_BRISTOL",
 				items,
@@ -60,11 +62,10 @@ const BristolTree = () => {
 		}
 	};
 
-	const handleConfirm = ({ dragItem, destinationParent }) => {
-		return dragItem.role === "editor"
+	const handleConfirm = ({ dragItem, destinationParent }) =>
+		dragItem.role === "editor"
 			? !destinationParent || destinationParent.role === "editor"
 			: !destinationParent && !dragItem.parent_id;
-	};
 
 	return (
 		<Box>

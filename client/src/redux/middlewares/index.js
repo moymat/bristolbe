@@ -23,6 +23,16 @@ const editing = state => {
 	socket.emit("editing", { bristolId, userId });
 };
 
+const moving = (state, bristolId) => {
+	const { socket, id: userId } = state.user.user;
+	socket.emit("moving", { bristolId, userId });
+};
+
+const stopMoving = (state, bristolId) => {
+	const { socket, id: userId } = state.user.user;
+	socket.emit("stop_moving", { bristolId, userId });
+};
+
 const joinBristolRooms = (state, bristols) => {
 	const { socket } = state.user.user;
 	const bristolsId = bristols.map(({ id }) => id);
@@ -109,7 +119,11 @@ const Middleware = store => next => action => {
 			stopEditing(state);
 			next(action);
 			break;
+		case "MOVING_BRISTOL":
+			moving(state, action.id);
+			break;
 		case "MOVE_BRISTOL":
+			stopMoving(state, action.id);
 			axios()
 				.post("/api/v1/bristols/move", {
 					bristol_id: action.id,
