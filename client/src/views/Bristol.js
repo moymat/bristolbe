@@ -9,11 +9,10 @@ const BristolView = () => {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
 	return (
-		<Box sx={{ display: "flex", minHeight: "100%" }}>
+		<Box sx={{ display: "flex" }}>
 			<Box
 				sx={{
-					minWidth: isSmallScreen ? 0 : 250,
-					position: "relative",
+					minWidth: isSmallScreen ? 0 : 300,
 				}}>
 				<BristolTree />
 			</Box>
