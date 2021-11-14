@@ -28,8 +28,8 @@ const reducer = (state = initialState, action = {}) => {
 				...state,
 				user: {
 					...state.user,
-					firstName: action.firstName,
-					lastName: action.lastName,
+					first_name: action.firstName,
+					last_name: action.lastName,
 				},
 			};
 		case "UPDATE_USER_EMAIL":
