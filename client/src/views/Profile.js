@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -63,6 +63,10 @@ export default function Profile() {
 	const handleSnackClose = () => {
 		setIsSnackOpen(false);
 	};
+
+	useEffect(() => {
+		console.log(user);
+	}, [user]);
 
 	return (
 		<Box
