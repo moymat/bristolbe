@@ -20,8 +20,11 @@ const SocketIOListener = ({ children }) => {
 	});
 
 	user.socket.on("moved", data => {
-		console.log("moved");
 		dispatch({ type: "SET_BRISTOLS", data });
+	});
+
+	user.socket.on("roles_managed", () => {
+		dispatch({ type: "SET_BRISTOLS" });
 	});
 
 	user.socket.on("deleted", data => {

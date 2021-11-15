@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const pgClient = require("../db/pg");
 const redisClient = require("../db/redis");
+const { connectSocketsToBristols } = require("../socketio");
 const {
 	validateUserInfo,
 	validateUserPassword,
@@ -128,6 +129,15 @@ const getUsersBristols = async id => {
 				};
 			})
 		);
+
+		let userSocket;
+		do {
+			userSocket = await redisClient("socket_id_").getAsync(id);
+			connectSocketsToBristols(
+				[userSocket],
+				bristols.map(({ id }) => id)
+			);
+		} while (!userSocket);
 
 		return { data: bristols };
 	} catch (error) {
