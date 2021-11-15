@@ -4,6 +4,10 @@ const onConnection = async (socketId, userId) => {
 	await redisClient("socket_id_").setAsync(userId, socketId);
 };
 
+const onCreated = async (socket, bristolId) => {
+	socket.join(`bristol_${bristolId}`);
+};
+
 const onJoinBristolRooms = async (socket, bristolsId) => {
 	bristolsId.forEach(id => {
 		socket.join(`bristol_${id}`);
@@ -44,6 +48,7 @@ const onDisconnect = async socket => {
 
 				if (socket.id === cachedId) {
 					await redisClient("in_editing_").delAsync(bristolId);
+					await redisClient("socket_id_").delAsync(userId);
 					socket.broadcast
 						.to(`bristol_${bristolId}`)
 						.emit("stop_editing", { bristolId });
@@ -55,6 +60,7 @@ const onDisconnect = async socket => {
 
 module.exports = {
 	onConnection,
+	onCreated,
 	onJoinBristolRooms,
 	onEditing,
 	onStopEditing,
