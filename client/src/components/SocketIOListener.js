@@ -37,6 +37,7 @@ const SocketIOListener = ({ children }) => {
 	}, [user, selectedBristol, dispatch]);
 
 	user.socket.on("moved", data => {
+		console.log("moved");
 		dispatch({ type: "SET_BRISTOLS", data });
 	});
 
