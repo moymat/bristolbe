@@ -22,16 +22,12 @@ const onStopEditing = async (socket, args) => {
 	socket.broadcast.to(`bristol_${args.bristolId}`).emit("stop_editing", args);
 };
 
-const onMoving = async (socket, bristolId, userId) => {
-	await redisClient("is_moving_").setAsync(bristolId, userId);
-	socket.broadcast
-		.to(`bristol_${bristolId}`)
-		.emit("is_moving", { bristolId, userId });
+const onMoved = async (socket, args) => {
+	socket.broadcast.to(`bristol_${args.bristolId}`).emit("moved", args);
 };
 
-const onStopMoving = async (socket, args) => {
-	await redisClient("is_moving_").delAsync(args.bristolId);
-	socket.broadcast.to(`bristol_${args.bristolId}`).emit("stop_moving", args);
+const onDeleted = async (socket, args) => {
+	socket.broadcast.to(`bristol_${args.bristolId}`).emit("deleted", args);
 };
 
 const onDisconnect = async socket => {
@@ -62,7 +58,7 @@ module.exports = {
 	onJoinBristolRooms,
 	onEditing,
 	onStopEditing,
-	onMoving,
-	onStopMoving,
+	onMoved,
+	onDeleted,
 	onDisconnect,
 };

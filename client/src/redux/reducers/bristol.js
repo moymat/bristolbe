@@ -18,10 +18,6 @@ const initialState = {
 			status: false,
 			userId: null,
 		},
-		isMoving: {
-			status: false,
-			userId: null,
-		},
 	},
 	//tree
 	bristols: [],
@@ -50,24 +46,6 @@ const updateTitle = (arr, id, newTitle) =>
 		if (bristol.children)
 			bristol.children = updateTitle(bristol.children, id, newTitle);
 		return bristol.id === id ? { ...bristol, title: newTitle } : bristol;
-	});
-
-const updateMovingStatus = (arr, bristolId, userId = null, status = false) =>
-	arr.map(bristol => {
-		if (bristol.children)
-			bristol = {
-				...bristol,
-				children: updateMovingStatus(
-					bristol.children,
-					bristolId,
-					userId,
-					status
-				),
-			};
-
-		return bristol.id === bristolId
-			? { ...bristol, isMoving: { status, userId } }
-			: bristol;
 	});
 
 const updateEditingStatus = (arr, bristolId, userId = null, status = false) =>
@@ -170,10 +148,6 @@ const reducer = (state = initialState, action = {}) => {
 					status: false,
 					userId: null,
 				},
-				isMoving: {
-					status: false,
-					userId: null,
-				},
 			};
 			return {
 				...state,
@@ -191,14 +165,8 @@ const reducer = (state = initialState, action = {}) => {
 			return {
 				...state,
 				bristols: deleteBristols(state.bristols, action.bristolId),
-				editorIsVisible: true,
 				editorIsReadOnly: true,
 				selectedBristol: initialState.selectedBristol,
-			};
-		case "MOVE_BRISTOL":
-			return {
-				...state,
-				bristols: updateMovingStatus(action.items, action.id),
 			};
 		case "BRISTOL_RESET":
 			return {
@@ -244,22 +212,16 @@ const reducer = (state = initialState, action = {}) => {
 					  ),
 				selectedBristol: updateSelectedBristol(state, action.data),
 			};
-		case "SIO_SET_MOVING":
-			return {
+		case "SIO_DELETED":
+			const deleteState = {
 				...state,
-				bristols: updateMovingStatus(
-					state.bristols,
-					action.data.bristolId,
-					action.data.userId,
-					true
-				),
+				bristols: deleteBristols(state.bristols, action.data.bristolId),
 			};
-		case "SIO_UNSET_MOVING":
-			console.log(action.data);
-			return {
-				...state,
-				bristols: updateMovingStatus(state.bristols, action.data.bristolId),
-			};
+			if (state.selectedBristol.id === action.data.bristolId) {
+				deleteState.selectedBristol = initialState.selectedBristol;
+				deleteState.editorIsReadOnly = true;
+			}
+			return deleteState;
 		default:
 			return state;
 	}

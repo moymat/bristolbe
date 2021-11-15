@@ -47,9 +47,6 @@ const getBristol = async (bristolId, userId) => {
 		const editorCached = await redisClient("in_editing_").getAsync(bristol.id);
 		bristol.inEditing = { status: !!editorCached, userId: editorCached };
 
-		const moverCached = await redisClient("is_moving_").getAsync(bristol.id);
-		bristol.isMoving = { status: !!moverCached, userId: moverCached };
-
 		const editors = rolesRows.filter(user => user.role === "editor");
 		const viewers = rolesRows.filter(user => user.role === "viewer");
 
