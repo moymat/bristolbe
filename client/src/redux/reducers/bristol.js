@@ -1,5 +1,3 @@
-import { bindActionCreators } from "redux";
-
 const initialState = {
 	//editor state
 	editorIsVisible: false,

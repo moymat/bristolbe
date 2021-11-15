@@ -36,18 +36,6 @@ const SocketIOListener = ({ children }) => {
 		return () => user.socket.removeAllListeners();
 	}, [user, selectedBristol, dispatch]);
 
-	user.socket.on("moved", data => {
-		dispatch({ type: "SET_BRISTOLS", data });
-	});
-
-	user.socket.on("roles_managed", () => {
-		dispatch({ type: "SET_BRISTOLS" });
-	});
-
-	user.socket.on("deleted", data => {
-		dispatch({ type: "SIO_DELETED", data });
-	});
-
 	return <>{children}</>;
 };
 
