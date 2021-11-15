@@ -6,8 +6,12 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CustomAlert from "../components/CustomAlert";
 import axios from "../utils/axios";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { AlignHorizontalCenter } from "@mui/icons-material";
 
 export default function Profile() {
+	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
+
 	const user = useSelector(state => state.user.user);
 	const [firstName, setFirstName] = useState(user.first_name);
 	const [firstNameError, setFirstNameError] = useState(false);
@@ -67,9 +71,11 @@ export default function Profile() {
 	return (
 		<Box
 			sx={{
-				"& .MuiTextField-root": { m: 2 },
-				ml: 5,
+				"& .MuiTextField-root": { mb: 2 },
+				ml: isSmallScreen ? 0 : 5,
 				flexGrow: 1,
+				marginTop: 1,
+				display: "flex",
 			}}>
 			<CustomAlert
 				open={isSnackOpen}
@@ -77,9 +83,6 @@ export default function Profile() {
 				message={alertMessage}
 				severity={alertSeverity}
 			/>
-			<Typography variant="h4" gutterBottom>
-				Profile
-			</Typography>
 			<Box
 				component="form"
 				onSubmit={handleSubmit}
@@ -87,12 +90,17 @@ export default function Profile() {
 					marginTop: 2,
 					display: "flex",
 					flexDirection: "column",
-					width: 300,
+					alignItems: isSmallScreen ? "center" : "",
+					width: '100%',
 				}}>
+				<Typography variant="h4" gutterBottom>
+					Profile
+				</Typography>
 				<Typography variant="h6" sx={{ marginBottom: 2 }}>
 					My profile
 				</Typography>
 				<TextField
+					sx={{width: { xs: "75%", md: '300px' }}}
 					name="firstName"
 					label="First Name"
 					variant="outlined"
@@ -103,6 +111,7 @@ export default function Profile() {
 				/>
 
 				<TextField
+					sx={{width: { xs: "75%", md: '300px' }}}
 					name="lastName"
 					label="Last Name"
 					variant="outlined"
@@ -117,8 +126,6 @@ export default function Profile() {
 					sx={{
 						marginTop: 2,
 						width: "fit-content",
-						left: "50%",
-						transform: "translateX(-50%)",
 					}}>
 					Apply
 				</Button>
