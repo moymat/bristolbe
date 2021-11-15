@@ -19,13 +19,12 @@ const SocketIOListener = ({ children }) => {
 			});
 	});
 
-	user.socket.on("is_moving", data => {
-		console.log(data);
-		dispatch({ type: "SIO_SET_MOVING", data });
+	user.socket.on("moved", data => {
+		dispatch({ type: "SET_BRISTOLS", data });
 	});
 
-	user.socket.on("stop_moving", data => {
-		dispatch({ type: "SIO_UNSET_MOVING", data });
+	user.socket.on("deleted", data => {
+		dispatch({ type: "SIO_DELETED", data });
 	});
 
 	return <>{children}</>;

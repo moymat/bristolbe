@@ -122,12 +122,9 @@ const getUsersBristols = async id => {
 		const bristols = await Promise.all(
 			rows.map(async bristol => {
 				const editorId = await redisClient("in_editing_").getAsync(bristol.id);
-				const moverId = await redisClient("is_moving_").getAsync(bristol.id);
-
 				return {
 					...bristol,
 					inEditing: { status: !!editorId, userId: editorId },
-					isMoving: { status: !!moverId, userId: moverId },
 				};
 			})
 		);
