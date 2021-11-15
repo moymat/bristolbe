@@ -161,6 +161,11 @@ const reducer = (state = initialState, action = {}) => {
 				...state,
 				bristols: action.bristols,
 			};
+		case "MOVE_BRISTOL":
+			return {
+				...state,
+				bristols: action.items,
+			};
 		case "DELETE_BRISTOL":
 			return {
 				...state,

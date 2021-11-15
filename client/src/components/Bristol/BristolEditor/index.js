@@ -175,6 +175,12 @@ const BristolEditor = ({ setBristol }) => {
 				{selectedBristol.role === "editor" &&
 					(isReadOnly && selectedBristol.id ? (
 						<Button
+							sx={{
+								position: "relative",
+								right: 0,
+								color: "white",
+								px: { sx: 3, sm: 1 },
+							}}
 							onClick={handleEditClick}
 							aria-label="edit"
 							variant="contained"
@@ -182,12 +188,6 @@ const BristolEditor = ({ setBristol }) => {
 								selectedBristol.inEditing.status &&
 								selectedBristol.inEditing.userId !== user.id
 							}
-							sx={{
-								position: "relative",
-								right: 0,
-								color: "white",
-								px: { sx: 3, sm: 1 },
-							}}
 							size={isSmallScreen ? "small" : "medium"}
 							startIcon={<EditIcon />}>
 							Edit
