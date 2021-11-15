@@ -20,6 +20,8 @@ const BristolEditor = ({ setBristol }) => {
 	const dispatch = useDispatch();
 	const isReadOnly = useSelector(state => state.bristol.editorIsReadOnly);
 	const selectedBristol = useSelector(state => state.bristol.selectedBristol);
+	const bristols = useSelector(state => state.bristol.bristols);
+	const [isRoot, setIsRoot] = useState(false);
 	const user = useSelector(state => state.user.user);
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
@@ -124,6 +126,10 @@ const BristolEditor = ({ setBristol }) => {
 		setViewers(selectedBristol.viewers.map(addFullName));
 	}, [selectedBristol]);
 
+	useEffect(() => {
+		setIsRoot(!!bristols.find(bristol => bristol.id === selectedBristol.id));
+	}, [selectedBristol, bristols]);
+
 	return (
 		<Box
 			className="text-editor"
@@ -203,7 +209,7 @@ const BristolEditor = ({ setBristol }) => {
 						)
 					))}
 			</Stack>
-			{!isReadOnly && (
+			{!isReadOnly && isRoot && (
 				<>
 					<RightsManagement
 						permission="editors"
