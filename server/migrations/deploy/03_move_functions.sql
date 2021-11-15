@@ -368,16 +368,15 @@ AS $$
 	
     FOR buid IN
     -- Retrieve all users who are editor of the bristol's highest parent
-      SELECT r.user_id
+      SELECT DISTINCT r.user_id
       FROM root_position r
       JOIN role ON r.user_id = role.user_id
       WHERE r.user_id <> uid
       AND type = 'editor'
-	  AND role.bristol_id = bid
-      AND r.bristol_id = (
+      AND r.bristol_id = ANY (
         SELECT *
-        FROM get_highest_parent(cpid)
-      )
+        FROM get_highest_parent(bid)
+      )      
 	  LOOP
 		-- For each user, insert a new row for the bristol at the end of their stack
       INSERT INTO root_position (bristol_id, user_id, position)
