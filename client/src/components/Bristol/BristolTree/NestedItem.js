@@ -23,9 +23,7 @@ const NestedItem = ({ collapseIcon, item }) => {
 				justifyContent: "start",
 				minWidth: "1px",
 				backgroundColor:
-					item.isMoving.status && item.isMoving.userId !== user.id
-						? "red"
-						: item.role === "editor"
+					item.role === "editor"
 						? selectedBristol.id === item.id
 							? "primary.dark"
 							: "primary.main"
@@ -35,9 +33,7 @@ const NestedItem = ({ collapseIcon, item }) => {
 				color: "white",
 				"&:hover": {
 					backgroundColor:
-						item.isMoving.status && item.isMoving.userId !== user.id
-							? "darkred"
-							: item.role === "editor"
+						item.role === "editor"
 							? selectedBristol.id === item.id
 								? "primary.dark"
 								: "primary.light"

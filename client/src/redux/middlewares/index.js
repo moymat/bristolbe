@@ -50,6 +50,7 @@ const Middleware = store => next => action => {
 	const state = store.getState();
 
 	const errorHandler = err => {
+		console.log(err);
 		const { error } = err.response.data;
 		if (error === "not logged in" || error === "jwt expired")
 			store.dispatch({ type: "LOGOUT" });
@@ -127,11 +128,7 @@ const Middleware = store => next => action => {
 			stopEditing(state, action);
 			next(action);
 			break;
-		case "MOVING_BRISTOL":
-			moving(state, action.id);
-			break;
 		case "MOVE_BRISTOL":
-			stopMoving(state, action.id);
 			axios()
 				.post("/api/v1/bristols/move", {
 					bristol_id: action.id,
@@ -141,6 +138,7 @@ const Middleware = store => next => action => {
 				.then(() => {
 					moved(state, action.id);
 					next(action);
+					moved(state, action.id);
 				})
 				.catch(errorHandler);
 			break;
