@@ -10,28 +10,24 @@ async function onCreated({ bristolId }) {
 	await socketIOModel.onCreated(this, bristolId);
 }
 
-async function onJoinBristolRooms({ bristolsId }) {
-	await socketIOModel.onJoinBristolRooms(this, bristolsId);
+async function onEditing({ bristolId }) {
+	await socketIOModel.onEditing(this, bristolId);
 }
 
-async function onEditing({ userId, bristolId }) {
-	await socketIOModel.onEditing(this, bristolId, userId);
+async function onStopEditing({ bristolId }) {
+	await socketIOModel.onStopEditing(this, bristolId);
 }
 
-async function onStopEditing(args) {
-	await socketIOModel.onStopEditing(this, args);
+async function onMoved({ bristolId }) {
+	await socketIOModel.onMoved(this, bristolId);
 }
 
-async function onMoved(args) {
-	await socketIOModel.onMoved(this, args);
+async function onRolesManaged({ bristolId }) {
+	await socketIOModel.onRolesManaged(this, bristolId);
 }
 
-async function onRolesManaged(args) {
-	await socketIOModel.onRolesManaged(this, args);
-}
-
-async function onDeleted(args) {
-	await socketIOModel.onDeleted(this, args);
+async function onDeleted({ bristolId }) {
+	await socketIOModel.onDeleted(this, bristolId);
 }
 
 async function onDisconnect() {
@@ -41,7 +37,6 @@ async function onDisconnect() {
 module.exports = {
 	onConnection,
 	onCreated,
-	onJoinBristolRooms,
 	onEditing,
 	onStopEditing,
 	onMoved,
