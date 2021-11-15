@@ -12,7 +12,7 @@ const SocketIOListener = ({ children }) => {
 	user.socket.on("stop_editing", data => {
 		dispatch({ type: "SIO_UNSET_EDITING", data });
 		selectedBristol.id === data.bristolId &&
-			data.hasContentChanged &&
+			data.didContentChanged &&
 			dispatch({
 				type: "GET_CURRENT_BRISTOL_CONTENT",
 				selectedBristol: data.bristolId,
