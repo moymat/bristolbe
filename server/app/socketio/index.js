@@ -23,23 +23,27 @@ const init = server => {
 	});
 };
 
-const connectSocketsToBristol = (ids, bristolId) => {
+const connectSocketsToBristols = (socketIds, bristolIds) => {
 	const { sockets } = io.sockets;
-	ids.forEach(id => {
-		sockets.get(id)?.join(`bristol_${bristolId}`);
+	bristolIds.forEach(bristolId => {
+		socketIds.forEach(socketId => {
+			sockets.get(socketId)?.join(`bristol_${bristolId}`);
+		});
 	});
 };
 
-const disconnectSocketsFromBristol = (ids, bristolId) => {
+const disconnectSocketsFromBristols = (socketIds, bristolIds) => {
 	const { sockets } = io.sockets;
-	ids.forEach(id => {
-		sockets.get(id)?.leave(`bristol_${bristolId}`);
-		io.to(id).emit("deleted", { bristolId });
+	bristolIds.forEach(bristolId => {
+		socketIds.forEach(socketId => {
+			sockets.get(socketId)?.leave(`bristol_${bristolId}`);
+			io.to(socketId).emit("deleted", { bristolId });
+		});
 	});
 };
 
 module.exports = {
 	init,
-	connectSocketsToBristol,
-	disconnectSocketsFromBristol,
+	connectSocketsToBristols,
+	disconnectSocketsFromBristols,
 };
