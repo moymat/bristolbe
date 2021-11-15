@@ -15,12 +15,12 @@ export default function ProfileLayout({ children }) {
 				flexGrow: 1,
 				bgcolor: "background.paper",
 				display: { xs: "column", md: "flex" },
-				height: '100%',
-				width: '100%'
+				height: "100%",
+				width: "100%",
 			}}>
 			<Box
 				flexDirection="column"
-				sx={{ marginRight: 5, display: { xs: "none", md: "flex" } }}>
+				sx={{ margin: 2, display: { xs: "none", md: "flex" } }}>
 				{dataMap.map(({ label }) => (
 					<Button
 						variant={pathname.includes(label) ? "contained" : "outlined"}
@@ -37,7 +37,6 @@ export default function ProfileLayout({ children }) {
 					height: "min-content",
 					display: { xs: "flex", md: "none" },
 					justifyContent: "center",
-					/* width: "500px", */
 				}}>
 				{dataMap.map(({ label }) => (
 					<Button
@@ -45,7 +44,7 @@ export default function ProfileLayout({ children }) {
 						key={label}
 						component={NavLink}
 						to={`/user/${label}`}
-						sx={{ marginBottom: 3, marginRight: 2 }}>
+						sx={{ marginY: 1, marginRight: 1.5 }}>
 						{label}
 					</Button>
 				))}
@@ -56,15 +55,7 @@ export default function ProfileLayout({ children }) {
 				sx={{ display: { xs: "none", md: "flex" } }}
 			/>
 			<Divider flexItem sx={{ display: { xs: "flex", md: "none" } }} />
-			<Box
-				sx={{
-					/* padding: " 30px 60px", */
-					flexGrow: 1,
-					
-					/* width: isSmallScreen ? "200px" : "600px", */ 
-				}}>
-				{children}
-			</Box>
+			<Box sx={{ flexGrow: 1 }}>{children}</Box>
 		</Box>
 	);
 }

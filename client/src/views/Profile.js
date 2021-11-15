@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -6,12 +6,14 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CustomAlert from "../components/CustomAlert";
 import axios from "../utils/axios";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function Profile() {
+	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 	const user = useSelector(state => state.user.user);
 	const [firstName, setFirstName] = useState(user.first_name);
-	const [firstNameError, setFirstNameError] = useState(false);
 	const [lastName, setLastName] = useState(user.last_name);
+	const [firstNameError, setFirstNameError] = useState(false);
 	const [lastNameError, setLastNameError] = useState(false);
 	const [alertMessage, setAlertMessage] = useState("");
 	const [alertSeverity, setAlertSeverity] = useState("success");
@@ -68,8 +70,10 @@ export default function Profile() {
 		<Box
 			sx={{
 				"& .MuiTextField-root": { mb: 2 },
-				ml: 5,
+				ml: isSmallScreen ? 0 : 5,
 				flexGrow: 1,
+				marginTop: 1,
+				display: "flex",
 			}}>
 			<CustomAlert
 				open={isSnackOpen}
@@ -77,9 +81,6 @@ export default function Profile() {
 				message={alertMessage}
 				severity={alertSeverity}
 			/>
-			<Typography variant="h4" gutterBottom>
-				Profile
-			</Typography>
 			<Box
 				component="form"
 				onSubmit={handleSubmit}
@@ -87,13 +88,17 @@ export default function Profile() {
 					marginTop: 2,
 					display: "flex",
 					flexDirection: "column",
-					width: '100%',
+					alignItems: isSmallScreen ? "center" : "",
+					width: "100%",
 				}}>
+				<Typography variant="h4" gutterBottom>
+					Profile
+				</Typography>
 				<Typography variant="h6" sx={{ marginBottom: 2 }}>
 					My profile
 				</Typography>
 				<TextField
-					sx={{width: { xs: "80%", md: '300px' }}}
+					sx={{ width: { xs: "75%", md: "300px" } }}
 					name="firstName"
 					label="First Name"
 					variant="outlined"
@@ -104,7 +109,7 @@ export default function Profile() {
 				/>
 
 				<TextField
-					sx={{width: { xs: "80%", md: '300px' }}}
+					sx={{ width: { xs: "75%", md: "300px" } }}
 					name="lastName"
 					label="Last Name"
 					variant="outlined"
