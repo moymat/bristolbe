@@ -12,7 +12,6 @@ const init = server => {
 
 	io.on("connection", socket => {
 		socketIOController.onConnection(socket);
-		socket.on("join_bristol_rooms", socketIOController.onJoinBristolRooms);
 		socket.on("created", socketIOController.onCreated);
 		socket.on("editing", socketIOController.onEditing);
 		socket.on("stop_editing", socketIOController.onStopEditing);
