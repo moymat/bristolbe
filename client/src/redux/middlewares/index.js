@@ -10,7 +10,7 @@ const stopEditing = (state, action = null) => {
 		? {
 				bristolId,
 				title: action.title,
-				hasContentChanged: action.content !== content,
+				didContentChanged: action.content !== content,
 		  }
 		: { bristolId };
 
@@ -95,13 +95,15 @@ const Middleware = store => next => action => {
 			next(action);
 			break;
 		case "UPDATE_BRISTOL":
-			stopEditing(state, action);
 			axios()
 				.patch(`/api/v1/bristols/${state.bristol.selectedBristol.id}`, {
 					content: action.content,
 					title: action.title,
 				})
-				.then(() => next(action))
+				.then(() => {
+					stopEditing(state, action);
+					next(action);
+				})
 				.catch(errorHandler);
 			break;
 		case "UPDATE_BRISTOL_ROLES":
@@ -115,7 +117,10 @@ const Middleware = store => next => action => {
 					.post(`api/v1/bristols/${state.bristol.selectedBristol.id}/roles`, {
 						...roles,
 					})
-					.then(() => next(action))
+					.then(() => {
+						!action.hasChanged && stopEditing(state);
+						next(action);
+					})
 					.catch(errorHandler);
 			break;
 		case "CANCEL_UPDATE_EDITOR":

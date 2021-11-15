@@ -39,17 +39,16 @@ const BristolEditor = ({ setBristol }) => {
 	const handleSaveClick = () => {
 		if (!title) return;
 
-		if (
-			title !== selectedBristol.title ||
-			content !== selectedBristol.content
-		) {
+		const hasChanged =
+			title !== selectedBristol.title || content !== selectedBristol.content;
+
+		if (hasChanged)
 			selectedBristol.id
 				? dispatch({ type: "UPDATE_BRISTOL", content, title })
 				: dispatch({ type: "ADD_NEW_BRISTOL", content, title });
-		}
 
 		selectedBristol.id &&
-			dispatch({ type: "UPDATE_BRISTOL_ROLES", editors, viewers });
+			dispatch({ type: "UPDATE_BRISTOL_ROLES", editors, viewers, hasChanged });
 	};
 
 	const handleDeleteClick = () => {
