@@ -371,11 +371,11 @@ AS $$
       SELECT DISTINCT r.user_id
       FROM root_position r
       JOIN role ON r.user_id = role.user_id
-      WHERE r.user_id <> uid
+      WHERE role.user_id <> uid
       AND type = 'editor'
-      AND r.bristol_id = ANY (
+      AND role.bristol_id = ANY (
         SELECT *
-        FROM get_highest_parent(bid)
+        FROM get_highest_parent(cpid)
       )      
 	  LOOP
 		-- For each user, insert a new row for the bristol at the end of their stack
