@@ -39,6 +39,12 @@ const deleted = (state, bristolId) => {
 	socket.emit("deleted", { bristolId, userId });
 };
 
+const rolesManaged = (state, roles) => {
+	const { socket } = state.user.user;
+	const { id: bristolId } = state.bristol.selectedBristol;
+	socket.emit("roles_managed", { bristolId, roles });
+};
+
 const logout = state => {
 	const { socket } = state.user.user;
 	socket.disconnect();
@@ -118,6 +124,7 @@ const Middleware = store => next => action => {
 						...roles,
 					})
 					.then(() => {
+						rolesManaged(state, roles);
 						!action.hasChanged && stopEditing(state);
 						next(action);
 					})
