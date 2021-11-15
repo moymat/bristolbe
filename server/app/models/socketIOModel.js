@@ -5,6 +5,7 @@ const {
 } = require("../socketio");
 
 const onConnection = async (socketId, userId) => {
+	console.log("connection", socketId, userId);
 	await redisClient("socket_id_").setAsync(userId, socketId);
 };
 
