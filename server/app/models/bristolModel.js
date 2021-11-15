@@ -2,8 +2,8 @@ const pgClient = require("../db/pg");
 const redisClient = require("../db/redis");
 const { validateBristol, validateManageRoles } = require("../validation");
 const {
-	connectSocketsToBristol,
-	disconnectSocketsFromBristol,
+	connectSocketsToBristols,
+	disconnectSocketsFromBristols,
 } = require("../socketio");
 
 const createBristol = async (body, userId) => {
@@ -18,7 +18,7 @@ const createBristol = async (body, userId) => {
 
 		const userSocket = await redisClient("socket_id_").getAsync(userId);
 
-		connectSocketsToBristol([userSocket], rows[0].id);
+		connectSocketsToBristols([userSocket], [rows[0].id]);
 
 		return { data: rows[0] };
 	} catch (error) {
@@ -96,9 +96,9 @@ const moveBristol = async (bristolMoved, userId) => {
 					.map(async id => await redisClient("socket_id_").getAsync(id))
 			);
 
-			connectSocketsToBristol(
+			connectSocketsToBristols(
 				sockets.filter(socket => !!socket),
-				bristolMoved.bristol_id
+				[bristolMoved.bristol_id]
 			);
 		} else if (bristolMoved.parent_id && !bristolBefore.parent_id) {
 			// If move from root, connect all new members to the bristol
@@ -119,9 +119,9 @@ const moveBristol = async (bristolMoved, userId) => {
 				)
 			);
 
-			connectSocketsToBristol(
+			connectSocketsToBristols(
 				sockets.filter(socket => !!socket),
-				bristolMoved.bristol_id
+				[bristolMoved.bristol_id]
 			);
 		} else if (bristolMoved.parent_id && bristolMoved.parent_id) {
 			// If move between bristols, remove all previous members to the bristol and connect all new ones
@@ -151,14 +151,14 @@ const moveBristol = async (bristolMoved, userId) => {
 				)
 			);
 
-			disconnectSocketsFromBristol(
+			disconnectSocketsFromBristols(
 				oldSockets.filter(socket => !!socket && !newSockets.includes(socket)),
-				bristolMoved.bristol_id
+				[bristolMoved.bristol_id]
 			);
 
-			connectSocketsToBristol(
+			connectSocketsToBristols(
 				newSockets.filter(socket => !!socket && !oldSockets.includes(socket)),
-				bristolMoved.bristol_id
+				[bristolMoved.bristol_id]
 			);
 		}
 
