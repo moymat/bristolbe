@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import CustomAlert from "../components/CustomAlert";
 import { usePasswordValidation } from "../hooks/usePasswordValidation";
 import axios from "../utils/axios";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const passwordValidator = new RegExp(
 	/^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d).{8,30}$/
@@ -17,6 +18,8 @@ const emailValidator = new RegExp(
 );
 
 export default function Settings() {
+	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
+
 	const [userInformation, setUserInformation] = useState({
 		passwordEmail: "",
 		newEmail: "",
@@ -154,8 +157,8 @@ export default function Settings() {
 	return (
 		<Box
 			sx={{
-				"& .MuiTextField-root": { m: 1.5 },
-				ml: 5,
+				"& .MuiTextField-root": { mb: 2 },
+				ml: isSmallScreen ? 0 : 5,
 				flexGrow: 1,
 			}}>
 			<CustomAlert
@@ -163,22 +166,24 @@ export default function Settings() {
 				handleClose={handleSnackClose}
 				message={alertMessage}
 			/>
-			<Typography variant="h4" gutterBottom>
-				Settings
-			</Typography>
 			<Box
 				sx={{
 					marginTop: 4,
 					display: "flex",
 					flexDirection: "column",
-					width: 300,
+					alignItems: isSmallScreen ? "center" : "",
+					width: "100%",
 				}}
 				component="form"
 				onSubmit={handleSubmitEmail}>
+				<Typography variant="h4" gutterBottom>
+					Settings
+				</Typography>
 				<Typography variant="h6" sx={{ marginBottom: 2 }}>
 					Change your Email
 				</Typography>
 				<TextField
+				sx={{width: { xs: "70%", md: '400px' }}}
 					type="password"
 					name="passwordEmail"
 					label="Password"
@@ -190,6 +195,7 @@ export default function Settings() {
 					error={emailPasswordError}
 				/>
 				<TextField
+				sx={{width: { xs: "70%", md: '400px' }}}
 					type="email"
 					name="newEmail"
 					label="New email"
@@ -205,8 +211,6 @@ export default function Settings() {
 					sx={{
 						marginTop: 2,
 						width: "fit-content",
-						left: "50%",
-						transform: "translateX(-50%)",
 					}}>
 					Change
 				</Button>
@@ -216,7 +220,8 @@ export default function Settings() {
 					marginTop: 4,
 					display: "flex",
 					flexDirection: "column",
-					width: 300,
+					width: "100%",
+					alignItems: isSmallScreen ? "center" : "",
 				}}
 				component="form"
 				onSubmit={handleSubmitPassword}>
@@ -224,6 +229,7 @@ export default function Settings() {
 					Change your password
 				</Typography>
 				<TextField
+				sx={{width: { xs: "70%", md: '400px' }}}
 					type="password"
 					name="currentPassword"
 					label="Password"
@@ -235,6 +241,7 @@ export default function Settings() {
 					error={currentPasswordError}
 				/>
 				<TextField
+				sx={{width: { xs: "70%", md: '400px' }}}
 					type="password"
 					name="newPassword"
 					label="New Password"
@@ -267,6 +274,7 @@ export default function Settings() {
 					</ul>
 				)}
 				<TextField
+				sx={{width: { xs: "70%", md: '400px' }}}
 					type="password"
 					name="confirmPassword"
 					label="Confirm Password"
@@ -285,8 +293,6 @@ export default function Settings() {
 					sx={{
 						marginTop: 2,
 						width: "fit-content",
-						left: "50%",
-						transform: "translateX(-50%)",
 					}}>
 					Change
 				</Button>
