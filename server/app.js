@@ -8,7 +8,7 @@ const errorHandler = require("./app/lib/errorHandler");
 const app = express();
 const server = http.createServer(app);
 
-require("./app/socketio")(server);
+const io = require("./app/socketio").init(server);
 
 const PORT = process.env.PORT;
 const ENV = process.env.NODE_ENV;
@@ -34,3 +34,7 @@ app.use(errorHandler);
 server.listen(PORT, () => {
 	console.log(`Server running on port ${PORT} on ${ENV} environement`);
 });
+
+module.exports = {
+	io,
+};
