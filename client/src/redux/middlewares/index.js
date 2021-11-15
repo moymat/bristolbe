@@ -46,11 +46,15 @@ const logout = state => {
 	socket.disconnect();
 };
 
+const logout = state => {
+	const { socket } = state.user.user;
+	socket.disconnect();
+};
+
 const Middleware = store => next => action => {
 	const state = store.getState();
 
 	const errorHandler = err => {
-		console.log(err);
 		const { error } = err.response.data;
 		if (error === "not logged in" || error === "jwt expired")
 			store.dispatch({ type: "LOGOUT" });
@@ -102,9 +106,7 @@ const Middleware = store => next => action => {
 					content: action.content,
 					title: action.title,
 				})
-				.then(() => {
-					next(action);
-				})
+				.then(() => next(action))
 				.catch(errorHandler);
 			break;
 		case "UPDATE_BRISTOL_ROLES":
@@ -138,7 +140,6 @@ const Middleware = store => next => action => {
 				.then(() => {
 					moved(state, action.id);
 					next(action);
-					moved(state, action.id);
 				})
 				.catch(errorHandler);
 			break;
