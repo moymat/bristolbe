@@ -246,7 +246,7 @@ const manageRoles = async (bristolId, userId, body) => {
 							JSON.stringify({
 								user_id: userId,
 								bristol_id: bristolId,
-								delete_id: ids,
+								deleted_id: ids,
 							}),
 					  ]);
 			})

@@ -17,6 +17,7 @@ const init = server => {
 		socket.on("editing", socketIOController.onEditing);
 		socket.on("stop_editing", socketIOController.onStopEditing);
 		socket.on("moved", socketIOController.onMoved);
+		socket.on("roles_managed", socketIOController.onRolesManaged);
 		socket.on("deleted", socketIOController.onDeleted);
 		socket.on("disconnect", socketIOController.onDisconnect);
 	});
