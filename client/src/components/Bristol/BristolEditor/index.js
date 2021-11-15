@@ -56,10 +56,9 @@ const BristolEditor = ({ setBristol }) => {
 			selectedBristol.id
 				? dispatch({ type: "UPDATE_BRISTOL", content, title })
 				: dispatch({ type: "ADD_NEW_BRISTOL", content, title });
-		}
 
 		selectedBristol.id &&
-			dispatch({ type: "UPDATE_BRISTOL_ROLES", editors, viewers });
+			dispatch({ type: "UPDATE_BRISTOL_ROLES", editors, viewers, hasChanged });
 	};
 
 	const handleDeleteClick = () => {

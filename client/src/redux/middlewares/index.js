@@ -106,7 +106,10 @@ const Middleware = store => next => action => {
 					content: action.content,
 					title: action.title,
 				})
-				.then(() => next(action))
+				.then(() => {
+					stopEditing(state, action);
+					next(action);
+				})
 				.catch(errorHandler);
 			break;
 		case "UPDATE_BRISTOL_ROLES":
