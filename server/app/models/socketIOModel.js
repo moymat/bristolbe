@@ -30,6 +30,10 @@ const onMoved = async (socket, args) => {
 	socket.broadcast.to(`bristol_${args.bristolId}`).emit("moved", args);
 };
 
+const onRolesManaged = async (socket, { bristolId, roles }) => {
+	console.log(roles);
+};
+
 const onDeleted = async (socket, args) => {
 	socket.broadcast.to(`bristol_${args.bristolId}`).emit("deleted", args);
 };
@@ -65,6 +69,7 @@ module.exports = {
 	onEditing,
 	onStopEditing,
 	onMoved,
+	onRolesManaged,
 	onDeleted,
 	onDisconnect,
 };
