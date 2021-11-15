@@ -5,7 +5,6 @@ const {
 } = require("../socketio");
 
 const onConnection = async (socketId, userId) => {
-	console.log("connection", socketId, userId);
 	await redisClient("socket_id_").setAsync(userId, socketId);
 };
 
@@ -21,9 +20,9 @@ const onEditing = async (socket, bristolId) => {
 		.emit("in_editing", { bristolId, userId });
 };
 
-const onStopEditing = async (socket, bristolId) => {
-	await redisClient("in_editing_").delAsync(bristolId);
-	socket.broadcast.to(`bristol_${bristolId}`).emit("stop_editing", bristolId);
+const onStopEditing = async (socket, args) => {
+	await redisClient("in_editing_").delAsync(args.bristolId);
+	socket.broadcast.to(`bristol_${args.bristolId}`).emit("stop_editing", args);
 };
 
 const onMoved = async (socket, bristolId) => {
