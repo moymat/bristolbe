@@ -124,7 +124,7 @@ CREATE OR REPLACE FUNCTION get_bristols_roles (jsonb) RETURNS TABLE (
 		END IF;
 			
 		RETURN QUERY
-		SELECT role.user_id AS id, role.type as role, "user".first_name, "user".last_name
+		SELECT role.id, role.type as role, "user".first_name, "user".last_name
 		FROM role
 		JOIN "user" ON role.user_id = "user".id
 		WHERE bristol_id = ANY (
@@ -152,7 +152,7 @@ CREATE OR REPLACE FUNCTION bristol_pre_move (jsonb) RETURNS TABLE (
 	BEGIN
 		SELECT bristol.position, bristol.parent_id
 		FROM bristol
-		WHERE id = bid
+		WHERE bristol.id = bid
 		INTO pos, pid;
 		
 		IF pos IS NULL THEN

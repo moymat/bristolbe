@@ -5,6 +5,11 @@ const onConnection = async socket => {
 };
 
 // Function declaration to use "this" (the socket)
+
+async function onCreated({ bristolId }) {
+	await socketIOModel.onCreated(this, bristolId);
+}
+
 async function onJoinBristolRooms({ bristolsId }) {
 	await socketIOModel.onJoinBristolRooms(this, bristolsId);
 }
@@ -31,6 +36,7 @@ async function onDisconnect() {
 
 module.exports = {
 	onConnection,
+	onCreated,
 	onJoinBristolRooms,
 	onEditing,
 	onStopEditing,
