@@ -28,12 +28,6 @@ const moved = (state, bristolId) => {
 	socket.emit("moved", { bristolId, userId });
 };
 
-const joinBristolRooms = (state, bristols) => {
-	const { socket } = state.user.user;
-	const bristolsId = bristols.map(({ id }) => id);
-	socket.emit("join_bristol_rooms", { bristolsId });
-};
-
 const deleted = (state, bristolId) => {
 	const { socket, id: userId } = state.user.user;
 	socket.emit("deleted", { bristolId, userId });
@@ -65,7 +59,6 @@ const Middleware = store => next => action => {
 			axios()
 				.get(`api/v1/users/${state.user.user.id}/bristols`)
 				.then(({ data }) => {
-					joinBristolRooms(state, data.data);
 					action.bristols = createNestedMenu(data.data);
 					next(action);
 				})

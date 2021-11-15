@@ -1,6 +1,11 @@
 const redisClient = require("../db/redis");
+const {
+	connectSocketsToBristols,
+	disconnectSocketsFromBristols,
+} = require("../socketio");
 
 const onConnection = async (socketId, userId) => {
+	console.log("connection", socketId, userId);
 	await redisClient("socket_id_").setAsync(userId, socketId);
 };
 
@@ -31,7 +36,13 @@ const onMoved = async (socket, args) => {
 };
 
 const onRolesManaged = async (socket, { bristolId, roles }) => {
-	console.log(roles);
+	Object.entries(roles).forEach(([key, ids]) => {
+		console.log(key, ids);
+		key === "editors_id" || key === "viewers_id"
+			? connectSocketsToBristols(ids, [bristolId])
+			: disconnectSocketsFromBristols(ids, [bristolId]);
+	});
+	socket.broadcast.to(`bristol_${bristolId}`).emit("roles_managed");
 };
 
 const onDeleted = async (socket, args) => {
@@ -39,8 +50,9 @@ const onDeleted = async (socket, args) => {
 };
 
 const onDisconnect = async socket => {
-	const allInEditing = await redisClient().keysAsync("in_editing_*");
+	await redisClient("socket_id_").delAsync(socket.handshake.query.id);
 
+	const allInEditing = await redisClient().keysAsync("in_editing_*");
 	await Promise.all(
 		allInEditing.map(async key => {
 			const bristolId = key.replace("in_editing_", "");
@@ -52,7 +64,6 @@ const onDisconnect = async socket => {
 
 				if (socket.id === cachedId) {
 					await redisClient("in_editing_").delAsync(bristolId);
-					await redisClient("socket_id_").delAsync(userId);
 					socket.broadcast
 						.to(`bristol_${bristolId}`)
 						.emit("stop_editing", { bristolId });
