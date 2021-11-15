@@ -7,7 +7,6 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import "./nestedStyles.css";
 
 const NestedBristols = ({ handleItemMove = null, items, handleConfirm }) => {
-	const dragRef = useRef(null);
 	const currentScroll = useRef(0);
 
 	useEffect(() => {
@@ -20,13 +19,13 @@ const NestedBristols = ({ handleItemMove = null, items, handleConfirm }) => {
 	useEffect(() => {
 		const nestable = document.querySelector(".nestable");
 		const observer = new MutationObserver(mutationList => {
+			let drag;
 			mutationList.forEach(mut => {
-				dragRef.current = Array.from(mut.addedNodes).find(
+				drag = Array.from(mut.addedNodes).find(
 					node => node.className === "nestable-drag-layer"
 				);
-				if (dragRef.current) {
-					console.log(dragRef.current, currentScroll.current);
-					dragRef.current.style.top = `${currentScroll.current}px`;
+				if (drag) {
+					drag.style.top = `${currentScroll.current}px`;
 				}
 			});
 		});
