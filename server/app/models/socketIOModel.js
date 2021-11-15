@@ -21,9 +21,9 @@ const onEditing = async (socket, bristolId) => {
 		.emit("in_editing", { bristolId, userId });
 };
 
-const onStopEditing = async (socket, args) => {
-	await redisClient("in_editing_").delAsync(args.bristolId);
-	socket.broadcast.to(`bristol_${args.bristolId}`).emit("stop_editing", args);
+const onStopEditing = async (socket, bristolId) => {
+	await redisClient("in_editing_").delAsync(bristolId);
+	socket.broadcast.to(`bristol_${bristolId}`).emit("stop_editing", bristolId);
 };
 
 const onMoved = async (socket, bristolId) => {
