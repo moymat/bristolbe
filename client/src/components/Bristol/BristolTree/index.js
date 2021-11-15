@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getParentId } from "./helper.js";
 import NestedBristols from "./NestedBristols.js";
@@ -15,51 +15,38 @@ const BristolTree = () => {
 	const user = useSelector(state => state.user.user);
 	const bristols = useSelector(state => state.bristol.bristols);
 	const isReadOnly = useSelector(state => state.bristol.editorIsReadOnly);
-	const [isMoving, setIsMoving] = useState(false);
 	const dispatch = useDispatch();
 
-	//chargement initial
-
-	useEffect(() => {
-		dispatch({
-			type: "SET_BRISTOLS",
-			userId: user.id,
-		});
-	}, [dispatch, user]);
-
 	const handleBristolMove = async ({ items, dragItem, targetPath }) => {
-		try {
-			setIsMoving(false);
-			dispatch({
-				type: "MOVE_BRISTOL",
-				items,
-				id: dragItem.id,
-				parent_id: getParentId(items, targetPath),
-				position: targetPath[targetPath.length - 1],
-			});
-		} catch (err) {
-			console.error(err);
-		}
+		//console.log(bristols, items, dragItem, targetPath);
+		/* console.log(targetPath);
+		const bristolAtPath = targetPath.reduce((previous, idx) => {
+			console.log(previous, idx);
+			if (!previous) return false;
+			return bristols[idx];
+		}, bristols);
+		console.log(bristolAtPath); */
+		dispatch({
+			type: "MOVE_BRISTOL",
+			items,
+			id: dragItem.id,
+			parent_id: getParentId(items, targetPath),
+			position: targetPath[targetPath.length - 1],
+		});
 	};
 
 	const handleSelectBristol = async e => {
-		try {
-			const { itemid } = e.target.dataset;
-			if (itemid) {
-				dispatch({
-					type: "GET_CURRENT_BRISTOL_CONTENT",
-					selectedBristol: itemid,
-				});
-			}
-		} catch (err) {
-			console.error(err);
+		const { itemid } = e.target.dataset;
+		if (itemid) {
+			dispatch({
+				type: "GET_CURRENT_BRISTOL_CONTENT",
+				selectedBristol: itemid,
+			});
 		}
 	};
 
 	const handleNewBristol = () => {
-		if (isReadOnly) {
-			dispatch({ type: "CREATE_NEW_BRISTOL" });
-		}
+		isReadOnly && dispatch({ type: "CREATE_NEW_BRISTOL" });
 	};
 
 	const handleConfirm = ({ dragItem, destinationParent }) =>
@@ -67,8 +54,13 @@ const BristolTree = () => {
 			? !destinationParent || destinationParent.role === "editor"
 			: !destinationParent && !dragItem.parent_id;
 
+	useEffect(() => {
+		dispatch({ type: "SET_BRISTOLS" });
+	}, [dispatch, user]);
+
 	return (
 		<Box
+			className="tree-container"
 			sx={{
 				position: "fixed",
 				overflowY: "auto",

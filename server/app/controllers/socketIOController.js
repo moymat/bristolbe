@@ -17,12 +17,12 @@ async function onStopEditing(args) {
 	await socketIOModel.onStopEditing(this, args);
 }
 
-async function onMoving({ userId, bristolId }) {
-	await socketIOModel.onMoving(this, bristolId, userId);
+async function onMoved(args) {
+	await socketIOModel.onMoved(this, args);
 }
 
-async function onStopMoving(args) {
-	await socketIOModel.onStopMoving(this, args);
+async function onDeleted(args) {
+	await socketIOModel.onDeleted(this, args);
 }
 
 async function onDisconnect() {
@@ -34,7 +34,7 @@ module.exports = {
 	onJoinBristolRooms,
 	onEditing,
 	onStopEditing,
-	onMoving,
-	onStopMoving,
+	onMoved,
+	onDeleted,
 	onDisconnect,
 };
