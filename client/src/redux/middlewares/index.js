@@ -23,14 +23,9 @@ const editing = state => {
 	socket.emit("editing", { bristolId, userId });
 };
 
-const moving = (state, bristolId) => {
+const moved = (state, bristolId) => {
 	const { socket, id: userId } = state.user.user;
-	socket.emit("moving", { bristolId, userId });
-};
-
-const stopMoving = (state, bristolId) => {
-	const { socket, id: userId } = state.user.user;
-	socket.emit("stop_moving", { bristolId, userId });
+	socket.emit("moved", { bristolId, userId });
 };
 
 const joinBristolRooms = (state, bristols) => {
@@ -39,10 +34,16 @@ const joinBristolRooms = (state, bristols) => {
 	socket.emit("join_bristol_rooms", { bristolsId });
 };
 
+const deleted = (state, bristolId) => {
+	const { socket, id: userId } = state.user.user;
+	socket.emit("deleted", { bristolId, userId });
+};
+
 const Middleware = store => next => action => {
 	const state = store.getState();
 
 	const errorHandler = err => {
+		console.log(err);
 		const { error } = err.response.data;
 		if (error === "not logged in" || error === "jwt expired")
 			store.dispatch({ type: "LOGOUT" });
@@ -52,7 +53,7 @@ const Middleware = store => next => action => {
 	switch (action.type) {
 		case "SET_BRISTOLS":
 			axios()
-				.get(`api/v1/users/${action.userId}/bristols`)
+				.get(`api/v1/users/${state.user.user.id}/bristols`)
 				.then(({ data }) => {
 					joinBristolRooms(state, data.data);
 					action.bristols = createNestedMenu(data.data);
@@ -119,11 +120,7 @@ const Middleware = store => next => action => {
 			stopEditing(state);
 			next(action);
 			break;
-		case "MOVING_BRISTOL":
-			moving(state, action.id);
-			break;
 		case "MOVE_BRISTOL":
-			stopMoving(state, action.id);
 			axios()
 				.post("/api/v1/bristols/move", {
 					bristol_id: action.id,
@@ -132,13 +129,17 @@ const Middleware = store => next => action => {
 				})
 				.then(() => {
 					next(action);
+					moved(state, action.id);
 				})
 				.catch(errorHandler);
 			break;
 		case "DELETE_BRISTOL":
 			axios()
 				.delete(`/api/v1/bristols/${action.bristolId}`)
-				.then(() => next(action))
+				.then(() => {
+					deleted(state, action.bristolId);
+					next(action);
+				})
 				.catch(errorHandler);
 			break;
 		case "LOGOUT":

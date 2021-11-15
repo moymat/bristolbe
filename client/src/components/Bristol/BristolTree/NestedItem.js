@@ -1,38 +1,15 @@
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 
 const NestedItem = ({ collapseIcon, item }) => {
-	const [dragInterval, setDragInterval] = useState(null);
 	const selectedBristol = useSelector(state => state.bristol.selectedBristol);
 	const user = useSelector(state => state.user.user);
-	const dispatch = useDispatch();
-
-	const handleDrag = () => {
-		setDragInterval(
-			window.setTimeout(() => {
-				dispatch({
-					type: "MOVING_BRISTOL",
-					id: item.id,
-				});
-			}, 200)
-		);
-	};
-
-	const handleCancelDrag = () => {
-		if (dragInterval) {
-			clearTimeout(dragInterval);
-			setDragInterval(null);
-		}
-	};
 
 	return (
 		<Button
 			data-itemid={item.id}
 			startIcon={collapseIcon}
-			onMouseDown={handleDrag}
-			onMouseUp={handleCancelDrag}
 			endIcon={
 				item.inEditing.status &&
 				item.inEditing.userId !== user.id && <EditIcon />
@@ -46,9 +23,7 @@ const NestedItem = ({ collapseIcon, item }) => {
 				justifyContent: "start",
 				minWidth: "1px",
 				backgroundColor:
-					item.isMoving.status && item.isMoving.userId !== user.id
-						? "red"
-						: item.role === "editor"
+					item.role === "editor"
 						? selectedBristol.id === item.id
 							? "primary.dark"
 							: "primary.main"
@@ -58,9 +33,7 @@ const NestedItem = ({ collapseIcon, item }) => {
 				color: "white",
 				"&:hover": {
 					backgroundColor:
-						item.isMoving.status && item.isMoving.userId !== user.id
-							? "darkred"
-							: item.role === "editor"
+						item.role === "editor"
 							? selectedBristol.id === item.id
 								? "primary.dark"
 								: "primary.light"
