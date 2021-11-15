@@ -18,10 +18,6 @@ const initialState = {
 			status: false,
 			userId: null,
 		},
-		isMoving: {
-			status: false,
-			userId: null,
-		},
 	},
 	//tree
 	bristols: [],

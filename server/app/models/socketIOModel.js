@@ -69,7 +69,10 @@ module.exports = {
 	onEditing,
 	onStopEditing,
 	onMoved,
+<<<<<<< HEAD
 	onRolesManaged,
+=======
+>>>>>>> d94dd016 (fixed nestable drag element top offset when scrolling)
 	onDeleted,
 	onDisconnect,
 };
