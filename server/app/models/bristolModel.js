@@ -86,7 +86,6 @@ const moveBristol = async (bristolMoved, userId) => {
 
 		if (!bristolMoved.parent_id && bristolBefore.parent_id) {
 			// If move to root, connect all editors to the bristol
-			console.log("to root");
 			const sockets = await Promise.all(
 				bristolBefore.members
 					.reduce(
@@ -102,7 +101,6 @@ const moveBristol = async (bristolMoved, userId) => {
 			);
 		} else if (bristolMoved.parent_id && !bristolBefore.parent_id) {
 			// If move from root, connect all new members to the bristol
-			console.log("from root");
 			const { rows: membersRows } = await pgClient.query(
 				"SELECT * FROM  get_bristols_roles($1)",
 				[
@@ -125,7 +123,6 @@ const moveBristol = async (bristolMoved, userId) => {
 			);
 		} else if (bristolMoved.parent_id && bristolMoved.parent_id) {
 			// If move between bristols, remove all previous members to the bristol and connect all new ones
-			console.log("between");
 			const oldSockets = await Promise.all(
 				bristolBefore.members
 					.reduce(

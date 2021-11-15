@@ -41,6 +41,7 @@ const rolesManaged = (state, roles) => {
 
 const logout = state => {
 	const { socket } = state.user.user;
+	socket.removeAllListeners();
 	socket.disconnect();
 };
 

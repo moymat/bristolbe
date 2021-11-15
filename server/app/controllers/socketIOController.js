@@ -14,8 +14,8 @@ async function onEditing({ bristolId }) {
 	await socketIOModel.onEditing(this, bristolId);
 }
 
-async function onStopEditing({ bristolId }) {
-	await socketIOModel.onStopEditing(this, bristolId);
+async function onStopEditing(args) {
+	await socketIOModel.onStopEditing(this, args);
 }
 
 async function onMoved({ bristolId }) {
