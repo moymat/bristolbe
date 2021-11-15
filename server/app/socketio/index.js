@@ -13,8 +13,8 @@ module.exports = server => {
 		socket.on("join_bristol_rooms", socketIOController.onJoinBristolRooms);
 		socket.on("editing", socketIOController.onEditing);
 		socket.on("stop_editing", socketIOController.onStopEditing);
-		socket.on("moving", socketIOController.onMoving);
-		socket.on("stop_moving", socketIOController.onStopMoving);
+		socket.on("moved", socketIOController.onMoved);
+		socket.on("deleted", socketIOController.onDeleted);
 		socket.on("disconnect", socketIOController.onDisconnect);
 	});
 };

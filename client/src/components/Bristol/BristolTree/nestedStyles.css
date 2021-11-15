@@ -56,7 +56,6 @@
 }
 .nestable-drag-layer > .nestable-list {
 	position: absolute;
-	top: 0;
 	left: 0;
 	padding: 0;
 }
