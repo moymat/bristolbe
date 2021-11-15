@@ -18,19 +18,19 @@ const stopEditing = (state, action = null) => {
 };
 
 const editing = state => {
-	const { socket, id: userId } = state.user.user;
+	const { socket } = state.user.user;
 	const { id: bristolId } = state.bristol.selectedBristol;
-	socket.emit("editing", { bristolId, userId });
+	socket.emit("editing", { bristolId });
 };
 
 const moved = (state, bristolId) => {
-	const { socket, id: userId } = state.user.user;
-	socket.emit("moved", { bristolId, userId });
+	const { socket } = state.user.user;
+	socket.emit("moved", { bristolId });
 };
 
 const deleted = (state, bristolId) => {
-	const { socket, id: userId } = state.user.user;
-	socket.emit("deleted", { bristolId, userId });
+	const { socket } = state.user.user;
+	socket.emit("deleted", { bristolId });
 };
 
 const rolesManaged = (state, roles) => {
