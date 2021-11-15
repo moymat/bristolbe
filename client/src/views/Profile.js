@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import CustomAlert from "../components/CustomAlert";
 import axios from "../utils/axios";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { AlignHorizontalCenter } from "@mui/icons-material";
+
 
 export default function Profile() {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
@@ -75,7 +75,6 @@ export default function Profile() {
 				ml: isSmallScreen ? 0 : 5,
 				flexGrow: 1,
 				marginTop: 1,
-				display: "flex",
 			}}>
 			<CustomAlert
 				open={isSnackOpen}
@@ -100,7 +99,7 @@ export default function Profile() {
 					My profile
 				</Typography>
 				<TextField
-					sx={{width: { xs: "75%", md: '300px' }}}
+					sx={{width: { xs: "70%", md: '400px' }}}
 					name="firstName"
 					label="First Name"
 					variant="outlined"
@@ -111,7 +110,7 @@ export default function Profile() {
 				/>
 
 				<TextField
-					sx={{width: { xs: "75%", md: '300px' }}}
+					sx={{width: { xs: "70%", md: '400px' }}}
 					name="lastName"
 					label="Last Name"
 					variant="outlined"
