@@ -1,6 +1,10 @@
 const pgClient = require("../db/pg");
 const redisClient = require("../db/redis");
 const { validateBristol, validateManageRoles } = require("../validation");
+const {
+	connectSocketsToBristol,
+	disconnectSocketsFromBristol,
+} = require("../socketio");
 
 const createBristol = async (body, userId) => {
 	try {
@@ -11,6 +15,10 @@ const createBristol = async (body, userId) => {
 		const { rows } = await pgClient.query("SELECT * FROM create_bristol($1)", [
 			JSON.stringify({ user_id: userId, ...data }),
 		]);
+
+		const userSocket = await redisClient("socket_id_").getAsync(userId);
+
+		connectSocketsToBristol([userSocket], rows[0].id);
 
 		return { data: rows[0] };
 	} catch (error) {
@@ -58,10 +66,10 @@ const getBristol = async (bristolId, userId) => {
 
 const moveBristol = async (bristolMoved, userId) => {
 	try {
-		/* const { rows } = await pgClient.query(
+		const { rows } = await pgClient.query(
 			"SELECT * FROM bristol_pre_move($1)",
 			[JSON.stringify({ user_id: userId, bristol_id: bristolMoved.bristol_id })]
-		); */
+		);
 
 		await pgClient.query("SELECT move_bristol($1)", [
 			JSON.stringify({
@@ -70,12 +78,91 @@ const moveBristol = async (bristolMoved, userId) => {
 			}),
 		]);
 
-		/* const bristol_before = {
-			position: rows[0].position,
-			parent_id: rows[0].parent_id,
+		const bristolBefore = {
+			position: rows[0]?.position,
+			parent_id: rows[0]?.parent_id,
+			members: rows.map(({ id, role }) => ({ id, role })),
 		};
 
-		const roles = rows.map(({ user_id, role, first_name, last_name }) => ({
+		if (!bristolMoved.parent_id && bristolBefore.parent_id) {
+			// If move to root, connect all editors to the bristol
+			console.log("to root");
+			const sockets = await Promise.all(
+				bristolBefore.members
+					.reduce(
+						(acc, { id, role }) => (role === "editor" ? [...acc, id] : acc),
+						[]
+					)
+					.map(async id => await redisClient("socket_id_").getAsync(id))
+			);
+
+			connectSocketsToBristol(
+				sockets.filter(socket => !!socket),
+				bristolMoved.bristol_id
+			);
+		} else if (bristolMoved.parent_id && !bristolBefore.parent_id) {
+			// If move from root, connect all new members to the bristol
+			console.log("from root");
+			const { rows: membersRows } = await pgClient.query(
+				"SELECT * FROM  get_bristols_roles($1)",
+				[
+					JSON.stringify({
+						user_id: userId,
+						bristol_id: bristolMoved.bristol_id,
+					}),
+				]
+			);
+
+			const sockets = await Promise.all(
+				membersRows.map(
+					async ({ id }) => await redisClient("socket_id_").getAsync(id)
+				)
+			);
+
+			connectSocketsToBristol(
+				sockets.filter(socket => !!socket),
+				bristolMoved.bristol_id
+			);
+		} else if (bristolMoved.parent_id && bristolMoved.parent_id) {
+			// If move between bristols, remove all previous members to the bristol and connect all new ones
+			console.log("between");
+			const oldSockets = await Promise.all(
+				bristolBefore.members
+					.reduce(
+						(acc, { id, role }) => (role === "editor" ? [...acc, id] : acc),
+						[]
+					)
+					.map(async id => await redisClient("socket_id_").getAsync(id))
+			);
+
+			const { rows: membersRows } = await pgClient.query(
+				"SELECT * FROM  get_bristols_roles($1)",
+				[
+					JSON.stringify({
+						user_id: userId,
+						bristol_id: bristolMoved.bristol_id,
+					}),
+				]
+			);
+
+			const newSockets = await Promise.all(
+				membersRows.map(
+					async ({ id }) => await redisClient("socket_id_").getAsync(id)
+				)
+			);
+
+			disconnectSocketsFromBristol(
+				oldSockets.filter(socket => !!socket && !newSockets.includes(socket)),
+				bristolMoved.bristol_id
+			);
+
+			connectSocketsToBristol(
+				newSockets.filter(socket => !!socket && !oldSockets.includes(socket)),
+				bristolMoved.bristol_id
+			);
+		}
+
+		/*const roles = rows.map(({ user_id, role, first_name, last_name }) => ({
 			user_id,
 			role,
 			first_name,

@@ -20,6 +20,7 @@ const SocketIOListener = ({ children }) => {
 	});
 
 	user.socket.on("moved", data => {
+		console.log("moved");
 		dispatch({ type: "SET_BRISTOLS", data });
 	});
 
