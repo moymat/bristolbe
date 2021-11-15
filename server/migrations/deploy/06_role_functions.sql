@@ -180,10 +180,15 @@ AS $$
 
 		  -- If user is a member, delete existing row
 		  IF ism IS TRUE THEN
-			DELETE
-			FROM role
-			WHERE user_id = uid
-			AND bristol_id = bid;
+				DELETE
+				FROM role
+				WHERE role.user_id = uid
+				AND role.bristol_id = bid;
+
+				DELETE
+				FROM root_position rp
+				WHERE rp.user_id = uid
+				AND rp.bristol_id = bid;
 		  END IF;		
 		END LOOP;	
 	END;
