@@ -46,11 +46,6 @@ const logout = state => {
 	socket.disconnect();
 };
 
-const logout = state => {
-	const { socket } = state.user.user;
-	socket.disconnect();
-};
-
 const Middleware = store => next => action => {
 	const state = store.getState();
 
