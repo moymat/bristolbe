@@ -26,6 +26,10 @@ async function onMoved(args) {
 	await socketIOModel.onMoved(this, args);
 }
 
+async function onRolesManaged(args) {
+	await socketIOModel.onRolesManaged(this, args);
+}
+
 async function onDeleted(args) {
 	await socketIOModel.onDeleted(this, args);
 }
@@ -41,6 +45,7 @@ module.exports = {
 	onEditing,
 	onStopEditing,
 	onMoved,
+	onRolesManaged,
 	onDeleted,
 	onDisconnect,
 };
