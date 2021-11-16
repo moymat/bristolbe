@@ -11,6 +11,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import RightsManagement from "./RightsManagement";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import axios from "../../../utils/axios";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import "./styles.css";
@@ -21,12 +22,17 @@ const BristolEditor = ({ setBristol }) => {
 	const isReadOnly = useSelector(state => state.bristol.editorIsReadOnly);
 	const selectedBristol = useSelector(state => state.bristol.selectedBristol);
 	const bristols = useSelector(state => state.bristol.bristols);
-	const [isRoot, setIsRoot] = useState(false);
 	const user = useSelector(state => state.user.user);
+	const [isRoot, setIsRoot] = useState(false);
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 	const [editors, setEditors] = useState([]);
 	const [viewers, setViewers] = useState([]);
+	const [editionStatus, setEditionStatus] = useState({
+		status: false,
+		isEditor: false,
+		editorName: "",
+	});
 
 	const handleContentChange = content => {
 		setContent(content);
@@ -42,13 +48,15 @@ const BristolEditor = ({ setBristol }) => {
 		const hasChanged =
 			title !== selectedBristol.title || content !== selectedBristol.content;
 
-		if (hasChanged)
+		if (hasChanged) {
+			dispatch({ type: "STOP_UPDATE_EDITOR", content, title });
 			selectedBristol.id
 				? dispatch({ type: "UPDATE_BRISTOL", content, title })
 				: dispatch({ type: "ADD_NEW_BRISTOL", content, title });
+		}
 
 		selectedBristol.id &&
-			dispatch({ type: "UPDATE_BRISTOL_ROLES", editors, viewers, hasChanged });
+			dispatch({ type: "UPDATE_BRISTOL_ROLES", editors, viewers });
 	};
 
 	const handleDeleteClick = () => {
@@ -60,7 +68,7 @@ const BristolEditor = ({ setBristol }) => {
 	};
 
 	const handleCancel = () => {
-		dispatch({ type: "CANCEL_UPDATE_EDITOR" });
+		dispatch({ type: "STOP_UPDATE_EDITOR" });
 	};
 
 	const handleEditorsChange = newEditors => {
@@ -129,23 +137,54 @@ const BristolEditor = ({ setBristol }) => {
 		setIsRoot(!!bristols.find(bristol => bristol.id === selectedBristol.id));
 	}, [selectedBristol, bristols]);
 
+	useEffect(() => {
+		const getUserName = async id => {
+			try {
+				const { data: axiosData } = await axios().get(`/api/v1/users/${id}`);
+				const { first_name, last_name } = axiosData.data;
+				return `${first_name} ${last_name}`;
+			} catch (error) {
+				console.error(error.response.data.error);
+			}
+		};
+
+		const updateEditionStatus = async () => {
+			const { status, userId } = selectedBristol.inEditing;
+			setEditionStatus({
+				editorName: userId
+					? userId === user.id
+						? `${user.first_name} ${user.last_name}`
+						: await getUserName(userId)
+					: "",
+				isEditor: userId & (userId === user.id),
+				status,
+			});
+		};
+
+		updateEditionStatus();
+	}, [selectedBristol, user]);
+
 	return (
 		<Box
 			className="text-editor"
 			sx={{
-				px: { xs: 0, sm: 5 },
+				px: { xs: 1, sm: 4 },
 				mx: "auto",
 				mb: isSmallScreen ? 8 : 1,
 			}}>
 			<Stack
-				direction="row"
-				alignItems="center"
+				direction={isSmallScreen ? "column" : "row"}
+				alignItems={isSmallScreen ? "start" : "center"}
 				spacing={isReadOnly ? 6 : 1}
 				sx={{
 					my: 2,
+					px: isSmallScreen ? 2 : 0,
 					display: "flex",
 					width: "100%",
 					justifyContent: isSmallScreen ? "space-between" : "initial",
+					"& > :not(style) + :not(style)": isSmallScreen && {
+						marginTop: 2,
+					},
 				}}>
 				{!isReadOnly ? (
 					<TextField
@@ -167,33 +206,53 @@ const BristolEditor = ({ setBristol }) => {
 							alignContent: "center",
 							flexDirection: "column",
 						}}
-						variant="h3"
+						component="h2"
+						variant={isSmallScreen ? "h4" : "h3"}
 						children={title}
 					/>
 				)}
 				{selectedBristol.role === "editor" &&
 					(isReadOnly && selectedBristol.id ? (
-						<Button
-							sx={{
-								position: "relative",
-								right: 0,
-								color: "white",
-								px: { sx: 3, sm: 1 },
-							}}
-							onClick={handleEditClick}
-							aria-label="edit"
-							variant="contained"
-							disabled={
-								selectedBristol.inEditing.status &&
-								selectedBristol.inEditing.userId !== user.id
-							}
-							size={isSmallScreen ? "small" : "medium"}
-							startIcon={<EditIcon />}>
-							Edit
-						</Button>
+						<>
+							<Button
+								sx={{
+									px: { xs: 3, sm: 2 },
+								}}
+								onClick={handleEditClick}
+								aria-label="edit"
+								variant="contained"
+								disabled={editionStatus.status}
+								size={isSmallScreen ? "small" : "medium"}
+								startIcon={<EditIcon />}>
+								Edit
+							</Button>
+							{editionStatus.status && !isSmallScreen && (
+								<Box display="flex" flexDirection="column">
+									<Typography
+										sx={{
+											fontWeight: 500,
+											fontSize: 12,
+											color: "primary.main",
+										}}>
+										Currently edited by
+									</Typography>
+									<Typography
+										sx={{
+											fontWeight: 900,
+											fontSize: 12,
+										}}>
+										{editionStatus.editorName}
+									</Typography>
+								</Box>
+							)}
+						</>
 					) : (
 						!isReadOnly && (
-							<>
+							<Box
+								sx={{
+									display: "flex",
+									flexDirection: "row",
+								}}>
 								<Button variant="outlined" onClick={handleCancel}>
 									CANCEL
 								</Button>
@@ -201,10 +260,10 @@ const BristolEditor = ({ setBristol }) => {
 									color="primary"
 									onClick={handleSaveClick}
 									variant="contained"
-									sx={{ color: "white" }}>
+									sx={{ marginLeft: 1 }}>
 									Save
 								</Button>
-							</>
+							</Box>
 						)
 					))}
 			</Stack>
