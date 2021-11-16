@@ -81,7 +81,7 @@ const isAuth = async (req, res, next) => {
 		httpOnly: true,
 		secure: true,
 		sameSite: "none",
-		domain: process.env.CLIENT_URL,
+		domain: "projet-13-bristol.vercel.app",
 		//maxAge: +process.env.REFRESH_EXP,
 	});
 
