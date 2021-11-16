@@ -126,7 +126,7 @@ const reducer = (state = initialState, action = {}) => {
 				editorIsVisible: true,
 				editorIsReadOnly: true,
 			};
-		case "CANCEL_UPDATE_EDITOR":
+		case "STOP_UPDATE_EDITOR":
 			return {
 				...state,
 				editorIsVisible: true,

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
-import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -38,14 +37,18 @@ const countBristols = arr =>
 		return acc + 1;
 	}, 0);
 
-function SwipeableEdgeDrawer(props) {
-	const { window } = props;
-	const [open, setOpen] = useState(false);
+function SwipeableEdgeDrawer({
+	window,
+	children,
+	newBristol,
+	handleOpen,
+	open,
+}) {
 	const bristols = useSelector(state => state.bristol.bristols);
 	const [rootNb, setRootNb] = useState("0 bristol");
 
 	const toggleDrawer = newOpen => () => {
-		setOpen(newOpen);
+		handleOpen(newOpen);
 	};
 
 	// This is used only for the example
@@ -57,9 +60,12 @@ function SwipeableEdgeDrawer(props) {
 		setRootNb(`${nb} bristol${nb > 1 ? "s" : ""}`);
 	}, [bristols]);
 
+	useEffect(() => {
+		document.addEventListener("click", e => console.log(e));
+	}, []);
+
 	return (
 		<Root>
-			<CssBaseline />
 			<SwipeableDrawer
 				sx={{
 					"& .MuiPaper-root": {
@@ -83,6 +89,7 @@ function SwipeableEdgeDrawer(props) {
 						top: -drawerBleeding,
 						borderTopLeftRadius: 8,
 						borderTopRightRadius: 8,
+						boxShadow: "0 -1px 1px 2px lightgrey",
 						visibility: { xs: "visible", sm: "hidden" },
 						right: 0,
 						left: 0,
@@ -98,7 +105,7 @@ function SwipeableEdgeDrawer(props) {
 					<Button
 						sx={{ px: 2, float: "right" }}
 						variant="text"
-						onClick={props.newBristol}
+						onClick={newBristol}
 						size="small">
 						New Bristol
 					</Button>
@@ -110,7 +117,7 @@ function SwipeableEdgeDrawer(props) {
 						height: "100%",
 						overflow: "auto",
 					}}>
-					{props.children}
+					{children}
 				</StyledBox>
 			</SwipeableDrawer>
 		</Root>
