@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const redisClient = require("../db/redis")();
+const redisClient = require("../db/redis");
 
 const signToken = (payload, isRefresh = false) => {
 	return isRefresh
@@ -28,12 +28,6 @@ const isAuth = async (req, res, next) => {
 	const browserId = req.headers.browser_id;
 	const refresh = req.headers.authorization?.split("Bearer ")[1];
 	const { access_token: token } = req.cookies;
-	console.log("----------------");
-	console.log("isAuth");
-	console.log("browserId", browserId);
-	console.log("refresh", refresh);
-	console.log("access", token);
-	console.log("----------------");
 
 	let decodedRefresh;
 	const notLoggedInError = new Error("not logged in");
@@ -83,8 +77,6 @@ const isAuth = async (req, res, next) => {
 		sameSite: "none",
 		maxAge: process.env.REFRESH_EXP,
 	});
-
-	console.log("res", newToken);
 
 	next();
 };
