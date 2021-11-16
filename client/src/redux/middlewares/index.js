@@ -102,7 +102,6 @@ const Middleware = store => next => action => {
 					title: action.title,
 				})
 				.then(() => {
-					stopEditing(state, action);
 					next(action);
 				})
 				.catch(errorHandler);
