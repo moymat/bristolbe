@@ -53,7 +53,7 @@ export default function Login() {
 				return;
 			}
 			if (data.error) {
-				console.log("je suis l'erreur",data.error);
+				console.log("je suis l'erreur", data.error);
 				return;
 			}
 
@@ -65,7 +65,7 @@ export default function Login() {
 				setPasswordError(true);
 			} else if (error.includes("no user found with email")) {
 				setEmailError(true);
-				setNotUsedAccount(true)
+				setNotUsedAccount(true);
 			}
 		}
 	};
@@ -93,7 +93,13 @@ export default function Login() {
 						sx={{ marginBottom: 2 }}
 						onChange={handleChange}
 						value={input.email}
-						helperText={emailError ? notUsedAccount ? "The email you entered isn’t connected to an account" : "Your Email is invalid" : ""}
+						helperText={
+							emailError
+								? notUsedAccount
+									? "The email you entered isn’t connected to an account"
+									: "Your Email is invalid"
+								: ""
+						}
 						error={emailError}
 					/>
 					<TextField
@@ -111,7 +117,11 @@ export default function Login() {
 					<Button
 						endIcon={<ArrowForwardIosIcon />}
 						size="small"
-						sx={{ width: "fit-content", alignSelf: "end", marginBottom: 2 }}
+						sx={{
+							width: "fit-content",
+							alignSelf: "flex-end",
+							marginBottom: 2,
+						}}
 						component={Link}
 						to="/forgot-password">
 						Forgot password
@@ -128,7 +138,7 @@ export default function Login() {
 						size="small"
 						component={Link}
 						to="/register"
-						sx={{ width: "fit-content", alignSelf: "end" }}>
+						sx={{ width: "fit-content", alignSelf: "flex-end" }}>
 						Create an account
 					</Button>
 				</Box>
