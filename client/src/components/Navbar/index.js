@@ -346,9 +346,14 @@ export default function Navbar({ children }) {
 			<Box
 				component="main"
 				sx={{
+					position: isSmallScreen ? "fixed" : "initial",
+					top: 0,
+					bottom: 56,
 					flexGrow: 1,
-					p: 1,
+					px: 1,
 					pt: isSmallScreen ? 8 : 10,
+					minHeight: "100vh",
+					overflowY: "auto",
 				}}>
 				{/* {isSmallScreen && <DrawerHeader />} */}
 				{children}

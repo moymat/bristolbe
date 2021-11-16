@@ -48,8 +48,11 @@ const BristolEditor = ({ setBristol }) => {
 		const hasChanged =
 			title !== selectedBristol.title || content !== selectedBristol.content;
 
+		hasChanged
+			? dispatch({ type: "STOP_UPDATE_EDITOR", content, title })
+			: dispatch({ type: "STOP_UPDATE_EDITOR" });
+
 		if (hasChanged) {
-			dispatch({ type: "STOP_UPDATE_EDITOR", content, title });
 			selectedBristol.id
 				? dispatch({ type: "UPDATE_BRISTOL", content, title })
 				: dispatch({ type: "ADD_NEW_BRISTOL", content, title });
@@ -170,7 +173,7 @@ const BristolEditor = ({ setBristol }) => {
 			sx={{
 				px: { xs: 1, sm: 4 },
 				mx: "auto",
-				mb: isSmallScreen ? 8 : 1,
+				mb: 1,
 			}}>
 			<Stack
 				direction={isSmallScreen ? "column" : "row"}
