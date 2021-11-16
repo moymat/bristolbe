@@ -61,6 +61,7 @@ export default function ProfileLayout({ children }) {
 			<Box
 				sx={{
 					flexGrow: 1,
+					width: "100%"
 				}}>
 				{children}
 			</Box>
