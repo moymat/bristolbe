@@ -79,9 +79,10 @@ const isAuth = async (req, res, next) => {
 	const newToken = signToken({ id: decodedRefresh.id });
 	res.cookie("access_token", newToken, {
 		httpOnly: true,
-		secure: true,
+		secure: process.env.NODE_ENV === "production",
 		sameSite: "none",
-		domain: "projet-13-bristol.vercel.app",
+		maxAge: process.env.REFRESH_EXP,
+		//domain: "projet-13-bristol.vercel.app",
 		//maxAge: +process.env.REFRESH_EXP,
 	});
 
