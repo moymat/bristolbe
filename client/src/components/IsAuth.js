@@ -14,7 +14,9 @@ const IsAuth = ({ children }) => {
 				history.push("/validate");
 			} else if (
 				user.verified &&
-				!AUTH_ROUTES.some(route => pathname === route)
+				!AUTH_ROUTES.some(
+					route => pathname === route && pathname !== "/validate"
+				)
 			) {
 				history.push("/home");
 			}

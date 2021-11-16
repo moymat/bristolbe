@@ -4,4 +4,5 @@ exports.AUTH_ROUTES = [
 	"/user/profile",
 	"/user/settings",
 	"/contact",
+	"/validate",
 ];
