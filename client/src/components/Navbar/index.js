@@ -353,7 +353,7 @@ export default function Navbar({ children }) {
 					right: 0,
 					left: isSmallScreen ? 0 : isDrawerOpen ? 240 : 73,
 					overflowY: "auto",
-					zIndex: 1300,
+					zIndex: 1000,
 					px: 1,
 					pt: isSmallScreen ? 0 : 2,
 					height: isSmallScreen ? "100vh" : "auto",
