@@ -77,13 +77,12 @@ const isAuth = async (req, res, next) => {
 
 	// Get a new access token and send it as a cookie
 	const newToken = signToken({ id: decodedRefresh.id });
-	res.cookie("access_token", newToken, {
+	res.cookie("access_token", data.token, {
 		httpOnly: true,
 		secure: process.env.NODE_ENV === "production",
 		sameSite: "none",
 		maxAge: process.env.REFRESH_EXP,
-		//domain: "projet-13-bristol.vercel.app",
-		//maxAge: +process.env.REFRESH_EXP,
+		domain: process.env.CLIENT_URL,
 	});
 
 	console.log("res", newToken);
