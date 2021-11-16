@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getParentId } from "./helper.js";
 import NestedBristols from "./NestedBristols.js";
@@ -10,22 +10,15 @@ import SwipeableDrawer from "../SwipeableDrawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import "./styles.css";
 
-const BristolTree = () => {
+const BristolTree = ({ intercepter }) => {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 	const user = useSelector(state => state.user.user);
 	const bristols = useSelector(state => state.bristol.bristols);
 	const isReadOnly = useSelector(state => state.bristol.editorIsReadOnly);
+	const [openDrawer, setOpenDrawer] = useState(false);
 	const dispatch = useDispatch();
 
 	const handleBristolMove = async ({ items, dragItem, targetPath }) => {
-		//console.log(bristols, items, dragItem, targetPath);
-		/* console.log(targetPath);
-		const bristolAtPath = targetPath.reduce((previous, idx) => {
-			console.log(previous, idx);
-			if (!previous) return false;
-			return bristols[idx];
-		}, bristols);
-		console.log(bristolAtPath); */
 		dispatch({
 			type: "MOVE_BRISTOL",
 			items,
@@ -38,11 +31,16 @@ const BristolTree = () => {
 	const handleSelectBristol = async e => {
 		const { itemid } = e.target.dataset;
 		if (itemid) {
+			handleOpenDrawer(false);
 			dispatch({
 				type: "GET_CURRENT_BRISTOL_CONTENT",
 				selectedBristol: itemid,
 			});
 		}
+	};
+
+	const handleOpenDrawer = value => {
+		setOpenDrawer(value);
 	};
 
 	const handleNewBristol = () => {
@@ -58,6 +56,15 @@ const BristolTree = () => {
 		dispatch({ type: "SET_BRISTOLS" });
 	}, [dispatch, user]);
 
+	/* useEffect(() => {
+		const interCur = intercepter.current;
+		const handleClick = () => {
+			handleOpenDrawer(!openDrawer);
+		};
+		if (intercepter.current) interCur.addEventListener("click", handleClick);
+		return () => interCur.removeEventListener("click", handleClick);
+	}, [intercepter, openDrawer]); */
+
 	return (
 		<Box
 			className="tree-container"
@@ -70,7 +77,10 @@ const BristolTree = () => {
 			{!isSmallScreen && <Divider>My Bristols</Divider>}
 			<Box className="bottom">
 				{isSmallScreen ? (
-					<SwipeableDrawer newBristol={handleNewBristol}>
+					<SwipeableDrawer
+						newBristol={handleNewBristol}
+						handleOpen={handleOpenDrawer}
+						open={openDrawer}>
 						<Box sx={{ pt: 1 }} onClick={handleSelectBristol}>
 							<NestedBristols
 								handleItemMove={handleBristolMove}
