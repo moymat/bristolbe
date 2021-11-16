@@ -10,7 +10,7 @@ import SwipeableDrawer from "../SwipeableDrawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import "./styles.css";
 
-const BristolTree = ({ intercepter }) => {
+const BristolTree = () => {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 	const user = useSelector(state => state.user.user);
 	const bristols = useSelector(state => state.bristol.bristols);
@@ -55,15 +55,6 @@ const BristolTree = ({ intercepter }) => {
 	useEffect(() => {
 		dispatch({ type: "SET_BRISTOLS" });
 	}, [dispatch, user]);
-
-	/* useEffect(() => {
-		const interCur = intercepter.current;
-		const handleClick = () => {
-			handleOpenDrawer(!openDrawer);
-		};
-		if (intercepter.current) interCur.addEventListener("click", handleClick);
-		return () => interCur.removeEventListener("click", handleClick);
-	}, [intercepter, openDrawer]); */
 
 	return (
 		<Box
