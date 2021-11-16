@@ -32,11 +32,24 @@ const onMoved = async (socket, bristolId) => {
 };
 
 const onRolesManaged = async (socket, { bristolId, roles }) => {
-	Object.entries(roles).forEach(([key, ids]) => {
-		key === "editors_id" || key === "viewers_id"
-			? connectSocketsToBristols(ids, [bristolId])
-			: disconnectSocketsFromBristols(ids, [bristolId]);
+	console.log(bristolId, roles);
+	const socketsPerRoles = await Promise.all(
+		Object.entries(roles).map(async ([key, ids]) => [
+			key,
+			await Promise.all(
+				await ids.map(async id => await redisClient("socket_id_").getAsync(id))
+			),
+		])
+	);
+
+	socketsPerRoles.forEach(async ([key, ids]) => {
+		if (key === "editors_id" || key === "viewers_id") {
+			connectSocketsToBristols(ids, [bristolId]);
+		} else {
+			disconnectSocketsFromBristols(ids, [bristolId]);
+		}
 	});
+
 	socket.broadcast.to(`bristol_${bristolId}`).emit("roles_managed");
 };
 
