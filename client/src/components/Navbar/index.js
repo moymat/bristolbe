@@ -175,6 +175,7 @@ export default function Navbar({ children }) {
 	const menuId = "primary-search-account-menu";
 	const renderMenu = (
 		<Menu
+			class="profile-menu"
 			anchorEl={anchorEl}
 			anchorOrigin={{
 				vertical: "bottom",
@@ -346,14 +347,18 @@ export default function Navbar({ children }) {
 				sx={{
 					position: "fixed",
 					top: 64,
-					bottom: isSmallScreen ? 56 : 0,
-					left: isSmallScreen ? 0 : isDrawerOpen ? 240 : 73,
-					transition: `200ms all ease-in-out`,
+					bottom: isSmallScreen
+						? history.location.pathname === "/bristol" && 56
+						: 0,
 					right: 0,
+					left: isSmallScreen ? 0 : isDrawerOpen ? 240 : 73,
+					overflowY: "auto",
+					zIndex: 1300,
 					px: 1,
 					pt: isSmallScreen ? 0 : 2,
+					height: isSmallScreen ? "100vh" : "auto",
 					maxHeight: isSmallScreen ? "calc(100vh - 56px)" : "100vh",
-					overflowY: "auto",
+					transition: `200ms all ease-in-out`,
 				}}>
 				{/* {isSmallScreen && <DrawerHeader />} */}
 				{children}
