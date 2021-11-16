@@ -82,7 +82,6 @@ const isAuth = async (req, res, next) => {
 		secure: process.env.NODE_ENV === "production",
 		sameSite: "none",
 		maxAge: process.env.REFRESH_EXP,
-		domain: "bristolbe.herokuapp.com",
 	});
 
 	console.log("res", newToken);
