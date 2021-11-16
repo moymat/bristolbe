@@ -133,11 +133,12 @@ const getUsersBristols = async id => {
 		let userSocket;
 		do {
 			userSocket = await redisClient("socket_id_").getAsync(id);
-			connectSocketsToBristols(
-				[userSocket],
-				bristols.map(({ id }) => id)
-			);
 		} while (!userSocket);
+
+		connectSocketsToBristols(
+			[userSocket],
+			bristols.map(({ id }) => id)
+		);
 
 		return { data: bristols };
 	} catch (error) {

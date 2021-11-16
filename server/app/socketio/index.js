@@ -1,3 +1,5 @@
+const redisClient = require("../db/redis");
+
 let io;
 
 const init = server => {
@@ -22,20 +24,26 @@ const init = server => {
 	});
 };
 
-const connectSocketsToBristols = (socketIds, bristolIds) => {
-	const { sockets } = io.sockets;
-	bristolIds.forEach(bristolId => {
-		socketIds.forEach(socketId => {
-			sockets.get(socketId)?.join(`bristol_${bristolId}`);
+const connectSocketsToBristols = async (socketIds, bristolIds) => {
+	try {
+		socketIds.forEach(async socketId => {
+			const socket = io.sockets.sockets.get(socketId);
+			//console.log(io.sockets.sockets);
+			console.log(socketId);
+			bristolIds.forEach(bristolId => {
+				socket && socket.join(`bristol_${bristolId}`);
+			});
 		});
-	});
+	} catch (err) {
+		console.error(err);
+	}
 };
 
 const disconnectSocketsFromBristols = (socketIds, bristolIds) => {
-	const { sockets } = io.sockets;
-	bristolIds.forEach(bristolId => {
-		socketIds.forEach(socketId => {
-			sockets.get(socketId)?.leave(`bristol_${bristolId}`);
+	socketIds.forEach(socketId => {
+		const socket = io.sockets.sockets.get(socketId);
+		bristolIds.forEach(bristolId => {
+			socket && socket.leave(`bristol_${bristolId}`);
 			io.to(socketId).emit("deleted", { bristolId });
 		});
 	});
