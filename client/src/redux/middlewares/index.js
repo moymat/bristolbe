@@ -2,17 +2,18 @@ import { createNestedMenu } from "../../components/Bristol/BristolTree/helper";
 import { deltaRoles } from "../selectors/bristols";
 import axios from "../../utils/axios";
 
-const stopEditing = (state, action = null) => {
+const stopEditing = (state, action) => {
 	const { socket } = state.user.user;
 	const { id: bristolId, content } = state.bristol.selectedBristol;
 
-	const data = action
-		? {
-				bristolId,
-				title: action.title,
-				didContentChanged: action.content !== content,
-		  }
-		: { bristolId };
+	const data =
+		action.title || action.content
+			? {
+					bristolId,
+					title: action.title,
+					didContentChanged: action.content !== content,
+			  }
+			: { bristolId };
 
 	socket.emit("stop_editing", data);
 };
@@ -101,7 +102,6 @@ const Middleware = store => next => action => {
 					title: action.title,
 				})
 				.then(() => {
-					stopEditing(state, action);
 					next(action);
 				})
 				.catch(errorHandler);
@@ -119,13 +119,12 @@ const Middleware = store => next => action => {
 					})
 					.then(() => {
 						rolesManaged(state, roles);
-						!action.hasChanged && stopEditing(state);
 						next(action);
 					})
 					.catch(errorHandler);
 			break;
-		case "CANCEL_UPDATE_EDITOR":
-			stopEditing(state);
+		case "STOP_UPDATE_EDITOR":
+			stopEditing(state, action);
 			next(action);
 			break;
 		case "MOVE_BRISTOL":

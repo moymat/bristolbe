@@ -22,8 +22,8 @@ async function onMoved({ bristolId }) {
 	await socketIOModel.onMoved(this, bristolId);
 }
 
-async function onRolesManaged({ bristolId }) {
-	await socketIOModel.onRolesManaged(this, bristolId);
+async function onRolesManaged(args) {
+	await socketIOModel.onRolesManaged(this, args);
 }
 
 async function onDeleted({ bristolId }) {
