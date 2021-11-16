@@ -175,7 +175,7 @@ export default function Navbar({ children }) {
 	const menuId = "primary-search-account-menu";
 	const renderMenu = (
 		<Menu
-			class="profile-menu"
+			className="profile-menu"
 			anchorEl={anchorEl}
 			anchorOrigin={{
 				vertical: "bottom",
