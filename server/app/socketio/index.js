@@ -28,8 +28,6 @@ const connectSocketsToBristols = async (socketIds, bristolIds) => {
 	try {
 		socketIds.forEach(async socketId => {
 			const socket = io.sockets.sockets.get(socketId);
-			//console.log(io.sockets.sockets);
-			console.log(socketId);
 			bristolIds.forEach(bristolId => {
 				socket && socket.join(`bristol_${bristolId}`);
 			});
