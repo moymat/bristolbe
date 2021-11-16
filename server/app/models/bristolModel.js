@@ -53,6 +53,7 @@ const getBristol = async (bristolId, userId) => {
 		const bristol = rows[0];
 
 		const editorCached = await redisClient("in_editing_").getAsync(bristol.id);
+
 		bristol.inEditing = { status: !!editorCached, userId: editorCached };
 
 		const editors = rolesRows.filter(user => user.role === "editor");
