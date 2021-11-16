@@ -26,6 +26,7 @@ const register = async (req, res, next) => {
 				.cookie("access_token", data.token, {
 					httpOnly: true,
 					secure: process.env.NODE_ENV === "production",
+					sameSite: "none",
 					maxAge: process.env.REFRESH_EXP,
 				})
 				// Sending of the user info and the refresh token as JSON
@@ -73,6 +74,7 @@ const login = async (req, res, next) => {
 				.cookie("access_token", data.token, {
 					httpOnly: true,
 					secure: process.env.NODE_ENV === "production",
+					sameSite: "none",
 					maxAge: process.env.REFRESH_EXP,
 				})
 				// Sending of the user info and the refresh token as JSON
@@ -128,6 +130,7 @@ const isAuth = async (req, res, next) => {
 				.cookie("access_token", data.token, {
 					httpOnly: true,
 					secure: process.env.NODE_ENV === "production",
+					sameSite: "none",
 					maxAge: process.env.REFRESH_EXP,
 				})
 				.json({ status: "logged in", user: data.user, refresh: data.refresh });
