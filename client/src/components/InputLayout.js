@@ -3,7 +3,7 @@ import AuthLeftPanel from "./AuthLeftPanel";
 
 export default function InputLayout({ children }) {
 	return (
-		<Box sx={{ display: "flex", minHeight: "100vh" }}>
+		<Box sx={{ display: "flex", minHeight: "100vh", width: "100vw" }}>
 			<Box
 				sx={{
 					display: { xs: "none", md: "flex" },

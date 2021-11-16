@@ -20,7 +20,7 @@ const FlatContent = () => (
 	<Box sx={{ flexGrow: 1, mx: "10%" }}>
 		<Item elevation={0}>
 			<Typography variant="h2" component="div" gutterBottom>
-			Bristol organise le savoir
+				Bristol organise le savoir
 			</Typography>
 		</Item>
 		<Item elevation={0} sx={{ mx: { xs: "auto", md: "25%" } }}>
@@ -28,7 +28,10 @@ const FlatContent = () => (
 		</Item>
 		<Item elevation={0}>
 			<Typography variant="subtitle1" gutterBottom component="div">
-			Bristol est un site web collaboratif où des membres peuvent rédiger et partager des fiches méthodologiques. Bristol peut être utilisé comme simple carnet de note personnelle autant que pour la réalisation de base documentaire collaborative complexe.
+				Bristol est un site web collaboratif où des membres peuvent rédiger et
+				partager des fiches méthodologiques. Bristol peut être utilisé comme
+				simple carnet de note personnelle autant que pour la réalisation de base
+				documentaire collaborative complexe.
 			</Typography>
 		</Item>
 		<Item elevation={0} sx={{ mx: { xs: "auto", md: "25%" } }}>
@@ -40,7 +43,11 @@ const FlatContent = () => (
 		</Item>
 		<Item elevation={0}>
 			<Typography variant="subtitle1" gutterBottom component="div">
-			Bristol inclut un éditeur de texte ayant une interface intuitive qui permet à l'utilisateur de voir son document tel qu'il sera publié. Ajouter de la couleur, des liens, des images... Bristol permet une mise en forme sans limite de vos documents ! Et tout ça sans avoir à utiliser des commandes complexes.
+				Bristol inclut un éditeur de texte ayant une interface intuitive qui
+				permet à l'utilisateur de voir son document tel qu'il sera publié.
+				Ajouter de la couleur, des liens, des images... Bristol permet une mise
+				en forme sans limite de vos documents ! Et tout ça sans avoir à utiliser
+				des commandes complexes.
 			</Typography>
 		</Item>
 		<Item elevation={0} sx={{ mx: { xs: "auto", md: "25%" } }}>
@@ -52,7 +59,10 @@ const FlatContent = () => (
 		</Item>
 		<Item elevation={0}>
 			<Typography variant="subtitle1" gutterBottom component="div">
-			De la même manière qu'un château LEGO est composée de nombreuses briques, notre connaissance est la synthèse de nombreuse brique de savoir. Ce principe est le fondement de notre application. Chaque Bristol peut être imbriqué dans d'autres bristols.
+				De la même manière qu'un château LEGO est composée de nombreuses
+				briques, notre connaissance est la synthèse de nombreuse brique de
+				savoir. Ce principe est le fondement de notre application. Chaque
+				Bristol peut être imbriqué dans d'autres bristols.
 			</Typography>
 		</Item>
 		<Item elevation={0} sx={{ mx: { xs: "auto", md: "25%" } }}>
@@ -64,7 +74,9 @@ const FlatContent = () => (
 		</Item>
 		<Item elevation={0}>
 			<Typography variant="subtitle1" gutterBottom component="div">
-            Parce que la connaissance est le fruit d'un partage, Bristol est une application qui connecte les personnes. Vous pouvez partager en lecture ou en édition vos collections de Bristol. 
+				Parce que la connaissance est le fruit d'un partage, Bristol est une
+				application qui connecte les personnes. Vous pouvez partager en lecture
+				ou en édition vos collections de Bristol.
 			</Typography>
 		</Item>
 	</Box>
