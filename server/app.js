@@ -20,6 +20,7 @@ if (ENV === "development") {
 
 app.use(express.json());
 app.use(cookieParser());
+app.set("trust proxy", 1);
 
 const corsOptions = {
 	credentials: true,
