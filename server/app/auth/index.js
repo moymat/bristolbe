@@ -81,8 +81,8 @@ const isAuth = async (req, res, next) => {
 		httpOnly: true,
 		secure: true,
 		sameSite: "none",
-		expires: false,
-		maxAge: +process.env.REFRESH_EXP,
+		domain: process.env.CLIENT_URL,
+		//maxAge: +process.env.REFRESH_EXP,
 	});
 
 	console.log("res", newToken);
