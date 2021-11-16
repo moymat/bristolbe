@@ -52,12 +52,14 @@ const BristolEditor = ({ setBristol }) => {
 			? dispatch({ type: "STOP_UPDATE_EDITOR", content, title })
 			: dispatch({ type: "STOP_UPDATE_EDITOR" });
 
+		console.log(hasChanged);
 		if (hasChanged) {
 			selectedBristol.id
 				? dispatch({ type: "UPDATE_BRISTOL", content, title })
 				: dispatch({ type: "ADD_NEW_BRISTOL", content, title });
 		}
 
+		console.log(selectedBristol.id);
 		selectedBristol.id &&
 			dispatch({ type: "UPDATE_BRISTOL_ROLES", editors, viewers });
 	};

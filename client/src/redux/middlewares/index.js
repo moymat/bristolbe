@@ -124,7 +124,7 @@ const Middleware = store => next => action => {
 					.catch(errorHandler);
 			break;
 		case "STOP_UPDATE_EDITOR":
-			stopEditing(state, action);
+			state.bristol.selectedBristol.id && stopEditing(state, action);
 			next(action);
 			break;
 		case "MOVE_BRISTOL":
