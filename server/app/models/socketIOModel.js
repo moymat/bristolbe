@@ -5,7 +5,7 @@ const {
 } = require("../socketio");
 
 const onConnection = async (socketId, userId) => {
-	await redisClient("socket_id_").setAsync(userId, socketId);
+	await redisClient.setAsync(`socket_id_${userId}`, socketId);
 };
 
 const onCreated = async (socket, bristolId) => {
@@ -14,7 +14,7 @@ const onCreated = async (socket, bristolId) => {
 
 const onEditing = async (socket, bristolId) => {
 	const userId = socket.handshake.query.id;
-	await redisClient("in_editing_").setAsync(bristolId, userId);
+	await redisClient.setAsync(`in_editing_${bristolId}`, userId);
 
 	socket.broadcast
 		.to(`bristol_${bristolId}`)
@@ -22,7 +22,7 @@ const onEditing = async (socket, bristolId) => {
 };
 
 const onStopEditing = async (socket, args) => {
-	await redisClient("in_editing_").delAsync(args.bristolId);
+	await redisClient.delAsync(`in_editing_${args.bristolId}`);
 
 	socket.broadcast.to(`bristol_${args.bristolId}`).emit("stop_editing", args);
 };
@@ -36,7 +36,7 @@ const onRolesManaged = async (socket, { bristolId, roles }) => {
 		Object.entries(roles).map(async ([key, ids]) => [
 			key,
 			await Promise.all(
-				await ids.map(async id => await redisClient("socket_id_").getAsync(id))
+				await ids.map(async id => await redisClient.getAsync(`socket_id_${id}`))
 			),
 		])
 	);
@@ -59,16 +59,16 @@ const onDeleted = async (socket, bristolId) => {
 const onDisconnect = async socket => {
 	const userId = socket.handshake.query.id;
 
-	await redisClient("socket_id_").delAsync(socket.handshake.query.id);
+	await redisClient.delAsync(`socket_id_${socket.handshake.query.id}`);
 
-	const allInEditing = await redisClient().keysAsync("in_editing_*");
+	const allInEditing = await redisClient.keysAsync("in_editing_*");
 	await Promise.all(
 		allInEditing.map(async key => {
 			const bristolId = key.replace("in_editing_", "");
-			const editorId = await redisClient("in_editing_").getAsync(bristolId);
+			const editorId = await redisClient.getAsync(`in_editing_${bristolId}`);
 
 			if (editorId === userId) {
-				await redisClient("in_editing_").delAsync(bristolId);
+				await redisClient.delAsync(`in_editing_${bristolId}`);
 				socket.broadcast
 					.to(`bristol_${bristolId}`)
 					.emit("stop_editing", { bristolId });
