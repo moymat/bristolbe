@@ -32,7 +32,6 @@ const onMoved = async (socket, bristolId) => {
 };
 
 const onRolesManaged = async (socket, { bristolId, roles }) => {
-	console.log(bristolId, roles);
 	const socketsPerRoles = await Promise.all(
 		Object.entries(roles).map(async ([key, ids]) => [
 			key,
