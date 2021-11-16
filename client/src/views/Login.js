@@ -16,6 +16,8 @@ export default function Login() {
 	});
 	const [passwordError, setPasswordError] = useState(false);
 	const [emailError, setEmailError] = useState(false);
+	const [notUsedAccount, setNotUsedAccount] = useState(false);
+
 	const dispatch = useDispatch();
 
 	const handleChange = event => {
@@ -47,12 +49,11 @@ export default function Login() {
 			});
 
 			if (data.errors) {
-				console.log(data.errors);
+				setPasswordError(true);
 				return;
 			}
-
 			if (data.error) {
-				console.log(data.error);
+				console.log("je suis l'erreur",data.error);
 				return;
 			}
 
@@ -64,6 +65,7 @@ export default function Login() {
 				setPasswordError(true);
 			} else if (error.includes("no user found with email")) {
 				setEmailError(true);
+				setNotUsedAccount(true)
 			}
 		}
 	};
@@ -91,7 +93,7 @@ export default function Login() {
 						sx={{ marginBottom: 2 }}
 						onChange={handleChange}
 						value={input.email}
-						helperText={emailError ? "Your Email is invalid" : ""}
+						helperText={emailError ? notUsedAccount ? "The email you entered isn’t connected to an account" : "Your Email is invalid" : ""}
 						error={emailError}
 					/>
 					<TextField

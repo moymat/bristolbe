@@ -68,11 +68,13 @@ export default function Profile() {
 
 	return (
 		<Box
+			className="Coucou"
 			sx={{
 				"& .MuiTextField-root": { mb: 2 },
 				ml: isSmallScreen ? 0 : 5,
 				flexGrow: 1,
 				marginTop: 1,
+				width: "100%",
 			}}>
 			<CustomAlert
 				open={isSnackOpen}
@@ -97,7 +99,7 @@ export default function Profile() {
 					My profile
 				</Typography>
 				<TextField
-					sx={{ width: { xs: "70%", md: "400px" } }}
+					sx={{ width: { xs: "75%", md: "400px" } }}
 					name="firstName"
 					label="First Name"
 					variant="outlined"
@@ -108,7 +110,7 @@ export default function Profile() {
 				/>
 
 				<TextField
-					sx={{ width: { xs: "70%", md: "400px" } }}
+					sx={{ width: { xs: "75%", md: "400px" } }}
 					name="lastName"
 					label="Last Name"
 					variant="outlined"
