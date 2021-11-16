@@ -72,9 +72,9 @@ const isAuth = async (req, res, next) => {
 	// Get a new access token and send it as a cookie
 	const newToken = signToken({ id: decodedRefresh.id });
 	res.cookie("access_token", newToken, {
-		httpOnly: true,
-		secure: process.env.NODE_ENV === "production",
-		sameSite: "none",
+		secure: process.env.NODE_ENV !== "development",
+		secure: process.env.NODE_ENV !== "development",
+		sameSite: process.env.NODE_ENV !== "development" ? "none" : null,
 		maxAge: process.env.REFRESH_EXP,
 	});
 

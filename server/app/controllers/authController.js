@@ -24,9 +24,9 @@ const register = async (req, res, next) => {
 		: res
 				// Sending of the access_token in the cookie
 				.cookie("access_token", data.token, {
-					httpOnly: true,
-					secure: process.env.NODE_ENV === "production",
-					sameSite: "none",
+					secure: process.env.NODE_ENV !== "development",
+					secure: process.env.NODE_ENV !== "development",
+					sameSite: process.env.NODE_ENV !== "development" ? "none" : null,
 					maxAge: process.env.REFRESH_EXP,
 				})
 				// Sending of the user info and the refresh token as JSON
@@ -72,9 +72,9 @@ const login = async (req, res, next) => {
 		: res
 				// Sending of the access_token in the cookie
 				.cookie("access_token", data.token, {
-					httpOnly: true,
-					secure: process.env.NODE_ENV === "production",
-					sameSite: "none",
+					secure: process.env.NODE_ENV !== "development",
+					secure: process.env.NODE_ENV !== "development",
+					sameSite: process.env.NODE_ENV !== "development" ? "none" : null,
 					maxAge: process.env.REFRESH_EXP,
 				})
 				// Sending of the user info and the refresh token as JSON
@@ -128,9 +128,9 @@ const isAuth = async (req, res, next) => {
 		? next(error)
 		: res
 				.cookie("access_token", data.token, {
-					httpOnly: true,
-					secure: process.env.NODE_ENV === "production",
-					sameSite: "none",
+					secure: process.env.NODE_ENV !== "development",
+					secure: process.env.NODE_ENV !== "development",
+					sameSite: process.env.NODE_ENV !== "development" ? "none" : null,
 					maxAge: process.env.REFRESH_EXP,
 				})
 				.json({ status: "logged in", user: data.user, refresh: data.refresh });

@@ -13,6 +13,7 @@ import { Avatar } from "@mui/material";
 import "./style.scss";
 import { Link } from "react-router-dom";
 
+<<<<<<< HEAD
 const CardProfile = ({firstName, lastName, job, secondJob, thirdJob}) => {
   return (
     <Box sx={{ minWidth: 275,}}>
@@ -55,6 +56,60 @@ const CardProfile = ({firstName, lastName, job, secondJob, thirdJob}) => {
         </CardContent>
       </Card>
       {/* <Card variant="outlined">
+=======
+const CardProfile = () => {
+	return (
+		<Box sx={{ minWidth: 275 }}>
+			<Card>
+				<CardContent>
+					<div className="container">
+						<div className="row">
+							<div>
+								<div className="our-team">
+									<div className="picture">
+										<img
+											className="img-fluid"
+											src="https://picsum.photos/130/130?image=856"
+										/>
+									</div>
+									<div className="team-content">
+										<Typography>Justin Ramos</Typography>
+										<Typography>Web Developer</Typography>
+									</div>
+									<ul className="social">
+										<li>
+											<a
+												href="https://codepen.io/collection/XdWJOQ/"
+												className="fa fa-facebook"
+												aria-hidden="true"></a>
+										</li>
+										<li>
+											<a
+												href="https://codepen.io/collection/XdWJOQ/"
+												className="fa fa-twitter"
+												aria-hidden="true"></a>
+										</li>
+										<li>
+											<a
+												href="https://codepen.io/collection/XdWJOQ/"
+												className="fa fa-google-plus"
+												aria-hidden="true"></a>
+										</li>
+										<li>
+											<a
+												href="https://codepen.io/collection/XdWJOQ/"
+												className="fa fa-linkedin"
+												aria-hidden="true"></a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</CardContent>
+			</Card>
+			{/* <Card variant="outlined">
+>>>>>>> d3498031 (change socketio package to socket.io)
         <CardContent>
           <Typography variant="h5" component="div">
             Tony DAY
@@ -114,7 +169,7 @@ const CardProfile = ({firstName, lastName, job, secondJob, thirdJob}) => {
           </Button>
         </CardActions>
       </Card> */}
-    </Box>
-  );
+		</Box>
+	);
 };
 export default CardProfile;
