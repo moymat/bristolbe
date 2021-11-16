@@ -17,6 +17,7 @@ import axios from "./utils/axios";
 import CustomTheme from "./theme";
 import NotFound from "./views/NotFound";
 import ValidateEmail from "./views/ValidateEmail";
+import SocketIOListener from "./components/SocketIOListener";
 
 function App() {
 	const [isAuthChecked, setIsAuthChecked] = useState(false);
@@ -56,23 +57,29 @@ function App() {
 								<Reset />
 							</Route>
 							{user.id && (
-								<Navbar>
-									<Route exact path="/home">
-										<Home />
-									</Route>
-									<Route exact path="/contact">
-										<Contact />
-									</Route>
-									<Route exact path="/bristol">
-										<Bristol />
-									</Route>
-									<Route exact path="/user/:page">
-										<ProfileLayout>
-											<Route exact path="/user/settings" component={Settings} />
-											<Route exact path="/user/profile" component={Profile} />
-										</ProfileLayout>
-									</Route>
-								</Navbar>
+								<SocketIOListener>
+									<Navbar>
+										<Route exact path="/home">
+											<Home />
+										</Route>
+										<Route exact path="/contact">
+											<Contact />
+										</Route>
+										<Route exact path="/bristol">
+											<Bristol />
+										</Route>
+										<Route exact path="/user/:page">
+											<ProfileLayout>
+												<Route
+													exact
+													path="/user/settings"
+													component={Settings}
+												/>
+												<Route exact path="/user/profile" component={Profile} />
+											</ProfileLayout>
+										</Route>
+									</Navbar>
+								</SocketIOListener>
 							)}
 							<Route exact path="/validate">
 								<ValidateEmail />

@@ -1,6 +1,24 @@
-import axios from "../../utils/axios";
 import { createNestedMenu } from "../../components/Bristol/BristolTree/helper";
 import { deltaRoles } from "../selectors/bristols";
+import axios from "../../utils/axios";
+
+const stopEditing = state => {
+	const { socket } = state.user.user;
+	const { id: bristolId } = state.bristol.selectedBristol;
+	socket.emit("stop_editing", { bristolId });
+};
+
+const editing = state => {
+	const { socket, id: userId } = state.user.user;
+	const { id: bristolId } = state.bristol.selectedBristol;
+	socket.emit("editing", { bristolId, userId });
+};
+
+const joinBristolRooms = (state, bristols) => {
+	const { socket } = state.user.user;
+	const bristolsId = bristols.map(({ id }) => id);
+	socket.emit("join_bristol_rooms", { bristolsId });
+};
 
 const Middleware = store => next => action => {
 	const state = store.getState();
@@ -13,13 +31,12 @@ const Middleware = store => next => action => {
 	};
 
 	switch (action.type) {
-		case "UPDATE_BRISTOL":
+		case "SET_BRISTOLS":
 			axios()
-				.patch(`/api/v1/bristols/${state.bristol.selectedBristol.id}`, {
-					content: action.content,
-					title: action.title,
-				})
-				.then(() => {
+				.get(`api/v1/users/${action.userId}/bristols`)
+				.then(({ data }) => {
+					joinBristolRooms(state, data.data);
+					action.bristols = createNestedMenu(data.data);
 					next(action);
 				})
 				.catch(errorHandler);
@@ -32,27 +49,6 @@ const Middleware = store => next => action => {
 				})
 				.then(({ data }) => {
 					action.id = data.data.id;
-					next(action);
-				})
-				.catch(errorHandler);
-			break;
-		case "MOVE_BRISTOL":
-			axios()
-				.post("/api/v1/bristols/move", {
-					bristol_id: action.id,
-					parent_id: action.parent_id,
-					position: action.position,
-				})
-				.then(() => {
-					next(action);
-				})
-				.catch(errorHandler);
-			break;
-		case "SET_BRISTOLS":
-			axios()
-				.get(`api/v1/users/${action.userId}/bristols`)
-				.then(({ data }) => {
-					action.bristols = createNestedMenu(data.data);
 					next(action);
 				})
 				.catch(errorHandler);
@@ -70,6 +66,22 @@ const Middleware = store => next => action => {
 				})
 				.catch(errorHandler);
 			break;
+		case "EDIT_CURRENT_BRISTOL":
+			editing(state);
+			next(action);
+			break;
+		case "UPDATE_BRISTOL":
+			stopEditing(state);
+			axios()
+				.patch(`/api/v1/bristols/${state.bristol.selectedBristol.id}`, {
+					content: action.content,
+					title: action.title,
+				})
+				.then(() => {
+					next(action);
+				})
+				.catch(errorHandler);
+			break;
 		case "UPDATE_BRISTOL_ROLES":
 			const roles = deltaRoles(
 				state.bristol.selectedBristol,
@@ -83,6 +95,22 @@ const Middleware = store => next => action => {
 					})
 					.then(() => next(action))
 					.catch(errorHandler);
+			break;
+		case "CANCEL_UPDATE_EDITOR":
+			stopEditing(state);
+			next(action);
+			break;
+		case "MOVE_BRISTOL":
+			axios()
+				.post("/api/v1/bristols/move", {
+					bristol_id: action.id,
+					parent_id: action.parent_id,
+					position: action.position,
+				})
+				.then(() => {
+					next(action);
+				})
+				.catch(errorHandler);
 			break;
 		case "DELETE_BRISTOL":
 			axios()
