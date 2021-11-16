@@ -2,8 +2,10 @@ import Box from "@mui/material/Box";
 import { NavLink, useLocation } from "react-router-dom";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function ProfileLayout({ children }) {
+	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 	const dataMap = [{ label: "profile" }, { label: "settings" }];
 	const { pathname } = useLocation();
 
@@ -13,6 +15,8 @@ export default function ProfileLayout({ children }) {
 				flexGrow: 1,
 				bgcolor: "background.paper",
 				display: { xs: "column", md: "flex" },
+				height: '100%',
+				width: '100%'
 			}}>
 			<Box
 				flexDirection="column"
@@ -28,12 +32,12 @@ export default function ProfileLayout({ children }) {
 					</Button>
 				))}
 			</Box>
-			{/* <Box
+			<Box
 				sx={{
 					height: "min-content",
 					display: { xs: "flex", md: "none" },
 					justifyContent: "center",
-					width: "500px",
+					/* width: "500px", */
 				}}>
 				{dataMap.map(({ label }) => (
 					<Button
@@ -45,7 +49,7 @@ export default function ProfileLayout({ children }) {
 						{label}
 					</Button>
 				))}
-			</Box> */}
+			</Box>
 			<Divider
 				orientation="vertical"
 				flexItem
@@ -54,10 +58,10 @@ export default function ProfileLayout({ children }) {
 			<Divider flexItem sx={{ display: { xs: "flex", md: "none" } }} />
 			<Box
 				sx={{
-					padding: " 30px 60px",
+					/* padding: " 30px 60px", */
 					flexGrow: 1,
-					margin: "auto",
-					width: "600px",
+					
+					/* width: isSmallScreen ? "200px" : "600px", */ 
 				}}>
 				{children}
 			</Box>

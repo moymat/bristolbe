@@ -67,7 +67,7 @@ export default function Profile() {
 	return (
 		<Box
 			sx={{
-				"& .MuiTextField-root": { m: 2 },
+				"& .MuiTextField-root": { mb: 2 },
 				ml: 5,
 				flexGrow: 1,
 			}}>
@@ -87,12 +87,13 @@ export default function Profile() {
 					marginTop: 2,
 					display: "flex",
 					flexDirection: "column",
-					width: 300,
+					width: '100%',
 				}}>
 				<Typography variant="h6" sx={{ marginBottom: 2 }}>
 					My profile
 				</Typography>
 				<TextField
+					sx={{width: { xs: "80%", md: '300px' }}}
 					name="firstName"
 					label="First Name"
 					variant="outlined"
@@ -103,6 +104,7 @@ export default function Profile() {
 				/>
 
 				<TextField
+					sx={{width: { xs: "80%", md: '300px' }}}
 					name="lastName"
 					label="Last Name"
 					variant="outlined"
@@ -117,8 +119,6 @@ export default function Profile() {
 					sx={{
 						marginTop: 2,
 						width: "fit-content",
-						left: "50%",
-						transform: "translateX(-50%)",
 					}}>
 					Apply
 				</Button>
