@@ -159,7 +159,6 @@ export default function Settings() {
 			sx={{
 				"& .MuiTextField-root": { mb: 2 },
 				ml: isSmallScreen ? 0 : 5,
-				flexGrow: 1,
 			}}>
 			<CustomAlert
 				open={isSnackOpen}
@@ -168,7 +167,6 @@ export default function Settings() {
 			/>
 			<Box
 				sx={{
-					marginTop: 4,
 					display: "flex",
 					flexDirection: "column",
 					alignItems: isSmallScreen ? "center" : "",
@@ -183,7 +181,7 @@ export default function Settings() {
 					Change your Email
 				</Typography>
 				<TextField
-				sx={{width: { xs: "70%", md: '400px' }}}
+					sx={{ width: { xs: "70%", md: "400px" } }}
 					type="password"
 					name="passwordEmail"
 					label="Password"
@@ -195,7 +193,7 @@ export default function Settings() {
 					error={emailPasswordError}
 				/>
 				<TextField
-				sx={{width: { xs: "70%", md: '400px' }}}
+					sx={{ width: { xs: "70%", md: "400px" } }}
 					type="email"
 					name="newEmail"
 					label="New email"
@@ -229,7 +227,7 @@ export default function Settings() {
 					Change your password
 				</Typography>
 				<TextField
-				sx={{width: { xs: "70%", md: '400px' }}}
+					sx={{ width: { xs: "70%", md: "400px" } }}
 					type="password"
 					name="currentPassword"
 					label="Password"
@@ -241,7 +239,7 @@ export default function Settings() {
 					error={currentPasswordError}
 				/>
 				<TextField
-				sx={{width: { xs: "70%", md: '400px' }}}
+					sx={{ width: { xs: "70%", md: "400px" } }}
 					type="password"
 					name="newPassword"
 					label="New Password"
@@ -274,7 +272,7 @@ export default function Settings() {
 					</ul>
 				)}
 				<TextField
-				sx={{width: { xs: "70%", md: '400px' }}}
+					sx={{ width: { xs: "70%", md: "400px" } }}
 					type="password"
 					name="confirmPassword"
 					label="Confirm Password"

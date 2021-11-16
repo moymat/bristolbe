@@ -3,23 +3,19 @@ import { NavLink, useLocation } from "react-router-dom";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { margin } from "@mui/system";
-
 
 export default function ProfileLayout({ children }) {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 	const dataMap = [{ label: "profile" }, { label: "settings" }];
 	const { pathname } = useLocation();
 
-
 	return (
 		<Box
 			sx={{
-				flexGrow: 1,
 				bgcolor: "background.paper",
 				display: { xs: "column", md: "flex" },
-				height: '100%',
-				width: '100%'
+				height: "100%",
+				width: "100%",
 			}}>
 			<Box
 				flexDirection="column"
@@ -47,7 +43,11 @@ export default function ProfileLayout({ children }) {
 						key={label}
 						component={NavLink}
 						to={`/user/${label}`}
-						sx={{ marginY: 1, marginRight: 1.5}}>
+						sx={{
+							mt: 0.5,
+							mb: 1,
+							mx: 0.75,
+						}}>
 						{label}
 					</Button>
 				))}
@@ -58,13 +58,7 @@ export default function ProfileLayout({ children }) {
 				sx={{ display: { xs: "none", md: "flex" } }}
 			/>
 			<Divider flexItem sx={{ display: { xs: "flex", md: "none" } }} />
-			<Box
-				sx={{
-					flexGrow: 1,
-					width: "100%"
-				}}>
-				{children}
-			</Box>
+			<Box sx={{ mt: 2 }}>{children}</Box>
 		</Box>
 	);
 }

@@ -16,7 +16,7 @@ const BristolView = () => {
 				}}>
 				<BristolTree />
 			</Box>
-			<Box sx={{ width: "100%" }}>{editorIsVisible && <BristolEditor />}</Box>
+			<Box>{editorIsVisible && <BristolEditor />}</Box>
 		</Box>
 	);
 };

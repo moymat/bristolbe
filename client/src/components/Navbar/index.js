@@ -105,6 +105,7 @@ const Drawer = styled(MuiDrawer, {
 export default function Navbar({ children }) {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 	const user = useSelector(state => state.user.user);
+	const isDrawerOpen = useSelector(state => state.core.isDrawerOpen);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 	const history = useHistory();
@@ -174,6 +175,7 @@ export default function Navbar({ children }) {
 	const menuId = "primary-search-account-menu";
 	const renderMenu = (
 		<Menu
+			class="profile-menu"
 			anchorEl={anchorEl}
 			anchorOrigin={{
 				vertical: "bottom",
@@ -236,10 +238,7 @@ export default function Navbar({ children }) {
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
-			<AppBar
-				position="fixed"
-				open={useSelector(state => state.core.isDrawerOpen)}
-				smallscreen={isSmallScreen}>
+			<AppBar position="fixed" open={isDrawerOpen} smallscreen={isSmallScreen}>
 				<Toolbar>
 					<IconButton
 						color="inherit"
@@ -248,7 +247,7 @@ export default function Navbar({ children }) {
 						edge="start"
 						sx={{
 							marginRight: "36px",
-							...(useSelector(state => state.core.isDrawerOpen) &&
+							...(isDrawerOpen &&
 								!isSmallScreen && {
 									display: "none",
 								}),
@@ -323,7 +322,7 @@ export default function Navbar({ children }) {
 			<Drawer
 				sx={{ display: { xs: "none", sm: "flex" } }}
 				variant="permanent"
-				open={useSelector(state => state.core.isDrawerOpen)}>
+				open={isDrawerOpen}>
 				<DrawerHeader>
 					<IconButton onClick={handleDrawerClose}>
 						{theme.direction === "rtl" ? (
@@ -346,14 +345,20 @@ export default function Navbar({ children }) {
 			<Box
 				component="main"
 				sx={{
-					position: isSmallScreen ? "fixed" : "initial",
-					top: 0,
-					bottom: 56,
-					flexGrow: 1,
-					px: 1,
-					pt: isSmallScreen ? 8 : 10,
-					minHeight: "100vh",
+					position: "fixed",
+					top: 64,
+					bottom: isSmallScreen
+						? history.location.pathname === "/bristol" && 56
+						: 0,
+					right: 0,
+					left: isSmallScreen ? 0 : isDrawerOpen ? 240 : 73,
 					overflowY: "auto",
+					zIndex: 1300,
+					px: 1,
+					pt: isSmallScreen ? 0 : 2,
+					height: isSmallScreen ? "100vh" : "auto",
+					maxHeight: isSmallScreen ? "calc(100vh - 56px)" : "100vh",
+					transition: `200ms all ease-in-out`,
 				}}>
 				{/* {isSmallScreen && <DrawerHeader />} */}
 				{children}
