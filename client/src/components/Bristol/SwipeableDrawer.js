@@ -45,24 +45,19 @@ function SwipeableEdgeDrawer({
 	open,
 }) {
 	const bristols = useSelector(state => state.bristol.bristols);
-	const [rootNb, setRootNb] = useState("0 bristol");
+	const [bristolsNb, setBristolsNb] = useState("0 bristol");
 
 	const toggleDrawer = newOpen => () => {
 		handleOpen(newOpen);
 	};
 
-	// This is used only for the example
 	const container =
 		window !== undefined ? () => window().document.body : undefined;
 
 	useEffect(() => {
 		const nb = countBristols(bristols);
-		setRootNb(`${nb} bristol${nb > 1 ? "s" : ""}`);
+		setBristolsNb(`${nb} bristol${nb > 1 ? "s" : ""}`);
 	}, [bristols]);
-
-	useEffect(() => {
-		document.addEventListener("click", e => console.log(e));
-	}, []);
 
 	return (
 		<Root>
@@ -89,7 +84,7 @@ function SwipeableEdgeDrawer({
 						top: -drawerBleeding,
 						borderTopLeftRadius: 8,
 						borderTopRightRadius: 8,
-						boxShadow: "0 -1px 1px 2px lightgrey",
+						boxShadow: "0 -1px 1px 1px lightgrey",
 						visibility: { xs: "visible", sm: "hidden" },
 						right: 0,
 						left: 0,
@@ -97,7 +92,7 @@ function SwipeableEdgeDrawer({
 					<Puller />
 					<Box sx={{ display: "flex", justifyContent: "space-between" }}>
 						<Typography sx={{ p: 2, color: "text.secondary" }}>
-							{rootNb}
+							{bristolsNb}
 						</Typography>
 					</Box>
 				</StyledBox>
