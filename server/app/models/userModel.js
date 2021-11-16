@@ -120,9 +120,10 @@ const getUsersBristols = async id => {
 			[id]
 		);
 
+		const redisEdit = redisClient("in_editing");
 		const bristols = await Promise.all(
 			rows.map(async bristol => {
-				const editorId = await redisClient("in_editing_").getAsync(bristol.id);
+				const editorId = await redisEdit.getAsync(bristol.id);
 				return {
 					...bristol,
 					inEditing: { status: !!editorId, userId: editorId },
@@ -130,9 +131,10 @@ const getUsersBristols = async id => {
 			})
 		);
 
+		const redisSocket = redisClient("socket_id_");
 		let userSocket;
 		do {
-			userSocket = await redisClient("socket_id_").getAsync(id);
+			userSocket = await redisSocket.getAsync(id);
 		} while (!userSocket);
 
 		connectSocketsToBristols(
