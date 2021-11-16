@@ -16,7 +16,7 @@ const createBristol = async (body, userId) => {
 			JSON.stringify({ user_id: userId, ...data }),
 		]);
 
-		const userSocket = await redisClient("socket_id_").getAsync(userId);
+		const userSocket = await redisClient.getAsync(`socket_id_${userId}`);
 
 		connectSocketsToBristols([userSocket], [rows[0].id]);
 
@@ -52,7 +52,7 @@ const getBristol = async (bristolId, userId) => {
 
 		const bristol = rows[0];
 
-		const editorCached = await redisClient("in_editing_").getAsync(bristol.id);
+		const editorCached = await redisClient.getAsync(`in_editing_${bristol.id}`);
 
 		bristol.inEditing = { status: !!editorCached, userId: editorCached };
 
@@ -93,7 +93,7 @@ const moveBristol = async (bristolMoved, userId) => {
 						(acc, { id, role }) => (role === "editor" ? [...acc, id] : acc),
 						[]
 					)
-					.map(async id => await redisClient("socket_id_").getAsync(id))
+					.map(async id => await redisClient.getAsync(`socket_id_${id}`))
 			);
 
 			connectSocketsToBristols(
@@ -114,7 +114,7 @@ const moveBristol = async (bristolMoved, userId) => {
 
 			const sockets = await Promise.all(
 				membersRows.map(
-					async ({ id }) => await redisClient("socket_id_").getAsync(id)
+					async ({ id }) => await redisClient.getAsync(`socket_id_${id}`)
 				)
 			);
 
@@ -130,7 +130,7 @@ const moveBristol = async (bristolMoved, userId) => {
 						(acc, { id, role }) => (role === "editor" ? [...acc, id] : acc),
 						[]
 					)
-					.map(async id => await redisClient("socket_id_").getAsync(id))
+					.map(async id => await redisClient.getAsync(`socket_id_${id}`))
 			);
 
 			const { rows: membersRows } = await pgClient.query(
@@ -145,7 +145,7 @@ const moveBristol = async (bristolMoved, userId) => {
 
 			const newSockets = await Promise.all(
 				membersRows.map(
-					async ({ id }) => await redisClient("socket_id_").getAsync(id)
+					async ({ id }) => await redisClient.getAsync(`socket_id_${id}`)
 				)
 			);
 

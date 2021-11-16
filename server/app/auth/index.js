@@ -51,7 +51,9 @@ const isAuth = async (req, res, next) => {
 	}
 
 	// Retrieve stored refresh token
-	const cachedRefresh = await redisClient().getAsync(browserId);
+	const cachedRefresh = await redisClient.getAsync(
+		`refresh_token_${browserId}`
+	);
 
 	if (cachedRefresh !== refresh) {
 		// If cached refresh token and sent refresh token are different, delete cookie and throw error
