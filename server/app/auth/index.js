@@ -81,6 +81,7 @@ const isAuth = async (req, res, next) => {
 		httpOnly: true,
 		secure: true,
 		sameSite: "none",
+		expires: new Date(Date.now() + process.env.REFRESH_EXP),
 	});
 
 	console.log("res", newToken);
