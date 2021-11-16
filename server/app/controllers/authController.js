@@ -28,7 +28,6 @@ const register = async (req, res, next) => {
 					secure: process.env.NODE_ENV === "production",
 					sameSite: "none",
 					maxAge: process.env.REFRESH_EXP,
-					domain: "bristolbe.herokuapp.com",
 				})
 				// Sending of the user info and the refresh token as JSON
 				.json({
@@ -77,7 +76,6 @@ const login = async (req, res, next) => {
 					secure: process.env.NODE_ENV === "production",
 					sameSite: "none",
 					maxAge: process.env.REFRESH_EXP,
-					domain: "bristolbe.herokuapp.com",
 				})
 				// Sending of the user info and the refresh token as JSON
 				.json({
@@ -134,7 +132,6 @@ const isAuth = async (req, res, next) => {
 					secure: process.env.NODE_ENV === "production",
 					sameSite: "none",
 					maxAge: process.env.REFRESH_EXP,
-					domain: "bristolbe.herokuapp.com",
 				})
 				.json({ status: "logged in", user: data.user, refresh: data.refresh });
 };
