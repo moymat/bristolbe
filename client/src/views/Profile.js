@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -73,7 +73,6 @@ export default function Profile() {
 				"& .MuiTextField-root": { mb: 2 },
 				ml: isSmallScreen ? 0 : 5,
 				flexGrow: 1,
-				marginTop: 1,
 				width: "100%",
 			}}>
 			<CustomAlert
@@ -86,7 +85,6 @@ export default function Profile() {
 				component="form"
 				onSubmit={handleSubmit}
 				sx={{
-					marginTop: 2,
 					display: "flex",
 					flexDirection: "column",
 					alignItems: isSmallScreen ? "center" : "",

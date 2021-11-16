@@ -99,7 +99,7 @@ const BristolTree = () => {
 					sx={{
 						position: "fixed",
 						transition: `200ms all ease-in-out`,
-						left: isSideDrawerOpen ? 480 : 310,
+						left: isSideDrawerOpen ? 480 : 313,
 						bottom: 20,
 						display: { xs: "none", sm: "flex" },
 					}}>
