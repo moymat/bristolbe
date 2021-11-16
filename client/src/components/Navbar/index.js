@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { styled, useTheme } from "@mui/material/styles";
 import { useHistory, Link } from "react-router-dom";
@@ -105,6 +105,7 @@ const Drawer = styled(MuiDrawer, {
 export default function Navbar({ children }) {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 	const user = useSelector(state => state.user.user);
+	const isDrawerOpen = useSelector(state => state.core.isDrawerOpen);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 	const history = useHistory();
@@ -236,10 +237,7 @@ export default function Navbar({ children }) {
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
-			<AppBar
-				position="fixed"
-				open={useSelector(state => state.core.isDrawerOpen)}
-				smallscreen={isSmallScreen}>
+			<AppBar position="fixed" open={isDrawerOpen} smallscreen={isSmallScreen}>
 				<Toolbar>
 					<IconButton
 						color="inherit"
@@ -248,7 +246,7 @@ export default function Navbar({ children }) {
 						edge="start"
 						sx={{
 							marginRight: "36px",
-							...(useSelector(state => state.core.isDrawerOpen) &&
+							...(isDrawerOpen &&
 								!isSmallScreen && {
 									display: "none",
 								}),
@@ -323,7 +321,7 @@ export default function Navbar({ children }) {
 			<Drawer
 				sx={{ display: { xs: "none", sm: "flex" } }}
 				variant="permanent"
-				open={useSelector(state => state.core.isDrawerOpen)}>
+				open={isDrawerOpen}>
 				<DrawerHeader>
 					<IconButton onClick={handleDrawerClose}>
 						{theme.direction === "rtl" ? (
@@ -346,13 +344,15 @@ export default function Navbar({ children }) {
 			<Box
 				component="main"
 				sx={{
-					position: isSmallScreen ? "fixed" : "initial",
-					top: 0,
-					bottom: 56,
-					flexGrow: 1,
+					position: "fixed",
+					top: 64,
+					bottom: isSmallScreen ? 56 : 0,
+					left: isSmallScreen ? 0 : isDrawerOpen ? 240 : 73,
+					transition: `200ms all ease-in-out`,
+					right: 0,
 					px: 1,
-					pt: isSmallScreen ? 8 : 10,
-					minHeight: "100vh",
+					pt: isSmallScreen ? 0 : 2,
+					maxHeight: isSmallScreen ? "calc(100vh - 56px)" : "100vh",
 					overflowY: "auto",
 				}}>
 				{/* {isSmallScreen && <DrawerHeader />} */}

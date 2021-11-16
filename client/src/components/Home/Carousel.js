@@ -20,151 +20,153 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 /* const AutoPlaySwipeableViews = autoPlay(SwipeableViews); */
 
 const images = [
-  {
-    title: "Organisez le savoir !",
-    label:
-      "Bristol est un site web collaboratif où des membres peuvent rédiger et partager des fiches méthodologiques. Bristol peut être utilisé comme simple carnet de note personnelle autant que pour la réalisation de base documentaire collaborative complexe.",
-    imgPath: myCollection,
-  },
-  {title: "Rédigez !",
-    label:
-      "Bristol inclut un éditeur de texte ayant une interface intuitive qui permet à l'utilisateur de voir son document tel qu'il sera publié. Ajouter de la couleur, des liens, des images... Bristol permet une mise en forme sans limite de vos documents ! Et tout ça sans avoir à utiliser des commandes complexes.",
-    imgPath: OneBristol,
-  },
-  {title: "Hiérarchisez !",
-    label:
-      "De la même manière qu'un château LEGO est composée de nombreuses briques, notre connaissance est la synthèse de nombreuse brique de savoir. Ce principe est le fondement de notre application. Chaque Bristol peut être imbriqué dans d'autres bristols.",
-    imgPath: fileBundle,
-  },
-  {title: "Partagez !",
-    label:
-      "Parce que la connaissance est le fruit d'un partage, Bristol est une application qui connecte les personnes. Vous pouvez partager en lecture ou en édition vos collections de Bristol.",
-    imgPath: TeamSpirit,
-  },
-
-
-
+	{
+		title: "Organisez le savoir !",
+		label:
+			"Bristol est un site web collaboratif où des membres peuvent rédiger et partager des fiches méthodologiques. Bristol peut être utilisé comme simple carnet de note personnelle autant que pour la réalisation de base documentaire collaborative complexe.",
+		imgPath: myCollection,
+	},
+	{
+		title: "Rédigez !",
+		label:
+			"Bristol inclut un éditeur de texte ayant une interface intuitive qui permet à l'utilisateur de voir son document tel qu'il sera publié. Ajouter de la couleur, des liens, des images... Bristol permet une mise en forme sans limite de vos documents ! Et tout ça sans avoir à utiliser des commandes complexes.",
+		imgPath: OneBristol,
+	},
+	{
+		title: "Hiérarchisez !",
+		label:
+			"De la même manière qu'un château LEGO est composée de nombreuses briques, notre connaissance est la synthèse de nombreuse brique de savoir. Ce principe est le fondement de notre application. Chaque Bristol peut être imbriqué dans d'autres bristols.",
+		imgPath: fileBundle,
+	},
+	{
+		title: "Partagez !",
+		label:
+			"Parce que la connaissance est le fruit d'un partage, Bristol est une application qui connecte les personnes. Vous pouvez partager en lecture ou en édition vos collections de Bristol.",
+		imgPath: TeamSpirit,
+	},
 ];
 
 function Carousel() {
-  const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
-  const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = images.length;
+	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
+	const theme = useTheme();
+	const [activeStep, setActiveStep] = React.useState(0);
+	const maxSteps = images.length;
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
+	const handleNext = () => {
+		setActiveStep(prevActiveStep => prevActiveStep + 1);
+	};
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+	const handleBack = () => {
+		setActiveStep(prevActiveStep => prevActiveStep - 1);
+	};
 
-  const handleStepChange = (step) => {
-    setActiveStep(step);
-  };
+	const handleStepChange = step => {
+		setActiveStep(step);
+	};
 
-  return (
-    <Box
-      className="salut"
-      sx={{
-        maxWidth: isSmallScreen ? 400 : 800,
-        flexGrow: 1,
-        height: "100%",
-        width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          alignContent: 'center',
-          margin: 'auto'
-      }}
-    >
-            <Paper
-        square
-        elevation={0}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          bgcolor: "background.default",
-          overflow: 'auto',
-          mb: isSmallScreen ? 0 : 2,
-        }}
-      >
-        <Typography variant={isSmallScreen ? 'h5' : 'h3'} sx={{color: theme.palette.text.secondary}} >{images[activeStep].title}</Typography>
-      </Paper>
-      <SwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={activeStep}
-        onChangeIndex={handleStepChange}
-        enableMouseEvents
-      >
-        {images.map((step, index) => (
-          <div key={step.label}>
-            {Math.abs(activeStep - index) <= 2 ? (
-              <Box
-                component="img"
-                sx={{
-                  height: isSmallScreen ? 255 : 450,
-                  display: "block",
-                  maxWidth: isSmallScreen ? 400 : 720,
-                  margin: 'auto',
-                  overflow: "hidden",
-                  width: "100%",
-                }}
-                src={step.imgPath}
-                alt={step.label}
-              />
-            ) : null}
-          </div>
-        ))}
-      </SwipeableViews>
-      <Paper
-        square
-        elevation={0}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          height: 200,
-          p: 2,
-          mt: 2,
-          bgcolor: "background.default",
-          overflow: 'auto',
-        }}
-      >
-        <Typography variant={isSmallScreen ? 'body2' : 'body1'} sx={{color: theme.palette.text.secondary}} >{images[activeStep].label}</Typography>
-      </Paper>
-      <MobileStepper
-        steps={maxSteps}
-        position="static"
-        activeStep={activeStep}
-        nextButton={
-          <Button
-            size="small"
-            onClick={handleNext}
-            disabled={activeStep === maxSteps - 1}
-          >
-            Next
-            {theme.direction === "rtl" ? (
-              <KeyboardArrowLeft />
-            ) : (
-              <KeyboardArrowRight />
-            )}
-          </Button>
-        }
-        backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-            {theme.direction === "rtl" ? (
-              <KeyboardArrowRight />
-            ) : (
-              <KeyboardArrowLeft />
-            )}
-            Back
-          </Button>
-        }
-      />
-    </Box>
-  );
+	return (
+		<Box
+			className="salut"
+			sx={{
+				flexGrow: 1,
+				height: "100%",
+				width: "100%",
+				display: "flex",
+				flexDirection: "column",
+				justifyContent: "center",
+				alignItems: "center",
+				alignContent: "center",
+				margin: "auto",
+			}}>
+			<Paper
+				square
+				elevation={0}
+				sx={{
+					display: "flex",
+					alignItems: "center",
+					bgcolor: "background.default",
+					overflow: "auto",
+					mb: isSmallScreen ? 0 : 2,
+				}}>
+				<Typography
+					variant={isSmallScreen ? "h5" : "h3"}
+					sx={{ color: theme.palette.text.secondary }}>
+					{images[activeStep].title}
+				</Typography>
+			</Paper>
+			<SwipeableViews
+				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+				index={activeStep}
+				onChangeIndex={handleStepChange}
+				enableMouseEvents>
+				{images.map((step, index) => (
+					<div key={step.label}>
+						{Math.abs(activeStep - index) <= 2 ? (
+							<Box
+								component="img"
+								sx={{
+									height: isSmallScreen ? 255 : 450,
+									display: "block",
+									maxWidth: isSmallScreen ? 400 : 720,
+									margin: "auto",
+									overflow: "hidden",
+									width: "100%",
+								}}
+								src={step.imgPath}
+								alt={step.label}
+							/>
+						) : null}
+					</div>
+				))}
+			</SwipeableViews>
+			<Paper
+				square
+				elevation={0}
+				sx={{
+					display: "flex",
+					alignItems: "center",
+					height: 200,
+					p: 2,
+					mt: 2,
+					bgcolor: "background.default",
+					overflow: "auto",
+				}}>
+				<Typography
+					variant={isSmallScreen ? "body2" : "body1"}
+					sx={{ color: theme.palette.text.secondary }}>
+					{images[activeStep].label}
+				</Typography>
+			</Paper>
+			<MobileStepper
+				steps={maxSteps}
+				position="static"
+				activeStep={activeStep}
+				nextButton={
+					<Button
+						size="small"
+						onClick={handleNext}
+						disabled={activeStep === maxSteps - 1}>
+						Next
+						{theme.direction === "rtl" ? (
+							<KeyboardArrowLeft />
+						) : (
+							<KeyboardArrowRight />
+						)}
+					</Button>
+				}
+				backButton={
+					<Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+						{theme.direction === "rtl" ? (
+							<KeyboardArrowRight />
+						) : (
+							<KeyboardArrowLeft />
+						)}
+						Back
+					</Button>
+				}
+			/>
+		</Box>
+	);
 }
 
 export default Carousel;
