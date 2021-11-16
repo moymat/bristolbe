@@ -142,6 +142,9 @@ const getUsersBristols = async id => {
 			bristols.map(({ id }) => id)
 		);
 
+		redisSocket.client.quit();
+		redisEdit.client.quit();
+
 		return { data: bristols };
 	} catch (error) {
 		return { error };
