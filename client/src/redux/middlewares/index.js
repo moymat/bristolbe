@@ -127,7 +127,11 @@ const Middleware = store => next => action => {
 			stopEditing(state, action);
 			next(action);
 			break;
+		case "MOVING_BRISTOL":
+			moving(state, action.id);
+			break;
 		case "MOVE_BRISTOL":
+			stopMoving(state, action.id);
 			axios()
 				.post("/api/v1/bristols/move", {
 					bristol_id: action.id,

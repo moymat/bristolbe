@@ -1,3 +1,5 @@
+import { bindActionCreators } from "redux";
+
 const initialState = {
 	//editor state
 	editorIsVisible: false,
@@ -13,6 +15,10 @@ const initialState = {
 		viewers: [],
 		role: "editor",
 		inEditing: {
+			status: false,
+			userId: null,
+		},
+		isMoving: {
 			status: false,
 			userId: null,
 		},
