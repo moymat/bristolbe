@@ -6,11 +6,12 @@ const Contact = () => {
 		<Box
 			display="flex"
 			flexWrap="wrap"
+			alignItems="center"
 			height="100%"
 			sx={{
 				flexDirection: { xs: "column", lg: "row" },
 				justifyContent: { xs: "space-evenly", lg: "space-evenly" },
-				alignItems: { xs: "center", lg: "flex-start" },
+				alignItems: { xs: "center", lg: "center" },
 			}}>
 			<CardProfile />
 			<CardProfile />
