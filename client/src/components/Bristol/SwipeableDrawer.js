@@ -59,6 +59,10 @@ function SwipeableEdgeDrawer({
 		setBristolsNb(`${nb} bristol${nb > 1 ? "s" : ""}`);
 	}, [bristols]);
 
+	useEffect(() => {
+		document.addEventListener("click", e => console.log(e));
+	}, []);
+
 	return (
 		<Root>
 			<SwipeableDrawer
