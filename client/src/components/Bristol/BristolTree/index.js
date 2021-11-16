@@ -15,6 +15,7 @@ const BristolTree = () => {
 	const user = useSelector(state => state.user.user);
 	const bristols = useSelector(state => state.bristol.bristols);
 	const isReadOnly = useSelector(state => state.bristol.editorIsReadOnly);
+	const isSideDrawerOpen = useSelector(state => state.core.isDrawerOpen);
 	const [openDrawer, setOpenDrawer] = useState(false);
 	const dispatch = useDispatch();
 
@@ -97,7 +98,8 @@ const BristolTree = () => {
 					onClick={handleNewBristol}
 					sx={{
 						position: "fixed",
-						left: 280,
+						transition: `200ms all ease-in-out`,
+						left: isSideDrawerOpen ? 480 : 313,
 						bottom: 20,
 						display: { xs: "none", sm: "flex" },
 					}}>
