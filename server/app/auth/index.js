@@ -28,6 +28,12 @@ const isAuth = async (req, res, next) => {
 	const browserId = req.headers.browser_id;
 	const refresh = req.headers.authorization?.split("Bearer ")[1];
 	const { access_token: token } = req.cookies;
+	console.log("----------------");
+	console.log("isAuth");
+	console.log("browserId", browserId);
+	console.log("refresh", refresh);
+	console.log("access", token);
+	console.log("----------------");
 
 	let decodedRefresh;
 	const notLoggedInError = new Error("not logged in");
@@ -76,6 +82,8 @@ const isAuth = async (req, res, next) => {
 		secure: true,
 		sameSite: "none",
 	});
+
+	console.log("res", newToken);
 
 	next();
 };
