@@ -8,7 +8,10 @@ const errorHandler = require("./app/lib/errorHandler");
 const app = express();
 const server = http.createServer(app);
 
-const io = require("./app/socketio").init(server);
+const io = require("./app/socketio").init(server, {
+	origin: process.env.CLIENT_URL,
+	credentials: true,
+});
 
 const PORT = process.env.PORT;
 const ENV = process.env.NODE_ENV;

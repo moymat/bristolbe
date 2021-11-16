@@ -46,14 +46,12 @@ const verifyCode = async (id, code) => {
 		if (!cachedCode) throw Error("no validation pending for this user");
 		if (cachedCode !== code) throw Error("wrong code");
 
-		await Promise.all([
+		return await Promise.all([
 			// Delete code in cache
 			redisClient("email_code_").delAsync(id),
 			// Update user
 			pgClient.query('UPDATE "user" SET verified = TRUE WHERE id = $1', [id]),
 		]);
-
-		return;
 	} catch (error) {
 		return { error };
 	}
@@ -180,7 +178,7 @@ const postResetPassword = async email => {
 const checkResetCode = async code => {
 	try {
 		const cachedId = await redisClient("reset_code_").getAsync(code);
-
+		console.log(cachedId);
 		return { status: "code verified" };
 	} catch (error) {
 		return { error };
@@ -198,14 +196,12 @@ const patchResetPassword = async body => {
 			await bcrypt.genSalt(+process.env.PWD_SALT_ROUND)
 		);
 
-		await Promise.all([
+		return await Promise.all([
 			pgClient.query("SELECT patch_user_password($1)", [
 				JSON.stringify({ hash, id: cachedId }),
 			]),
 			redisClient("reset_code_").delAsync(code),
 		]);
-
-		return;
 	} catch (error) {
 		return { error };
 	}
@@ -213,8 +209,7 @@ const patchResetPassword = async body => {
 
 const logout = async browserId => {
 	try {
-		await redisClient().delAsync(browserId);
-		return;
+		return await redisClient().delAsync(browserId);
 	} catch (error) {
 		return { error };
 	}
