@@ -71,7 +71,7 @@ const isAuth = async (req, res, next) => {
 
 	// Get a new access token and send it as a cookie
 	const newToken = signToken({ id: decodedRefresh.id });
-	res.cookie("access_token", newToken);
+	res.cookie("access_token", newToken, { httpOnly: true, secure: true });
 
 	next();
 };
