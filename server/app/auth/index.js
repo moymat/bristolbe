@@ -74,7 +74,7 @@ const isAuth = async (req, res, next) => {
 	res.cookie("access_token", newToken, {
 		httpOnly: true,
 		secure: false,
-		sameSite: "None",
+		sameSite: "none",
 	});
 
 	next();
