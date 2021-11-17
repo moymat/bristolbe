@@ -92,11 +92,9 @@ const BristolEditor = () => {
 	const handleEditorsChange = newEditors => {
 		const newViewers = viewers.filter(viewer => {
 			const res = !newEditors.some(editor => {
-				console.log(
-					editor.first_name,
-					viewer.first_name,
-					editor.id === viewer.id
-				);
+				console.log(editor.first_name, editor.id);
+				console.log(viewer.first_name, viewer.id);
+				console.log(editor.id === viewer.id);
 				return editor.id === viewer.id;
 			});
 			console.log(res);
