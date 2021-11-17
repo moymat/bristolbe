@@ -100,7 +100,7 @@ $$ LANGUAGE plpgsql;
 
 -- Function to retrieve all role assigned to a bristol
 CREATE OR REPLACE FUNCTION get_bristols_roles (jsonb) RETURNS TABLE (
-	id UUID,
+	user_id UUID,
 	role ROLE_TYPE,
 	first_name TEXT,
 	last_name TEXT
@@ -124,7 +124,7 @@ CREATE OR REPLACE FUNCTION get_bristols_roles (jsonb) RETURNS TABLE (
 		END IF;
 			
 		RETURN QUERY
-		SELECT role.user_id AS id, role.type as role, "user".first_name, "user".last_name
+		SELECT role.user_id, role.type as role, "user".first_name, "user".last_name
 		FROM role
 		JOIN "user" ON role.user_id = "user".id
 		WHERE bristol_id = ANY (
