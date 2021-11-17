@@ -90,20 +90,37 @@ const BristolEditor = () => {
 	};
 
 	const handleEditorsChange = newEditors => {
-		setViewers(
-			viewers.filter(
-				viewer => !newEditors.some(editor => editor.id === viewer.id)
-			)
-		);
+		const newViewers = viewers.filter(viewer => {
+			const res = !newEditors.some(editor => {
+				console.log(
+					editor.first_name,
+					viewer.first_name,
+					editor.id === viewer.id
+				);
+				return editor.id === viewer.id;
+			});
+			console.log(res);
+			return res;
+		});
+
+		setViewers(newViewers);
 		setEditors(newEditors);
 	};
 
 	const handleViewersChange = newViewers => {
-		setEditors(
-			editors.filter(
-				editor => !newViewers.some(viewer => editor.id === viewer.id)
-			)
-		);
+		const newEditors = editors.filter(editor => {
+			const res = !newViewers.some(viewer => {
+				console.log(
+					viewer.first_name,
+					editor.first_name,
+					viewer.id === editor.id
+				);
+				return viewer.id === editor.id;
+			});
+			console.log(res);
+			return res;
+		});
+		setEditors(newEditors);
 		setViewers(newViewers);
 	};
 
