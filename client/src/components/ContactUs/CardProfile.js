@@ -27,29 +27,29 @@ const CardProfile = () => {
                     />
                   </Box>
                   <Box className="team-content">
-                    <Typography variant="h4">Justin Ramos</Typography>
+                    <Typography variant="h4">Tony DAI</Typography>
                     <Typography variant="h6" sx={{ marginBottom: 2 }}>Web Developer</Typography>
                     <Typography >Gentil et méchant le css n'est pas cool</Typography>
                   </Box>
                   <List className="social">
-                    <li>
+                    <Box component="li">
                       <Button sx={{display: "block", padding:"10px", fontSize: "17px", color: "white",transition: "all 0.3s ease 0s"}}
                         component={Link} to="#"
                       ><GitHub/></Button>
-                    </li>
-                    <li>
+                    </Box>
+                    <Box component="li">
                       <Button
                       sx={{display: "block", padding:"10px", fontSize: "17px", color: "white", transition: "all 0.3s ease 0s"}}
                       component={Link} to="#"
                       ><LinkedIn /></Button>
-                    </li>
-                    <li>
+                    </Box>
+                    <Box component="li">
                       <Button
                         sx={{display: "block", padding:"10px", fontSize: "17px", color: "white",transition: "all 0.3s ease 0s"}}
                         component={Link} to="#"
                       ><EmailOutlinedIcon/>
                       </Button>
-                    </li>
+                    </Box>
                   </List>
                 </Box>
         </CardContent>

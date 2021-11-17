@@ -1,11 +1,10 @@
-import Paper from "@mui/material/Paper";
 import Img from "../assets/img/nicole.jpg";
+import { Box } from "@mui/system";
 
 export default function AuthLeftPanel() {
 	return (
-		<Paper
+		<Box
 			sx={{
-				width: "100%",
 				display: "flex",
 			}}>
 			<img
@@ -13,6 +12,6 @@ export default function AuthLeftPanel() {
 				alt="logo"
 				style={{ objectFit: "cover", width: "100%", height: "100vh" }}
 			/>
-		</Paper>
+		</Box>
 	);
 }
