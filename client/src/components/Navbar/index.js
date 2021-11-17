@@ -172,6 +172,10 @@ export default function Navbar({ children }) {
 		history.push("/user/profile");
 		handleMenuClose();
 	};
+	const handleContact = () => {
+		history.push("/contact");
+		handleMenuClose();
+	};
 
 	const menuId = "primary-search-account-menu";
 	const renderMenu = (
@@ -191,6 +195,7 @@ export default function Navbar({ children }) {
 			open={isMenuOpen}
 			onClose={handleMenuClose}>
 			<MenuItem onClick={handleProfile}>Profile</MenuItem>
+			<MenuItem onClick={handleContact}>Contact</MenuItem>
 			<MenuItem onClick={handleSignout}>Sign out</MenuItem>
 		</Menu>
 	);
@@ -226,6 +231,12 @@ export default function Navbar({ children }) {
 					<PersonIcon />
 				</IconButton>
 				<Typography>Profile</Typography>
+			</MenuItem>
+			<MenuItem onClick={handleContact}>
+				<IconButton size="large" aria-label="contact page" color="inherit">
+					<ContactPageIcon />
+				</IconButton>
+				<Typography>Contact</Typography>
 			</MenuItem>
 			<MenuItem onClick={handleSignout}>
 				<IconButton size="large" aria-label="change theme" color="inherit">
