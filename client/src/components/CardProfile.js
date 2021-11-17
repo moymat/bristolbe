@@ -4,12 +4,12 @@ import CardContent from "@mui/material/CardContent";
 import List from "@mui/material/List";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import EmailIcon from "@mui/icons-material/Email";
 import LinkedIn from "@mui/icons-material/LinkedIn";
 import GitHub from "@mui/icons-material/GitHub";
-//import "./style.scss";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
+import { Divider } from "@mui/material";
 
 /* const BoxCard = styled(Box)(({ theme }) => ({
 	width: 275,
@@ -19,11 +19,11 @@ import { styled } from "@mui/material/styles";
 	boxSizing: "border-box",
 })); */
 
-const CardProfile = ({ firstName, lastName, jobs }) => {
+const CardProfile = ({ firstName, lastName, jobs, links }) => {
 	return (
 		<Box
 			sx={{
-				width: 275,
+				width: 265,
 				height: 450,
 				maxHeight: 450,
 				mb: 1,
@@ -106,6 +106,7 @@ const CardProfile = ({ firstName, lastName, jobs }) => {
 							{/* <Typography variant="h6" sx={{ marginBottom: 4 }}>
 								{job}
 							</Typography> */}
+							<Divider sx={{ mb: 2 }} />
 							{jobs.map(job => (
 								<Typography
 									key={job}
@@ -119,18 +120,18 @@ const CardProfile = ({ firstName, lastName, jobs }) => {
 							sx={{
 								position: "absolute",
 								display: "flex",
-								justifyContent: "center",
+								justifyContent: "space-evenly",
 								width: "100%",
 								padding: 0,
 								margin: 0,
 								bottom: "-100px",
 								left: 0,
-								backgroundColor: "primary.main",
+								backgroundColor: "transparent",
 								transition: "all 0.5s ease 0s",
 								"& li": {
 									display: "inline-block",
 									"& a:hover": {
-										color: "primary.main",
+										//color: "whitesmoke",
 										backgroundColor: "whitesmoke",
 									},
 								},
@@ -143,7 +144,13 @@ const CardProfile = ({ firstName, lastName, jobs }) => {
 										justifyContent: "center",
 										minHeight: "100%",
 										color: "white",
+										backgroundColor: "rgb(51, 51, 51)",
 										transition: "all 0.3s ease 0s",
+										border: "2px solid transparent",
+										"&:hover": {
+											border: "2px solid rgb(51, 51, 51)",
+											color: "rgb(51, 51, 51)",
+										},
 										"& .MuiButton-startIcon": {
 											m: 0,
 											"& > :nth-of-type(1)": {
@@ -154,10 +161,10 @@ const CardProfile = ({ firstName, lastName, jobs }) => {
 											},
 										},
 									}}
-									component={Link}
-									to="#">
-									<GitHub />
-								</Button>
+									target="#"
+									href={links.github}
+									startIcon={<GitHub />}
+								/>
 							</Box>
 							<Box component="li">
 								<Button
@@ -167,19 +174,22 @@ const CardProfile = ({ firstName, lastName, jobs }) => {
 										justifyContent: "center",
 										minHeight: "100%",
 										color: "white",
+										backgroundColor: "rgb(0, 119, 181)",
 										transition: "all 0.3s ease 0s",
+										border: "2px solid transparent",
+										"&:hover": {
+											border: "2px solid rgb(0, 119, 181)",
+											color: "rgb(0, 119, 181)",
+										},
 										"& .MuiButton-startIcon": {
 											m: 0,
 											"& > :nth-of-type(1)": {
 												fontSize: "xx-large",
 											},
-											"& svg": {
-												verticalAlign: "sub",
-											},
 										},
 									}}
-									component={Link}
-									to="#"
+									target="#"
+									href={links.linkedin}
 									startIcon={<LinkedIn />}
 								/>
 							</Box>
@@ -191,7 +201,13 @@ const CardProfile = ({ firstName, lastName, jobs }) => {
 										justifyContent: "center",
 										minHeight: "100%",
 										color: "white",
+										backgroundColor: "rgb(221, 75, 57)",
 										transition: "all 0.3s ease 0s",
+										border: "2px solid transparent",
+										"&:hover": {
+											border: "2px solid rgb(221, 75, 57)",
+											color: "rgb(221, 75, 57)",
+										},
 										"& .MuiButton-startIcon": {
 											m: 0,
 											"& > :nth-of-type(1)": {
@@ -202,10 +218,9 @@ const CardProfile = ({ firstName, lastName, jobs }) => {
 											},
 										},
 									}}
-									component={Link}
-									to="#">
-									<EmailOutlinedIcon />
-								</Button>
+									href={`mailto:${links.email}`}
+									startIcon={<EmailIcon />}
+								/>
 							</Box>
 						</List>
 					</Box>
