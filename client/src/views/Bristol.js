@@ -16,7 +16,7 @@ const BristolView = () => {
 				}}>
 				<BristolTree />
 			</Box>
-			<Box>{editorIsVisible && <BristolEditor />}</Box>
+			<Box flexGrow="1">{editorIsVisible && <BristolEditor />}</Box>
 		</Box>
 	);
 };
