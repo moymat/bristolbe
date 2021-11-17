@@ -49,7 +49,9 @@ const onRolesManaged = async (socket, { bristolId, roles }) => {
 		}
 	});
 
-	socket.broadcast.to(`bristol_${bristolId}`).emit("roles_managed");
+	socket.broadcast
+		.to(`bristol_${bristolId}`)
+		.emit("roles_managed", { bristolId });
 };
 
 const onDeleted = async (socket, bristolId) => {
