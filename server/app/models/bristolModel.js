@@ -202,6 +202,7 @@ const getBristolRoles = async (bristolId, userId) => {
 const manageRoles = async (bristolId, userId, body) => {
 	try {
 		const { data, errors } = await validateManageRoles(body);
+		console.log(data);
 
 		if (errors) return { validationErrors: errors };
 
