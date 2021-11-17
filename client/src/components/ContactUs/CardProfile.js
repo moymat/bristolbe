@@ -1,8 +1,9 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
@@ -10,56 +11,73 @@ import LinkedIn from "@mui/icons-material/LinkedIn";
 import GitHub from "@mui/icons-material/GitHub";
 import { Avatar } from "@mui/material";
 import "./style.scss";
+import { Link } from "react-router-dom";
 
-const CardProfile = () => {
+const CardProfile = ({ firstName, lastName, job, secondJob, thirdJob }) => {
 	return (
 		<Box sx={{ minWidth: 275 }}>
-			<Card>
+			<Card sx={{ marginBottom: { xs: 2 } }}>
 				<CardContent>
-					<div className="container">
-						<div className="row">
-							<div>
-								<div className="our-team">
-									<div className="picture">
-										<img
-											className="img-fluid"
-											src="https://picsum.photos/130/130?image=856"
-										/>
-									</div>
-									<div className="team-content">
-										<Typography>Justin Ramos</Typography>
-										<Typography>Web Developer</Typography>
-									</div>
-									<ul className="social">
-										<li>
-											<a
-												href="https://codepen.io/collection/XdWJOQ/"
-												className="fa fa-facebook"
-												aria-hidden="true"></a>
-										</li>
-										<li>
-											<a
-												href="https://codepen.io/collection/XdWJOQ/"
-												className="fa fa-twitter"
-												aria-hidden="true"></a>
-										</li>
-										<li>
-											<a
-												href="https://codepen.io/collection/XdWJOQ/"
-												className="fa fa-google-plus"
-												aria-hidden="true"></a>
-										</li>
-										<li>
-											<a
-												href="https://codepen.io/collection/XdWJOQ/"
-												className="fa fa-linkedin"
-												aria-hidden="true"></a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
+					<Box className="our-team">
+						<Box className="picture">
+							<img
+								className="img-fluid"
+								src="https://picsum.photos/130/130?image=856"
+								alt="person"
+							/>
+						</Box>
+						<Box className="team-content">
+							<Typography variant="h5">{`${firstName} ${lastName}`}</Typography>
+							<Typography variant="h6" sx={{ marginBottom: 4 }}>
+								{job}
+							</Typography>
+							<Typography variant="h6">{`${secondJob} - ${thirdJob}`}</Typography>
+						</Box>
+						<List className="social">
+							<Box component="li">
+								<Button
+									sx={{
+										display: "block",
+										padding: "10px",
+										fontSize: "17px",
+										color: "white",
+										transition: "all 0.3s ease 0s",
+									}}
+									component={Link}
+									to="#">
+									<GitHub />
+								</Button>
+							</Box>
+							<Box component="li">
+								<Button
+									sx={{
+										display: "block",
+										padding: "10px",
+										fontSize: "17px",
+										color: "white",
+										transition: "all 0.3s ease 0s",
+									}}
+									component={Link}
+									to="#">
+									<LinkedIn />
+								</Button>
+							</Box>
+							<Box component="li">
+								<Button
+									sx={{
+										display: "block",
+										padding: "10px",
+										fontSize: "17px",
+										color: "white",
+										transition: "all 0.3s ease 0s",
+									}}
+									component={Link}
+									to="#">
+									<EmailOutlinedIcon />
+								</Button>
+							</Box>
+						</List>
+					</Box>
 				</CardContent>
 			</Card>
 			{/* <Card variant="outlined">
