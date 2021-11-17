@@ -1,10 +1,7 @@
 const pgClient = require("../db/pg");
 const redisClient = require("../db/redis");
 const { validateBristol, validateManageRoles } = require("../validation");
-const {
-	connectSocketsToBristols,
-	disconnectSocketsFromBristols,
-} = require("../socketio");
+const { connectSocketsToBristols } = require("../socketio");
 
 const createBristol = async (body, userId) => {
 	try {
