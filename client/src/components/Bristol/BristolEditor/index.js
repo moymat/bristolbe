@@ -90,35 +90,20 @@ const BristolEditor = () => {
 	};
 
 	const handleEditorsChange = newEditors => {
-		const newViewers = viewers.filter(viewer => {
-			const res = !newEditors.some(editor => {
-				console.log(editor.first_name, editor.id);
-				console.log(viewer.first_name, viewer.id);
-				console.log(editor.id === viewer.id);
-				return editor.id === viewer.id;
-			});
-			console.log(res);
-			return res;
-		});
-
-		setViewers(newViewers);
+		setViewers(
+			viewers.filter(
+				viewer => !newEditors.some(editor => editor.user_id === viewer.user_id)
+			)
+		);
 		setEditors(newEditors);
 	};
 
 	const handleViewersChange = newViewers => {
-		const newEditors = editors.filter(editor => {
-			const res = !newViewers.some(viewer => {
-				console.log(
-					viewer.first_name,
-					editor.first_name,
-					viewer.id === editor.id
-				);
-				return viewer.id === editor.id;
-			});
-			console.log(res);
-			return res;
-		});
-		setEditors(newEditors);
+		setEditors(
+			editors.filter(
+				editor => !newViewers.some(viewer => viewer.user_id === editor.user_id)
+			)
+		);
 		setViewers(newViewers);
 	};
 
@@ -140,7 +125,7 @@ const BristolEditor = () => {
 		});
 
 		if (permission === "editors") {
-			const isViewer = viewers.find(user => user.id === option.id);
+			const isViewer = viewers.find(viewer => viewer.user_id === option.id);
 			return (
 				<Box {...props} sx={optionStyle(isViewer)}>
 					<Typography sx={{ marginRight: 1 }}>{option.full_name}</Typography>
@@ -148,7 +133,7 @@ const BristolEditor = () => {
 				</Box>
 			);
 		} else if (permission === "viewers") {
-			const isEditor = editors.find(user => user.id === option.id);
+			const isEditor = editors.find(editor => editor.user_id === option.id);
 			return (
 				<Box {...props} sx={optionStyle(isEditor)}>
 					<Typography sx={{ marginRight: 1 }}>{option.full_name}</Typography>
