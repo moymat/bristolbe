@@ -28,6 +28,7 @@ const onStopEditing = async (socket, args) => {
 };
 
 const onMoved = async (socket, bristolId) => {
+	console.log(bristolId);
 	socket.broadcast.to(`bristol_${bristolId}`).emit("moved");
 };
 
