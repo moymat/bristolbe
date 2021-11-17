@@ -107,9 +107,7 @@ const Middleware = store => next => action => {
 				.catch(errorHandler);
 			break;
 		case "UPDATE_BRISTOL_ROLES":
-			console.log("update roles");
 			const roles = deltaRoles(state.bristol.selectedBristol, action.roles);
-			console.log(roles);
 			Object.keys(roles).length &&
 				axios()
 					.post(`api/v1/bristols/${state.bristol.selectedBristol.id}/roles`, {

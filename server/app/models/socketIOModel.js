@@ -75,8 +75,6 @@ const onDisconnect = async socket => {
 			}
 		})
 	);
-
-	console.log(userId, "disconnected");
 };
 
 module.exports = {
