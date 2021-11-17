@@ -149,6 +149,17 @@ const moveBristol = async (bristolMoved, userId) => {
 				)
 			);
 
+			console.log(
+				"old",
+				oldSockets,
+				oldSockets.filter(socket => !!socket && !newSockets.includes(socket))
+			);
+			console.log(
+				"new",
+				newSockets,
+				newSockets.filter(socket => !!socket && !oldSockets.includes(socket))
+			);
+
 			disconnectSocketsFromBristols(
 				oldSockets.filter(socket => !!socket && !newSockets.includes(socket)),
 				[bristolMoved.bristol_id]
