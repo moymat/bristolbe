@@ -40,12 +40,10 @@ const BristolEditor = () => {
 			full_name: `${user.first_name} ${user.last_name}`,
 		});
 
-		selectedBristol.title && setTitle(selectedBristol.title);
-		selectedBristol.content && setContent(selectedBristol.content);
-		selectedBristol.editors &&
-			setEditors(selectedBristol.editors.map(addFullName));
-		selectedBristol.viewers &&
-			setViewers(selectedBristol.viewers.map(addFullName));
+		setTitle(selectedBristol.title || "");
+		setContent(selectedBristol.content || "");
+		setEditors(selectedBristol?.editors.map(addFullName) || []);
+		setViewers(selectedBristol?.viewers.map(addFullName) || []);
 	}, [selectedBristol]);
 
 	const handleContentChange = content => {
@@ -107,10 +105,6 @@ const BristolEditor = () => {
 		setViewers(newViewers);
 	};
 
-	useEffect(() => {
-		initData();
-	}, [initData]);
-
 	const renderOption = permission => (props, option, state) => {
 		const optionStyle = isInList => ({
 			"&.MuiAutocomplete-option": {
@@ -142,6 +136,10 @@ const BristolEditor = () => {
 			);
 		}
 	};
+
+	useEffect(() => {
+		initData();
+	}, [initData]);
 
 	useEffect(() => {
 		setIsRoot(!!bristols.find(bristol => bristol.id === selectedBristol.id));
