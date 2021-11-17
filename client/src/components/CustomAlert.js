@@ -14,7 +14,7 @@ const CustomAlert = ({
 
 	return (
 		<Snackbar
-			sx={{ top: isSmallScreen ? 60 : 8 }}
+			sx={{ "&.MuiSnackbar-root": { top: isSmallScreen ? "60px" : "68px" } }}
 			open={open}
 			anchorOrigin={{ vertical: "top", horizontal: "center" }}
 			autoHideDuration={duration}
