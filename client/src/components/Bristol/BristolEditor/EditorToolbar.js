@@ -96,7 +96,7 @@ export const modules = {
 	"emoji-textarea": false,
 	"emoji-shortname": true,
 	blotFormatter: {
-		specs: [CustomImageSpec],
+		// specs: [CustomImageSpec],
 	},
 	VideoResize: {
 		modules: ["Resize", "DisplaySize", "Toolbar"],
