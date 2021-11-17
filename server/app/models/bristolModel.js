@@ -123,18 +123,9 @@ const moveBristol = async (bristolMoved, userId) => {
 				[bristolMoved.bristol_id]
 			);
 		} else if (bristolMoved.parent_id && bristolMoved.parent_id) {
-			// If move between bristols, remove all previous members to the bristol and connect all new ones
-			const oldSockets = await Promise.all(
-				bristolBefore.members
-					.reduce(
-						(acc, { id, role }) => (role === "editor" ? [...acc, id] : acc),
-						[]
-					)
-					.map(async id => await redisClient.getAsync(`socket_id_${id}`))
-			);
-
+			// If move between bristols, connect all new members to the bristol
 			const { rows: membersRows } = await pgClient.query(
-				"SELECT * FROM  get_bristols_roles($1)",
+				"SELECT * FROM get_bristols_roles($1)",
 				[
 					JSON.stringify({
 						user_id: userId,
@@ -144,29 +135,13 @@ const moveBristol = async (bristolMoved, userId) => {
 			);
 
 			const newSockets = await Promise.all(
-				membersRows.map(
-					async ({ id }) => await redisClient.getAsync(`socket_id_${id}`)
-				)
-			);
-
-			console.log(
-				"old",
-				oldSockets,
-				oldSockets.filter(socket => !!socket && !newSockets.includes(socket))
-			);
-			console.log(
-				"new",
-				newSockets,
-				newSockets.filter(socket => !!socket && !oldSockets.includes(socket))
-			);
-
-			disconnectSocketsFromBristols(
-				oldSockets.filter(socket => !!socket && !newSockets.includes(socket)),
-				[bristolMoved.bristol_id]
+				membersRows.map(async ({ id }) => {
+					return await redisClient.getAsync(`socket_id_${id}`);
+				})
 			);
 
 			connectSocketsToBristols(
-				newSockets.filter(socket => !!socket && !oldSockets.includes(socket)),
+				newSockets.filter(socket => !!socket),
 				[bristolMoved.bristol_id]
 			);
 		}
