@@ -33,6 +33,9 @@ const BristolTree = () => {
 		const { itemid } = e.target.dataset;
 		if (itemid) {
 			handleOpenDrawer(false);
+
+			!isReadOnly && dispatch({ type: "STOP_UPDATE_EDITOR" });
+
 			dispatch({
 				type: "GET_CURRENT_BRISTOL_CONTENT",
 				selectedBristol: itemid,
