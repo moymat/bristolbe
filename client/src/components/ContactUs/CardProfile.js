@@ -1,37 +1,47 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LinkedIn from "@mui/icons-material/LinkedIn";
 import GitHub from "@mui/icons-material/GitHub";
-import { Avatar } from "@mui/material";
 import "./style.scss";
 import { Link } from "react-router-dom";
 
-const CardProfile = ({ firstName, lastName, job, secondJob, thirdJob }) => {
+const CardProfile = ({ firstName, lastName, jobs }) => {
 	return (
-		<Box sx={{ minWidth: 275 }}>
-			<Card sx={{ marginBottom: { xs: 2 } }}>
-				<CardContent>
+		<Box
+			sx={{
+				width: 275,
+				height: 450,
+				maxHeight: 450,
+				mb: 1,
+				boxSizing: "border-box",
+			}}>
+			<Card sx={{ maxHeight: "100%", height: "100%" }}>
+				<CardContent sx={{ height: "100%" }}>
 					<Box className="our-team">
 						<Box className="picture">
 							<img
 								className="img-fluid"
 								src="https://picsum.photos/130/130?image=856"
-								alt="person"
+								alt={`${firstName} ${lastName}`}
 							/>
 						</Box>
 						<Box className="team-content">
-							<Typography variant="h5">{`${firstName} ${lastName}`}</Typography>
-							<Typography variant="h6" sx={{ marginBottom: 4 }}>
+							<Typography
+								sx={{ fontWeight: 700, mb: 1 }}
+								variant="h5">{`${firstName} ${lastName}`}</Typography>
+							{/* <Typography variant="h6" sx={{ marginBottom: 4 }}>
 								{job}
-							</Typography>
-							<Typography variant="h6">{`${secondJob} - ${thirdJob}`}</Typography>
+							</Typography> */}
+							{jobs.map(job => (
+								<Typography sx={{ p: 0, px: 1, pb: 0.5, textAlign: "center" }}>
+									{job}
+								</Typography>
+							))}
 						</Box>
 						<List className="social">
 							<Box component="li">
@@ -80,66 +90,6 @@ const CardProfile = ({ firstName, lastName, job, secondJob, thirdJob }) => {
 					</Box>
 				</CardContent>
 			</Card>
-			{/* <Card variant="outlined">
-        <CardContent>
-          <Typography variant="h5" component="div">
-            Tony DAY
-          </Typography>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Lead dev front
-          </Typography>
-          <Avatar alt="Tony" src="" />
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Lead dev Front
-          </Typography>
-          <Typography variant="body2">
-            well meaning and kindly.
-            <br />
-            {'"a benevolent smile"'}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button
-            variant="contained"
-            startIcon={<EmailOutlinedIcon />}
-            size="small"
-            sx={{
-              backgroundColor: "#dd4b39",
-              "&:hover": {
-                backgroundColor: "#c04131",
-              },
-            }}
-          >
-            Email
-          </Button>
-          <Button
-            variant="contained"
-            startIcon={<GitHub />}
-            size="small"
-            sx={{
-              backgroundColor: "#333",
-              "&:hover": {
-                backgroundColor: "#111",
-              },
-            }}
-          >
-            Github
-          </Button>
-          <Button
-            variant="contained"
-            startIcon={<LinkedIn />}
-            size="small"
-            sx={{
-              backgroundColor: "#0077b5",
-              "&:hover": {
-                backgroundColor: "#03527c",
-              },
-            }}
-          >
-            Linkedin
-          </Button>
-        </CardActions>
-      </Card> */}
 		</Box>
 	);
 };
