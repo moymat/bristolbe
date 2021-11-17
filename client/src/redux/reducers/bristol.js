@@ -120,8 +120,8 @@ const reducer = (state = initialState, action = {}) => {
 				...state,
 				selectedBristol: {
 					...state.selectedBristol,
-					viewers: action.viewers,
-					editors: action.editors,
+					viewers: action.roles.viewers,
+					editors: action.roles.editors,
 				},
 				editorIsVisible: true,
 				editorIsReadOnly: true,
