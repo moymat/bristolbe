@@ -72,7 +72,6 @@ const BristolEditor = () => {
 				: dispatch({ type: "ADD_NEW_BRISTOL", content, title });
 		}
 
-		console.log(selectedBristol.id, editors, viewers);
 		selectedBristol.id &&
 			dispatch({ type: "UPDATE_BRISTOL_ROLES", roles: { editors, viewers } });
 	};

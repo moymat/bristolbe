@@ -8,12 +8,10 @@ const SocketIOListener = ({ children }) => {
 
 	useEffect(() => {
 		user.socket.on("in_editing", data => {
-			console.log("in editing");
 			dispatch({ type: "SIO_SET_EDITING", data });
 		});
 
 		user.socket.on("stop_editing", data => {
-			console.log("stop editing");
 			dispatch({ type: "SIO_UNSET_EDITING", data });
 			selectedBristol.id === data.bristolId &&
 				data.didContentChanged &&
@@ -24,17 +22,14 @@ const SocketIOListener = ({ children }) => {
 		});
 
 		user.socket.on("moved", () => {
-			console.log("moved");
 			dispatch({ type: "SET_BRISTOLS" });
 		});
 
 		user.socket.on("roles_managed", () => {
-			console.log("roles managed");
 			dispatch({ type: "SET_BRISTOLS" });
 		});
 
 		user.socket.on("deleted", data => {
-			console.log("deleted");
 			dispatch({ type: "SIO_DELETED", data });
 		});
 
