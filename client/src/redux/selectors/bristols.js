@@ -1,4 +1,10 @@
-export const deltaRoles = (selectedBristol, editors, viewers) => {
+export const deltaRoles = (selectedBristol, { editors, viewers }) => {
+	console.log(
+		editors,
+		selectedBristol.editors,
+		viewers,
+		selectedBristol.viewers
+	);
 	const editorsId = editors
 		.filter(({ id }) => !selectedBristol.editors.find(user => user.id === id))
 		.map(({ id }) => id);
@@ -10,6 +16,9 @@ export const deltaRoles = (selectedBristol, editors, viewers) => {
 	const deletedId = [...selectedBristol.editors, ...selectedBristol.viewers]
 		.filter(({ id }) => ![...editors, ...viewers].find(user => user.id === id))
 		.map(({ id }) => id);
+
+	console.log("----------");
+	console.log(deletedId);
 
 	const newRoles = {};
 	if (editorsId.length) newRoles.editors_id = editorsId;
