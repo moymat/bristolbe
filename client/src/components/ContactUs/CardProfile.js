@@ -13,7 +13,7 @@ import { Avatar } from "@mui/material";
 import "./style.scss";
 import { Link } from "react-router-dom";
 
-const CardProfile = () => {
+const CardProfile = ({firstName, lastName, job, secondJob, thirdJob}) => {
   return (
     <Box sx={{ minWidth: 275,}}>
       <Card sx={{marginBottom: {xs: 2} }} >
@@ -27,9 +27,9 @@ const CardProfile = () => {
                     />
                   </Box>
                   <Box className="team-content">
-                    <Typography variant="h4">Tony DAI</Typography>
-                    <Typography variant="h6" sx={{ marginBottom: 2 }}>Web Developer</Typography>
-                    <Typography >Gentil et méchant le css n'est pas cool</Typography>
+                    <Typography variant="h5">{`${firstName} ${lastName}`}</Typography>
+                    <Typography variant="h6" sx={{ marginBottom: 4 }}>{job}</Typography>
+                    <Typography variant="h6">{`${secondJob} - ${thirdJob}`}</Typography>
                   </Box>
                   <List className="social">
                     <Box component="li">
