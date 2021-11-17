@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ReactQuill from "react-quill";
 import { modules, formats } from "./EditorToolbar";
@@ -16,7 +16,7 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import "./styles.css";
 
-const BristolEditor = ({ setBristol }) => {
+const BristolEditor = () => {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 	const dispatch = useDispatch();
 	const isReadOnly = useSelector(state => state.bristol.editorIsReadOnly);
@@ -33,6 +33,18 @@ const BristolEditor = ({ setBristol }) => {
 		isEditor: false,
 		editorName: "",
 	});
+
+	const initData = useCallback(() => {
+		const addFullName = user => ({
+			...user,
+			full_name: `${user.first_name} ${user.last_name}`,
+		});
+
+		setTitle(selectedBristol.title);
+		setContent(selectedBristol.content);
+		setEditors(selectedBristol.editors.map(addFullName));
+		setViewers(selectedBristol.viewers.map(addFullName));
+	}, [selectedBristol]);
 
 	const handleContentChange = content => {
 		setContent(content);
@@ -69,6 +81,7 @@ const BristolEditor = ({ setBristol }) => {
 	};
 
 	const handleEditClick = () => {
+		initData();
 		dispatch({ type: "EDIT_CURRENT_BRISTOL" });
 	};
 
@@ -93,6 +106,10 @@ const BristolEditor = ({ setBristol }) => {
 		);
 		setViewers(newViewers);
 	};
+
+	useEffect(() => {
+		initData();
+	}, [initData]);
 
 	const renderOption = permission => (props, option, state) => {
 		const optionStyle = isInList => ({
@@ -125,18 +142,6 @@ const BristolEditor = ({ setBristol }) => {
 			);
 		}
 	};
-
-	useEffect(() => {
-		const addFullName = user => ({
-			...user,
-			full_name: `${user.first_name} ${user.last_name}`,
-		});
-
-		setTitle(selectedBristol.title);
-		setContent(selectedBristol.content);
-		setEditors(selectedBristol.editors.map(addFullName));
-		setViewers(selectedBristol.viewers.map(addFullName));
-	}, [selectedBristol]);
 
 	useEffect(() => {
 		setIsRoot(!!bristols.find(bristol => bristol.id === selectedBristol.id));
