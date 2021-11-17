@@ -147,6 +147,9 @@ const reducer = (state = initialState, action = {}) => {
 					userId: null,
 				},
 			};
+
+			if (action.content) newBristol.content = action.content;
+
 			return {
 				...state,
 				bristols: [...state.bristols, newBristol],
