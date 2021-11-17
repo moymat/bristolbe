@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { styled, useTheme } from "@mui/material/styles";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, useLocation, Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import MuiDrawer from "@mui/material/Drawer";
@@ -109,6 +109,7 @@ export default function Navbar({ children }) {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 	const history = useHistory();
+	const location = useLocation();
 	const dispatch = useDispatch();
 	const theme = useTheme();
 	const isMenuOpen = Boolean(anchorEl);
@@ -347,16 +348,18 @@ export default function Navbar({ children }) {
 				sx={{
 					position: "fixed",
 					top: 64,
-					bottom: isSmallScreen
-						? history.location.pathname === "/bristol" && 56
-						: 0,
+					bottom: isSmallScreen ? location.pathname === "/bristol" && 56 : 0,
 					right: 0,
 					left: isSmallScreen ? 0 : isDrawerOpen ? 240 : 73,
 					overflowY: "auto",
 					zIndex: 1000,
 					px: 1,
 					pt: isSmallScreen ? 0 : 2,
-					height: isSmallScreen ? "100vh" : "auto",
+					height: isSmallScreen
+						? location.pathname === "/bristol"
+							? "auto"
+							: "100vh"
+						: "auto",
 					maxHeight: isSmallScreen ? "calc(100vh - 56px)" : "100vh",
 					transition: `200ms all ease-in-out`,
 				}}>
