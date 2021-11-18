@@ -132,6 +132,11 @@ const Middleware = store => next => action => {
 				})
 				.then(() => {
 					moved(state, action.id);
+					!action.parent_id &&
+						store.dispatch({
+							type: "GET_CURRENT_BRISTOL_CONTENT",
+							selectedBristol: action.id,
+						});
 					next(action);
 				})
 				.catch(errorHandler);
