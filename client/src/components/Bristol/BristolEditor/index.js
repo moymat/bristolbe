@@ -40,6 +40,8 @@ const BristolEditor = () => {
 			full_name: `${user.first_name} ${user.last_name}`,
 		});
 
+		console.log(selectedBristol);
+
 		setTitle(selectedBristol.title || "");
 		setContent(selectedBristol.content || "");
 		setEditors(selectedBristol?.editors.map(addFullName) || []);
@@ -85,6 +87,7 @@ const BristolEditor = () => {
 
 	const handleCancel = () => {
 		dispatch({ type: "STOP_UPDATE_EDITOR" });
+		initData();
 	};
 
 	const handleEditorsChange = newEditors => {
