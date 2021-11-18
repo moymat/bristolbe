@@ -1,12 +1,16 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import DevCard from "../components/DevCard";
+import RemiPicture from "../assets/img/remi-vieille.jpg";
+import MichelPicture from "../assets/img/michel-deckert.jpg";
+import TonyPicture from "../assets/img/tony-dai.jpg";
 
 const users = [
 	{
 		firstName: "Rémi ",
 		lastName: "VIEILLE",
 		jobs: ["Product Owner", "Scrum Master"],
+		picture: RemiPicture,
 		links: {
 			github: "https://github.com/remi-vieille",
 			linkedin: "https://www.linkedin.com/in/remi-vieille-925943223/",
@@ -17,6 +21,7 @@ const users = [
 		firstName: "Michel",
 		lastName: "DECKERT",
 		jobs: ["Lead Dev Back", "Git Master"],
+		picture: MichelPicture,
 		links: {
 			github: "https://github.com/moymat",
 			linkedin: "https://www.linkedin.com/in/micheldeckert/",
@@ -27,6 +32,7 @@ const users = [
 		firstName: "Tony",
 		lastName: "DAI",
 		jobs: ["Lead Dev Front"],
+		picture: TonyPicture,
 		links: {
 			github: "https://github.com/TonyDaii",
 			linkedin: "https://www.linkedin.com/in/tony-dai-a93010197/",

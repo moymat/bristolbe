@@ -24,16 +24,13 @@ const SOCIALS = {
 	},
 };
 
-const DevCard = ({ firstName, lastName, jobs, links }) => {
+const DevCard = ({ firstName, lastName, jobs, links, picture }) => {
 	return (
 		<DevCardWrapper className="card">
 			<Card sx={{ maxHeight: "100%", height: "100%" }}>
 				<DevCardContent>
 					<ImageWrapper className="picture">
-						<DevImage
-							src="https://picsum.photos/130/130?image=856"
-							alt={`${firstName} ${lastName}`}
-						/>
+						<DevImage src={picture} alt={`${firstName} ${lastName}`} />
 					</ImageWrapper>
 					<Typography
 						sx={{ fontWeight: 700, mb: 1, color: "primary.main" }}
