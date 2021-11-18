@@ -369,7 +369,7 @@ export default function Navbar({ children }) {
 						component="main"
 						sx={{
 							position: "fixed",
-							top: 64,
+							top: 56,
 							bottom:
 								isSmallScreen && location.pathname === "/bristol" ? 56 : 0,
 							right: 0,
@@ -377,7 +377,7 @@ export default function Navbar({ children }) {
 							overflowY: "auto",
 							zIndex: 1200,
 							px: 1,
-							pt: isSmallScreen ? 0 : 2,
+							pt: isSmallScreen ? 1 : 2,
 							// height: isSmallScreen
 							// 	? location.pathname === "/bristol"
 							// 		? "auto"
@@ -386,7 +386,6 @@ export default function Navbar({ children }) {
 							//maxHeight: isSmallScreen ? "calc(100vh - 56px)" : "100vh",
 							transition: `200ms all ease-in-out`,
 						}}>
-						{/* {isSmallScreen && <DrawerHeader />} */}
 						{children}
 					</Box>
 				</Box>

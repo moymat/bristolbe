@@ -69,14 +69,16 @@ function Carousel() {
 			className="salut"
 			sx={{
 				flexGrow: 1,
-				height: "100%",
 				width: "100%",
 				display: "flex",
+				maxHeight: "100%",
 				flexDirection: "column",
 				justifyContent: "center",
 				alignItems: "center",
 				alignContent: "center",
 				margin: "auto",
+				boxSizing: "border-box",
+				pb: 4,
 			}}>
 			<Paper
 				square
@@ -95,17 +97,19 @@ function Carousel() {
 				</Typography>
 			</Paper>
 			<SwipeableViews
+				style={{ overflow: "hidden" }}
 				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
 				index={activeStep}
 				onChangeIndex={handleStepChange}
 				enableMouseEvents>
 				{images.map((step, index) => (
-					<div key={step.label}>
+					<Box key={step.label} sx={{ height: "100%" }}>
 						{Math.abs(activeStep - index) <= 2 ? (
 							<Box
 								component="img"
+								className="image-wrapper"
 								sx={{
-									height: isSmallScreen ? 255 : 450,
+									height: isSmallScreen ? "100%" : 450,
 									display: "block",
 									maxWidth: isSmallScreen ? 400 : 720,
 									margin: "auto",
@@ -116,7 +120,7 @@ function Carousel() {
 								alt={step.label}
 							/>
 						) : null}
-					</div>
+					</Box>
 				))}
 			</SwipeableViews>
 			<Paper

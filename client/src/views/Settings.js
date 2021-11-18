@@ -219,7 +219,8 @@ export default function Settings() {
 			</Box>
 			<Box
 				sx={{
-					marginTop: 4,
+					mt: 4,
+					mb: isSmallScreen ? 6 : 0,
 					display: "flex",
 					flexDirection: "column",
 					width: "100%",

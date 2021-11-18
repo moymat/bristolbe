@@ -12,8 +12,8 @@ const users = [
 		jobs: ["Product Owner", "Scrum Master"],
 		picture: RemiPicture,
 		links: {
-			github: "https://github.com/remi-vieille",
 			linkedin: "https://www.linkedin.com/in/remi-vieille-925943223/",
+			github: "https://github.com/remi-vieille",
 			email: "remi.vieille@gmail.com",
 		},
 	},
@@ -23,8 +23,8 @@ const users = [
 		jobs: ["Lead Dev Back", "Git Master"],
 		picture: MichelPicture,
 		links: {
-			github: "https://github.com/moymat",
 			linkedin: "https://www.linkedin.com/in/micheldeckert/",
+			github: "https://github.com/moymat",
 			email: "deckertmichel@gmail.com",
 		},
 	},
@@ -34,8 +34,8 @@ const users = [
 		jobs: ["Lead Dev Front"],
 		picture: TonyPicture,
 		links: {
-			github: "https://github.com/TonyDaii",
 			linkedin: "https://www.linkedin.com/in/tony-dai-a93010197/",
+			github: "https://github.com/TonyDaii",
 			email: "yi.tonydai@gmail.com",
 		},
 	},
@@ -47,8 +47,8 @@ const Contact = () => {
 			<Typography
 				variant="h3"
 				textAlign="center"
-				sx={{ mt: 5, mb: { xs: 5, md: 1 } }}>
-				The team
+				sx={{ mt: { xs: 1, md: 5 }, mb: { xs: 5, md: 1 } }}>
+				The Team
 			</Typography>
 			<Box
 				display="flex"
@@ -60,7 +60,7 @@ const Contact = () => {
 					justifyContent: { xs: "space-evenly", md: "space-evenly" },
 					alignItems: { xs: "center", md: "center" },
 					marginBottom: { xs: 1, md: 0 },
-					marginTop: { xs: 0, md: 14 },
+					marginTop: { xs: 0, md: 10 },
 					width: "100%",
 					maxWidth: 1200,
 					mx: "auto",
