@@ -146,7 +146,6 @@ const Middleware = store => next => action => {
 				.catch(errorHandler);
 			break;
 		case "LOGOUT":
-			store.dispatch({ type: "BRISTOL_RESET" });
 			logout(state);
 			next(action);
 			break;

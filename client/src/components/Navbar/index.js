@@ -105,7 +105,11 @@ const Drawer = styled(MuiDrawer, {
 export default function Navbar({ children }) {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 	const user = useSelector(state => state.user.user);
+	const isDark = useSelector(state => state.core.isDark);
 	const isDrawerOpen = useSelector(state => state.core.isDrawerOpen);
+	const isMobileDrawerOpen = useSelector(
+		state => state.core.isMobileDrawerOpen
+	);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 	const history = useHistory();
@@ -150,6 +154,7 @@ export default function Navbar({ children }) {
 		try {
 			await axios().get("/auth/logout");
 			dispatch({ type: "LOGOUT" });
+			history.push("/");
 		} catch (err) {
 			console.error(err);
 		}
@@ -218,11 +223,7 @@ export default function Navbar({ children }) {
 			onClose={handleMobileMenuClose}>
 			<MenuItem onClick={() => dispatch({ type: "TOGGLE_DARK_MODE" })}>
 				<IconButton size="large" aria-label="change theme" color="inherit">
-					{useSelector(state => state.core.isDark) ? (
-						<Brightness7Icon />
-					) : (
-						<DarkModeIcon />
-					)}
+					{isDark ? <Brightness7Icon /> : <DarkModeIcon />}
 				</IconButton>
 				<Typography>Thème</Typography>
 			</MenuItem>
@@ -248,135 +249,151 @@ export default function Navbar({ children }) {
 	);
 
 	return (
-		<Box sx={{ display: "flex" }}>
-			<CssBaseline />
-			<AppBar position="fixed" open={isDrawerOpen} smallscreen={isSmallScreen}>
-				<Toolbar>
-					<IconButton
-						color="inherit"
-						aria-label="open drawer"
-						onClick={handleDrawerOpen}
-						edge="start"
+		<>
+			{user.id ? (
+				<Box sx={{ display: "flex" }}>
+					<CssBaseline />
+					<AppBar
+						position="fixed"
+						open={isDrawerOpen}
+						smallscreen={isSmallScreen}>
+						<Toolbar>
+							<IconButton
+								color="inherit"
+								aria-label="open drawer"
+								onClick={handleDrawerOpen}
+								edge="start"
+								sx={{
+									marginRight: "36px",
+									...(isDrawerOpen &&
+										!isSmallScreen && {
+											display: "none",
+										}),
+								}}>
+								<MenuIcon />
+							</IconButton>
+							<Link
+								to="/home"
+								style={{ display: "flex", alignContent: "center" }}>
+								<img src={BELogo} alt="react logo" width="40" />
+							</Link>
+							<Box sx={{ flexGrow: 1 }} />
+							<Box sx={{ display: { xs: "none", md: "flex" } }}>
+								<IconButton
+									size="large"
+									edge="end"
+									aria-label="dark theme"
+									color="inherit">
+									<DarkThemeSwitch
+										checked={isDark}
+										onChange={() => dispatch({ type: "TOGGLE_DARK_MODE" })}
+									/>
+								</IconButton>
+								<IconButton
+									size="large"
+									edge="end"
+									aria-label="account of current user"
+									aria-controls={menuId}
+									aria-haspopup="true"
+									onClick={handleProfileMenuOpen}
+									color="inherit">
+									<Avatar
+										sx={{ width: 35, height: 35 }}
+										{...stringAvatar(`${user.first_name} ${user.last_name}`)}
+									/>
+								</IconButton>
+							</Box>
+							<Box sx={{ display: { xs: "flex", md: "none" } }}>
+								<IconButton
+									size="large"
+									aria-label="show more"
+									aria-controls={mobileMenuId}
+									aria-haspopup="true"
+									onClick={handleMobileMenuOpen}
+									color="inherit">
+									<MoreIcon />
+								</IconButton>
+							</Box>
+						</Toolbar>
+					</AppBar>
+					{renderMobileMenu}
+					{renderMenu}
+					{/* drawer navigation on small screen */}
+					<SwipeableDrawer
+						sx={{ display: { xs: "flex", sm: "none" } }}
+						anchor="top"
+						className="drawer-top"
+						open={isMobileDrawerOpen}
+						onOpen={handleDrawerOpen}
+						onClose={handleDrawerClose}>
+						<Box onClick={handleDrawerClose}>
+							<DrawerHeader />
+							<List>
+								<ListItem
+									button
+									key="Bristol"
+									onClick={handleBristolButtonClick}>
+									<ListItemIcon>
+										<LocalLibraryIcon />
+									</ListItemIcon>
+									<ListItemText primary="Bristol" />
+								</ListItem>
+							</List>
+						</Box>
+					</SwipeableDrawer>
+					{/* drawer navigation on medium and large screen */}
+					<Drawer
+						sx={{ display: { xs: "none", sm: "flex" } }}
+						variant="permanent"
+						open={isDrawerOpen}>
+						<DrawerHeader>
+							<IconButton onClick={handleDrawerClose}>
+								{theme.direction === "rtl" ? (
+									<ChevronRightIcon />
+								) : (
+									<ChevronLeftIcon />
+								)}
+							</IconButton>
+						</DrawerHeader>
+						<Divider />
+						<List>
+							<ListItem button key="Bristol" onClick={handleBristolButtonClick}>
+								<ListItemIcon>
+									<LocalLibraryIcon />
+								</ListItemIcon>
+								<ListItemText primary="Bristol" />
+							</ListItem>
+						</List>
+					</Drawer>
+					<Box
+						component="main"
 						sx={{
-							marginRight: "36px",
-							...(isDrawerOpen &&
-								!isSmallScreen && {
-									display: "none",
-								}),
+							position: "fixed",
+							top: 64,
+							bottom: isSmallScreen
+								? location.pathname === "/bristol" && 56
+								: 0,
+							right: 0,
+							left: isSmallScreen ? 0 : isDrawerOpen ? 240 : 73,
+							overflowY: "auto",
+							zIndex: 1200,
+							px: 1,
+							pt: isSmallScreen ? 0 : 2,
+							height: isSmallScreen
+								? location.pathname === "/bristol"
+									? "auto"
+									: "100vh"
+								: "auto",
+							maxHeight: isSmallScreen ? "calc(100vh - 56px)" : "100vh",
+							transition: `200ms all ease-in-out`,
 						}}>
-						<MenuIcon />
-					</IconButton>
-					<Link to="/home" style={{ display: "flex", alignContent: "center" }}>
-						<img src={BELogo} alt="react logo" width="40" />
-					</Link>
-					<Box sx={{ flexGrow: 1 }} />
-					<Box sx={{ display: { xs: "none", md: "flex" } }}>
-						<IconButton
-							size="large"
-							edge="end"
-							aria-label="dark theme"
-							color="inherit">
-							<DarkThemeSwitch
-								checked={useSelector(state => state.core.isDark)}
-								onChange={() => dispatch({ type: "TOGGLE_DARK_MODE" })}
-							/>
-						</IconButton>
-						<IconButton
-							size="large"
-							edge="end"
-							aria-label="account of current user"
-							aria-controls={menuId}
-							aria-haspopup="true"
-							onClick={handleProfileMenuOpen}
-							color="inherit">
-							<Avatar
-								sx={{ width: 35, height: 35 }}
-								{...stringAvatar(`${user.first_name} ${user.last_name}`)}
-							/>
-						</IconButton>
+						{/* {isSmallScreen && <DrawerHeader />} */}
+						{children}
 					</Box>
-					<Box sx={{ display: { xs: "flex", md: "none" } }}>
-						<IconButton
-							size="large"
-							aria-label="show more"
-							aria-controls={mobileMenuId}
-							aria-haspopup="true"
-							onClick={handleMobileMenuOpen}
-							color="inherit">
-							<MoreIcon />
-						</IconButton>
-					</Box>
-				</Toolbar>
-			</AppBar>
-			{renderMobileMenu}
-			{renderMenu}
-			{/* drawer navigation on small screen */}
-			<SwipeableDrawer
-				sx={{ display: { xs: "flex", sm: "none" } }}
-				anchor="top"
-				className="drawer-top"
-				open={useSelector(state => state.core.isMobileDrawerOpen)}
-				onOpen={handleDrawerOpen}
-				onClose={handleDrawerClose}>
-				<Box onClick={handleDrawerClose}>
-					<DrawerHeader />
-					<List>
-						<ListItem button key="Bristol" onClick={handleBristolButtonClick}>
-							<ListItemIcon>
-								<LocalLibraryIcon />
-							</ListItemIcon>
-							<ListItemText primary="Bristol" />
-						</ListItem>
-					</List>
 				</Box>
-			</SwipeableDrawer>
-			{/* drawer navigation on medium and large screen */}
-			<Drawer
-				sx={{ display: { xs: "none", sm: "flex" } }}
-				variant="permanent"
-				open={isDrawerOpen}>
-				<DrawerHeader>
-					<IconButton onClick={handleDrawerClose}>
-						{theme.direction === "rtl" ? (
-							<ChevronRightIcon />
-						) : (
-							<ChevronLeftIcon />
-						)}
-					</IconButton>
-				</DrawerHeader>
-				<Divider />
-				<List>
-					<ListItem button key="Bristol" onClick={handleBristolButtonClick}>
-						<ListItemIcon>
-							<LocalLibraryIcon />
-						</ListItemIcon>
-						<ListItemText primary="Bristol" />
-					</ListItem>
-				</List>
-			</Drawer>
-			<Box
-				component="main"
-				sx={{
-					position: "fixed",
-					top: 64,
-					bottom: isSmallScreen ? location.pathname === "/bristol" && 56 : 0,
-					right: 0,
-					left: isSmallScreen ? 0 : isDrawerOpen ? 240 : 73,
-					overflowY: "auto",
-					zIndex: 1200,
-					px: 1,
-					pt: isSmallScreen ? 0 : 2,
-					height: isSmallScreen
-						? location.pathname === "/bristol"
-							? "auto"
-							: "100vh"
-						: "auto",
-					maxHeight: isSmallScreen ? "calc(100vh - 56px)" : "100vh",
-					transition: `200ms all ease-in-out`,
-				}}>
-				{/* {isSmallScreen && <DrawerHeader />} */}
-				{children}
-			</Box>
-		</Box>
+			) : (
+				children
+			)}
+		</>
 	);
 }

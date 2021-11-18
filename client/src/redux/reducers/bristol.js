@@ -174,11 +174,11 @@ const reducer = (state = initialState, action = {}) => {
 				editorIsReadOnly: true,
 				selectedBristol: initialState.selectedBristol,
 			};
-		case "BRISTOL_RESET":
+		// Socket.io actions
+		case "LOGOUT":
 			return {
 				...initialState,
 			};
-		// Socket.io actions
 		case "SIO_SET_EDITING":
 			return {
 				...state,

@@ -96,6 +96,7 @@ export default function Reset() {
 							onFocus={handleTouch}
 							value={input.password}
 							helperText={passwordError ? "Your password is invalid" : ""}
+							error={passwordError}
 						/>
 						<TextField
 							type="password"
@@ -107,6 +108,7 @@ export default function Reset() {
 							helperText={
 								confirmError ? "Your confirm password is invalid" : ""
 							}
+							error={confirmError}
 						/>
 						<PasswordVerification input={input} />
 						<Button type="submit" variant="contained">

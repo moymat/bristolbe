@@ -1,5 +1,5 @@
 import Img from "../assets/img/nicole.jpg";
-import { Box } from "@mui/system";
+import Box from "@mui/material/Box";
 
 export default function AuthLeftPanel() {
 	return (
