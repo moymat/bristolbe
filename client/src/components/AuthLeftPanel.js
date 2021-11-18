@@ -6,6 +6,7 @@ export default function AuthLeftPanel() {
 		<Box
 			sx={{
 				display: "flex",
+				width: "100%",
 			}}>
 			<img
 				src={Img}
