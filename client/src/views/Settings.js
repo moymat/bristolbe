@@ -8,6 +8,7 @@ import CustomAlert from "../components/CustomAlert";
 import { usePasswordValidation } from "../hooks/usePasswordValidation";
 import axios from "../utils/axios";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import PasswordVerification from "../components/PasswordVerification";
 
 const passwordValidator = new RegExp(
 	/^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d).{8,30}$/
@@ -19,25 +20,19 @@ const emailValidator = new RegExp(
 
 export default function Settings() {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
-
 	const [userInformation, setUserInformation] = useState({
 		passwordEmail: "",
 		newEmail: "",
 		currentPassword: "",
-		newPassword: "",
-		confirmPassword: "",
+		password: "",
+		confirm: "",
 	});
-	const [validLength, hasNumber, upperCase, lowerCase, match] =
-		usePasswordValidation({
-			firstPassword: userInformation.newPassword,
-			secondPassword: userInformation.confirmPassword,
-		});
 	const [newEmailError, setNewEmailError] = useState(false);
 	const [emailPasswordError, setEmailPasswordError] = useState(false);
 	const [currentPasswordError, setCurrentPasswordError] = useState(false);
-	const [newPasswordError, setNewPasswordError] = useState(false);
+	const [passwordError, setPasswordError] = useState(false);
 	const [samePasswordError, setSamePasswordError] = useState(false);
-	const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+	const [confirmError, setConfirmError] = useState(false);
 	const [touch, setTouch] = useState(false);
 	const [alertMessage, setAlertMessage] = useState("");
 	const [isSnackOpen, setIsSnackOpen] = useState(false);
@@ -50,18 +45,18 @@ export default function Settings() {
 
 	const handleChange = e => {
 		const { name, value } = e.target;
-		const { currentPassword, newPassword } = userInformation;
+		const { currentPassword, password } = userInformation;
 
 		switch (name) {
 			case "currentPassword":
 				currentPasswordError && setCurrentPasswordError(false);
 				break;
-			case "newPassword":
-				setNewPasswordError(!passwordValidator.test(value));
+			case "password":
+				setPasswordError(!passwordValidator.test(value));
 				setSamePasswordError(currentPassword === value);
 				break;
-			case "confirmPassword":
-				setConfirmPasswordError(value !== newPassword);
+			case "confirm":
+				setConfirmError(value !== password);
 				break;
 			case "passwordEmail":
 				emailPasswordError && setEmailPasswordError(false);
@@ -110,37 +105,38 @@ export default function Settings() {
 
 	const handleSubmitPassword = async e => {
 		e.preventDefault();
-		const { currentPassword, newPassword, confirmPassword } = userInformation;
+		const { currentPassword, password, confirm } = userInformation;
 
 		if (
 			!currentPassword ||
-			!newPassword ||
-			!confirmPassword ||
-			confirmPasswordError ||
-			newPasswordError
+			!password ||
+			!confirm ||
+			confirmError ||
+			passwordError
 		) {
 			!currentPassword && setCurrentPasswordError(true);
-			!newPassword && setNewPasswordError(true);
-			!confirmPassword && setConfirmPasswordError(true);
+			!password && setPasswordError(true);
+			!confirm && setConfirmError(true);
 			return;
 		}
 
 		try {
 			await axios().patch(`/api/v1/users/${user.id}/password`, {
 				password: currentPassword,
-				new_password: newPassword,
-				confirm: confirmPassword,
+				new_password: password,
+				confirm,
 			});
 			setAlertMessage("Password updated");
 			setIsSnackOpen(true);
 			setUserInformation({
 				...userInformation,
 				currentPassword: "",
-				newPassword: "",
-				confirmPassword: "",
+				password: "",
+				confirm: "",
 			});
 		} catch (err) {
 			const { error } = err.response.data;
+			console.log(error);
 			if (error.includes("wrong password")) {
 				setCurrentPasswordError(true);
 			} else if (error.includes("same password")) {
@@ -157,6 +153,9 @@ export default function Settings() {
 	return (
 		<Box
 			sx={{
+				display: "flex",
+				flexDirection: "column",
+				alignItems: "center",
 				mb: 4,
 				"& .MuiTextField-root": { mb: 2 },
 				ml: isSmallScreen ? 0 : 5,
@@ -166,39 +165,40 @@ export default function Settings() {
 				handleClose={handleSnackClose}
 				message={alertMessage}
 			/>
+			<Typography variant="h4" gutterBottom sx={{ alignSelf: "flex-start" }}>
+				Settings
+			</Typography>
 			<Box
 				sx={{
 					display: "flex",
 					flexDirection: "column",
-					alignItems: isSmallScreen ? "center" : "",
 					width: "100%",
+					maxWidth: { xs: "70%", md: "400px" },
+					alignItems: isSmallScreen ? "center" : "",
 				}}
 				component="form"
 				onSubmit={handleSubmitEmail}>
-				<Typography variant="h4" gutterBottom>
-					Settings
-				</Typography>
-				<Typography variant="h6" sx={{ marginBottom: 2 }}>
+				<Typography variant="h6" sx={{ marginBottom: 2 }} fullWidth>
 					Change your Email
 				</Typography>
 				<TextField
-					sx={{ width: { xs: "70%", md: "400px" } }}
 					type="password"
 					name="passwordEmail"
 					label="Password"
 					variant="outlined"
 					inputProps={{ autoComplete: "new-password" }}
+					fullWidth
 					onChange={handleChange}
 					value={userInformation.passwordEmail}
 					helperText={emailPasswordError ? "Wrong password" : ""}
 					error={emailPasswordError}
 				/>
 				<TextField
-					sx={{ width: { xs: "70%", md: "400px" } }}
 					type="email"
 					name="newEmail"
 					label="New email"
 					variant="outlined"
+					fullWidth
 					onChange={handleChange}
 					value={userInformation.newEmail}
 					helperText={newEmailError ? "Your Email is invalid" : ""}
@@ -220,6 +220,7 @@ export default function Settings() {
 					display: "flex",
 					flexDirection: "column",
 					width: "100%",
+					maxWidth: { xs: "70%", md: "400px" },
 					alignItems: isSmallScreen ? "center" : "",
 				}}
 				component="form"
@@ -228,62 +229,51 @@ export default function Settings() {
 					Change your password
 				</Typography>
 				<TextField
-					sx={{ width: { xs: "70%", md: "400px" } }}
 					type="password"
 					name="currentPassword"
 					label="Password"
 					variant="outlined"
 					inputProps={{ autoComplete: "new-password" }}
 					onChange={handleChange}
+					fullWidth
 					value={userInformation.currentPassword}
 					helperText={currentPasswordError ? "Wrong password" : ""}
 					error={currentPasswordError}
 				/>
 				<TextField
-					sx={{ width: { xs: "70%", md: "400px" } }}
 					type="password"
-					name="newPassword"
+					name="password"
 					label="New Password"
 					variant="outlined"
 					onChange={handleChange}
-					value={userInformation.newPassword}
+					value={userInformation.password}
 					onFocus={handleTouch}
+					fullWidth
 					helperText={
-						newPasswordError
+						passwordError
 							? "Your new password is invalid"
 							: samePasswordError
 							? "Your new password has to be different than your current one"
 							: ""
 					}
-					error={newPasswordError}
+					error={passwordError || samePasswordError}
 				/>
-				{touch && (
-					<ul className="reg-list">
-						<li className={`${validLength ? "reg--one-li" : ""}`}>
-							8 characters (max.30)
-						</li>
-						<li className={`${upperCase ? "reg--one-li" : ""}`}>
-							1 capital letter
-						</li>
-						<li className={`${lowerCase ? "reg--one-li" : ""}`}>
-							1 lower letter
-						</li>
-						<li className={`${hasNumber ? "reg--one-li" : ""}`}>1 digit</li>
-						<li className={`${match ? "reg--one-li" : ""}`}>Match</li>
-					</ul>
-				)}
+				<PasswordVerification
+					input={{
+						password: userInformation.password,
+						confirm: userInformation.confirm,
+					}}
+				/>
 				<TextField
-					sx={{ width: { xs: "70%", md: "400px" } }}
 					type="password"
-					name="confirmPassword"
+					name="confirm"
 					label="Confirm Password"
 					variant="outlined"
+					fullWidth
 					onChange={handleChange}
-					value={userInformation.confirmPassword}
-					helperText={
-						confirmPasswordError ? "Your confirm password is invalid" : ""
-					}
-					error={confirmPasswordError}
+					value={userInformation.confirm}
+					helperText={confirmError ? "Your confirm password is invalid" : ""}
+					error={confirmError}
 				/>
 				<Button
 					type="submit"

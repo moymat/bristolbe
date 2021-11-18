@@ -40,8 +40,6 @@ const BristolEditor = () => {
 			full_name: `${user.first_name} ${user.last_name}`,
 		});
 
-		console.log(selectedBristol);
-
 		setTitle(selectedBristol.title || "");
 		setContent(selectedBristol.content || "");
 		setEditors(selectedBristol?.editors.map(addFullName) || []);

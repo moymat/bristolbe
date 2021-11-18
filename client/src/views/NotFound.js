@@ -70,15 +70,14 @@ export default function NotFound({ buttonText, link }) {
 					justifyContent: "center",
 					alignItems: "center",
 				}}>
-				{/* <Typography fontSize={18}>Page not found</Typography> */}
 				<Typography
 					variant={isSmallScreen ? "h6" : "h5"}
 					fontWeight="bold"
 					mb={4}
 					alignItems="center">
-					We can’t seem to find
+					Sorry, but the page you are looking for
 					<br />
-					the page you are looking for
+					has not been found
 				</Typography>
 				<Button
 					startIcon={<ArrowBackIcon />}
