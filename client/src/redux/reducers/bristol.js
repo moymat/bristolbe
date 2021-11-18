@@ -127,12 +127,15 @@ const reducer = (state = initialState, action = {}) => {
 				editorIsReadOnly: true,
 			};
 		case "STOP_UPDATE_EDITOR":
-			return {
+			const stopState = {
 				...state,
 				editorIsVisible: true,
 				editorIsReadOnly: true,
 				bristols: updateEditingStatus(state.bristols, state.selectedBristol.id),
 			};
+			if (!state.selectedBristol.id)
+				stopState.selectedBristol = initialState.selectedBristol;
+			return stopState;
 		case "ADD_NEW_BRISTOL":
 			const newBristol = {
 				id: action.id,
