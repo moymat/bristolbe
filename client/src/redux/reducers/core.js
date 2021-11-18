@@ -25,10 +25,7 @@ const reducer = (state = initialState, action = {}) => {
 			};
 		case "LOGOUT":
 			return {
-				...state,
-				isDark: false,
-				isDrawerOpen: false,
-				isMobileDrawerOpen: false,
+				...initialState,
 			};
 		default:
 			return state;

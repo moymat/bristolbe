@@ -43,8 +43,7 @@ const reducer = (state = initialState, action = {}) => {
 		case "LOGOUT":
 			localStorage.removeItem("refresh_token");
 			return {
-				...state,
-				user: initialState.user,
+				...initialState,
 			};
 		default:
 			return state;

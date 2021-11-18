@@ -15,7 +15,7 @@ export default function Forgot() {
 	const history = useHistory();
 
 	const handleChange = e => {
-		setEmailError(!!e.target.value);
+		setEmailError(!e.target.value);
 		setEmail(e.target.value);
 	};
 
@@ -60,7 +60,7 @@ export default function Forgot() {
 								sx={{ marginBottom: 2 }}
 								value={email}
 								onChange={handleChange}
-								helperText={emailError ? "Your Email is invalid" : ""}
+								helperText={emailError ? "You must provide an email" : ""}
 								error={emailError}
 							/>
 							<Button type="submit" variant="contained">

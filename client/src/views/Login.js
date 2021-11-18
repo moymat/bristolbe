@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -17,8 +17,8 @@ export default function Login() {
 	const [passwordError, setPasswordError] = useState(false);
 	const [emailError, setEmailError] = useState(false);
 	const [notUsedAccount, setNotUsedAccount] = useState(false);
-
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const handleChange = event => {
 		const { name, value } = event.target;
@@ -58,6 +58,7 @@ export default function Login() {
 			}
 
 			dispatch({ type: "LOGIN", ...data });
+			history.push("/home");
 		} catch (err) {
 			const { error } = err.response.data;
 
