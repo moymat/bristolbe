@@ -58,7 +58,7 @@ const DevCard = ({ firstName, lastName, jobs, links, picture }) => {
 								<SocialButton
 									key={i}
 									target="_blank"
-									href={value}
+									href={key === "email" ? `mailto:${value}` : value}
 									startIcon={icon}
 									className={`btn ${key}`}
 									buttonColor={color}

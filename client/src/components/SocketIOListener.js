@@ -26,13 +26,12 @@ const SocketIOListener = ({ children }) => {
 				dispatch({ type: "SET_BRISTOLS" });
 			});
 
-			user.socket.on("roles_managed", data => {
+			user.socket.on("roles_managed", () => {
 				dispatch({ type: "SET_BRISTOLS" });
-				data?.bristolId === selectedBristol.id &&
-					dispatch({
-						type: "GET_CURRENT_BRISTOL_CONTENT",
-						selectedBristol: data.bristolId,
-					});
+				dispatch({
+					type: "GET_CURRENT_BRISTOL_CONTENT",
+					selectedBristol: selectedBristol.id,
+				});
 			});
 
 			user.socket.on("deleted", data => {
