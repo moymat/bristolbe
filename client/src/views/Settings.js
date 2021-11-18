@@ -157,6 +157,7 @@ export default function Settings() {
 	return (
 		<Box
 			sx={{
+				mb: 4,
 				"& .MuiTextField-root": { mb: 2 },
 				ml: isSmallScreen ? 0 : 5,
 			}}>
