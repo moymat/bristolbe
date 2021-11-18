@@ -143,19 +143,17 @@ const moveBristol = async (bristolMoved, userId) => {
 			);
 		}
 
-		/*const roles = rows.map(({ user_id, role, first_name, last_name }) => ({
+		const roles = rows.map(({ user_id, role, first_name, last_name }) => ({
 			user_id,
 			role,
 			first_name,
 			last_name,
-		})); */
+		}));
 
 		return {
 			data: {
-				status: "success",
-				/* 	bristol_before,
-				editors: roles.filter(({ role }) => role === "editor"),
-				viewers: roles.filter(({ role }) => role === "viewer"),*/
+				oldEditors: roles.filter(({ role }) => role === "editor"),
+				oldViewers: roles.filter(({ role }) => role === "viewer"),
 			},
 		};
 	} catch (error) {
