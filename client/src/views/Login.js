@@ -63,7 +63,10 @@ export default function Login() {
 
 			if (error.includes("wrong password")) {
 				setPasswordError(true);
-			} else if (error.includes("no user found with email")) {
+			} else if (
+				error.includes("no user found with email") ||
+				error.includes('domain email violates check constraint "email_check"')
+			) {
 				setEmailError(true);
 				setNotUsedAccount(true);
 			}
