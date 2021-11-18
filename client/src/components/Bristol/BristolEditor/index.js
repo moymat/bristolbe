@@ -222,7 +222,7 @@ const BristolEditor = () => {
 				)}
 				{selectedBristol.role === "editor" &&
 					(isReadOnly && selectedBristol.id ? (
-						<>
+						<Box display="flex">
 							<Button
 								sx={{
 									px: { xs: 3, sm: 2 },
@@ -235,8 +235,8 @@ const BristolEditor = () => {
 								startIcon={<EditIcon />}>
 								Edit
 							</Button>
-							{editionStatus.status && !isSmallScreen && (
-								<Box display="flex" flexDirection="column">
+							{editionStatus.status && (
+								<Box ml={2}>
 									<Typography
 										sx={{
 											fontWeight: 500,
@@ -254,7 +254,7 @@ const BristolEditor = () => {
 									</Typography>
 								</Box>
 							)}
-						</>
+						</Box>
 					) : (
 						!isReadOnly && (
 							<Box
