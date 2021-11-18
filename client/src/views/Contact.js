@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import DevCards from "../components/Contact/DevCards";
+import DevCard from "../components/DevCard";
 
 const users = [
 	{
@@ -38,8 +38,8 @@ const users = [
 const Contact = () => {
 	return (
 		<Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-			<Typography variant="h3" textAlign="center" marginTop={4}>
-				Test
+			<Typography variant="h3" textAlign="center" marginTop={5}>
+				Contact the team
 			</Typography>
 			<Box
 				display="flex"
@@ -56,7 +56,9 @@ const Contact = () => {
 					maxWidth: 1200,
 					mx: "auto",
 				}}>
-				<DevCards users={users} />
+				{users.map(user => (
+					<DevCard key={user.firstName} {...user} />
+				))}
 			</Box>
 		</Box>
 	);

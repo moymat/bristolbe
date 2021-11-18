@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import List from "@mui/material/List";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import EmailIcon from "@mui/icons-material/Email";
@@ -10,49 +9,20 @@ import GitHub from "@mui/icons-material/GitHub";
 import { Divider } from "@mui/material";
 import styled from "@mui/system/styled";
 
-const COLORS = {
-	GITHUB: "rgb(51, 51, 51)",
-	LINKEDIN: "rgb(0, 119, 181)",
-	EMAIL: "rgb(221, 75, 57)",
+const SOCIALS = {
+	GITHUB: {
+		color: "rgb(51, 51, 51)",
+		icon: <GitHub />,
+	},
+	LINKEDIN: {
+		color: "rgb(0, 119, 181)",
+		icon: <LinkedIn />,
+	},
+	EMAIL: {
+		color: "rgb(221, 75, 57)",
+		icon: <EmailIcon />,
+	},
 };
-
-const SocialButton = styled(({ className, color, link, icon }) => (
-	<Button
-		target="#"
-		href={link}
-		startIcon={icon}
-		className={className}
-		sx={{
-			filter: "grayscale(1)",
-			display: "flex",
-			alignItems: "center",
-			justifyContent: "center",
-			minHeight: "100%",
-			backgroundColor: color,
-			transition: "all 0.3s ease 0s",
-			border: "2px solid transparent",
-			mb: 2,
-			opacity: 0.75,
-			"& svg": {
-				fill: "whitesmoke",
-			},
-			"& .MuiButton-startIcon": {
-				m: 0,
-				"& > :nth-of-type(1)": {
-					fontSize: "xx-large",
-				},
-			},
-			color: color,
-			"&:hover": {
-				backgroundColor: "white",
-				border: `2px solid ${color}`,
-				"& svg": {
-					fill: color,
-				},
-			},
-		}}
-	/>
-))();
 
 const DevCard = ({ firstName, lastName, jobs, links }) => {
 	return (
@@ -66,8 +36,7 @@ const DevCard = ({ firstName, lastName, jobs, links }) => {
 						/>
 					</ImageWrapper>
 					<Typography
-						className="dev-name"
-						sx={{ fontWeight: 700, mb: 1, color: "secondary.main" }}
+						sx={{ fontWeight: 700, mb: 1, color: "primary.main" }}
 						variant="h5">
 						{`${firstName} ${lastName}`}
 					</Typography>
@@ -75,29 +44,30 @@ const DevCard = ({ firstName, lastName, jobs, links }) => {
 					{jobs.map(job => (
 						<Typography
 							key={job}
-							sx={{ p: 0, px: 1, pb: 0.5, textAlign: "center" }}>
+							sx={{
+								p: 0,
+								px: 1,
+								pb: 0.5,
+								textAlign: "center",
+								fontWeight: 500,
+							}}>
 							{job}
 						</Typography>
 					))}
 					<ButtonsWrapper className="social">
-						<SocialButton
-							className="btn linkedin"
-							color={COLORS.LINKEDIN}
-							link={links.LinkedIn}
-							icon={<LinkedIn />}
-						/>
-						<SocialButton
-							className="btn github"
-							color={COLORS.GITHUB}
-							link={links.github}
-							icon={<GitHub />}
-						/>
-						<SocialButton
-							className="btn email"
-							color={COLORS.EMAIL}
-							link={links.email}
-							icon={<EmailIcon />}
-						/>
+						{Object.entries(links).map(([key, value], i) => {
+							const { icon, color } = SOCIALS[key.toUpperCase()];
+							return (
+								<SocialButton
+									key={i}
+									target="_blank"
+									href={value}
+									startIcon={icon}
+									className={`btn ${key}`}
+									buttonColor={color}
+								/>
+							);
+						})}
 					</ButtonsWrapper>
 				</DevCardContent>
 			</Card>
@@ -119,6 +89,7 @@ const DevCardWrapper = styled(Box)(({ theme }) => ({
 		opacity: 1,
 		"& .picture::before": {
 			opacity: 0.9,
+			height: "100%",
 		},
 	},
 	"& *": {
@@ -135,7 +106,6 @@ const DevCardContent = styled(CardContent)(() => ({
 }));
 
 const ImageWrapper = styled(Box)(({ theme }) => ({
-	//filter: "grayscale(1)",
 	display: "inline-block",
 	position: "relative",
 	height: "130px",
@@ -148,10 +118,10 @@ const ImageWrapper = styled(Box)(({ theme }) => ({
 		right: 0,
 		left: 0,
 		width: "100%",
-		height: "100%",
+		height: 0,
 		borderRadius: "50%",
-		backgroundColor: theme.palette.secondary.main,
-		opacity: 0.5,
+		backgroundColor: theme.palette.primary.main,
+		opacity: 0.9,
 		transform: "scale(3)",
 		transition: "all 0.3s ease 0s",
 	},
@@ -167,7 +137,7 @@ const DevImage = styled("img")(() => ({
 	transition: "all 0.9s ease 0s",
 }));
 
-const ButtonsWrapper = styled(Box)(({ theme }) => ({
+const ButtonsWrapper = styled(Box)(() => ({
 	position: "absolute",
 	display: "flex",
 	justifyContent: "space-evenly",
@@ -177,4 +147,36 @@ const ButtonsWrapper = styled(Box)(({ theme }) => ({
 	bottom: 0,
 	left: 0,
 	backgroundColor: "transparent",
+}));
+
+const SocialButton = styled(Button, {
+	shouldForwardProp: prop => prop !== "buttonColor",
+})(({ buttonColor }) => ({
+	filter: "grayscale(1)",
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "center",
+	minHeight: "100%",
+	backgroundColor: buttonColor,
+	transition: "all 0.3s ease 0s",
+	border: "2px solid transparent",
+	marginBottom: "16px",
+	opacity: 0.75,
+	"& svg": {
+		fill: "whitesmoke",
+	},
+	"& .MuiButton-startIcon": {
+		margin: 0,
+		"& > :nth-of-type(1)": {
+			fontSize: "xx-large",
+		},
+	},
+	color: buttonColor,
+	"&:hover": {
+		backgroundColor: "white",
+		border: `2px solid ${buttonColor}`,
+		"& svg": {
+			fill: buttonColor,
+		},
+	},
 }));
