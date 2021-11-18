@@ -71,7 +71,9 @@ function App() {
 									component={({ match }) => {
 										const { page } = match.params;
 										const pages = ["settings", "profile"];
-										return user.id && pages.includes(page) ? (
+										return !user.id ? (
+											<Redirect to="/" />
+										) : pages.includes(page) ? (
 											<ProfileLayout>
 												{page === "settings" && <Settings />}
 												{page === "profile" && <Profile />}
