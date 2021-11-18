@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import CustomAlert from "../components/CustomAlert";
-import { usePasswordValidation } from "../hooks/usePasswordValidation";
 import axios from "../utils/axios";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import PasswordVerification from "../components/PasswordVerification";
@@ -20,6 +19,7 @@ const emailValidator = new RegExp(
 
 export default function Settings() {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
+	const isMediumScreen = useMediaQuery(theme => theme.breakpoints.down("md"));
 	const [userInformation, setUserInformation] = useState({
 		passwordEmail: "",
 		newEmail: "",
@@ -158,14 +158,17 @@ export default function Settings() {
 				alignItems: "center",
 				mb: 4,
 				"& .MuiTextField-root": { mb: 2 },
-				ml: isSmallScreen ? 0 : 5,
+				ml: isMediumScreen ? 0 : 5,
 			}}>
 			<CustomAlert
 				open={isSnackOpen}
 				handleClose={handleSnackClose}
 				message={alertMessage}
 			/>
-			<Typography variant="h4" gutterBottom sx={{ alignSelf: "flex-start" }}>
+			<Typography
+				variant="h4"
+				gutterBottom
+				sx={{ alignSelf: { sx: "center", md: "flex-start" } }}>
 				Settings
 			</Typography>
 			<Box
@@ -178,27 +181,27 @@ export default function Settings() {
 				}}
 				component="form"
 				onSubmit={handleSubmitEmail}>
-				<Typography variant="h6" sx={{ marginBottom: 2 }} fullWidth>
+				<Typography variant="h6" sx={{ marginBottom: 2 }}>
 					Change your Email
 				</Typography>
 				<TextField
+					sx={{ width: "100%" }}
 					type="password"
 					name="passwordEmail"
 					label="Password"
 					variant="outlined"
 					inputProps={{ autoComplete: "new-password" }}
-					fullWidth
 					onChange={handleChange}
 					value={userInformation.passwordEmail}
 					helperText={emailPasswordError ? "Wrong password" : ""}
 					error={emailPasswordError}
 				/>
 				<TextField
+					sx={{ width: "100%" }}
 					type="email"
 					name="newEmail"
 					label="New email"
 					variant="outlined"
-					fullWidth
 					onChange={handleChange}
 					value={userInformation.newEmail}
 					helperText={newEmailError ? "Your Email is invalid" : ""}
@@ -229,18 +232,19 @@ export default function Settings() {
 					Change your password
 				</Typography>
 				<TextField
+					sx={{ width: "100%" }}
 					type="password"
 					name="currentPassword"
 					label="Password"
 					variant="outlined"
 					inputProps={{ autoComplete: "new-password" }}
 					onChange={handleChange}
-					fullWidth
 					value={userInformation.currentPassword}
 					helperText={currentPasswordError ? "Wrong password" : ""}
 					error={currentPasswordError}
 				/>
 				<TextField
+					sx={{ width: "100%" }}
 					type="password"
 					name="password"
 					label="New Password"
@@ -248,7 +252,6 @@ export default function Settings() {
 					onChange={handleChange}
 					value={userInformation.password}
 					onFocus={handleTouch}
-					fullWidth
 					helperText={
 						passwordError
 							? "Your new password is invalid"
@@ -265,11 +268,11 @@ export default function Settings() {
 					}}
 				/>
 				<TextField
+					sx={{ width: "100%" }}
 					type="password"
 					name="confirm"
 					label="Confirm Password"
 					variant="outlined"
-					fullWidth
 					onChange={handleChange}
 					value={userInformation.confirm}
 					helperText={confirmError ? "Your confirm password is invalid" : ""}

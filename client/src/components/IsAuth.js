@@ -1,10 +1,9 @@
-import { useHistory, useLocation, Redirect } from "react-router-dom";
+import { useLocation, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AUTH_ROUTES } from "../utils/authRoutes";
 
 const IsAuth = ({ children }) => {
 	const user = useSelector(state => state.user.user);
-	const history = useHistory();
 	const { pathname } = useLocation();
 
 	return (

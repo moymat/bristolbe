@@ -6,7 +6,8 @@ import Typography from "@mui/material/Typography";
 import EmailIcon from "@mui/icons-material/Email";
 import LinkedIn from "@mui/icons-material/LinkedIn";
 import GitHub from "@mui/icons-material/GitHub";
-import { Divider } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import Divider from "@mui/material/Divider";
 import styled from "@mui/system/styled";
 
 const SOCIALS = {
@@ -25,8 +26,12 @@ const SOCIALS = {
 };
 
 const DevCard = ({ firstName, lastName, jobs, links, picture }) => {
+	const isMediumScreen = useMediaQuery(theme => theme.breakpoints.down("md"));
+
 	return (
-		<DevCardWrapper className="card">
+		<DevCardWrapper
+			className="card"
+			style={{ marginBottom: isMediumScreen ? 20 : 0 }}>
 			<Card sx={{ maxHeight: "100%", height: "100%" }}>
 				<DevCardContent>
 					<ImageWrapper className="picture">

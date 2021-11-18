@@ -139,6 +139,10 @@ const BristolEditor = () => {
 	};
 
 	useEffect(() => {
+		console.log(content);
+	}, [content]);
+
+	useEffect(() => {
 		initData();
 	}, [initData]);
 
@@ -302,7 +306,6 @@ const BristolEditor = () => {
 				readOnly={isReadOnly}
 				style={{ maxHeight: "100%" }}
 			/>
-
 			{!isReadOnly && selectedBristol.id && (
 				<Button
 					color="error"

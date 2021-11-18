@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import IsAuth from "./components/IsAuth";
 import Home from "./views/Home";
 import Bristol from "./views/Bristol";
 import Login from "./views/Login";
@@ -19,7 +18,6 @@ import CustomTheme from "./theme";
 import NotFound from "./views/NotFound";
 import ValidateEmail from "./views/ValidateEmail";
 import SocketIOListener from "./components/SocketIOListener";
-import { AUTH_ROUTES } from "./utils/authRoutes";
 
 function App() {
 	const [isAuthChecked, setIsAuthChecked] = useState(false);
@@ -39,10 +37,6 @@ function App() {
 		};
 		checkAuth();
 	}, [dispatch]);
-
-	useEffect(() => {
-		console.log(user);
-	}, [user]);
 
 	return (
 		isAuthChecked && (

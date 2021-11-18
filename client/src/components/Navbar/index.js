@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { styled, useTheme } from "@mui/material/styles";
 import { useHistory, useLocation, Link } from "react-router-dom";
@@ -370,21 +370,20 @@ export default function Navbar({ children }) {
 						sx={{
 							position: "fixed",
 							top: 64,
-							bottom: isSmallScreen
-								? location.pathname === "/bristol" && 56
-								: 0,
+							bottom:
+								isSmallScreen && location.pathname === "/bristol" ? 56 : 0,
 							right: 0,
 							left: isSmallScreen ? 0 : isDrawerOpen ? 240 : 73,
 							overflowY: "auto",
 							zIndex: 1200,
 							px: 1,
 							pt: isSmallScreen ? 0 : 2,
-							height: isSmallScreen
-								? location.pathname === "/bristol"
-									? "auto"
-									: "100vh"
-								: "auto",
-							maxHeight: isSmallScreen ? "calc(100vh - 56px)" : "100vh",
+							// height: isSmallScreen
+							// 	? location.pathname === "/bristol"
+							// 		? "auto"
+							// 		: "100vh"
+							// 	: "auto",
+							//maxHeight: isSmallScreen ? "calc(100vh - 56px)" : "100vh",
 							transition: `200ms all ease-in-out`,
 						}}>
 						{/* {isSmallScreen && <DrawerHeader />} */}

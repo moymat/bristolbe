@@ -44,8 +44,11 @@ const users = [
 const Contact = () => {
 	return (
 		<Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-			<Typography variant="h3" textAlign="center" marginTop={5}>
-				Contact the team
+			<Typography
+				variant="h3"
+				textAlign="center"
+				sx={{ mt: 5, mb: { xs: 5, md: 1 } }}>
+				The team
 			</Typography>
 			<Box
 				display="flex"
