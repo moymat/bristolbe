@@ -148,38 +148,35 @@ const ButtonsWrapper = styled(Box)(() => ({
 
 const SocialButton = styled(Button, {
 	shouldForwardProp: prop => prop !== "buttonColor",
-})(({ buttonColor, theme }) => {
-	console.log(theme);
-	return {
-		filter: "grayscale(1)",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		minHeight: "100%",
-		backgroundColor: buttonColor,
-		transition: "all 0.15s ease",
-		border: "2px solid transparent",
-		marginBottom: "16px",
-		opacity: 0.75,
+})(({ buttonColor, theme }) => ({
+	filter: "grayscale(1)",
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "center",
+	minHeight: "100%",
+	backgroundColor: buttonColor,
+	transition: "all 0.15s ease",
+	border: "2px solid transparent",
+	marginBottom: "16px",
+	opacity: 0.75,
+	"& svg": {
+		fill: "whitesmoke",
+	},
+	"& .MuiButton-startIcon": {
+		margin: 0,
+		"& > :nth-of-type(1)": {
+			fontSize: "xx-large",
+		},
+	},
+	color: buttonColor,
+	"&:hover": {
+		backgroundColor: theme.palette.mode === "dark" ? "transparent" : "white",
+		border: `2px solid ${buttonColor}`,
+		boxShadow: `${
+			theme.palette.mode === "dark" && "0px 0px 8px 1px"
+		} ${buttonColor}`,
 		"& svg": {
-			fill: "whitesmoke",
+			fill: theme.palette.mode === "dark" ? "white" : buttonColor,
 		},
-		"& .MuiButton-startIcon": {
-			margin: 0,
-			"& > :nth-of-type(1)": {
-				fontSize: "xx-large",
-			},
-		},
-		color: buttonColor,
-		"&:hover": {
-			backgroundColor: theme.palette.mode === "dark" ? "transparent" : "white",
-			border: `2px solid ${buttonColor}`,
-			boxShadow: `${
-				theme.palette.mode === "dark" && "0px 0px 8px 1px"
-			} ${buttonColor}`,
-			"& svg": {
-				fill: theme.palette.mode === "dark" ? "white" : buttonColor,
-			},
-		},
-	};
-});
+	},
+}));

@@ -66,11 +66,11 @@ function Carousel() {
 
 	return (
 		<Box
-			className="salut"
 			sx={{
 				flexGrow: 1,
 				width: "100%",
 				display: "flex",
+				height: "100%",
 				maxHeight: "100%",
 				flexDirection: "column",
 				justifyContent: "center",
@@ -87,12 +87,11 @@ function Carousel() {
 					display: "flex",
 					alignItems: "center",
 					bgcolor: "background.default",
-					overflow: "auto",
 					mb: isSmallScreen ? 0 : 2,
 				}}>
 				<Typography
 					variant={isSmallScreen ? "h5" : "h3"}
-					sx={{ color: theme.palette.text.secondary }}>
+					sx={{ color: theme.palette.text.secondary, mb: 2 }}>
 					{images[activeStep].title}
 				</Typography>
 			</Paper>
