@@ -74,7 +74,7 @@ const DevCard = ({ firstName, lastName, jobs, links, picture }) => {
 
 export default DevCard;
 
-const DevCardWrapper = styled(Box)(() => ({
+const DevCardWrapper = styled(Box)(({ theme }) => ({
 	width: 265,
 	height: 450,
 	maxHeight: 450,
@@ -85,7 +85,7 @@ const DevCardWrapper = styled(Box)(() => ({
 		filter: "grayscale(0)",
 		opacity: 1,
 		"& .card-content": {
-			backgroundColor: "white",
+			backgroundColor: theme.palette.mode === "dark" ? "#090909" : "white",
 		},
 		"& .picture::before": {
 			opacity: 0.9,
