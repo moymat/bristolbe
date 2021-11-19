@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router";
-import { AUTH_ROUTES } from "../utils/authRoutes";
+import { AUTH_ROUTES, NOT_AUTH_ROUTES } from "../utils/authRoutes";
 
 const IsAuth = ({ children }) => {
 	const [isChecked, setIsChecked] = useState(false);
@@ -12,8 +12,16 @@ const IsAuth = ({ children }) => {
 	useEffect(() => {
 		if (!user.id && AUTH_ROUTES.includes(location.pathname))
 			return history.push("/");
-		else if (user.id && !user.verified && location.pathname !== "/validate")
-			return history.push("/validate");
+		else if (user.id) {
+			if (
+				NOT_AUTH_ROUTES.includes(location.pathname) ||
+				/^\/reset.*$/.test(location.pathname)
+			) {
+				return history.push("/home");
+			}
+			if (!user.verified && location.pathname !== "/validate")
+				return history.push("/validate");
+		}
 		setIsChecked(true);
 	}, [location, history, user]);
 

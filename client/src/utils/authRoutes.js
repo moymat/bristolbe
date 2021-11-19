@@ -6,3 +6,5 @@ exports.AUTH_ROUTES = [
 	"/contact",
 	"/validate",
 ];
+
+exports.NOT_AUTH_ROUTES = ["/", "/register", "/forgot-password"];
