@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import axios from "../utils/axios";
+import NotFound from "./NotFound";
 
 const inputProps = {
 	maxLength: 1,
@@ -66,7 +67,9 @@ const ValidateEmail = () => {
 		}
 	};
 
-	return (
+	return user.verified ? (
+		<NotFound link="/home" buttonText="home" />
+	) : (
 		<Box
 			sx={{
 				display: "flex",
