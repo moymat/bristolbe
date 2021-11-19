@@ -1,25 +1,23 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Redirect, useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { AUTH_ROUTES } from "../utils/authRoutes";
-import NotFound from "../views/NotFound";
 
 const IsAuth = ({ children }) => {
+	const [isChecked, setIsChecked] = useState(false);
 	const user = useSelector(state => state.user.user);
 	const location = useLocation();
+	const history = useHistory();
 
-	return !user.id ? (
-		AUTH_ROUTES.includes(location.pathname) ? (
-			<Redirect to="/" />
-		) : (
-			<NotFound link="/" buttonText="login" />
-		)
-	) : !user.verified ? (
-		<Redirect to="/validate" />
-	) : !AUTH_ROUTES.includes(location.pathname) ? (
-		<NotFound link="/home" buttonText="home" />
-	) : (
-		children
-	);
+	useEffect(() => {
+		if (!user.id && AUTH_ROUTES.includes(location.pathname))
+			return history.push("/");
+		else if (user.id && !user.verified && location.pathname !== "/validate")
+			return history.push("/validate");
+		setIsChecked(true);
+	}, [location, history, user]);
+
+	return isChecked && children;
 };
 
 export default IsAuth;

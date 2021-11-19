@@ -93,6 +93,7 @@ export default function Register() {
 
 			localStorage.setItem("refresh_token", data.refresh);
 			dispatch({ type: "LOGIN", user: { ...data.user } });
+			history.push("/validate");
 		} catch (err) {
 			const { error } = err.response.data;
 

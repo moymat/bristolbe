@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./views/Home";
 import Bristol from "./views/Bristol";
@@ -19,7 +18,6 @@ import NotFound from "./views/NotFound";
 import ValidateEmail from "./views/ValidateEmail";
 import SocketIOListener from "./components/SocketIOListener";
 import IsAuth from "./components/IsAuth";
-import NotAuth from "./components/NotAuth";
 
 function App() {
 	const [isAuthChecked, setIsAuthChecked] = useState(false);
@@ -46,20 +44,20 @@ function App() {
 				<Router>
 					<Navbar>
 						<SocketIOListener>
-							<Switch>
-								<Route exact path="/">
-									<Login />
-								</Route>
-								<Route exact path="/register">
-									<Register />
-								</Route>
-								<Route exact path="/forgot-password">
-									<Forgot />
-								</Route>
-								<Route exact path="/reset/:code">
-									<Reset />
-								</Route>
-								<IsAuth>
+							<IsAuth>
+								<Switch>
+									<Route exact path="/">
+										<Login />
+									</Route>
+									<Route exact path="/register">
+										<Register />
+									</Route>
+									<Route exact path="/forgot-password">
+										<Forgot />
+									</Route>
+									<Route exact path="/reset/:code">
+										<Reset />
+									</Route>
 									<Route exact path="/home">
 										<Home />
 									</Route>
@@ -88,11 +86,14 @@ function App() {
 									<Route exact path="/validate">
 										<ValidateEmail />
 									</Route>
-									{/* 	<Route path="*">
-										<NotFound link="/home" buttonText="home" />
-									</Route> */}
-								</IsAuth>
-							</Switch>
+									<Route path="*">
+										<NotFound
+											link={user.id ? "/home" : "/"}
+											buttonText={user.id ? "home" : "login"}
+										/>
+									</Route>
+								</Switch>
+							</IsAuth>
 						</SocketIOListener>
 					</Navbar>
 				</Router>
