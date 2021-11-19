@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ReactQuill from "react-quill";
 import { modules, formats } from "./EditorToolbar";
@@ -16,7 +16,7 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import "./styles.css";
 
-const BristolEditor = ({ setBristol }) => {
+const BristolEditor = () => {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 	const dispatch = useDispatch();
 	const isReadOnly = useSelector(state => state.bristol.editorIsReadOnly);
@@ -33,6 +33,18 @@ const BristolEditor = ({ setBristol }) => {
 		isEditor: false,
 		editorName: "",
 	});
+
+	const initData = useCallback(() => {
+		const addFullName = user => ({
+			...user,
+			full_name: `${user.first_name} ${user.last_name}`,
+		});
+
+		setTitle(selectedBristol.title || "");
+		setContent(selectedBristol.content || "");
+		setEditors(selectedBristol?.editors.map(addFullName) || []);
+		setViewers(selectedBristol?.viewers.map(addFullName) || []);
+	}, [selectedBristol]);
 
 	const handleContentChange = content => {
 		setContent(content);
@@ -59,7 +71,7 @@ const BristolEditor = ({ setBristol }) => {
 		}
 
 		selectedBristol.id &&
-			dispatch({ type: "UPDATE_BRISTOL_ROLES", editors, viewers });
+			dispatch({ type: "UPDATE_BRISTOL_ROLES", roles: { editors, viewers } });
 	};
 
 	const handleDeleteClick = () => {
@@ -67,11 +79,13 @@ const BristolEditor = ({ setBristol }) => {
 	};
 
 	const handleEditClick = () => {
+		initData();
 		dispatch({ type: "EDIT_CURRENT_BRISTOL" });
 	};
 
 	const handleCancel = () => {
 		dispatch({ type: "STOP_UPDATE_EDITOR" });
+		initData();
 	};
 
 	const handleEditorsChange = newEditors => {
@@ -86,7 +100,7 @@ const BristolEditor = ({ setBristol }) => {
 	const handleViewersChange = newViewers => {
 		setEditors(
 			editors.filter(
-				editor => !newViewers.some(viewer => editor.id === viewer.id)
+				editor => !newViewers.some(viewer => viewer.id === editor.id)
 			)
 		);
 		setViewers(newViewers);
@@ -106,7 +120,7 @@ const BristolEditor = ({ setBristol }) => {
 		});
 
 		if (permission === "editors") {
-			const isViewer = viewers.find(user => user.id === option.id);
+			const isViewer = viewers.find(viewer => viewer.id === option.id);
 			return (
 				<Box {...props} sx={optionStyle(isViewer)}>
 					<Typography sx={{ marginRight: 1 }}>{option.full_name}</Typography>
@@ -114,7 +128,7 @@ const BristolEditor = ({ setBristol }) => {
 				</Box>
 			);
 		} else if (permission === "viewers") {
-			const isEditor = editors.find(user => user.id === option.id);
+			const isEditor = editors.find(editor => editor.id === option.id);
 			return (
 				<Box {...props} sx={optionStyle(isEditor)}>
 					<Typography sx={{ marginRight: 1 }}>{option.full_name}</Typography>
@@ -125,16 +139,8 @@ const BristolEditor = ({ setBristol }) => {
 	};
 
 	useEffect(() => {
-		const addFullName = user => ({
-			...user,
-			full_name: `${user.first_name} ${user.last_name}`,
-		});
-
-		setTitle(selectedBristol.title);
-		setContent(selectedBristol.content);
-		setEditors(selectedBristol.editors.map(addFullName));
-		setViewers(selectedBristol.viewers.map(addFullName));
-	}, [selectedBristol]);
+		initData();
+	}, [initData]);
 
 	useEffect(() => {
 		setIsRoot(!!bristols.find(bristol => bristol.id === selectedBristol.id));
@@ -216,7 +222,7 @@ const BristolEditor = ({ setBristol }) => {
 				)}
 				{selectedBristol.role === "editor" &&
 					(isReadOnly && selectedBristol.id ? (
-						<>
+						<Box display="flex">
 							<Button
 								sx={{
 									px: { xs: 3, sm: 2 },
@@ -229,8 +235,8 @@ const BristolEditor = ({ setBristol }) => {
 								startIcon={<EditIcon />}>
 								Edit
 							</Button>
-							{editionStatus.status && !isSmallScreen && (
-								<Box display="flex" flexDirection="column">
+							{editionStatus.status && (
+								<Box ml={2}>
 									<Typography
 										sx={{
 											fontWeight: 500,
@@ -248,7 +254,7 @@ const BristolEditor = ({ setBristol }) => {
 									</Typography>
 								</Box>
 							)}
-						</>
+						</Box>
 					) : (
 						!isReadOnly && (
 							<Box
@@ -296,7 +302,6 @@ const BristolEditor = ({ setBristol }) => {
 				readOnly={isReadOnly}
 				style={{ maxHeight: "100%" }}
 			/>
-
 			{!isReadOnly && selectedBristol.id && (
 				<Button
 					color="error"
