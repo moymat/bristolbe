@@ -10,20 +10,18 @@ const IsAuth = ({ children }) => {
 	const history = useHistory();
 
 	useEffect(() => {
-		if (!user.id && AUTH_ROUTES.includes(location.pathname))
-			return history.push("/");
+		if (!user.id && AUTH_ROUTES.includes(location.pathname)) history.push("/");
 		else if (user.id) {
 			if (
 				NOT_AUTH_ROUTES.includes(location.pathname) ||
 				/^\/reset.*$/.test(location.pathname)
 			) {
-				return history.push("/home");
-			}
-			if (!user.verified && location.pathname !== "/validate")
-				return history.push("/validate");
+				history.push("/home");
+			} else if (!user.verified && location.pathname !== "/validate")
+				history.push("/validate");
 		}
 		setIsChecked(true);
-	}, [location, history, user]);
+	}, [isChecked, location, history, user]);
 
 	return isChecked && children;
 };

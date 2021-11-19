@@ -179,7 +179,6 @@ const postResetPassword = async email => {
 const checkResetCode = async code => {
 	try {
 		const cachedCode = await redisClient.getAsync(`reset_code_${code}`);
-		console.log(cachedCode);
 		if (!cachedCode) throw Error("invalid code");
 		return { status: "code verified" };
 	} catch (error) {

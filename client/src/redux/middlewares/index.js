@@ -151,6 +151,27 @@ const Middleware = store => next => action => {
 				})
 				.catch(errorHandler);
 			break;
+		case "UPDATE_USER_INFO":
+			axios()
+				.patch(`/api/v1/users/${state.user.user.id}/info`, {
+					first_name: action.firstName,
+					last_name: action.lastName,
+				})
+				.then(() => {
+					next(action);
+				});
+			break;
+		case "UPDATE_USER_EMAIL":
+			axios()
+				.patch(`/api/v1/users/${state.user.user.id}/email`, {
+					email: action.newEmail,
+					password: action.passwordEmail,
+				})
+				.then(() => {
+					next(action);
+				})
+				.catch(errorHandler);
+			break;
 		case "LOGOUT":
 			logout(state);
 			next(action);

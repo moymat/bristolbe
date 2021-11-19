@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./components/Navbar";
 import Home from "./views/Home";
@@ -47,9 +42,9 @@ function App() {
 		isAuthChecked && (
 			<CustomTheme>
 				<Router>
-					<Navbar>
-						<SocketIOListener>
-							<IsAuth>
+					<IsAuth>
+						<Navbar>
+							<SocketIOListener>
 								<Switch>
 									<Route exact path="/">
 										<Login />
@@ -72,22 +67,16 @@ function App() {
 									<Route exact path="/bristol">
 										<Bristol />
 									</Route>
-									<Route
-										path="/user/:page"
-										component={({
-											match: {
-												params: { page },
-											},
-										}) =>
-											["settings", "profile"].includes(page) ? (
-												<ProfileLayout>
-													{page === "settings" ? <Settings /> : <Profile />}
-												</ProfileLayout>
-											) : (
-												<NotFound link="/home" buttonText="home" />
-											)
-										}
-									/>
+									<Route exact path="/user/settings">
+										<ProfileLayout>
+											<Settings />
+										</ProfileLayout>
+									</Route>
+									<Route exact path="/user/profile">
+										<ProfileLayout>
+											<Profile />
+										</ProfileLayout>
+									</Route>
 									<Route exact path="/validate">
 										<ValidateEmail />
 									</Route>
@@ -98,9 +87,9 @@ function App() {
 										/>
 									</Route>
 								</Switch>
-							</IsAuth>
-						</SocketIOListener>
-					</Navbar>
+							</SocketIOListener>
+						</Navbar>
+					</IsAuth>
 				</Router>
 			</CustomTheme>
 		)

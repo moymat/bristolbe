@@ -4,20 +4,15 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import CustomAlert from "../components/CustomAlert";
-import axios from "../utils/axios";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-export default function Profile() {
+export default function Profile({ handleAlert }) {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 	const user = useSelector(state => state.user.user);
 	const [firstName, setFirstName] = useState(user.first_name);
 	const [lastName, setLastName] = useState(user.last_name);
 	const [firstNameError, setFirstNameError] = useState(false);
 	const [lastNameError, setLastNameError] = useState(false);
-	const [alertMessage, setAlertMessage] = useState("");
-	const [alertSeverity, setAlertSeverity] = useState("success");
-	const [isSnackOpen, setIsSnackOpen] = useState(false);
 	const dispatch = useDispatch();
 
 	const handleChange = event => {
@@ -35,52 +30,32 @@ export default function Profile() {
 		e.preventDefault();
 
 		if (firstName === user.first_name && lastName === user.last_name) {
-			setAlertSeverity("error");
-			setAlertMessage("Both first and last names haven't changed");
-			return setIsSnackOpen(true);
-		} else if (!firstName) {
-			setAlertSeverity("error");
-			setAlertMessage("A first name is required");
-			return setIsSnackOpen(true);
-		} else if (!lastName) {
-			setAlertSeverity("error");
-			setAlertMessage("A last name is required");
-			return setIsSnackOpen(true);
-		}
-
-		try {
-			await axios().patch(`/api/v1/users/${user.id}/info`, {
-				first_name: firstName,
-				last_name: lastName,
+			handleAlert({
+				severity: "error",
+				message: "Both first and last names haven't changed",
 			});
-			dispatch({ type: "UPDATE_USER_INFO", firstName, lastName });
-			setAlertMessage("Profile updated");
-			setAlertSeverity("success");
-			setIsSnackOpen(true);
-		} catch (error) {
-			console.error(error);
+		} else if (!firstName) {
+			handleAlert({ severity: "error", message: "A first name is required" });
+		} else if (!lastName) {
+			handleAlert({ severity: "error", message: "A first name is required" });
+		} else {
+			try {
+				dispatch({ type: "UPDATE_USER_INFO", firstName, lastName });
+				handleAlert({ severity: "success", message: "Profile updated" });
+			} catch (error) {
+				console.error(error);
+			}
 		}
-	};
-
-	const handleSnackClose = () => {
-		setIsSnackOpen(false);
 	};
 
 	return (
 		<Box
-			className="Coucou"
 			sx={{
 				"& .MuiTextField-root": { mb: 2 },
 				ml: isSmallScreen ? 0 : 5,
 				flexGrow: 1,
 				width: "100%",
 			}}>
-			<CustomAlert
-				open={isSnackOpen}
-				handleClose={handleSnackClose}
-				message={alertMessage}
-				severity={alertSeverity}
-			/>
 			<Box
 				component="form"
 				onSubmit={handleSubmit}
@@ -106,7 +81,6 @@ export default function Profile() {
 					helperText={firstNameError ? "A first name is required" : ""}
 					error={firstNameError}
 				/>
-
 				<TextField
 					sx={{ width: { xs: "75%", md: "400px" } }}
 					name="lastName"
@@ -127,39 +101,6 @@ export default function Profile() {
 					Apply
 				</Button>
 			</Box>
-			{/* <Box
-				style={{ display: "flex", alignItems: "baseline", marginTop: "1em" }}>
-				<Typography>Import image :</Typography>
-				<Box sx={{ marginLeft: 5 }}>
-					<input
-						type="file"
-						name="avatar"
-						accept="image/*"
-						style={{ display: "none" }}
-						id="button-file"
-					/>
-					<label htmlFor="button-file">
-						<Button variant="contained" component="span">
-							Img, jpg ....
-						</Button>
-					</label>
-				</Box>
-			</Box>
-			<Box style={{ marginTop: "1em" }}>
-				<Box sx={{ display: "flex", alignItems: "baseline" }}>
-					<TextField
-						id="outlined-multiline-static"
-						label="Description"
-						name="userDescription"
-						multiline
-						rows={4}
-						size="medium"
-						sx={{ width: "400px !important" }}
-						onChange={handleChange}
-						value={users.userDescription}
-					/>
-				</Box>
-			</Box> */}
 		</Box>
 	);
 }

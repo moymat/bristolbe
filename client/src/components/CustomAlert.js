@@ -17,6 +17,7 @@ const CustomAlert = ({
 			sx={{ "&.MuiSnackbar-root": { top: isSmallScreen ? "60px" : "68px" } }}
 			open={open}
 			anchorOrigin={{ vertical: "top", horizontal: "center" }}
+			color={severity}
 			autoHideDuration={duration}
 			TransitionComponent={Slide}
 			onClose={handleClose}>

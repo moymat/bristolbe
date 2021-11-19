@@ -37,7 +37,7 @@ const reducer = (state = initialState, action = {}) => {
 				...state,
 				user: {
 					...state.user,
-					email: action.email,
+					email: action.newEmail,
 				},
 			};
 		case "LOGOUT":

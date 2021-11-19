@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import CustomAlert from "../components/CustomAlert";
 import axios from "../utils/axios";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import PasswordVerification from "../components/PasswordVerification";
@@ -17,7 +16,7 @@ const emailValidator = new RegExp(
 	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 );
 
-export default function Settings() {
+export default function Settings({ handleAlert }) {
 	const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 	const isMediumScreen = useMediaQuery(theme => theme.breakpoints.down("md"));
 	const [userInformation, setUserInformation] = useState({
@@ -34,8 +33,6 @@ export default function Settings() {
 	const [samePasswordError, setSamePasswordError] = useState(false);
 	const [confirmError, setConfirmError] = useState(false);
 	const [touch, setTouch] = useState(false);
-	const [alertMessage, setAlertMessage] = useState("");
-	const [isSnackOpen, setIsSnackOpen] = useState(false);
 	const user = useSelector(state => state.user.user);
 	const dispatch = useDispatch();
 
@@ -83,18 +80,16 @@ export default function Settings() {
 		}
 
 		try {
-			await axios().patch(`/api/v1/users/${user.id}/email`, {
-				email: newEmail,
-				password: passwordEmail,
+			dispatch({ type: "UPDATE_USER_EMAIL", newEmail, passwordEmail });
+			handleAlert({
+				severity: "success",
+				message: "Email updated",
 			});
-			setAlertMessage("Email updated");
-			setIsSnackOpen(true);
 			setUserInformation({
 				...userInformation,
 				newEmail: "",
 				passwordEmail: "",
 			});
-			dispatch({ type: "UPDATE_USER_EMAIL", email: newEmail });
 		} catch (err) {
 			const { error } = err.response.data;
 			if (error === "wrong password") {
@@ -126,8 +121,10 @@ export default function Settings() {
 				new_password: password,
 				confirm,
 			});
-			setAlertMessage("Password updated");
-			setIsSnackOpen(true);
+			handleAlert({
+				severity: "success",
+				message: "Password updated",
+			});
 			setUserInformation({
 				...userInformation,
 				currentPassword: "",
@@ -145,11 +142,6 @@ export default function Settings() {
 		}
 	};
 
-	const handleSnackClose = () => {
-		setAlertMessage("");
-		setIsSnackOpen(false);
-	};
-
 	return (
 		<Box
 			sx={{
@@ -160,11 +152,6 @@ export default function Settings() {
 				"& .MuiTextField-root": { mb: 2 },
 				ml: isMediumScreen ? 0 : 5,
 			}}>
-			<CustomAlert
-				open={isSnackOpen}
-				handleClose={handleSnackClose}
-				message={alertMessage}
-			/>
 			<Typography
 				variant="h4"
 				gutterBottom

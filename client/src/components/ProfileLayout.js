@@ -1,11 +1,26 @@
-import Box from "@mui/material/Box";
+import { useState, cloneElement } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
+import CustomAlert from "../components/CustomAlert";
 
 export default function ProfileLayout({ children }) {
 	const dataMap = [{ label: "profile" }, { label: "settings" }];
 	const { pathname } = useLocation();
+	const [alertMessage, setAlertMessage] = useState("toto");
+	const [alertSeverity, setAlertSeverity] = useState("success");
+	const [isSnackOpen, setIsSnackOpen] = useState(false);
+
+	const handleSnackClose = () => {
+		setIsSnackOpen(false);
+	};
+
+	const handleAlert = ({ message, severity }) => {
+		setAlertSeverity(severity);
+		setAlertMessage(message);
+		setIsSnackOpen(true);
+	};
 
 	return (
 		<Box
@@ -15,6 +30,12 @@ export default function ProfileLayout({ children }) {
 				height: "100%",
 				width: "100%",
 			}}>
+			<CustomAlert
+				open={isSnackOpen}
+				handleClose={handleSnackClose}
+				message={alertMessage}
+				severity={alertSeverity}
+			/>
 			<Box
 				flexDirection="column"
 				sx={{ margin: 2, display: { xs: "none", md: "flex" } }}>
@@ -56,7 +77,7 @@ export default function ProfileLayout({ children }) {
 				sx={{ display: { xs: "none", md: "flex" } }}
 			/>
 			<Divider flexItem sx={{ display: { xs: "flex", md: "none" } }} />
-			<Box sx={{ mt: 2 }}>{children}</Box>
+			<Box sx={{ mt: 2 }}>{cloneElement(children, { handleAlert })}</Box>
 		</Box>
 	);
 }
