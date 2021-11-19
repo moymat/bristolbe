@@ -18,6 +18,7 @@ import CustomTheme from "./theme";
 import NotFound from "./views/NotFound";
 import ValidateEmail from "./views/ValidateEmail";
 import SocketIOListener from "./components/SocketIOListener";
+import IsAuth from "./components/IsAuth";
 
 function App() {
 	const [isAuthChecked, setIsAuthChecked] = useState(false);
@@ -57,47 +58,41 @@ function App() {
 								<Route exact path="/reset/:code">
 									{user.id ? <Redirect to="/home" /> : <Reset />}
 								</Route>
-								<Route exact path="/home">
-									{!user.id ? <Redirect to="/" /> : <Home />}
-								</Route>
-								<Route exact path="/contact">
-									{!user.id ? <Redirect to="/" /> : <Contact />}
-								</Route>
-								<Route exact path="/bristol">
-									{!user.id ? <Redirect to="/" /> : <Bristol />}
-								</Route>
-								<Route
-									path="/user/:page"
-									component={({ match }) => {
-										const { page } = match.params;
-										const pages = ["settings", "profile"];
-										return !user.id ? (
-											<Redirect to="/" />
-										) : pages.includes(page) ? (
-											<ProfileLayout>
-												{page === "settings" && <Settings />}
-												{page === "profile" && <Profile />}
-											</ProfileLayout>
-										) : (
-											<NotFound link="/home" />
-										);
-									}}
-								/>
-								<Route exact path="/validate">
-									{!user.id ? (
-										<Redirect to="/" />
-									) : user.verified ? (
-										<Redirect to="/home" />
-									) : (
-										<ValidateEmail />
-									)}
-								</Route>
-								<Route path="*">
-									<NotFound
-										link={user.id ? "/home" : "/"}
-										buttonText={user.id ? "home" : "login"}
+								<IsAuth>
+									<Route exact path="/home">
+										<Home />
+									</Route>
+									<Route exact path="/contact">
+										<Contact />
+									</Route>
+									<Route exact path="/bristol">
+										<Bristol />
+									</Route>
+									<Route
+										path="/user/:page"
+										component={({ match }) => {
+											const { page } = match.params;
+											const pages = ["settings", "profile"];
+											return pages.includes(page) ? (
+												<ProfileLayout>
+													{page === "settings" && <Settings />}
+													{page === "profile" && <Profile />}
+												</ProfileLayout>
+											) : (
+												<NotFound link="/home" buttonText="home" />
+											);
+										}}
 									/>
-								</Route>
+									<Route exact path="/validate">
+										<ValidateEmail />
+									</Route>
+									<Route path="*">
+										<NotFound
+											link={user.id ? "/home" : "/"}
+											buttonText={user.id ? "home" : "login"}
+										/>
+									</Route>
+								</IsAuth>
 							</Switch>
 						</SocketIOListener>
 					</Navbar>

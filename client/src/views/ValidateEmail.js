@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -16,6 +17,7 @@ const ValidateEmail = () => {
 	const [code, setCode] = useState(Array(4).fill(null));
 	const [error, setError] = useState(false);
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const handleChange = ({ target }) => {
 		const nb = +target.name.replace("code", "");
@@ -49,6 +51,7 @@ const ValidateEmail = () => {
 			}
 
 			dispatch({ type: "LOGIN", user: { ...user, verified: true } });
+			history.push("/home");
 		} catch (error) {
 			setError(true);
 			console.error(error.message);

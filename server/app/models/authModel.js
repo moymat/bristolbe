@@ -165,12 +165,8 @@ const postResetPassword = async email => {
 		const code = uuid();
 
 		await Promise.all([
-			redisClient.setAsync(
-				`reset_code_${code}`,
-				rows[0].id,
-				"EX",
-				process.env.RESET_PWD_CODE_EXP
-			),
+			// Store the reset password link for 10 minutes
+			redisClient.setAsync(`reset_code_${code}`, rows[0].id, "EX", 60 * 10),
 			sendResetPasswordMail(email, code),
 		]);
 
@@ -182,8 +178,9 @@ const postResetPassword = async email => {
 
 const checkResetCode = async code => {
 	try {
-		const cachedId = await redisClient.getAsync(`reset_code_${code}`);
-		console.log(cachedId);
+		const cachedCode = await redisClient.getAsync(`reset_code_${code}`);
+		console.log(cachedCode);
+		if (!cachedCode) throw Error("invalid code");
 		return { status: "code verified" };
 	} catch (error) {
 		return { error };

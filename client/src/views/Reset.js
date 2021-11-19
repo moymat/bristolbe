@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
 import InputLayout from "../components/InputLayout";
 import axios from "../utils/axios";
+import NotFound from "./NotFound";
 
 const passwordValidator = new RegExp(
 	/^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d).{8,30}$/
@@ -20,10 +21,11 @@ export default function Reset() {
 	});
 	const [touch, setTouch] = useState(false);
 	const [checked, setChecked] = useState(false);
-	const history = useHistory();
-	const { code } = useParams();
+	const [isCodeValid, setIsCodeValid] = useState(false);
 	const [passwordError, setPasswordError] = useState(false);
 	const [confirmError, setConfirmError] = useState(false);
+	const { code } = useParams();
+	const history = useHistory();
 
 	const handleChange = ({ target }) => {
 		if (target.name === "password") {
@@ -61,12 +63,13 @@ export default function Reset() {
 	const checkCode = useCallback(async () => {
 		try {
 			const { data } = await axios().get(`/auth/check-reset-code/${code}`);
-			data.status ? setChecked(true) : history.push("/");
+			setChecked(true);
+			data.status && setIsCodeValid(true);
 		} catch (error) {
-			console.error(error);
-			history.push("/");
+			console.error(error.response.data.errors);
+			setChecked(true);
 		}
-	}, [code, history]);
+	}, [code]);
 
 	useEffect(() => {
 		if (!checked) {
@@ -75,7 +78,10 @@ export default function Reset() {
 	}, [checked, checkCode]);
 
 	return (
-		checked && (
+		checked &&
+		(!isCodeValid ? (
+			<NotFound link="/home" buttonText="home" />
+		) : (
 			<InputLayout>
 				<Box style={{ flex: 1 }}>
 					<Typography variant="h4" component="h1" fontWeight={700} mb={2}>
@@ -91,7 +97,7 @@ export default function Reset() {
 							name="password"
 							placeholder="Password"
 							size="small"
-							sx={{ marginBottom: 2 }}
+							sx={{ mb: 2 }}
 							onChange={handleChange}
 							onFocus={handleTouch}
 							value={input.password}
@@ -103,6 +109,7 @@ export default function Reset() {
 							name="confirm"
 							placeholder="Confirm password"
 							size="small"
+							sx={{ mb: 2 }}
 							onChange={handleChange}
 							value={input.confirm}
 							helperText={
@@ -125,6 +132,6 @@ export default function Reset() {
 					</Box>
 				</Box>
 			</InputLayout>
-		)
+		))
 	);
 }

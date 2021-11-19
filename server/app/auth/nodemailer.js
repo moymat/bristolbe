@@ -65,7 +65,6 @@ const sendRegisterMail = async (to, code) => {
 
 const sendResetPasswordMail = async (to, code) => {
 	const link = `${process.env.CLIENT_URL}/reset/${code}`;
-	console.log(link);
 	await transporter.sendMail({
 		from: "Bristols",
 		to,
@@ -90,6 +89,7 @@ const sendResetPasswordMail = async (to, code) => {
           }
           .title {
             margin-top: 18px;
+            text-align: center;
           }
           .content {
             margin-top: 12px;
@@ -106,9 +106,9 @@ const sendResetPasswordMail = async (to, code) => {
         <div class="container">
           <h1 class="title">Reset your password</h1>
           <p class="content">
-            Copy and paste the link below to reset your password. This link will expire  in 5 minutes.
+            Click the link below to reset your password. This link will expire  in 10 minutes.
           </p>
-          <p class="link">${link}</p>
+          <a href="${link}" class="link">Click here</a>
         </div>
       </body>
     </html>`,

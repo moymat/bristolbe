@@ -125,7 +125,7 @@ export default function Register() {
 						label="First Name"
 						placeholder="John"
 						size="small"
-						sx={{ marginBottom: 2 }}
+						sx={{ mb: 2 }}
 						onChange={handleChange}
 						value={input.firstName}
 						helperText={firstNameError ? "Your first name is required" : ""}
@@ -137,7 +137,7 @@ export default function Register() {
 						label="Last Name"
 						placeholder="Doe"
 						size="small"
-						sx={{ marginBottom: 2 }}
+						sx={{ mb: 2 }}
 						onChange={handleChange}
 						value={input.lastName}
 						helperText={lastNameError ? "Your last name is required" : ""}
@@ -149,7 +149,7 @@ export default function Register() {
 						label="Email"
 						placeholder="johndoe@example.com"
 						size="small"
-						sx={{ marginBottom: 2 }}
+						sx={{ mb: 2 }}
 						onChange={handleChange}
 						value={input.email}
 						helperText={
@@ -167,7 +167,7 @@ export default function Register() {
 						label="Password"
 						placeholder="Password"
 						size="small"
-						sx={{ marginBottom: 2 }}
+						sx={{ mb: 2 }}
 						onChange={handleChange}
 						value={input.password}
 						helperText={passwordError ? "Your password is invalid" : ""}
@@ -179,7 +179,7 @@ export default function Register() {
 						label="Confirm Password"
 						placeholder="Confirm Password"
 						size="small"
-						sx={{ marginBottom: 2 }}
+						sx={{ mb: 2 }}
 						onChange={handleChange}
 						value={input.confirm}
 						helperText={confirmError ? "Your confirm password is invalid" : ""}
