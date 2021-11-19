@@ -1,9 +1,11 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
 import DevCard from "../components/DevCard";
 import RemiPicture from "../assets/img/remi-vieille.jpg";
 import MichelPicture from "../assets/img/michel-deckert.jpg";
 import TonyPicture from "../assets/img/tony-dai.jpg";
+import { styled } from "@mui/system";
 
 const users = [
 	{
@@ -43,13 +45,12 @@ const users = [
 
 const Contact = () => {
 	return (
-		<Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-			<Typography
-				variant="h3"
-				textAlign="center"
-				sx={{ mt: { xs: 1, md: 5 }, mb: { xs: 5, md: 1 } }}>
-				The Team
-			</Typography>
+		<Box sx={{ mt: 4, mb: 8 }}>
+			<Item elevation={0}>
+				<Typography variant="h2" component="div" gutterBottom>
+					The Team
+				</Typography>
+			</Item>
 			<Box
 				display="flex"
 				flexWrap="wrap"
@@ -74,3 +75,10 @@ const Contact = () => {
 };
 
 export default Contact;
+
+const Item = styled(Paper)(({ theme }) => ({
+	...theme.typography.body2,
+	padding: theme.spacing(1),
+	textAlign: "center",
+	color: theme.palette.text.secondary,
+}));

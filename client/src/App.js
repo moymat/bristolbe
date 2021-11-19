@@ -19,6 +19,7 @@ import NotFound from "./views/NotFound";
 import ValidateEmail from "./views/ValidateEmail";
 import SocketIOListener from "./components/SocketIOListener";
 import IsAuth from "./components/IsAuth";
+import NotAuth from "./components/NotAuth";
 
 function App() {
 	const [isAuthChecked, setIsAuthChecked] = useState(false);
@@ -47,16 +48,16 @@ function App() {
 						<SocketIOListener>
 							<Switch>
 								<Route exact path="/">
-									{user.id ? <Redirect to="/home" /> : <Login />}
+									<Login />
 								</Route>
 								<Route exact path="/register">
-									{user.id ? <Redirect to="/home" /> : <Register />}
+									<Register />
 								</Route>
 								<Route exact path="/forgot-password">
-									{user.id ? <Redirect to="/home" /> : <Forgot />}
+									<Forgot />
 								</Route>
 								<Route exact path="/reset/:code">
-									{user.id ? <Redirect to="/home" /> : <Reset />}
+									<Reset />
 								</Route>
 								<IsAuth>
 									<Route exact path="/home">
@@ -70,28 +71,26 @@ function App() {
 									</Route>
 									<Route
 										path="/user/:page"
-										component={({ match }) => {
-											const { page } = match.params;
-											const pages = ["settings", "profile"];
-											return pages.includes(page) ? (
+										component={({
+											match: {
+												params: { page },
+											},
+										}) =>
+											["settings", "profile"].includes(page) ? (
 												<ProfileLayout>
-													{page === "settings" && <Settings />}
-													{page === "profile" && <Profile />}
+													{page === "settings" ? <Settings /> : <Profile />}
 												</ProfileLayout>
 											) : (
 												<NotFound link="/home" buttonText="home" />
-											);
-										}}
+											)
+										}
 									/>
 									<Route exact path="/validate">
 										<ValidateEmail />
 									</Route>
-									<Route path="*">
-										<NotFound
-											link={user.id ? "/home" : "/"}
-											buttonText={user.id ? "home" : "login"}
-										/>
-									</Route>
+									{/* 	<Route path="*">
+										<NotFound link="/home" buttonText="home" />
+									</Route> */}
 								</IsAuth>
 							</Switch>
 						</SocketIOListener>

@@ -28,7 +28,7 @@ const DevCard = ({ firstName, lastName, jobs, links, picture }) => {
 	return (
 		<DevCardWrapper className="card" sx={{ mb: { xs: 8, md: 0 } }}>
 			<Card sx={{ maxHeight: "100%", height: "100%" }}>
-				<DevCardContent>
+				<DevCardContent className="card-content">
 					<ImageWrapper className="picture">
 						<DevImage src={picture} alt={`${firstName} ${lastName}`} />
 					</ImageWrapper>
@@ -84,6 +84,9 @@ const DevCardWrapper = styled(Box)(() => ({
 	"&:hover *": {
 		filter: "grayscale(0)",
 		opacity: 1,
+		"& .card-content": {
+			backgroundColor: "white",
+		},
 		"& .picture::before": {
 			opacity: 0.9,
 			height: "100%",
@@ -100,6 +103,7 @@ const DevCardContent = styled(CardContent)(() => ({
 	padding: "30px 0",
 	textAlign: "center",
 	overflow: "hidden",
+	backgroundColor: "rgba(0,0,0,0.025)",
 }));
 
 const ImageWrapper = styled(Box)(({ theme }) => ({

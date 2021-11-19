@@ -17,7 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const FlatContent = () => (
-	<Box sx={{ flexGrow: 1, mx: "10%" }}>
+	<Box sx={{ mx: "10%", mt: 4, mb: 8 }}>
 		<Item elevation={0}>
 			<Typography variant="h2" component="div" gutterBottom>
 				Bristol organise le savoir

@@ -262,12 +262,6 @@ export default function Settings() {
 					}
 					error={passwordError || samePasswordError}
 				/>
-				<PasswordVerification
-					input={{
-						password: userInformation.password,
-						confirm: userInformation.confirm,
-					}}
-				/>
 				<TextField
 					sx={{ width: "100%" }}
 					type="password"
@@ -278,6 +272,12 @@ export default function Settings() {
 					value={userInformation.confirm}
 					helperText={confirmError ? "Your confirm password is invalid" : ""}
 					error={confirmError}
+				/>
+				<PasswordVerification
+					input={{
+						password: userInformation.password,
+						confirm: userInformation.confirm,
+					}}
 				/>
 				<Button
 					type="submit"
