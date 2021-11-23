@@ -95,6 +95,9 @@ export const modules = {
 		["clean"],
 		["emoji"],
 	],
+	clipboard: {
+		matchVisual: false
+	},
 	"emoji-toolbar": true,
 	"emoji-textarea": false,
 	"emoji-shortname": true,
