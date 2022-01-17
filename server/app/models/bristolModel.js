@@ -56,7 +56,7 @@ const getBristol = async (bristolId, userId) => {
 		const editors = rolesRows.filter(user => user.role === "editor");
 		const viewers = rolesRows.filter(user => user.role === "viewer");
 
-		return { data: { ...rows[0], editors, viewers } };
+		return { data: { ...bristol, editors, viewers } };
 	} catch (error) {
 		return { error };
 	}
