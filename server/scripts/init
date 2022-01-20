@@ -2,7 +2,7 @@
 
 export PGUSER=postgres
 
-cd ../migrations/db
+cd migrations/db
 
 psql -U postgres -f createdb.sql
 

@@ -190,6 +190,8 @@ const patchResetPassword = async body => {
 	try {
 		const { password, confirm, code } = body;
 
+		if (password !== confirm) throw Error("password and confirm don't match");
+
 		const cachedId = await redisClient.getAsync(`reset_code_${code}`);
 
 		const hash = await bcrypt.hash(

@@ -14,16 +14,16 @@ const transporter = nodemailer.createTransport({
 
 const sendRegisterMail = async (to, code) => {
 	await transporter.sendMail({
-		from: "Bristols",
+		from: "Bristol",
 		to,
-		subject: "Welcome to Bristols!",
+		subject: "Welcome to Bristol!",
 		html: `<!DOCTYPE html>
     <html lang="fr">
       <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Welcome to Bristols!</title>
+        <title>Welcome to Bristol!</title>
         <style>
           * {
             margin: 0;
@@ -52,9 +52,9 @@ const sendRegisterMail = async (to, code) => {
       </head>
       <body>
         <div class="container">
-          <h1 class="title">Welcome to Bristols!</h1>
+          <h1 class="title">Welcome to Bristol!</h1>
           <p class="content">
-            Here is you secret code to finalize your registration to Bristols.
+            Here is your secret code to finalize your registration to Bristols.
           </p>
           <p class="code">${code}</p>
         </div>

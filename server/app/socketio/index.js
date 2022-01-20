@@ -1,15 +1,10 @@
-const redisClient = require("../db/redis");
-
 let io;
 
-const init = server => {
+const init = (server, options) => {
 	const { socketIOController } = require("../controllers");
 
 	io = require("socket.io")(server, {
-		cors: {
-			origin: process.env.CLIENT_URL,
-			credentials: true,
-		},
+		cors: options,
 	});
 
 	io.on("connection", socket => {
