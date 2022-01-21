@@ -40,21 +40,21 @@ const rolesManaged = (state, roles) => {
 	socket.emit("roles_managed", { bristolId, roles });
 };
 
-const logout = state => {
-	const { socket } = state.user.user;
-	socket.removeAllListeners();
-	socket.disconnect();
+const logout = socket => {
+	if (socket) {
+		socket.removeAllListeners();
+		socket.disconnect();
+	}
 };
 
 const Middleware = store => next => action => {
 	const state = store.getState();
 
 	const errorHandler = err => {
-		console.log(err);
-		/* const { error } = err.response.data;
+		const { error } = err.response.data;
 		if (error === "not logged in" || error === "jwt expired")
 			store.dispatch({ type: "LOGOUT" });
-		console.error(error); */
+		console.error("redux error handler", error);
 	};
 
 	switch (action.type) {
@@ -173,7 +173,7 @@ const Middleware = store => next => action => {
 				.catch(errorHandler);
 			break;
 		case "LOGOUT":
-			logout(state);
+			logout(state.user.user.socket);
 			next(action);
 			break;
 		default:

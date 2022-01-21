@@ -43,10 +43,14 @@ const isAuth = async (req, res, next) => {
 		// If both tokens valid, continue
 		return next();
 	} catch (err) {
-		if (!decodedRefresh) {
+		if (
+			!decodedRefresh ||
+			err === notLoggedInError ||
+			(decodedRefresh && err.message !== "jwt expired")
+		) {
 			// If refresh token invalid, throw error
 			res.status(401);
-			return next(err);
+			return next(notLoggedInError);
 		}
 	}
 
@@ -74,7 +78,6 @@ const isAuth = async (req, res, next) => {
 	// Get a new access token and send it as a cookie
 	const newToken = signToken({ id: decodedRefresh.id });
 	res.cookie("access_token", newToken, {
-		secure: process.env.NODE_ENV !== "development",
 		secure: process.env.NODE_ENV !== "development",
 		sameSite: process.env.NODE_ENV !== "development" ? "none" : null,
 		maxAge: process.env.REFRESH_EXP,
