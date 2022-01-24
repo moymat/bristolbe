@@ -22,7 +22,7 @@ const users = [
 	{
 		firstName: "Michel",
 		lastName: "DECKERT",
-		jobs: ["Lead Dev Back", "Git Master"],
+		jobs: ["Lead Dev Back", "Dev Front", "Git Master"],
 		picture: MichelPicture,
 		links: {
 			linkedin: "https://www.linkedin.com/in/micheldeckert/",
