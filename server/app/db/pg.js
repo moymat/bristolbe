@@ -6,15 +6,13 @@ const options =
 	process.env.NODE_ENV === "production"
 		? {
 				connectionString: process.env.DATABASE_URL,
+				ssl: {
+					rejectUnauthorized: false,
+				},
 		  }
 		: { user: process.env.PG_USER };
 
-const pool = new Pool({
-	...options,
-	ssl: {
-		rejectUnauthorized: false,
-	},
-});
+const pool = new Pool(options);
 
 module.exports = {
 	query: (text, params) => pool.query(text, params),
