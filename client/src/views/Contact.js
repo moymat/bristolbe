@@ -11,7 +11,7 @@ const users = [
 	{
 		firstName: "Rémi ",
 		lastName: "VIEILLE",
-		jobs: ["Product Owner", "Scrum Master"],
+		jobs: ["Product Owner", "Scrum Master", "Dev Front"],
 		picture: RemiPicture,
 		links: {
 			linkedin: "https://www.linkedin.com/in/remi-vieille-925943223/",
@@ -22,7 +22,7 @@ const users = [
 	{
 		firstName: "Michel",
 		lastName: "DECKERT",
-		jobs: ["Lead Dev Back", "Dev Front", "Git Master"],
+		jobs: ["Git Master", "Lead Dev Back", "Dev Front"],
 		picture: MichelPicture,
 		links: {
 			linkedin: "https://www.linkedin.com/in/micheldeckert/",
