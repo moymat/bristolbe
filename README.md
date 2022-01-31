@@ -25,7 +25,6 @@ Cette application à pour objectif de permettre aux utilisateurs de rédiger des
 ### Prérequis
 
 Il est nécessaire de posséder PostgreSQL et Sqitch pour pouvoir faire fonctionner le projet en local.
-```
 
 ### Installation des dépendances
 
