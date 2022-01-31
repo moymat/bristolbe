@@ -29,7 +29,7 @@ Il est nécessaire de posséder PostgreSQL et Sqitch pour pouvoir faire fonction
 ### Installation des dépendances
 
 ```bash
-cd /client
+cd client
 npm i
 cd ../server
 npm i
