@@ -10,6 +10,7 @@
   "author": "Rémy Vieille - Tony Dai - Michel Deckert",
   "license": "ISC",
   "dependencies": {
+    "@sendinblue/client": "^3.3.1",
     "ajv": "^8.6.3",
     "ajv-errors": "^3.0.0",
     "ajv-formats": "^2.1.1",

@@ -16,7 +16,8 @@ const createEmailValidator = async (id, email) => {
   // Create a entry in the cache for the code with the user id as key
   cache.set(`email_code_${id}`, code);
   // Send email for validation
-  return await sendRegisterMail(email, code);
+  await sendRegisterMail(email, code);
+  console.log("email sent");
 };
 
 const resendCode = async (id) => {

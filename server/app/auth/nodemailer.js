@@ -1,24 +1,21 @@
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "..", "..", ".env") });
-const nodemailer = require("nodemailer");
+const SibApiV3Sdk = require("@sendinblue/client");
 
-const transporter = nodemailer.createTransport({
-  host: process.env.NODEMAILER_HOST,
-  port: process.env.NODEMAILER_PORT,
-  secure: false,
-  requireTLS: true,
-  auth: {
-    user: process.env.NODEMAILER_USER,
-    pass: process.env.NODEMAILER_PASS,
-  },
-});
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+apiInstance.setApiKey(
+  SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY,
+);
+const sender = { name: "Bristols", email: process.env.BREVO_SENDER_EMAIL };
 
-const sendRegisterMail = async (to, code) => {
-  await transporter.sendMail({
-    from: "Bristol",
-    to,
-    subject: "Welcome to Bristol!",
-    html: `<!DOCTYPE html>
+const sendRegisterMail = async (email, code) => {
+  try {
+    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+    sendSmtpEmail.sender = sender;
+    sendSmtpEmail.to = [{ email }];
+    sendSmtpEmail.subject = "Welcome to Bristol!";
+    sendSmtpEmail.htmlContent = `<!DOCTYPE html>
     <html lang="fr">
       <head>
         <meta charset="UTF-8" />
@@ -60,17 +57,25 @@ const sendRegisterMail = async (to, code) => {
           <p class="code">${code}</p>
         </div>
       </body>
-    </html>`,
-  });
+    </html>`;
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+  } catch (error) {
+    console.error(
+      "Error: failed to send Welcome email: \n",
+      JSON.stringify(error, null, 2),
+    );
+  }
 };
 
-const sendResetPasswordMail = async (to, code) => {
-  const link = `${process.env.CLIENT_URL}/reset/${code}`;
-  await transporter.sendMail({
-    from: "Bristols",
-    to,
-    subject: "Reset your password",
-    html: `<!DOCTYPE html>
+const sendResetPasswordMail = async (email, code) => {
+  try {
+    const link = `${process.env.CLIENT_URL}/reset/${code}`;
+    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+    sendSmtpEmail.sender = sender;
+    sendSmtpEmail.to = [{ email }];
+    sendSmtpEmail.subject = "Reset your password";
+    sendSmtpEmail.htmlContent = `<!DOCTYPE html>
     <html lang="fr">
       <head>
         <meta charset="UTF-8" />
@@ -112,8 +117,15 @@ const sendResetPasswordMail = async (to, code) => {
           <a href="${link}" class="link">Click here</a>
         </div>
       </body>
-    </html>`,
-  });
+    </html>`;
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+  } catch (error) {
+    console.error(
+      "Error: failed to send Welcome email: \n",
+      JSON.stringify(error, null, 2),
+    );
+  }
 };
 
 module.exports = { sendRegisterMail, sendResetPasswordMail };
