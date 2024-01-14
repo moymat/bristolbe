@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const pgClient = require("../db/pg");
-const redisClient = require("../db/redis");
+const cache = require("../db/cache");
 const { connectSocketsToBristols } = require("../socketio");
 const {
   validateUserInfo,
@@ -122,7 +122,7 @@ const getUsersBristols = async (id) => {
 
     const bristols = await Promise.all(
       rows.map(async (bristol) => {
-        const editorId = await redisClient.getAsync(`in_editing_${bristol.id}`);
+        const editorId = cache.get(`in_editing_${bristol.id}`);
         return {
           ...bristol,
           inEditing: { status: !!editorId, userId: editorId },
@@ -132,7 +132,7 @@ const getUsersBristols = async (id) => {
 
     let userSocket;
     do {
-      userSocket = await redisClient.getAsync(`socket_id_${id}`);
+      userSocket = cache.get(`socket_id_${id}`);
     } while (!userSocket);
 
     connectSocketsToBristols(

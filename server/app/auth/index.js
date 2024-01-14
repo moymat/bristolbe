@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const redisClient = require("../db/redis");
+const cache = require("../db/cache");
 
 const signToken = (payload, isRefresh = false) => {
   return isRefresh
@@ -55,9 +55,7 @@ const isAuth = async (req, res, next) => {
   }
 
   // Retrieve stored refresh token
-  const cachedRefresh = await redisClient.getAsync(
-    `refresh_token_${browserId}`,
-  );
+  const cachedRefresh = cache.get(`refresh_token_${browserId}`);
 
   if (cachedRefresh !== refresh) {
     // If cached refresh token and sent refresh token are different, delete cookie and throw error

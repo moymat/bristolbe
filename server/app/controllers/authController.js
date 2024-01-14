@@ -92,7 +92,7 @@ const postResetPassword = async (req, res, next) => {
 };
 
 const checkResetCode = async (req, res, next) => {
-  const { error, status } = await authModel.checkResetCode(req.params.code);
+  const { error, status } = authModel.checkResetCode(req.params.code);
 
   error ? next(error) : res.json({ status });
 };
@@ -108,11 +108,9 @@ const logout = async (req, res, next) => {
 
   if (!browserId) return next(Error("need browser id"));
 
-  const { error } = await authModel.logout(browserId);
+  authModel.logout(browserId);
 
-  error
-    ? next(Error(error))
-    : res.clearCookie("access_token").json({ status: "logged out" });
+  res.clearCookie("access_token").json({ status: "logged out" });
 };
 
 const isAuth = async (req, res, next) => {

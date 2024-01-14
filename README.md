@@ -18,7 +18,7 @@ Cette application à pour objectif de permettre aux utilisateurs de rédiger des
 ### Déployé sur
 
 [![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
-[![heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://heroku.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-430098?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
 
 :globe_with_meridians: [Version en ligne](https://bristolbe.vercel.app/)
 

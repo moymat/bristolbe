@@ -1,5 +1,5 @@
 const pgClient = require("../db/pg");
-const redisClient = require("../db/redis");
+const cache = require("../db/cache");
 const { validateBristol, validateManageRoles } = require("../validation");
 const { connectSocketsToBristols } = require("../socketio");
 
@@ -13,7 +13,7 @@ const createBristol = async (body, userId) => {
       JSON.stringify({ user_id: userId, ...data }),
     ]);
 
-    const userSocket = await redisClient.getAsync(`socket_id_${userId}`);
+    const userSocket = cache.get(`socket_id_${userId}`);
 
     connectSocketsToBristols([userSocket], [rows[0].id]);
 
@@ -49,7 +49,7 @@ const getBristol = async (bristolId, userId) => {
 
     const bristol = rows[0];
 
-    const editorCached = await redisClient.getAsync(`in_editing_${bristol.id}`);
+    const editorCached = cache.get(`in_editing_${bristol.id}`);
 
     bristol.inEditing = { status: !!editorCached, userId: editorCached };
 
@@ -95,7 +95,7 @@ const moveBristol = async (bristolMoved, userId) => {
             (acc, { id, role }) => (role === "editor" ? [...acc, id] : acc),
             [],
           )
-          .map(async (id) => await redisClient.getAsync(`socket_id_${id}`)),
+          .map(async (id) => cache.get(`socket_id_${id}`)),
       );
 
       connectSocketsToBristols(
@@ -115,9 +115,7 @@ const moveBristol = async (bristolMoved, userId) => {
       );
 
       const sockets = await Promise.all(
-        membersRows.map(
-          async ({ id }) => await redisClient.getAsync(`socket_id_${id}`),
-        ),
+        membersRows.map(async ({ id }) => cache.get(`socket_id_${id}`)),
       );
 
       connectSocketsToBristols(
@@ -138,7 +136,7 @@ const moveBristol = async (bristolMoved, userId) => {
 
       const newSockets = await Promise.all(
         membersRows.map(async ({ id }) => {
-          return await redisClient.getAsync(`socket_id_${id}`);
+          return cache.get(`socket_id_${id}`);
         }),
       );
 

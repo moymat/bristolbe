@@ -3,7 +3,7 @@ const crypto = require("crypto");
 const auth = require("../auth");
 const { v4: uuid } = require("uuid");
 const pgClient = require("../db/pg");
-const redisClient = require("../db/redis");
+const cache = require("../db/cache");
 const { validateRegister, validateLogin } = require("../validation");
 const {
   sendRegisterMail,
@@ -13,13 +13,10 @@ const {
 const createEmailValidator = async (id, email) => {
   // Generate code for validation
   const code = crypto.randomBytes(2).toString("hex").toUpperCase();
-
-  return await Promise.all([
-    // Create a entry in the cache for the code with the user id as key
-    redisClient.setAsync(`email_code_${id}`, code),
-    // Send email for validation
-    sendRegisterMail(email, code),
-  ]);
+  // Create a entry in the cache for the code with the user id as key
+  cache.set(`email_code_${id}`, code);
+  // Send email for validation
+  return await sendRegisterMail(email, code);
 };
 
 const resendCode = async (id) => {
@@ -41,14 +38,14 @@ const resendCode = async (id) => {
 
 const verifyCode = async (id, code) => {
   try {
-    const cachedCode = await redisClient.getAsync(`email_code_${id}`);
+    const cachedCode = cache.get(`email_code_${id}`);
 
     if (!cachedCode) throw Error("no validation pending for this user");
     if (cachedCode !== code) throw Error("wrong code");
 
     return await Promise.all([
       // Delete code in cache
-      redisClient.delAsync(`email_code_${id}`),
+      cache.del(`email_code_${id}`),
       // Update user
       pgClient.query('UPDATE "user" SET verified = TRUE WHERE id = $1', [id]),
     ]);
@@ -85,18 +82,10 @@ const register = async (body, browserId) => {
     // Creation of the access token and refresh token
     const token = auth.signToken({ id });
     const refresh = auth.signToken({ id }, true);
-
-    await Promise.all([
-      // Create a validation process
-      createEmailValidator(id, data.email),
-      // Storing the refresh token in the cache with the browser id as its key
-      redisClient.setAsync(
-        `refresh_token_${browserId}`,
-        refresh,
-        "EX",
-        process.env.REFRESH_EXP,
-      ),
-    ]);
+    // Create a validation process
+    await createEmailValidator(id, data.email);
+    // Storing the refresh token in the cache with the browser id as its key
+    cache.set(`refresh_token_${browserId}`, refresh, process.env.REFRESH_EXP);
 
     return {
       data: {
@@ -134,12 +123,7 @@ const login = async (body, browserId) => {
     const refresh = auth.signToken({ id: user.id }, true);
 
     // Storage of the refresh token in the cache with the browser id as its key
-    await redisClient.setAsync(
-      `refresh_token_${browserId}`,
-      refresh,
-      "EX",
-      process.env.REFRESH_EXP,
-    );
+    cache.set(`refresh_token_${browserId}`, refresh, process.env.REFRESH_EXP);
 
     delete user.hash;
     return {
@@ -166,7 +150,7 @@ const postResetPassword = async (email) => {
 
     await Promise.all([
       // Store the reset password link for 10 minutes
-      redisClient.setAsync(`reset_code_${code}`, rows[0].id, "EX", 60 * 10),
+      cache.set(`reset_code_${code}`, rows[0].id, 60 * 10),
       sendResetPasswordMail(email, code),
     ]);
 
@@ -176,9 +160,9 @@ const postResetPassword = async (email) => {
   }
 };
 
-const checkResetCode = async (code) => {
+const checkResetCode = (code) => {
   try {
-    const cachedCode = await redisClient.getAsync(`reset_code_${code}`);
+    const cachedCode = cache.get(`reset_code_${code}`);
     if (!cachedCode) throw Error("invalid code");
     return { status: "code verified" };
   } catch (error) {
@@ -192,7 +176,7 @@ const patchResetPassword = async (body) => {
 
     if (password !== confirm) throw Error("password and confirm don't match");
 
-    const cachedId = await redisClient.getAsync(`reset_code_${code}`);
+    const cachedId = cache.get(`reset_code_${code}`);
 
     const hash = await bcrypt.hash(
       password,
@@ -203,19 +187,15 @@ const patchResetPassword = async (body) => {
       pgClient.query("SELECT patch_user_password($1)", [
         JSON.stringify({ hash, id: cachedId }),
       ]),
-      redisClient.delAsync(`reset_code_${code}`),
+      cache.del(`reset_code_${code}`),
     ]);
   } catch (error) {
     return { error };
   }
 };
 
-const logout = async (browserId) => {
-  try {
-    return await redisClient.delAsync(`refresh_token_${browserId}`);
-  } catch (error) {
-    return { error };
-  }
+const logout = (browserId) => {
+  cache.del(`refresh_token_${browserId}`);
 };
 
 const isAuth = async (headerRefresh, browserId) => {
@@ -235,12 +215,7 @@ const isAuth = async (headerRefresh, browserId) => {
     const refresh = auth.signToken({ id: user.id }, true);
 
     // Storage of the refresh token in the cache with the browser id as its key
-    await redisClient.setAsync(
-      `refresh_token_${browserId}`,
-      refresh,
-      "EX",
-      process.env.REFRESH_EXP,
-    );
+    cache.set(`refresh_token_${browserId}`, refresh, process.env.REFRESH_EXP);
 
     delete user.hash;
     return { data: { user, token, refresh } };
