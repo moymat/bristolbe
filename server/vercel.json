@@ -20,7 +20,7 @@
       ],
       "headers": {
         "Access-Control-Allow-Origin": "https://bristolbe-nine.vercel.app",
-        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Credentials": "true"
       }
     }
   ]
