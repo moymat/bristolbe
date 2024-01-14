@@ -60,5 +60,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@mui/core": "5.0.0-alpha.54",
+    "@mui/system": "^5.15.4",
+    "@types/react-router-dom": "^5.3.3"
   }
 }

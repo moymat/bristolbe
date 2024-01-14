@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router-dom";
 import { AUTH_ROUTES, NOT_AUTH_ROUTES } from "../utils/authRoutes";
 
 const IsAuth = ({ children }) => {
