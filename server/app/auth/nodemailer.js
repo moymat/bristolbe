@@ -3,22 +3,22 @@ require("dotenv").config({ path: path.join(__dirname, "..", "..", ".env") });
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-	host: process.env.NODEMAILER_HOST,
-	port: process.env.NODEMAILER_PORT,
-	secure: false,
-	requireTLS: true,
-	auth: {
-		user: process.env.NODEMAILER_USER,
-		pass: process.env.NODEMAILER_PASS,
-	},
+  host: process.env.NODEMAILER_HOST,
+  port: process.env.NODEMAILER_PORT,
+  secure: false,
+  requireTLS: true,
+  auth: {
+    user: process.env.NODEMAILER_USER,
+    pass: process.env.NODEMAILER_PASS,
+  },
 });
 
 const sendRegisterMail = async (to, code) => {
-	await transporter.sendMail({
-		from: "Bristol",
-		to,
-		subject: "Welcome to Bristol!",
-		html: `<!DOCTYPE html>
+  await transporter.sendMail({
+    from: "Bristol",
+    to,
+    subject: "Welcome to Bristol!",
+    html: `<!DOCTYPE html>
     <html lang="fr">
       <head>
         <meta charset="UTF-8" />
@@ -61,16 +61,16 @@ const sendRegisterMail = async (to, code) => {
         </div>
       </body>
     </html>`,
-	});
+  });
 };
 
 const sendResetPasswordMail = async (to, code) => {
-	const link = `${process.env.CLIENT_URL}/reset/${code}`;
-	await transporter.sendMail({
-		from: "Bristols",
-		to,
-		subject: "Reset your password",
-		html: `<!DOCTYPE html>
+  const link = `${process.env.CLIENT_URL}/reset/${code}`;
+  await transporter.sendMail({
+    from: "Bristols",
+    to,
+    subject: "Reset your password",
+    html: `<!DOCTYPE html>
     <html lang="fr">
       <head>
         <meta charset="UTF-8" />
@@ -113,7 +113,7 @@ const sendResetPasswordMail = async (to, code) => {
         </div>
       </body>
     </html>`,
-	});
+  });
 };
 
 module.exports = { sendRegisterMail, sendResetPasswordMail };

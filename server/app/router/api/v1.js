@@ -7,20 +7,20 @@ router.get("/users", userController.getUsers);
 router.get("/users/:userId", userController.getUser);
 router.patch("/users/:userId/info", isUserAuthz, userController.patchUserInfo);
 router.patch(
-	"/users/:userId/email",
-	isUserAuthz,
-	userController.patchUserEmail
+  "/users/:userId/email",
+  isUserAuthz,
+  userController.patchUserEmail,
 );
 router.patch(
-	"/users/:userId/password",
-	isUserAuthz,
-	userController.patchUserPassword
+  "/users/:userId/password",
+  isUserAuthz,
+  userController.patchUserPassword,
 );
 router.delete("/users/:userId", isUserAuthz, userController.deleteUser);
 router.get(
-	"/users/:userId/bristols",
-	isUserAuthz,
-	userController.getUsersBristols
+  "/users/:userId/bristols",
+  isUserAuthz,
+  userController.getUsersBristols,
 );
 
 router.post("/bristols", bristolController.createBristol);

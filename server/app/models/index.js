@@ -4,8 +4,8 @@ const bristolModel = require("./bristolModel");
 const socketIOModel = require("./socketIOModel");
 
 module.exports = {
-	authModel,
-	userModel,
-	bristolModel,
-	socketIOModel,
+  authModel,
+  userModel,
+  bristolModel,
+  socketIOModel,
 };

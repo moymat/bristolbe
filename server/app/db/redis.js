@@ -3,9 +3,9 @@ const redis = require("redis");
 const { promisify } = require("util");
 
 const client =
-	process.env.NODE_ENV === "production"
-		? redis.createClient({ url: process.env.REDIS_URL })
-		: redis.createClient();
+  process.env.NODE_ENV === "production"
+    ? redis.createClient({ url: process.env.REDIS_URL })
+    : redis.createClient();
 
 const getAsync = promisify(client.get).bind(client);
 const setAsync = promisify(client.set).bind(client);

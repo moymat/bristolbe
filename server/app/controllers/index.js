@@ -4,8 +4,8 @@ const bristolController = require("./bristolController");
 const socketIOController = require("./socketIOController");
 
 module.exports = {
-	authController,
-	userController,
-	bristolController,
-	socketIOController,
+  authController,
+  userController,
+  bristolController,
+  socketIOController,
 };

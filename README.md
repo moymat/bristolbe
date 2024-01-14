@@ -4,6 +4,7 @@ _Bristol_ a été conçu avec deux camarades de promotion du 20/10/2021 au 19/11
 Cette application à pour objectif de permettre aux utilisateurs de rédiger des fiches méthodologiques dans le but de partager les informations et connaissances.
 
 ### Stack
+
 [![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://reactjs.org/)
 [![MUI](https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white)](https://mui.com/)
 [![redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white)](https://redux.js.org/)
@@ -15,6 +16,7 @@ Cette application à pour objectif de permettre aux utilisateurs de rédiger des
 [![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
 
 ### Déployé sur
+
 [![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 [![heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://heroku.com/)
 
@@ -43,7 +45,7 @@ Le _client_ et le _server_ ont chacun besoin de leur propres variables d'environ
 
 Depuis le dossier _server_
 
-``` bash
+```bash
 cd scripts
 bash init
 ```

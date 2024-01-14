@@ -11,127 +11,129 @@ import axios from "../utils/axios";
 import NotFound from "./NotFound";
 
 const passwordValidator = new RegExp(
-	/^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d).{8,30}$/
+  /^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d).{8,30}$/,
 );
 
 export default function Reset() {
-	const [input, setInput] = useState({
-		password: "",
-		confirm: "",
-	});
-	const [touch, setTouch] = useState(false);
-	const [checked, setChecked] = useState(false);
-	const [isCodeValid, setIsCodeValid] = useState(false);
-	const [passwordError, setPasswordError] = useState(false);
-	const [confirmError, setConfirmError] = useState(false);
-	const { code } = useParams();
-	const history = useHistory();
+  const [input, setInput] = useState({
+    password: "",
+    confirm: "",
+  });
+  const [touch, setTouch] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [isCodeValid, setIsCodeValid] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [confirmError, setConfirmError] = useState(false);
+  const { code } = useParams();
+  const history = useHistory();
 
-	const handleChange = ({ target }) => {
-		if (target.name === "password") {
-			setInput({ ...input, password: target.value });
-			setPasswordError(!passwordValidator.test(target.value));
-		} else if (target.name === "confirm") {
-			setInput({ ...input, confirm: target.value });
-			setConfirmError(target.value !== input.password);
-		}
-	};
+  const handleChange = ({ target }) => {
+    if (target.name === "password") {
+      setInput({ ...input, password: target.value });
+      setPasswordError(!passwordValidator.test(target.value));
+    } else if (target.name === "confirm") {
+      setInput({ ...input, confirm: target.value });
+      setConfirmError(target.value !== input.password);
+    }
+  };
 
-	const handleSubmit = async e => {
-		try {
-			e.preventDefault();
-			const { password, confirm } = input;
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const { password, confirm } = input;
 
-			if (!passwordValidator.test(input.password) || password !== confirm) {
-				setPasswordError(true);
-				setConfirmError(true);
-				return;
-			}
+      if (!passwordValidator.test(input.password) || password !== confirm) {
+        setPasswordError(true);
+        setConfirmError(true);
+        return;
+      }
 
-			await axios().patch("/auth/reset-password", { code, password, confirm });
+      await axios().patch("/auth/reset-password", { code, password, confirm });
 
-			history.push("/");
-		} catch (err) {
-			console.error(err);
-		}
-	};
+      history.push("/");
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-	const handleTouch = () => {
-		!touch && setTouch(true);
-	};
+  const handleTouch = () => {
+    !touch && setTouch(true);
+  };
 
-	const checkCode = useCallback(async () => {
-		try {
-			const { data } = await axios().get(`/auth/check-reset-code/${code}`);
-			setChecked(true);
-			data.status && setIsCodeValid(true);
-		} catch (error) {
-			console.error(error.response.data.errors);
-			setChecked(true);
-		}
-	}, [code]);
+  const checkCode = useCallback(async () => {
+    try {
+      const { data } = await axios().get(`/auth/check-reset-code/${code}`);
+      setChecked(true);
+      data.status && setIsCodeValid(true);
+    } catch (error) {
+      console.error(error.response.data.errors);
+      setChecked(true);
+    }
+  }, [code]);
 
-	useEffect(() => {
-		if (!checked) {
-			checkCode();
-		}
-	}, [checked, checkCode]);
+  useEffect(() => {
+    if (!checked) {
+      checkCode();
+    }
+  }, [checked, checkCode]);
 
-	return (
-		checked &&
-		(!isCodeValid ? (
-			<NotFound link="/home" buttonText="home" />
-		) : (
-			<InputLayout>
-				<Box style={{ flex: 1 }}>
-					<Typography variant="h4" component="h1" fontWeight={700} mb={2}>
-						Reset password 🔒
-					</Typography>
-					<Box
-						component="form"
-						onSubmit={handleSubmit}
-						gutterBottom={true}
-						sx={{ display: "flex", flexDirection: "column" }}>
-						<TextField
-							type="password"
-							name="password"
-							placeholder="Password"
-							size="small"
-							sx={{ mb: 2 }}
-							onChange={handleChange}
-							onFocus={handleTouch}
-							value={input.password}
-							helperText={passwordError ? "Your password is invalid" : ""}
-							error={passwordError}
-						/>
-						<TextField
-							type="password"
-							name="confirm"
-							placeholder="Confirm password"
-							size="small"
-							sx={{ mb: 2 }}
-							onChange={handleChange}
-							value={input.confirm}
-							helperText={
-								confirmError ? "Your confirm password is invalid" : ""
-							}
-							error={confirmError}
-						/>
-						<PasswordVerification input={input} />
-						<Button type="submit" variant="contained">
-							Set new password
-						</Button>
-					</Box>
-					<Box display="flex" justifyContent="flex-end" mt={2}>
-						<Button
-							startIcon={<ArrowBackIcon />}
-							size="small"
-							onClick={() => history.push("/")}>
-							Back to login
-						</Button>
-					</Box>
-				</Box>
-			</InputLayout>
-		))
-	);
+  return (
+    checked &&
+    (!isCodeValid ? (
+      <NotFound link="/home" buttonText="home" />
+    ) : (
+      <InputLayout>
+        <Box style={{ flex: 1 }}>
+          <Typography variant="h4" component="h1" fontWeight={700} mb={2}>
+            Reset password 🔒
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            gutterBottom={true}
+            sx={{ display: "flex", flexDirection: "column" }}
+          >
+            <TextField
+              type="password"
+              name="password"
+              placeholder="Password"
+              size="small"
+              sx={{ mb: 2 }}
+              onChange={handleChange}
+              onFocus={handleTouch}
+              value={input.password}
+              helperText={passwordError ? "Your password is invalid" : ""}
+              error={passwordError}
+            />
+            <TextField
+              type="password"
+              name="confirm"
+              placeholder="Confirm password"
+              size="small"
+              sx={{ mb: 2 }}
+              onChange={handleChange}
+              value={input.confirm}
+              helperText={
+                confirmError ? "Your confirm password is invalid" : ""
+              }
+              error={confirmError}
+            />
+            <PasswordVerification input={input} />
+            <Button type="submit" variant="contained">
+              Set new password
+            </Button>
+          </Box>
+          <Box display="flex" justifyContent="flex-end" mt={2}>
+            <Button
+              startIcon={<ArrowBackIcon />}
+              size="small"
+              onClick={() => history.push("/")}
+            >
+              Back to login
+            </Button>
+          </Box>
+        </Box>
+      </InputLayout>
+    ))
+  );
 }
