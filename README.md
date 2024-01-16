@@ -20,7 +20,7 @@ Cette application à pour objectif de permettre aux utilisateurs de rédiger des
 [![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-430098?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
 
-:globe_with_meridians: [Version en ligne](https://bristolbe.vercel.app/)
+:globe_with_meridians: [Version en ligne](https://bristolbe-nine.vercel.app/)
 
 ## Installation
 
